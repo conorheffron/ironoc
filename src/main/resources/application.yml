@@ -1,0 +1,4 @@
+logging:
+  level:
+    org.springframework.web: INFO
+    com.ironoc.portfolio: DEBUG
