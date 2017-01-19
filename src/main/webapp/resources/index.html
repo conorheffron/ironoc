@@ -23,6 +23,8 @@
 <script async defer src="https://buttons.github.io/buttons.js"
 	type="text/javascript"></script>
 
+<base href="/">
+
 </head>
 <body id="iRonoc" data-spy="scroll" data-target=".navbar"
 	data-offset="60">
@@ -41,10 +43,16 @@
 			<div class="collapse navbar-collapse" id="myNavbar">
 				<ul class="nav navbar-nav navbar-right">
 					<li><a href="#about">ABOUT</a></li>
+					<li><a href="#portfolio">PORTFOLIO</a></li>
 				</ul>
 			</div>
 		</div>
 	</nav>
+
+	<div class="jumbotron text-center">
+		<h1>iRonoc</h1>
+		<p>Software Development</p>
+	</div>
 
 	<!-- Container (About Section) -->
 	<div id="about" class="container-fluid">
@@ -57,8 +65,8 @@
 					worked professionally in software development since 2010 in the web
 					and mobile spaces with a variety of experience. I am a
 					server-side/Java developer but looking to increase my full stack
-					experience with other languages and frameworks such as AngularJS, React
-					and Scala.</h4>
+					experience with other languages and frameworks such as AngularJS,
+					React and Scala.</h4>
 
 				<br> <a
 					href="https://uk.linkedin.com/pub/conor-heffron/17/7a5/8a2"> <img
@@ -76,6 +84,48 @@
 					@conorheffron</a>
 
 			</div>
+		</div>
+	</div>
+
+	<!-- Container (Portfolio Section) -->
+	<div id="portfolio" class="container-fluid text-center bg-grey">
+		<h2>Portfolio</h2>
+		<br>
+		<h4>Live Web applications</h4>
+		<div id="myCarousel" class="carousel slide text-center"
+			data-ride="carousel">
+			<!-- Indicators -->
+			<ol class="carousel-indicators">
+				<li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+				<li data-target="#myCarousel" data-slide-to="1"></li>
+				<li data-target="#myCarousel" data-slide-to="2"></li>
+			</ol>
+
+			<!-- Wrapper for slides -->
+			<div class="carousel-inner" role="listbox">
+				<div class="item active">
+					<a href="http://www.marjaderoniet.com/" target="_blank">Marjade Roniet</a>
+				</div>
+				<div class="item">
+					<a href="https://marjaderoniet.herokuapp.com/" target="_blank">Marjade Roniet
+						(Beta Site)</a>
+				</div>
+				<div class="item">
+					<a href="https://ironoc-hibernate.herokuapp.com/" target="_blank">Spring MVC/
+						Hibernate Sample</a>
+				</div>
+			</div>
+
+			<!-- Left and right controls -->
+			<a class="left carousel-control" href="#myCarousel" role="button"
+				data-slide="prev"> <span
+				class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+				<span class="sr-only">Previous</span>
+			</a> <a class="right carousel-control" href="#myCarousel" role="button"
+				data-slide="next"> <span
+				class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+				<span class="sr-only">Next</span>
+			</a>
 		</div>
 	</div>
 
