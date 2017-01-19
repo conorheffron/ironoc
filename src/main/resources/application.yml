@@ -2,3 +2,8 @@ logging:
   level:
     org.springframework.web: INFO
     com.ironoc.portfolio: DEBUG
+    
+spring:
+  mvc:
+    favicon:
+      enabled: false
