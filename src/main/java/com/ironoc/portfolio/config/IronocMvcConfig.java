@@ -26,6 +26,7 @@ public class IronocMvcConfig extends WebMvcConfigurerAdapter {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
     	registry.addResourceHandler("/css/**").addResourceLocations("/resources/css/");
+    	registry.addResourceHandler("/fonts/**").addResourceLocations("/resources/fonts/");
     }
     
     @Override
