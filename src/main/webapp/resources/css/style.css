@@ -20,12 +20,117 @@ h4 {
 	margin-bottom: 30px;
 }
 
+.jumbotron {
+	background-color: #A8CD1B;
+	color: #fff;
+	padding: 30px 5px;
+	font-family: Montserrat, sans-serif;
+}
+
+.jumbotron img {
+	width: 20%;
+	height: 20%;
+}
+
 .container-fluid {
 	padding: 60px 50px;
 }
 
 .bg-grey {
 	background-color: #f6f6f6;
+}
+
+.logo-small {
+	color: #A8CD1B;
+	font-size: 50px;
+}
+
+.logo {
+	color: #A8CD1B;
+	font-size: 200px;
+}
+
+.thumbnail {
+	padding: 0 0 15px 0;
+	border: none;
+	border-radius: 0;
+}
+
+.thumbnail img {
+	width: 100%;
+	height: 100%;
+	margin-bottom: 10px;
+}
+
+.carousel-control.right, .carousel-control.left {
+	background-image: none;
+	color: #A8CD1B;
+}
+
+.carousel-indicators li {
+	border-color: #A8CD1B;
+}
+
+.carousel-indicators li.active {
+	background-color: #A8CD1B;
+}
+
+.item a {
+	font-size: 19px;
+	line-height: 1.375em;
+	font-weight: 400;
+	font-style: italic;
+	margin: 70px 0;
+}
+
+.item span {
+	font-style: normal;
+}
+
+.panel {
+	border: 1px solid #A8CD1B;
+	border-radius: 0 !important;
+	transition: box-shadow 0.5s;
+}
+
+.panel:hover {
+	box-shadow: 5px 0px 40px rgba(0, 0, 0, .2);
+}
+
+.panel-footer .btn:hover {
+	border: 1px solid #A8CD1B;
+	background-color: #fff !important;
+	color: #A8CD1B;
+}
+
+.panel-heading {
+	color: #fff !important;
+	background-color: #A8CD1B !important;
+	padding: 25px;
+	border-bottom: 1px solid transparent;
+	border-top-left-radius: 0px;
+	border-top-right-radius: 0px;
+	border-bottom-left-radius: 0px;
+	border-bottom-right-radius: 0px;
+}
+
+.panel-footer {
+	background-color: white !important;
+}
+
+.panel-footer h3 {
+	font-size: 32px;
+}
+
+.panel-footer h4 {
+	color: #aaa;
+	font-size: 14px;
+}
+
+.panel-footer .btn {
+	margin: 15px 0;
+	background-color: #A8CD1B;
+	color: #fff;
 }
 
 .navbar {
@@ -52,4 +157,99 @@ h4 {
 .navbar-default .navbar-toggle {
 	border-color: transparent;
 	color: #fff !important;
+}
+
+footer .glyphicon {
+	font-size: 20px;
+	margin-bottom: 20px;
+	color: #A8CD1B;
+}
+
+.slideanim {
+	visibility: hidden;
+}
+
+.slide {
+	animation-name: slide;
+	-webkit-animation-name: slide;
+	animation-duration: 1s;
+	-webkit-animation-duration: 1s;
+	visibility: visible;
+}
+
+@
+keyframes slide { 0% {
+	opacity: 0;
+	transform: translateY(70%);
+}
+
+100%
+{
+opacity
+:
+ 
+1;
+transform
+:
+ 
+translateY
+(0%);
+
+
+}
+}
+@
+-webkit-keyframes slide { 0% {
+	opacity: 0;
+	-webkit-transform: translateY(70%);
+}
+
+100%
+{
+opacity
+
+
+
+
+:
+
+
+ 
+
+
+1;
+-webkit-transform
+
+
+
+
+:
+
+
+ 
+
+
+translateY
+
+
+
+
+(0%);
+}
+}
+@media screen and (max-width: 768px) {
+	.col-sm-4 {
+		text-align: center;
+		margin: 25px 0;
+	}
+	.btn-lg {
+		width: 100%;
+		margin-bottom: 35px;
+	}
+}
+
+@media screen and (max-width: 480px) {
+	.logo {
+		font-size: 150px;
+	}
 }
