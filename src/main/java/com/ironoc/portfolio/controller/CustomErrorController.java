@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.web.ErrorController;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
 @RestController
 public class CustomErrorController implements ErrorController {
@@ -18,9 +18,9 @@ public class CustomErrorController implements ErrorController {
     private static final String PATH = "/error";
 
     @RequestMapping(value = PATH)
-    public ModelAndView error(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
-    	LOGGER.info(httpServletRequest.getRequestURI() + " page request");
-        return new ModelAndView("index");
+    public RedirectView error(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
+    	LOGGER.info(httpServletRequest.getRequestURI() + " redirected to home");
+        return new RedirectView("/", false);
     }
 
     @Override
