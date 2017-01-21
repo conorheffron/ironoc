@@ -28,6 +28,8 @@ public class IronocMvcConfig extends WebMvcConfigurerAdapter {
     	registry.addResourceHandler("/css/**").addResourceLocations("/resources/css/");
     	registry.addResourceHandler("/imgs/**").addResourceLocations("/resources/imgs/");
     	registry.addResourceHandler("/favicon.ico").addResourceLocations("/resources/imgs/");
+    	registry.addResourceHandler("/sitemap.xml").addResourceLocations("/resources/config/");
+    	registry.addResourceHandler("/robots.txt").addResourceLocations("/resources/config/");
     }
     
     @Override
