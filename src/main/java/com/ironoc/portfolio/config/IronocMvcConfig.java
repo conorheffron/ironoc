@@ -18,18 +18,17 @@ public class IronocMvcConfig extends WebMvcConfigurerAdapter {
     @Bean
     public ViewResolver getViewResolver() {
         InternalResourceViewResolver resolver = new InternalResourceViewResolver();
-        resolver.setPrefix("/resources/");
+        resolver.setPrefix("/templates/");
         resolver.setSuffix(".html");
         return resolver;
     }
     
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-    	registry.addResourceHandler("/css/**").addResourceLocations("/resources/css/");
-    	registry.addResourceHandler("/imgs/**").addResourceLocations("/resources/imgs/");
-    	registry.addResourceHandler("/favicon.ico").addResourceLocations("/resources/imgs/");
-    	registry.addResourceHandler("/sitemap.xml").addResourceLocations("/resources/config/");
-    	registry.addResourceHandler("/robots.txt").addResourceLocations("/resources/config/");
+    	registry.addResourceHandler("/resources/**").addResourceLocations("/static/");
+    	registry.addResourceHandler("/favicon.ico").addResourceLocations("/static/imgs/");
+    	registry.addResourceHandler("/sitemap.xml").addResourceLocations("/static/config/");
+    	registry.addResourceHandler("/robots.txt").addResourceLocations("/static/config/");
     }
     
     @Override
