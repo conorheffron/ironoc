@@ -1,1 +1,1 @@
-web:	java -jar target/ironoc-1.3.7.jar
+web:	java -Dserver.port=$PORT $JAVA_OPTS -jar target/ironoc-1.3.7.jar
