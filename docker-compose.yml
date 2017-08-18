@@ -1,14 +1,6 @@
-version: '3'
+version: '2'
 services:
-  ironoc:
-    build:
-      context: ./
-      dockerfile: Dockerfile
+  portfolio:
     image: ironoc
-    container_name: ironoc
     ports:
-      - "9000:8080"
-      - "2345:2345"
-    # use volumes only for development otherwise copy in the source
-    volumes:
-      - ./:/go/src/ironoc-server
+     - "8080:8080"
