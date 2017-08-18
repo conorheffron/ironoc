@@ -13,7 +13,7 @@ import org.springframework.web.servlet.view.RedirectView;
 @RestController
 public class CustomErrorController implements ErrorController {
 
-	private static Logger LOGGER = LoggerFactory.getLogger(HomeController.class);
+	private static Logger LOGGER = LoggerFactory.getLogger(CustomErrorController.class);
 	
     private static final String PATH = "/error";
 
