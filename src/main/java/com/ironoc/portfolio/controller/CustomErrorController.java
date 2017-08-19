@@ -19,7 +19,7 @@ public class CustomErrorController implements ErrorController {
 
     @RequestMapping(value = PATH)
     public RedirectView error(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
-    	LOGGER.info(httpServletRequest.getRequestURI() + " redirected to home");
+    	LOGGER.error("Bad request - redirect to home");
         return new RedirectView("/", false);
     }
 
