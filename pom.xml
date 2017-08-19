@@ -6,6 +6,7 @@
 	<groupId>com.ironoc.portfolio</groupId>
 	<artifactId>ironoc</artifactId>
 	<version>1.4.1</version>
+	<packaging>war</packaging>
 
 	<name>Ironoc</name>
 	<description>Ironoc portfolio</description>
@@ -54,12 +55,12 @@
 				<version>0.4.11</version>
 				<configuration>
 					<imageName>${project.artifactId}</imageName>
-					<dockerDirectory>docker</dockerDirectory>
+					<dockerDirectory>src/main/docker</dockerDirectory>
 					<resources>
 						<resource>
 							<targetPath>/</targetPath>
 							<directory>${project.build.directory}</directory>
-							<include>${project.build.finalName}.jar</include>
+							<include>${project.build.finalName}.war</include>
 						</resource>
 					</resources>
 				</configuration>
