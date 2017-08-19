@@ -1,0 +1,6 @@
+version: '2'
+services:
+  portfolio:
+    image: ironoc
+    ports:
+     - "8080:8080"
