@@ -21,4 +21,4 @@ docker-compose down
 ```
 
 # Screenshot
-![Home](https://gitlab.com/conor.heffron/ironoc/blob/dev/screenshots/Home.png)
+![Home](https://gitlab.com/conor.heffron/ironoc/blob/dev/screenshots/Home.png?raw=true "Home Page")
