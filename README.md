@@ -21,4 +21,4 @@ docker-compose down
 ```
 
 # Screenshot
-![ScreenShot](https://gitlab.com/{username}/{repository}/{branch}/screenshots/Home.png)
+![ScreenShot](https://gitlab.com/conor.heffron/ironoc/blob/dev/screenshots/Home.png)
