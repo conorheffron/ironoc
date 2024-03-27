@@ -1,7 +1,7 @@
 FROM eclipse-temurin:8-jdk
-MAINTAINER Conor Heffron <conor.heffron@gmail.com>
 
-RUN \
-  java -Dserver.port=$PORT $JAVA_OPTS -jar target/ironoc-1.4.4.war
+VOLUME /tmp
+ADD target/*.war app.war
+RUN sh -c 'touch /app.war'
 
-EXPOSE 8080
+ENTRYPOINT [ "sh", "-c", "java ${JAVA_OPTS} -Djava.security.egd=file:/dev/./urandom -jar /app.war" ]
