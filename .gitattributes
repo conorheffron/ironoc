@@ -1,1 +1,1 @@
-src/main/* linguist-language=Java
+src/main/webapp/templates/*.html linguist-language=Java
