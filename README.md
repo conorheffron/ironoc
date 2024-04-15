@@ -1,3 +1,5 @@
+![Proof HTML](https://github.com/conorheffron/ironoc/actions/workflows/proof-html.yml/badge.svg)
+
 # Docker Image
 [ironoc Docker Hub Link](https://hub.docker.com/repository/docker/conorheffron/ironoc/general)
 
