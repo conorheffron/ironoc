@@ -1,4 +1,4 @@
-![Auto Assign](https://github.com/cph39/demo-repository/actions/workflows/auto-assign.yml/badge.svg)
+![Auto Assign](https://github.com/conorheffron/ironoc/actions/workflows/auto-assign.yml/badge.svg)
 
 # Docker Image
 [ironoc Docker Hub Link](https://hub.docker.com/repository/docker/conorheffron/ironoc/general)
