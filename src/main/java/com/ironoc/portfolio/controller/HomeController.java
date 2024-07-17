@@ -17,5 +17,4 @@ public class HomeController {
 		LOGGER.info(httpServletRequest.getRequestURI() + " page request");
 		return "index";
 	}
-
 }
