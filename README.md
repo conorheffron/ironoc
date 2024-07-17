@@ -22,7 +22,7 @@ Build / Run App:
 mvn clean package spring-boot:run
 ```
 
-![image](https://github.com/user-attachments/assets/01f419e1-d8df-47a8-8f9b-bfd87d57d182)
+![image](screen-grabs/IDEA-Intellj-run.png)
 
 
 Build / Run (spin-up) Docker container:
@@ -30,7 +30,7 @@ Build / Run (spin-up) Docker container:
 docker image build -t ironoc .
 docker compose up -d
 ```
-![image](https://github.com/user-attachments/assets/964897f5-917e-469b-99f4-71205227e371)
+![image](screen-grabs/cli-docker.png)
 
 
 Tear-down:
@@ -39,6 +39,6 @@ docker-compose down
 ```
 
 # Screenshot
-![Home](https://github.com/user-attachments/assets/02290f96-d087-4a1b-98b3-0f3054d4dd25)
+![Home](screen-grabs/home-page.png)
 
 
