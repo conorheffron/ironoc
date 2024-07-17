@@ -19,7 +19,6 @@ Java 21 (LTS), Spring Boot 3.3, HTML5+CSS, JQuery, Docker / Bash
 # Run
 Build / Run App:
 ```
-mvn clean install test
 mvn clean package spring-boot:run
 ```
 
