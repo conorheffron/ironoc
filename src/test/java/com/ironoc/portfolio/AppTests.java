@@ -12,5 +12,4 @@ public class AppTests {
 	@Test
 	public void contextLoads() {
 	}
-
 }
