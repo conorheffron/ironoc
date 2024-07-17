@@ -1,7 +1,10 @@
 FROM eclipse-temurin:21-jdk
 
 VOLUME /tmp
-ADD target/*.war app.war
+#for local
+#ADD target/*.war app.war
+#for CI/CD
+ADD *.war app.war
 RUN sh -c 'touch /app.war'
 
 ENV RUN_FILE /run.sh
