@@ -14,9 +14,14 @@
 Personal website / portfolio  http://www.ironoc.com/ (no longer hosted)
 
 # Tech Stack
-Java 21 (LTS), Spring Boot 3.3, HTML5+CSS, JQuery, Docker / Bash
+Java 21 (LTS), Spring Boot 3.3, Maven 3.8, HTML5+CSS, JQuery, Docker / Bash
 
-# Run
+# Run without cloning project:
+```
+docker run -d --restart=always -p 8080:8080 conorheffron/ironoc
+```
+
+# Run after project checkout (JDK 21 & Maven 3.8.3 required)
 Build / Run App:
 ```
 mvn clean package spring-boot:run
