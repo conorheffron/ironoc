@@ -83,7 +83,7 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
-			<version>3.0.1</version>
+			<version>3.3.2</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
