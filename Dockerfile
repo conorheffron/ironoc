@@ -10,6 +10,6 @@ ENV RUN_FILE /run.sh
 ADD run.sh ${RUN_FILE}
 RUN chmod +x ${RUN_FILE}
 
-EXPOSE 8080
+EXPOSE 80
 
 ENTRYPOINT [ "sh", "-c", "${RUN_FILE}" ]
