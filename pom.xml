@@ -3,9 +3,9 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>com.ironoc.portfolio</groupId>
-	<artifactId>ironoc-personal-portfolio</artifactId>
-	<version>3.1.10</version>
+	<groupId>conorheffron</groupId>
+	<artifactId>ironoc</artifactId>
+	<version>3.1.11</version>
 	<packaging>war</packaging>
 
 	<distributionManagement>
@@ -16,8 +16,8 @@
 	   </repository>
 	</distributionManagement>
 
-	<name>Ironoc</name>
-	<description>Ironoc portfolio</description>
+	<name>ironoc</name>
+	<description>ironoc personal portfolio site</description>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
