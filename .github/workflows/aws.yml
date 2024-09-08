@@ -23,7 +23,6 @@
 # 4. Store an IAM user access key in GitHub Actions secrets named `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY`.
 #    See the documentation for each action used below for the recommended IAM policies for this IAM user,
 #    and best practices on handling the access key credentials.
-
 name: Deploy to Amazon ECS
 
 on:
@@ -33,12 +32,10 @@ on:
 env:
   AWS_REGION: eu-north-1
   ECR_REPOSITORY: conorheffron/ironoc
-  ECS_SERVICE: IronocService                 # set this to your Amazon ECS service name
-  ECS_CLUSTER: IronocPortfolioCluster                 # set this to your Amazon ECS cluster name
-  ECS_TASK_DEFINITION: .aws/task-definition.json # set this to the path to your Amazon ECS task definition
-                                               # file, e.g. .aws/task-definition.json
-  CONTAINER_NAME: ironoc           # set this to the name of the container in the
-                                               # containerDefinitions section of your task definition
+  ECS_SERVICE: IronocService
+  ECS_CLUSTER: IronocPortfolioCluster
+  ECS_TASK_DEFINITION: .aws/task-definition.json
+  CONTAINER_NAME: ironoc
 
 permissions:
   contents: read
