@@ -5,7 +5,7 @@ on:
     branches: [ "doc-ec2" ]
 
 env:
-  AWS_REGION: eu-north-1
+  AWS_REGION: us-east-1
   ECR_REPOSITORY: conorheffron/ironoc
   ECS_SERVICE: IronocService
   ECS_CLUSTER: IronocPortfolioCluster
