@@ -1,6 +1,5 @@
 FROM eclipse-temurin:21-jdk
 
-EXPOSE 8080
 #for local
 #ADD target/*.war app.war
 #for CI/CD
