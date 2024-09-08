@@ -10,4 +10,6 @@ ENV RUN_FILE /run.sh
 ADD run.sh ${RUN_FILE}
 RUN chmod +x ${RUN_FILE}
 
-ENTRYPOINT [ "sh", "-c", "${RUN_FILE}" ]
+EXPOSE 8080
+
+CMD [ "java", "-jar", "app.war" ]
