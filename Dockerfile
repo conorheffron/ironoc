@@ -12,4 +12,4 @@ RUN chmod +x ${RUN_FILE}
 
 EXPOSE 8080
 
-CMD [ "java", "-jar", "app.war" ]
+ENTRYPOINT [ "sh", "-c", "${RUN_FILE}" ]
