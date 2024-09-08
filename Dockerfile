@@ -4,7 +4,7 @@ VOLUME /tmp
 #for local
 #COPY target/*.war app.war
 #for CI/CD
-COPY *.war app.war
+COPY ironoc-personal-portfolio-3.1.8.war app.war
 RUN sh -c 'touch /app.war'
 
 ENV RUN_FILE /run.sh
