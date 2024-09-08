@@ -1,5 +1,6 @@
 FROM eclipse-temurin:21-jdk
 
+VOLUME /tmp
 #for local
 #ADD target/*.war app.war
 #for CI/CD
