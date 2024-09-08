@@ -6,7 +6,7 @@ on:
 
 env:
   AWS_REGION: eu-north-1
-  ECR_REPOSITORY: conorheffron/ironoc
+  ECR_REPOSITORY: ironoc
   ECS_SERVICE: IronocService
   ECS_CLUSTER: IronocPortfolioCluster
   ECS_TASK_DEFINITION: .aws/task-definition.json
