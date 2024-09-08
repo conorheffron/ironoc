@@ -2,7 +2,7 @@ name: Deploy to Amazon ECS
 
 on:
   push:
-    branches: [ "main", "doc-ec2" ]
+    branches: [ "doc-ec2" ]
 
 env:
   AWS_REGION: eu-north-1
