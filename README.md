@@ -4,6 +4,8 @@
 
 ![Auto Assign](https://github.com/conorheffron/ironoc/actions/workflows/auto-assign.yml/badge.svg)
 
+[![Deploy to Amazon ECS](https://github.com/conorheffron/ironoc/actions/workflows/aws.yml/badge.svg)](https://github.com/conorheffron/ironoc/actions/workflows/aws.yml)
+
 # Docker Image
 [ironoc Docker Hub Link](https://hub.docker.com/repository/docker/conorheffron/ironoc/general)
 
@@ -14,7 +16,7 @@
 Personal website / portfolio  http://www.ironoc.com/ (no longer hosted)
 
 # Tech Stack
-Java 21 (LTS), Spring Boot 3.3, Maven 3.8, HTML5+CSS, JQuery, Docker / Bash
+Java 21 (LTS), Spring Boot 3.3, Maven 3.8, HTML5+CSS, JQuery, Docker / Bash, AWS
 
 # Run without cloning project:
 ```
