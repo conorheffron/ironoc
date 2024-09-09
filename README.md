@@ -36,6 +36,7 @@ Build / Run (spin-up) Docker container:
 ```
 docker image build -t ironoc .
 docker compose up -d
+docker logs ironoc-portfolio-1 -f
 ```
 ![image](screen-grabs/cli-docker.png)
 

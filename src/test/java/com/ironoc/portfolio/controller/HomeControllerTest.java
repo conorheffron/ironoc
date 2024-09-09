@@ -23,12 +23,16 @@ public class HomeControllerTest {
 
     @Test
     public void test_index_success() {
+        // given
+        String homeView = "index";
+
         // when
         String result = homeController.index(httpServletRequestMock);
 
         // then
         verify(httpServletRequestMock).getRequestURI();
+        verify(httpServletRequestMock, times(2)).getHeader(anyString());
 
-        assertThat(result, is("index"));
+        assertThat(result, is(homeView));
     }
 }

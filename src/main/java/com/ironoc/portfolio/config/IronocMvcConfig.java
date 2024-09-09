@@ -51,5 +51,3 @@ public class IronocMvcConfig implements WebMvcConfigurer {
         return (factory) -> factory.setRegisterDefaultServlet(true);
     }
 }
-
-
