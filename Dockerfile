@@ -1,9 +1,7 @@
 FROM eclipse-temurin:21-jdk
 
 VOLUME /tmp
-#for local
-#COPY target/*.war app.war
-#for CI/CD
+
 COPY target/*.war app.war
 RUN sh -c 'touch /app.war'
 
