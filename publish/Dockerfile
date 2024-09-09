@@ -2,8 +2,8 @@ FROM eclipse-temurin:21-jdk
 
 VOLUME /tmp
 
-#for aws
-COPY target/*.war app.war
+#for docker pub
+COPY *.war app.war
 RUN sh -c 'touch /app.war'
 
 ENV RUN_FILE /run.sh
