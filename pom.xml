@@ -5,7 +5,7 @@
 
 	<groupId>conorheffron</groupId>
 	<artifactId>ironoc</artifactId>
-	<version>3.1.11</version>
+	<version>3.1.12</version>
 	<packaging>war</packaging>
 
 	<distributionManagement>
