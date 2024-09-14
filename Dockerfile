@@ -1,8 +1,5 @@
 FROM eclipse-temurin:21-jdk
 
-VOLUME /tmp
-
-#for aws
 COPY target/*.war app.war
 RUN sh -c 'touch /app.war'
 

@@ -1,23 +1,26 @@
 package com.ironoc.portfolio.controller;
 
+import com.ironoc.portfolio.logger.AbstractLogger;
+import com.ironoc.portfolio.service.GitDetails;
 import jakarta.servlet.http.HttpServletRequest;
 
-import lombok.extern.slf4j.Slf4j;
-import org.apache.logging.slf4j.Log4jLogger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.function.ServerRequest;
-
-import java.util.Enumeration;
 
 @Controller
-@Slf4j
-public class HomeController {
+public class HomeController extends AbstractLogger {
+
+	private final GitDetails gitDetails;
+
+	@Autowired
+	public HomeController(GitDetails gitDetails) {
+		this.gitDetails = gitDetails;
+	}
 
 	@RequestMapping( {"/"} )
 	public String index(HttpServletRequest request) {
-		log.info("Home page request details, host={}, uri={}, user-agent={}",
+		info("Home page request details, host={}, uri={}, user-agent={}",
 				request.getHeader("host"),
 				request.getRequestURI(),
 				request.getHeader("user-agent"));

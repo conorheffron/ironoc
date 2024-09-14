@@ -1,5 +1,6 @@
 package com.ironoc.portfolio.config;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -20,13 +21,15 @@ import java.util.List;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.times;
 
 @ExtendWith(MockitoExtension.class)
-public class IronocMvcConfigTest {
+public class IronocConfigurationTest {
 
     @InjectMocks
-    private IronocMvcConfig ironocMvcConfig;// config bean under test
+    private IronocConfiguration ironocConfiguration;// config bean under test
 
     @Mock
     private ResourceHandlerRegistry resourceHandlerRegistryMock;
@@ -40,7 +43,7 @@ public class IronocMvcConfigTest {
     @Test
     public void test_getViewResolver_success() {
         // when
-        ViewResolver result = ironocMvcConfig.getViewResolver();
+        ViewResolver result = ironocConfiguration.getViewResolver();
 
         // then
         assertThat(result, is(notNullValue()));
@@ -54,7 +57,7 @@ public class IronocMvcConfigTest {
                 .thenReturn(resourceHandlerRegistrationMock);
 
         // when
-        ironocMvcConfig.addResourceHandlers(resourceHandlerRegistryMock);
+        ironocConfiguration.addResourceHandlers(resourceHandlerRegistryMock);
 
         // then
         ArgumentCaptor<String> resourceHandlerCaptors = ArgumentCaptor.forClass(String.class);
@@ -64,22 +67,22 @@ public class IronocMvcConfigTest {
         verify(resourceHandlerRegistrationMock, times(4)).addResourceLocations(resourceLocationCaptors.capture());
 
         List<String> capturedResourceHandlers = resourceHandlerCaptors.getAllValues();
-        assertThat(IronocMvcConfig.RESOURCES_HANDLER, is(capturedResourceHandlers.get(0)));
-        assertThat(IronocMvcConfig.FAV_ICON, is(capturedResourceHandlers.get(1)));
-        assertThat(IronocMvcConfig.SITE_MAP, is(capturedResourceHandlers.get(2)));
-        assertThat(IronocMvcConfig.ROBOTS_TEXT, is(capturedResourceHandlers.get(3)));
+        assertThat(IronocConfiguration.RESOURCES_HANDLER, is(capturedResourceHandlers.get(0)));
+        assertThat(IronocConfiguration.FAV_ICON, is(capturedResourceHandlers.get(1)));
+        assertThat(IronocConfiguration.SITE_MAP, is(capturedResourceHandlers.get(2)));
+        assertThat(IronocConfiguration.ROBOTS_TEXT, is(capturedResourceHandlers.get(3)));
 
         List<String> capturedLocations = resourceLocationCaptors.getAllValues();
-        assertThat(IronocMvcConfig.STATIC_LOC, is(capturedLocations.get(0)));
-        assertThat(IronocMvcConfig.IMAGES_LOC, is(capturedLocations.get(1)));
-        assertThat(IronocMvcConfig.STATIC_CONF_LOC, is(capturedLocations.get(2)));
-        assertThat(IronocMvcConfig.STATIC_CONF_LOC, is(capturedLocations.get(3)));
+        assertThat(IronocConfiguration.STATIC_LOC, is(capturedLocations.get(0)));
+        assertThat(IronocConfiguration.IMAGES_LOC, is(capturedLocations.get(1)));
+        assertThat(IronocConfiguration.STATIC_CONF_LOC, is(capturedLocations.get(2)));
+        assertThat(IronocConfiguration.STATIC_CONF_LOC, is(capturedLocations.get(3)));
     }
 
     @Test
     public void test_configureDefaultServletHandling_success() {
         // when
-        ironocMvcConfig.configureDefaultServletHandling(defaultServletHandlerConfigurerMock);
+        ironocConfiguration.configureDefaultServletHandling(defaultServletHandlerConfigurerMock);
 
         // then
         verify(defaultServletHandlerConfigurerMock).enable();
@@ -88,7 +91,16 @@ public class IronocMvcConfigTest {
     @Test
     public void test_enableDefaultServlet_success() {
         // when
-        WebServerFactoryCustomizer<ConfigurableServletWebServerFactory> result = ironocMvcConfig.enableDefaultServlet();
+        WebServerFactoryCustomizer<ConfigurableServletWebServerFactory> result = ironocConfiguration.enableDefaultServlet();
+
+        // then
+        assertThat(result, is(notNullValue()));
+    }
+
+    @Test
+    public void test_objectMapper_success() {
+        // when
+        ObjectMapper result = ironocConfiguration.objectMapper();
 
         // then
         assertThat(result, is(notNullValue()));

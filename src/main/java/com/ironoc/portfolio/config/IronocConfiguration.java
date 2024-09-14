@@ -1,5 +1,6 @@
 package com.ironoc.portfolio.config;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.boot.web.server.WebServerFactoryCustomizer;
 import org.springframework.boot.web.servlet.server.ConfigurableServletWebServerFactory;
 import org.springframework.context.annotation.Bean;
@@ -15,7 +16,7 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 @Configuration
 @EnableWebMvc
 @ComponentScan(basePackages = { "com.ironoc.portfolio" })
-public class IronocMvcConfig implements WebMvcConfigurer {
+public class IronocConfiguration implements WebMvcConfigurer {
 
     protected static final String RESOURCES_HANDLER = "/resources/**";
     protected static final String FAV_ICON = "/favicon.ico";
@@ -49,5 +50,11 @@ public class IronocMvcConfig implements WebMvcConfigurer {
     @Bean
     public WebServerFactoryCustomizer<ConfigurableServletWebServerFactory> enableDefaultServlet() {
         return (factory) -> factory.setRegisterDefaultServlet(true);
+    }
+
+    @Bean
+    public ObjectMapper objectMapper() {
+        ObjectMapper objectMapper = new ObjectMapper();
+        return objectMapper;
     }
 }

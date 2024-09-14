@@ -1,3 +1,18 @@
+com:
+  ironoc:
+    portfolio:
+      github:
+        token: ${GIT_API_TOKEN:}
+        timeout:
+          connect: 100000
+          read: 100000
+        instance-follow-redirects: true
+        follow-redirects: true
+        uri:
+          repos: /repos
+        api:
+          endpoint: https://api.github.com/users/
+
 spring:
   mvc:
     favicon:
