@@ -2,11 +2,9 @@ package com.ironoc.portfolio.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ironoc.portfolio.client.Client;
-import com.ironoc.portfolio.client.GitClient;
 import com.ironoc.portfolio.config.PropertyConfigI;
 import com.ironoc.portfolio.domain.RepositoryDetailDomain;
 import com.ironoc.portfolio.dto.RepositoryDetailDto;
-import org.junit.Ignore;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -22,11 +20,14 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
-import static org.mockito.ArgumentMatchers.any;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.nullValue;
+import static org.hamcrest.Matchers.emptyString;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.verify;
+import static org.mockito.ArgumentMatchers.any;
 
 @ExtendWith(MockitoExtension.class)
 public class GitDetailsServiceTest {

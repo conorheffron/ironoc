@@ -5,6 +5,7 @@ import com.ironoc.portfolio.dto.RepositoryDetailDto;
 import com.ironoc.portfolio.logger.AbstractLogger;
 import com.ironoc.portfolio.service.GitDetailsService;
 import jakarta.servlet.http.HttpServletRequest;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.Collections;
 import java.util.List;
 
 @Controller
@@ -38,7 +40,13 @@ public class GitProjectsController extends AbstractLogger {
 		return getReposByUsername(request, username);
 	}
 
-	private ResponseEntity<List<RepositoryDetailDomain>> getReposByUsername(HttpServletRequest request, String username) {
+	private ResponseEntity<List<RepositoryDetailDomain>> getReposByUsername(HttpServletRequest request,
+																			String username) {
+		// username validation
+		if (StringUtils.isBlank(username) | !StringUtils.isAlphanumeric(username) | !StringUtils.isAlpha(username)) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Collections.emptyList());
+		}
+
 		info("Github get repositories by username={} for request, host={}, uri={}, user-agent={}",
 				username,
 				request.getHeader("host"),
