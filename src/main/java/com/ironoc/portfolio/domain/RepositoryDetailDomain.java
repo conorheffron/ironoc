@@ -9,6 +9,8 @@ public class RepositoryDetailDomain {
 
     private String name;
 
+    private String fullName;
+
     private String description;
 
     private String appHome;

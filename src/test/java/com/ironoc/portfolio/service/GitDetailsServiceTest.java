@@ -58,6 +58,7 @@ public class GitDetailsServiceTest {
         InputStream jsonInputStream = Thread.currentThread().getContextClassLoader()
                 .getResourceAsStream("json" + File.separator + "test_response.json");
         String testName = "bio-cell-red-edge";
+        String testFullName = "conorheffron/bio-cell-red-edge";
         String testDesc = "Edge Detection of Biological Cell (Image Processing Script)";
         List<String> testTop = Arrays.asList("biology", "computer-vision", "image-processing",
                 "scikitlearn-machine-learning");
@@ -65,6 +66,7 @@ public class GitDetailsServiceTest {
         String testHtmlUrl = "https://github.com/conorheffron/bio-cell-red-edge";
         RepositoryDetailDto expected = RepositoryDetailDto.builder()
                 .name(testName)
+                .fullName(testFullName)
                 .description(testDesc)
                 .topics(testTop)
                 .htmlUrl(testHtmlUrl)
@@ -91,6 +93,7 @@ public class GitDetailsServiceTest {
         assertThat(results, is(hasSize(2)));
         Optional<RepositoryDetailDto> result = results.stream().findFirst();
         assertThat(result.get().getName(), is(expected.getName()));
+        assertThat(result.get().getFullName(), is(expected.getFullName()));
         assertThat(result.get().getDescription(), is(expected.getDescription()));
         assertThat(result.get().getTopics(), is(expected.getTopics()));
         assertThat(result.get().getHomePage(), is(expected.getHomePage()));
@@ -98,6 +101,7 @@ public class GitDetailsServiceTest {
         assertThat(result.get().isPrivate(), is(expected.isPrivate()));
         RepositoryDetailDto result2 = results.get(1);
         assertThat(result2.getName(), is("booking-sys"));
+        assertThat(result2.getFullName(), is("conorheffron/booking-sys"));
         assertThat(result2.getDescription(), is("Sample Reservations & Bookings Viewer System"));
         assertThat(result2.getTopics(), is(nullValue()));
         assertThat(result2.getHomePage(),
@@ -119,12 +123,14 @@ public class GitDetailsServiceTest {
         assertThat(results, is(hasSize(2)));
         Optional<RepositoryDetailDomain> result = results.stream().findFirst();
         assertThat(result.get().getName(), is("bio-cell-red-edge"));
+        assertThat(result.get().getFullName(), is("conorheffron/bio-cell-red-edge"));
         assertThat(result.get().getDescription(), is("Edge Detection of Biological Cell (Image Processing Script)"));
         assertThat(result.get().getTopics(), is("[biology, computer-vision, image-processing, scikitlearn-machine-learning]"));
         assertThat(result.get().getAppHome(), is("https://conorheffron.github.io/bio-cell-red-edge/"));
         assertThat(result.get().getRepoUrl(), is("https://github.com/conorheffron/bio-cell-red-edge"));
         RepositoryDetailDomain result2 = results.get(1);
         assertThat(result2.getName(), is("booking-sys"));
+        assertThat(result2.getFullName(), is("conorheffron/booking-sys"));
         assertThat(result2.getDescription(), is("Sample Reservations & Bookings Viewer System"));
         assertThat(result2.getTopics(), is(emptyString()));
         assertThat(result2.getAppHome(),
