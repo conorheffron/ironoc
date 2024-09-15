@@ -9,8 +9,8 @@
 # Docker Image
 [ironoc Docker Hub Link](https://hub.docker.com/repository/docker/conorheffron/ironoc/general)
 
-# Old Domain  (no longer supported)
-~[ironoc website](http://www.ironoc.com)~
+# Hosted at:
+- [ironoc website](http://ironoc-lb-6a36dafeeca59581.elb.eu-north-1.amazonaws.com/)
 
 # About
 Personal website / portfolio  http://www.ironoc.com/ (no longer hosted)
@@ -38,6 +38,7 @@ docker image build -t ironoc .
 docker compose up -d
 docker logs ironoc-portfolio-1 -f
 ```
+
 ![image](screen-grabs/cli-docker.png)
 
 
