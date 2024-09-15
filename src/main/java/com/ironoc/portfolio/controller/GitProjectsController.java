@@ -4,21 +4,24 @@ import com.ironoc.portfolio.domain.RepositoryDetailDomain;
 import com.ironoc.portfolio.dto.RepositoryDetailDto;
 import com.ironoc.portfolio.logger.AbstractLogger;
 import com.ironoc.portfolio.service.GitDetailsService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.servlet.http.HttpServletRequest;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Collections;
 import java.util.List;
 
-@Controller
+@RestController
 public class GitProjectsController extends AbstractLogger {
 
 	@Autowired
@@ -28,12 +31,24 @@ public class GitProjectsController extends AbstractLogger {
 		this.gitDetailsService = gitDetailsService;
 	}
 
+	@Operation(summary = "Get repository details by GitHub username",
+			description = "Returns a list of Github repository details per username path variable.")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200",
+					description = "Successfully retrieved GitHub projects for username path variable.")
+	})
 	@GetMapping(value = {"/get-repo-detail/{username}/"}, produces= MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<RepositoryDetailDomain>> getReposByUsernamePathVar(HttpServletRequest request,
 															  @PathVariable(value = "username") String username) {
 		return getReposByUsername(request, username);
 	}
 
+	@Operation(summary = "Get repository details by GitHub username",
+			description = "Returns a list of Github repository details per 'username' request parameter.")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200",
+					description = "Successfully retrieved GitHub projects for username request parameter.")
+	})
 	@GetMapping(value = {"/get-repo-detail"}, produces= MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<RepositoryDetailDomain>> getReposByUsernameReqParam(HttpServletRequest request,
 															  @RequestParam(value = "username") String username) {

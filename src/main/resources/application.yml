@@ -17,3 +17,10 @@ spring:
   mvc:
     favicon:
       enabled: false
+
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui-ironoc.html
+    operationsSorter: method
