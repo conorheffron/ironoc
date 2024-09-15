@@ -69,6 +69,21 @@ public class GitProjectsControllerTest {
     }
 
     @Test
+    public void test_getReposByUsernameReqParam_withDash_success() {
+        // when
+        ResponseEntity<List<RepositoryDetailDomain>> result = gitProjectsController
+                .getReposByUsernameReqParam(httpServletRequestMock, "-" + TEST_USERNAME_ALPHA_NUMERIC + "-");
+
+        // then
+        verify(httpServletRequestMock).getRequestURI();
+        verify(httpServletRequestMock, times(2)).getHeader(anyString());
+        verify(gitDetailsServiceMock).mapRepositoriesToResponse(anyList());
+
+        assertThat(result, is(notNullValue()));
+        assertThat(result.getStatusCode(), is(HttpStatus.OK));
+    }
+
+    @Test
     public void test_getReposByUsernameReqParam_username_fail() {
         // when
         ResponseEntity<List<RepositoryDetailDomain>> result = gitProjectsController
