@@ -35,13 +35,14 @@ public class GitProjectsControllerTest {
     @Mock
     private HttpServletRequest httpServletRequestMock;
 
-    private static final String TEST_USERNAME = "conorheffron";
+    private static final String TEST_USERNAME_ALPHA = "conorheffron";
+    private static final String TEST_USERNAME_ALPHA_NUMERIC = "conor123";
 
     @Test
     public void test_getReposByUsernamePathVar_success() {
         // when
         ResponseEntity<List<RepositoryDetailDomain>> result = gitProjectsController
-                .getReposByUsernamePathVar(httpServletRequestMock, TEST_USERNAME);
+                .getReposByUsernamePathVar(httpServletRequestMock, TEST_USERNAME_ALPHA);
 
         // then
         verify(httpServletRequestMock).getRequestURI();
@@ -56,7 +57,22 @@ public class GitProjectsControllerTest {
     public void test_getReposByUsernameReqParam_success() {
         // when
         ResponseEntity<List<RepositoryDetailDomain>> result = gitProjectsController
-                .getReposByUsernameReqParam(httpServletRequestMock, TEST_USERNAME);
+                .getReposByUsernameReqParam(httpServletRequestMock, TEST_USERNAME_ALPHA_NUMERIC);
+
+        // then
+        verify(httpServletRequestMock).getRequestURI();
+        verify(httpServletRequestMock, times(2)).getHeader(anyString());
+        verify(gitDetailsServiceMock).mapRepositoriesToResponse(anyList());
+
+        assertThat(result, is(notNullValue()));
+        assertThat(result.getStatusCode(), is(HttpStatus.OK));
+    }
+
+    @Test
+    public void test_getReposByUsernameReqParam_withDash_success() {
+        // when
+        ResponseEntity<List<RepositoryDetailDomain>> result = gitProjectsController
+                .getReposByUsernameReqParam(httpServletRequestMock, "-" + TEST_USERNAME_ALPHA_NUMERIC + "-");
 
         // then
         verify(httpServletRequestMock).getRequestURI();
