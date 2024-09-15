@@ -19,7 +19,7 @@ function renderRepoDetails(val){
             <td>${repo_row.name}</td>
             <td>${repo_row.description}</td>
             <td><a href=${repo_row.appHome} target="_blank">${repo_row.appHome}</a></td>
-            <td><a href=${repo_row.repoUrl} target="_blank">${repo_row.repoUrl}</a></td>
+            <td><a href=${repo_row.repoUrl} target="_blank">${repo_row.fullName}</a></td>
             <td>${repo_row.topics}</td>
             </tr>
         `;
