@@ -6,24 +6,24 @@
 
 [![Deploy to Amazon ECS](https://github.com/conorheffron/ironoc/actions/workflows/aws.yml/badge.svg)](https://github.com/conorheffron/ironoc/actions/workflows/aws.yml)
 
-# Docker Image
-[ironoc Docker Hub Link](https://hub.docker.com/repository/docker/conorheffron/ironoc/general)
+### Docker Image
+- [ironoc Docker Hub Link](https://hub.docker.com/repository/docker/conorheffron/ironoc/general)
 
-# Hosted at:
+## Hosted at:
 - [ironoc website](http://ironoc-lb-6a36dafeeca59581.elb.eu-north-1.amazonaws.com/)
 
-# About
+## About
 Personal website / portfolio  http://www.ironoc.com/ (no longer hosted)
 
-# Tech Stack
+## Tech Stack
 Java 21 (LTS), Spring Boot 3.3, Maven 3.8, HTML5+CSS, JQuery, Docker / Bash, AWS
 
-# Run without cloning project:
+## Run without cloning project:
 ```
 docker run -d --restart=always -p 8080:8080 conorheffron/ironoc
 ```
 
-# Run after project checkout (JDK 21 & Maven 3.8.3 required)
+## Run after project checkout (JDK 21 & Maven 3.8.3 required)
 Build / Run App:
 ```
 mvn clean package spring-boot:run
@@ -32,7 +32,7 @@ mvn clean package spring-boot:run
 ![image](screen-grabs/IDEA-Intellj-run.png)
 
 
-Build / Run (spin-up) Docker container:
+### Build / Run (spin-up) Docker container:
 ```
 docker image build -t ironoc .
 docker compose up -d
@@ -42,7 +42,7 @@ docker logs ironoc-portfolio-1 -f
 ![image](screen-grabs/cli-docker.png)
 
 
-Tear-down:
+### Tear-down:
 ```
 docker-compose down
 ```
