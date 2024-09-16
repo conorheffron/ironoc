@@ -13,6 +13,4 @@ public interface PropertyConfigI {
     Boolean getGitInstanceFollowRedirects();
 
     Boolean getGitFollowRedirects();
-
-    String getGitToken();
 }

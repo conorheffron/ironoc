@@ -5,7 +5,6 @@ import lombok.Getter;
 @Getter
 public enum Properties {
 
-    GIT_TOKEN("com.ironoc.portfolio.github.token"),
     GIT_API_ENDPOINT("com.ironoc.portfolio.github.api.endpoint"),
     GIT_REPOS_URI("com.ironoc.portfolio.github.uri.repos"),
     GIT_TIMEOUT_CONNECT ("com.ironoc.portfolio.github.timeout.connect"),

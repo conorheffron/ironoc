@@ -44,9 +44,4 @@ public class PropertyConfig implements PropertyConfigI {
     public Boolean getGitFollowRedirects() {
         return Boolean.valueOf(environment.getRequiredProperty(propertyKey.getGitFollowRedirects()));
     }
-
-    @Override
-    public String getGitToken() {
-        return environment.getProperty(propertyKey.getGitToken(), "");
-    }
 }

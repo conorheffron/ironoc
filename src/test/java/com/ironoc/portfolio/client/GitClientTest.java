@@ -1,5 +1,6 @@
 package com.ironoc.portfolio.client;
 
+import com.ironoc.portfolio.aws.SecretManager;
 import com.ironoc.portfolio.config.PropertyConfigI;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -25,7 +26,10 @@ public class GitClientTest {
     private GitClient gitClient;
 
     @Mock
-    private PropertyConfigI propertyConfigMock;
+    private SecretManager secretManagerMock;
+
+    @Mock
+    private PropertyConfigI propertyConfigI;
 
     @Mock
     private HttpsURLConnection httpsURLConnectionMock;
@@ -73,7 +77,7 @@ public class GitClientTest {
         HttpsURLConnection result = gitClient.createConn(TEST_URL);
 
         // then
-        verify(propertyConfigMock).getGitToken();
+        verify(secretManagerMock).getGitSecret();
 
         assertThat(result, notNullValue());
     }
@@ -81,13 +85,13 @@ public class GitClientTest {
     @Test
     public void test_createConn_with_token_success() throws IOException {
         // given
-        when(propertyConfigMock.getGitToken()).thenReturn("test_fake_token");
+        when(secretManagerMock.getGitSecret()).thenReturn("test_fake_token");
 
         // when
         HttpsURLConnection result = gitClient.createConn(TEST_URL);
 
         // then
-        verify(propertyConfigMock).getGitToken();
+        verify(secretManagerMock).getGitSecret();
 
         assertThat(result, notNullValue());
     }
