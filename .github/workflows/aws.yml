@@ -11,7 +11,6 @@ env:
   ECS_CLUSTER: IronocPortfolioCluster
   ECS_TASK_DEFINITION: .aws/task-definition.json
   CONTAINER_NAME: ironoc
-  GIT_API_TOKEN: ${{ secrets.GIT_API_TOKEN }}
 
 permissions:
   contents: read
@@ -55,8 +54,8 @@ jobs:
         # Build a docker container and
         # push it to ECR so that it can
         # be deployed to ECS.
-        export GIT_API_TOKEN=$GIT_API_TOKEN
-        docker build --secret id=GIT_API_TOKEN,src=GIT_API_TOKEN -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+        export GIT_API_TOKEN=${{ secrets.GIT_API_TOKEN }}
+        docker build --secret id=GIT_API_TOKEN,src=$GIT_API_TOKEN -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
         echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
 
