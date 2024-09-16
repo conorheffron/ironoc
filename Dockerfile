@@ -1,6 +1,5 @@
 FROM eclipse-temurin:21-jdk
 
-RUN --mount=type=secret,id=GIT_API_TOKEN,env=GIT_API_TOKEN
 COPY target/*.war app.war
 RUN sh -c 'touch /app.war'
 
