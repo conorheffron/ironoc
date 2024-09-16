@@ -13,6 +13,4 @@ public interface PropertyKeyI {
     String getGitInstanceFollowRedirects();
 
     String getGitFollowRedirects();
-
-    String getGitToken();
 }

@@ -1,5 +1,6 @@
 package com.ironoc.portfolio.client;
 
+import com.ironoc.portfolio.aws.SecretManager;
 import com.ironoc.portfolio.config.PropertyConfigI;
 import io.micrometer.common.util.StringUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -17,15 +18,18 @@ public class GitClient implements Client {
 
     private final PropertyConfigI propertyConfig;
 
-    public GitClient(PropertyConfigI propertyConfig) {
+    private final SecretManager secretManager;
+
+    public GitClient(PropertyConfigI propertyConfig, SecretManager secretManager) {
         this.propertyConfig = propertyConfig;
+        this.secretManager = secretManager;
     }
 
     @Override
     public HttpsURLConnection createConn(String url) throws IOException {
         URL apiUrlEndpoint = new URL(url);
         HttpsURLConnection conn = (HttpsURLConnection) apiUrlEndpoint.openConnection();
-        String token = propertyConfig.getGitToken();
+        String token = secretManager.getGitSecret();
         if (StringUtils.isBlank(token)) {
             log.warn("GIT token not set, the lower request rate will apply");
         } else {

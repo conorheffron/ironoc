@@ -34,9 +34,4 @@ public class PropertyKey implements PropertyKeyI {
     public String getGitFollowRedirects() {
         return Properties.GIT_FOLLOW_REDIRECTS.getKey();
     }
-
-    @Override
-    public String getGitToken() {
-        return Properties.GIT_TOKEN.getKey();
-    }
 }
