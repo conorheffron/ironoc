@@ -8,12 +8,11 @@ import static org.mockito.Mockito.mockStatic;
 import static org.mockito.Mockito.times;
 
 public class AppTest {
-
     // mocks
     private MockedStatic<SpringApplication> springApplicationMockedStatic = mockStatic(SpringApplication.class);
 
     @Test
-    public void test() {
+    public void test_run_success() throws Exception {
         // given
         String[] args = { "test" };
 

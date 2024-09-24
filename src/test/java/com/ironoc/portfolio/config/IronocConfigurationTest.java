@@ -15,11 +15,13 @@ import org.springframework.web.servlet.config.annotation.DefaultServletHandlerCo
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistration;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
+import springfox.documentation.spring.web.plugins.Docket;
 
 import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.isA;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.verify;
@@ -104,5 +106,15 @@ public class IronocConfigurationTest {
 
         // then
         assertThat(result, is(notNullValue()));
+    }
+
+    @Test
+    public void test_ironocApi_success() {
+        // when
+        Docket result = ironocConfiguration.ironocApi();
+
+        // then
+        assertThat(result, is(notNullValue()));
+        assertThat(result, isA(Docket.class));
     }
 }

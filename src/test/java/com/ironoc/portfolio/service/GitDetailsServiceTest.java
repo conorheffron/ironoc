@@ -5,6 +5,7 @@ import com.ironoc.portfolio.client.Client;
 import com.ironoc.portfolio.config.PropertyConfigI;
 import com.ironoc.portfolio.domain.RepositoryDetailDomain;
 import com.ironoc.portfolio.dto.RepositoryDetailDto;
+import com.ironoc.portfolio.utils.UrlUtils;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -50,6 +51,9 @@ public class GitDetailsServiceTest {
     @Mock
     private InputStream inputStreamMock;
 
+    @Mock
+    private UrlUtils urlUtilsMock;
+
     private ObjectMapper objectMapper = new ObjectMapper();
 
     @Test
@@ -74,6 +78,9 @@ public class GitDetailsServiceTest {
                 .isPrivate(false)
                 .build();
 
+        when(propertyConfigMock.getGitApiEndpoint()).thenReturn("https://unittest.github.com/users/");
+        when(propertyConfigMock.getGitReposUri()).thenReturn("/repos");
+        when(urlUtilsMock.isValidURL(anyString())).thenReturn(true);
         when(gitClient.createConn(anyString())).thenReturn(httpsURLConnectionMock);
         when(gitClient.readInputStream(httpsURLConnectionMock)).thenReturn(jsonInputStream);
         when(objectMapperMock.readValue(jsonInputStream, RepositoryDetailDto[].class))
@@ -83,6 +90,9 @@ public class GitDetailsServiceTest {
         List<RepositoryDetailDto> results = gitDetailsService.getRepoDetails(testName);
 
         // then
+        verify(propertyConfigMock).getGitApiEndpoint();
+        verify(propertyConfigMock).getGitReposUri();
+        verify(urlUtilsMock).isValidURL(anyString());
         verify(propertyConfigMock).getGitApiEndpoint();
         verify(propertyConfigMock).getGitReposUri();
         verify(gitClient).createConn(anyString());

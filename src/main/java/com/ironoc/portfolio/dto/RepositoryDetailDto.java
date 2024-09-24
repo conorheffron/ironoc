@@ -8,7 +8,6 @@ import lombok.Builder;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.Getter;
-import lombok.ToString;
 
 import java.util.List;
 
@@ -16,7 +15,6 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-@ToString(includeFieldNames = true)
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(Include.NON_NULL)
 public class RepositoryDetailDto {
@@ -48,4 +46,9 @@ public class RepositoryDetailDto {
     private String homePage;
 
     private List<String> topics;
+
+    @Override
+    public String toString() {
+        return "name: '" + this.name + "'";
+    }
 }
