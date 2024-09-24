@@ -5,6 +5,7 @@ import com.ironoc.portfolio.client.Client;
 import com.ironoc.portfolio.config.PropertyConfigI;
 import com.ironoc.portfolio.domain.RepositoryDetailDomain;
 import com.ironoc.portfolio.dto.RepositoryDetailDto;
+import com.ironoc.portfolio.utils.UrlUtils;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -23,6 +24,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.nullValue;
+import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.emptyString;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
@@ -50,13 +52,20 @@ public class GitDetailsServiceTest {
     @Mock
     private InputStream inputStreamMock;
 
+    @Mock
+    private UrlUtils urlUtilsMock;
+
     private ObjectMapper objectMapper = new ObjectMapper();
+
+    @Mock
+    private GitRepoCache gitRepoCacheMock;
 
     @Test
     public void test_get_repos_success() throws IOException {
         // given
         InputStream jsonInputStream = Thread.currentThread().getContextClassLoader()
                 .getResourceAsStream("json" + File.separator + "test_response.json");
+        String testUserId = "conorheffron-test";
         String testName = "bio-cell-red-edge";
         String testFullName = "conorheffron/bio-cell-red-edge";
         String testDesc = "Edge Detection of Biological Cell (Image Processing Script)";
@@ -74,15 +83,21 @@ public class GitDetailsServiceTest {
                 .isPrivate(false)
                 .build();
 
+        when(propertyConfigMock.getGitApiEndpoint()).thenReturn("https://unittest.github.com/users/");
+        when(propertyConfigMock.getGitReposUri()).thenReturn("/repos");
+        when(urlUtilsMock.isValidURL(anyString())).thenReturn(true);
         when(gitClient.createConn(anyString())).thenReturn(httpsURLConnectionMock);
         when(gitClient.readInputStream(httpsURLConnectionMock)).thenReturn(jsonInputStream);
         when(objectMapperMock.readValue(jsonInputStream, RepositoryDetailDto[].class))
                 .thenReturn(objectMapper.readValue(jsonInputStream, RepositoryDetailDto[].class));
 
         // when
-        List<RepositoryDetailDto> results = gitDetailsService.getRepoDetails(testName);
+        List<RepositoryDetailDto> results = gitDetailsService.getRepoDetails(testUserId);
 
         // then
+        verify(propertyConfigMock).getGitApiEndpoint();
+        verify(propertyConfigMock).getGitReposUri();
+        verify(urlUtilsMock).isValidURL(anyString());
         verify(propertyConfigMock).getGitApiEndpoint();
         verify(propertyConfigMock).getGitReposUri();
         verify(gitClient).createConn(anyString());
@@ -108,6 +123,32 @@ public class GitDetailsServiceTest {
                 is("https://booking-sys-ebgefrdmh3afbhee.northeurope-01.azurewebsites.net/book/"));
         assertThat(result2.getHtmlUrl(), is("https://github.com/conorheffron/booking-sys"));
         assertThat(result2.isPrivate(), is(Boolean.TRUE));
+    }
+
+    @Test
+    public void testgetRepoDetails_result_cached_success() {
+        // given
+        String testUserId = "conorheffron";
+
+        // when
+        List<RepositoryDetailDto> results = gitDetailsService.getRepoDetails(testUserId);
+
+        // then
+        assertThat(results, is(notNullValue()));
+        assertThat(results, is(hasSize(0)));
+    }
+
+    @Test
+    public void testgetRepoDetails_url_invalid_fail() {
+        // given
+        String testUserId = "conorheffron-test-id";
+
+        // when
+        List<RepositoryDetailDto> results = gitDetailsService.getRepoDetails(testUserId);
+
+        // then
+        assertThat(results, is(notNullValue()));
+        assertThat(results, is(hasSize(0)));
     }
 
     @Test

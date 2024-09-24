@@ -6,7 +6,9 @@ import com.ironoc.portfolio.client.Client;
 import com.ironoc.portfolio.config.PropertyConfigI;
 import com.ironoc.portfolio.domain.RepositoryDetailDomain;
 import com.ironoc.portfolio.dto.RepositoryDetailDto;
+import com.ironoc.portfolio.job.GitDetailsJob;
 import com.ironoc.portfolio.logger.AbstractLogger;
+import com.ironoc.portfolio.utils.UrlUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +18,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -28,23 +31,49 @@ public class GitDetailsService extends AbstractLogger implements GitDetails {
 
     private final Client gitClient;
 
+    private final GitRepoCache gitRepoCache;
+
+    private final UrlUtils urlUtils;
+
     @Autowired
-    public GitDetailsService(PropertyConfigI propertyConfig, ObjectMapper objectMapper, Client gitClient) {
+    public GitDetailsService(PropertyConfigI propertyConfig,
+                             ObjectMapper objectMapper,
+                             Client gitClient,
+                             GitRepoCache gitRepoCache,
+                             UrlUtils urlUtils) {
         this.propertyConfig = propertyConfig;
         this.objectMapper = objectMapper;
         this.gitClient = gitClient;
+        this.urlUtils = urlUtils;
+        this.gitRepoCache = gitRepoCache;
 ;    }
 
     @Override
     public List<RepositoryDetailDto> getRepoDetails(String username) {
-        String url = propertyConfig.getGitApiEndpoint() + username + propertyConfig.getGitReposUri();
+        // check cache for home page user ID
+        if (username.toLowerCase().equals(GitDetailsJob.USERNAME_HOME_PAGE)) {
+            List<RepositoryDetailDto> repoDetails = gitRepoCache.get(GitDetailsJob.USERNAME_HOME_PAGE);
+            if (repoDetails != null) {
+                return repoDetails;
+            }
+        }
+        // further end-point validation (contains User ID)
+        String apiEndpoint = propertyConfig.getGitApiEndpoint();
+        String apiUri = propertyConfig.getGitReposUri();
+        String url = apiEndpoint + username + apiUri;
+        if (StringUtils.isBlank(apiUri) | StringUtils.isBlank(apiUri)
+                | !urlUtils.isValidURL(url)) {
+            warn("URL is not valid: url={}", url);
+            return Collections.emptyList();
+        }
         info("Triggering repositories GET request: url={}", url);
         List<RepositoryDetailDto> repositoryDetailDtos = new ArrayList<>();
         InputStream inputStream = null;
         try {
             HttpsURLConnection conn = gitClient.createConn(url);
             inputStream = gitClient.readInputStream(conn);
-            repositoryDetailDtos = Arrays.asList(objectMapper.readValue(inputStream, RepositoryDetailDto[].class));
+            repositoryDetailDtos = Arrays.asList(objectMapper.readValue(inputStream,
+                    RepositoryDetailDto[].class));
             debug("repositoryDetailDtos={}", repositoryDetailDtos);
         } catch(IOException ex) {
             error("Unexpected error occurred while retrieving repo details for user=" + username, ex);
@@ -63,7 +92,8 @@ public class GitDetailsService extends AbstractLogger implements GitDetails {
     }
 
     @Override
-    public List<RepositoryDetailDomain> mapRepositoriesToResponse(List<RepositoryDetailDto> repositoryDetailDtos) {
+    public List<RepositoryDetailDomain> mapRepositoriesToResponse(
+            List<RepositoryDetailDto> repositoryDetailDtos) {
         return repositoryDetailDtos.stream()
                 .map(repositoryDetailDto -> RepositoryDetailDomain.builder()
                         .name(repositoryDetailDto.getName())
