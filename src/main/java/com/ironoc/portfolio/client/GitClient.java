@@ -2,6 +2,7 @@ package com.ironoc.portfolio.client;
 
 import com.ironoc.portfolio.aws.SecretManager;
 import com.ironoc.portfolio.config.PropertyConfigI;
+import com.ironoc.portfolio.utils.UrlUtils;
 import io.micrometer.common.util.StringUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpMethod;
@@ -20,13 +21,22 @@ public class GitClient implements Client {
 
     private final SecretManager secretManager;
 
-    public GitClient(PropertyConfigI propertyConfig, SecretManager secretManager) {
+    private final UrlUtils urlUtils;
+
+    public GitClient(PropertyConfigI propertyConfig,
+                     SecretManager secretManager,
+                     UrlUtils urlUtils) {
         this.propertyConfig = propertyConfig;
         this.secretManager = secretManager;
+        this.urlUtils = urlUtils;
     }
 
     @Override
     public HttpsURLConnection createConn(String url) throws IOException {
+        if (!urlUtils.isValidURL(url)) {
+            log.error("The url is not valid for GIT client connection, url={}", url);
+            return null;
+        }
         URL apiUrlEndpoint = new URL(url);
         HttpsURLConnection conn = (HttpsURLConnection) apiUrlEndpoint.openConnection();
         String token = secretManager.getGitSecret();
