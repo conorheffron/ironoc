@@ -97,12 +97,16 @@ public class GitDetailsService extends AbstractLogger implements GitDetails {
         return repositoryDetailDtos.stream()
                 .map(repositoryDetailDto -> RepositoryDetailDomain.builder()
                         .name(repositoryDetailDto.getName())
-                        .fullName(repositoryDetailDto.getFullName())
-                        .description(repositoryDetailDto.getDescription())
-                        .appHome(repositoryDetailDto.getHomePage())
+                        .fullName(parseNull(repositoryDetailDto.getFullName()))
+                        .description(parseNull(repositoryDetailDto.getDescription()))
+                        .appHome(parseNull(repositoryDetailDto.getHomePage()))
                         .topics(StringUtils.joinWith(", ", repositoryDetailDto.getTopics()))
-                        .repoUrl(repositoryDetailDto.getHtmlUrl())
+                        .repoUrl(parseNull(repositoryDetailDto.getHtmlUrl()))
                         .build())
                 .collect(Collectors.toList());
+    }
+
+    private String parseNull(String value) {
+        return StringUtils.isBlank(value) ? "" : value;
     }
 }
