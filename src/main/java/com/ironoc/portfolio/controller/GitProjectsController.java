@@ -58,19 +58,31 @@ public class GitProjectsController extends AbstractLogger {
 	private ResponseEntity<List<RepositoryDetailDomain>> getReposByUsername(HttpServletRequest request,
 																			String username) {
 		// username validation (must contain only letters, numbers and/or dash chars)
-		if (StringUtils.isBlank(username) |
-				!StringUtils.isAlphanumericSpace(username.replaceAll("-", " "))) {
+		String userId = "";
+		if (StringUtils.isBlank(username)) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Collections.emptyList());
+		} else if (!StringUtils.isAlphanumericSpace(sanitizeUsername(username)
+				.replaceAll("-", " "))) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Collections.emptyList());
+		} else {
+			userId = sanitizeUsername(username);
 		}
 
 		info("Github get repositories by username={} for request, host={}, uri={}, user-agent={}",
-				username,
+				userId,
 				request.getHeader("host"),
 				request.getRequestURI(),
 				request.getHeader("user-agent"));
-		List<RepositoryDetailDto> repositories = gitDetailsService.getRepoDetails(username);
-		info("The repository details for user={} are: {}", username, repositories);
+		List<RepositoryDetailDto> repositories = gitDetailsService.getRepoDetails(userId);
+		info("The repository details for user={} are: {}", userId, repositories);
 		return ResponseEntity.status(HttpStatus.OK)
 				.body(gitDetailsService.mapRepositoriesToResponse(repositories));
+	}
+
+	private String sanitizeUsername(String username) {
+		// trim leading and trailing whitespace
+		String sanitizedUserId = username.trim();
+		// remove unwanted characters & accents etc
+		return sanitizedUserId.replaceAll("\\p{M}", "");
 	}
 }
