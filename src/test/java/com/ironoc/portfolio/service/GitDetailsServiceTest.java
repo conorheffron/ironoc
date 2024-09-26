@@ -17,15 +17,17 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.hasSize;
-import static org.hamcrest.Matchers.nullValue;
-import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.emptyString;
+import static org.hamcrest.Matchers.emptyIterable;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.notNullValue;
+import static org.hamcrest.Matchers.nullValue;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.verify;
@@ -126,7 +128,54 @@ public class GitDetailsServiceTest {
     }
 
     @Test
-    public void testgetRepoDetails_result_cached_success() {
+    public void test_get_repos_parseNull_values_success() throws IOException {
+        // given
+        InputStream jsonInputStream = Thread.currentThread().getContextClassLoader()
+                .getResourceAsStream("json" + File.separator + "test_parse_null_response.json");
+        String testUserId = "conorheffron-test";
+        String testName = "conorheffron/ironoc-test";
+        List<String> testTop = Collections.emptyList();
+        RepositoryDetailDto expected = RepositoryDetailDto.builder()
+                .name(testName)
+                .topics(testTop)
+                .isPrivate(false)
+                .build();
+
+        when(propertyConfigMock.getGitApiEndpoint()).thenReturn("https://unittest.github.com/users/");
+        when(propertyConfigMock.getGitReposUri()).thenReturn("/repos");
+        when(urlUtilsMock.isValidURL(anyString())).thenReturn(true);
+        when(gitClient.createConn(anyString())).thenReturn(httpsURLConnectionMock);
+        when(gitClient.readInputStream(httpsURLConnectionMock)).thenReturn(jsonInputStream);
+        when(objectMapperMock.readValue(jsonInputStream, RepositoryDetailDto[].class))
+                .thenReturn(objectMapper.readValue(jsonInputStream, RepositoryDetailDto[].class));
+
+        // when
+        List<RepositoryDetailDto> results = gitDetailsService.getRepoDetails(testUserId);
+
+        // then
+        verify(propertyConfigMock).getGitApiEndpoint();
+        verify(propertyConfigMock).getGitReposUri();
+        verify(urlUtilsMock).isValidURL(anyString());
+        verify(propertyConfigMock).getGitApiEndpoint();
+        verify(propertyConfigMock).getGitReposUri();
+        verify(gitClient).createConn(anyString());
+        verify(gitClient).readInputStream(any(HttpsURLConnection.class));
+        verify(objectMapperMock).readValue(any(InputStream.class), any(Class.class));
+        verify(gitClient).closeConn(any(InputStream.class));
+        ;
+        assertThat(results, is(hasSize(1)));
+        Optional<RepositoryDetailDto> result = results.stream().findFirst();
+        assertThat(result.get().getName(), is(expected.getName()));
+        assertThat(result.get().getFullName(), is(expected.getFullName()));
+        assertThat(result.get().getDescription(), is(expected.getDescription()));
+        assertThat(result.get().getTopics(), is(emptyIterable()));
+        assertThat(result.get().getHomePage(), is(expected.getHomePage()));
+        assertThat(result.get().getHtmlUrl(), is(expected.getHtmlUrl()));
+        assertThat(result.get().isPrivate(), is(expected.isPrivate()));
+    }
+
+    @Test
+    public void test_getRepoDetails_result_cached_success() {
         // given
         String testUserId = "conorheffron";
 
@@ -139,7 +188,7 @@ public class GitDetailsServiceTest {
     }
 
     @Test
-    public void testgetRepoDetails_url_invalid_fail() {
+    public void test_getRepoDetails_url_invalid_fail() {
         // given
         String testUserId = "conorheffron-test-id";
 
@@ -178,6 +227,27 @@ public class GitDetailsServiceTest {
                 is("https://booking-sys-ebgefrdmh3afbhee.northeurope-01.azurewebsites.net/book/"));
         assertThat(result2.getRepoUrl(), is("https://github.com/conorheffron/booking-sys"));
 
+        jsonInputStream.close();
+    }
+
+    @Test
+    public void test_mapRepositoriesToResponse_parseNulls_success() throws IOException {
+        // given
+        InputStream jsonInputStream = Thread.currentThread().getContextClassLoader()
+                .getResourceAsStream("json" + File.separator + "test_parse_null_response.json");
+
+        // when
+        List<RepositoryDetailDomain> results = gitDetailsService.mapRepositoriesToResponse(
+                Arrays.asList(objectMapper.readValue(jsonInputStream, RepositoryDetailDto[].class)));
+
+        assertThat(results, is(hasSize(1)));
+        Optional<RepositoryDetailDomain> result = results.stream().findFirst();
+        assertThat(result.get().getName(), is("conorheffron/ironoc-test"));
+        assertThat(result.get().getFullName(), is(emptyString()));
+        assertThat(result.get().getDescription(), is(emptyString()));
+        assertThat(result.get().getTopics(), is("[]"));
+        assertThat(result.get().getAppHome(), is(emptyString()));
+        assertThat(result.get().getRepoUrl(), is(emptyString()));
         jsonInputStream.close();
     }
 }
