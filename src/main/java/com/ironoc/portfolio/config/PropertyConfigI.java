@@ -4,8 +4,6 @@ public interface PropertyConfigI {
 
     String getGitApiEndpoint();
 
-    String getGitReposUri();
-
     Integer getGitTimeoutConnect();
 
     Integer getGitTimeoutRead();

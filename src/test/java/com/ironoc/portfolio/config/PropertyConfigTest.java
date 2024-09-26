@@ -43,22 +43,6 @@ public class PropertyConfigTest {
     }
 
     @Test
-    public void test_getGitReposUri_success() {
-        // given
-        when(propertyKeyMock.getGitReposUri()).thenReturn(Properties.GIT_REPOS_URI.getKey());
-        when(environmentMock.getRequiredProperty(Properties.GIT_REPOS_URI.getKey())).thenReturn(TEST_PROP_VAL);
-
-        // when
-        String result = propertyConfig.getGitReposUri();
-
-        // then
-        verify(propertyKeyMock).getGitReposUri();
-        verify(environmentMock).getRequiredProperty(Properties.GIT_REPOS_URI.getKey());
-
-        assertThat(result, is(TEST_PROP_VAL));
-    }
-
-    @Test
     public void test_getGitFollowRedirects_success() {
         // given
         when(propertyKeyMock.getGitFollowRedirects()).thenReturn(Properties.GIT_FOLLOW_REDIRECTS.getKey());
