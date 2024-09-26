@@ -12,6 +12,7 @@ import com.ironoc.portfolio.utils.UrlUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.net.ssl.HttpsURLConnection;
 import java.io.IOException;
@@ -58,19 +59,20 @@ public class GitDetailsService extends AbstractLogger implements GitDetails {
             }
         }
         // further end-point validation (contains User ID)
-        String apiEndpoint = propertyConfig.getGitApiEndpoint();
-        String apiUri = propertyConfig.getGitReposUri();
-        String url = apiEndpoint + username + apiUri;
+        String uri = propertyConfig.getGitApiEndpoint();
+        String apiUri = UriComponentsBuilder.fromHttpUrl(uri)
+                .buildAndExpand(username)
+                .toUriString();
         if (StringUtils.isBlank(apiUri) | StringUtils.isBlank(apiUri)
-                | !urlUtils.isValidURL(url)) {
-            warn("URL is not valid: url={}", url);
+                | !urlUtils.isValidURL(apiUri)) {
+            warn("URL is not valid: url={}", apiUri);
             return Collections.emptyList();
         }
-        info("Triggering repositories GET request: url={}", url);
+        info("Triggering repositories GET request: url={}", apiUri);
         List<RepositoryDetailDto> repositoryDetailDtos = new ArrayList<>();
         InputStream inputStream = null;
         try {
-            HttpsURLConnection conn = gitClient.createConn(url);
+            HttpsURLConnection conn = gitClient.createConn(apiUri);
             inputStream = gitClient.readInputStream(conn);
             repositoryDetailDtos = Arrays.asList(objectMapper.readValue(inputStream,
                     RepositoryDetailDto[].class));

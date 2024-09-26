@@ -7,10 +7,8 @@ com:
           read: 100000
         instance-follow-redirects: true
         follow-redirects: true
-        uri:
-          repos: /repos
         api:
-          endpoint: https://api.github.com/users/
+          endpoint: https://api.github.com/users/{username}/repos
 
 spring:
   mvc:

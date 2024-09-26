@@ -7,6 +7,7 @@ import io.micrometer.common.util.StringUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.net.ssl.HttpsURLConnection;
 import java.io.IOException;
@@ -37,7 +38,7 @@ public class GitClient implements Client {
             log.error("The url is not valid for GIT client connection, url={}", url);
             return null;
         }
-        URL apiUrlEndpoint = new URL(url);
+        URL apiUrlEndpoint = new URL(UriComponentsBuilder.fromHttpUrl(url).toUriString());
         HttpsURLConnection conn = (HttpsURLConnection) apiUrlEndpoint.openConnection();
         String token = secretManager.getGitSecret();
         if (StringUtils.isBlank(token)) {

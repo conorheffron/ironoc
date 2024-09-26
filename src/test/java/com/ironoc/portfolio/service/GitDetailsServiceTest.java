@@ -5,6 +5,7 @@ import com.ironoc.portfolio.client.Client;
 import com.ironoc.portfolio.config.PropertyConfigI;
 import com.ironoc.portfolio.domain.RepositoryDetailDomain;
 import com.ironoc.portfolio.dto.RepositoryDetailDto;
+import com.ironoc.portfolio.job.GitDetailsJob;
 import com.ironoc.portfolio.utils.UrlUtils;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -52,15 +53,14 @@ public class GitDetailsServiceTest {
     private HttpsURLConnection httpsURLConnectionMock;
 
     @Mock
-    private InputStream inputStreamMock;
-
-    @Mock
     private UrlUtils urlUtilsMock;
-
-    private ObjectMapper objectMapper = new ObjectMapper();
 
     @Mock
     private GitRepoCache gitRepoCacheMock;
+
+    private ObjectMapper objectMapper = new ObjectMapper();
+
+    private static final String TEST_URI = "https://unittest.github.com/users/{username}/repos";
 
     @Test
     public void test_get_repos_success() throws IOException {
@@ -85,8 +85,8 @@ public class GitDetailsServiceTest {
                 .isPrivate(false)
                 .build();
 
-        when(propertyConfigMock.getGitApiEndpoint()).thenReturn("https://unittest.github.com/users/");
-        when(propertyConfigMock.getGitReposUri()).thenReturn("/repos");
+        when(propertyConfigMock.getGitApiEndpoint())
+                .thenReturn(TEST_URI);
         when(urlUtilsMock.isValidURL(anyString())).thenReturn(true);
         when(gitClient.createConn(anyString())).thenReturn(httpsURLConnectionMock);
         when(gitClient.readInputStream(httpsURLConnectionMock)).thenReturn(jsonInputStream);
@@ -98,10 +98,8 @@ public class GitDetailsServiceTest {
 
         // then
         verify(propertyConfigMock).getGitApiEndpoint();
-        verify(propertyConfigMock).getGitReposUri();
         verify(urlUtilsMock).isValidURL(anyString());
         verify(propertyConfigMock).getGitApiEndpoint();
-        verify(propertyConfigMock).getGitReposUri();
         verify(gitClient).createConn(anyString());
         verify(gitClient).readInputStream(any(HttpsURLConnection.class));
         verify(objectMapperMock).readValue(any(InputStream.class), any(Class.class));
@@ -141,8 +139,7 @@ public class GitDetailsServiceTest {
                 .isPrivate(false)
                 .build();
 
-        when(propertyConfigMock.getGitApiEndpoint()).thenReturn("https://unittest.github.com/users/");
-        when(propertyConfigMock.getGitReposUri()).thenReturn("/repos");
+        when(propertyConfigMock.getGitApiEndpoint()).thenReturn(TEST_URI);
         when(urlUtilsMock.isValidURL(anyString())).thenReturn(true);
         when(gitClient.createConn(anyString())).thenReturn(httpsURLConnectionMock);
         when(gitClient.readInputStream(httpsURLConnectionMock)).thenReturn(jsonInputStream);
@@ -154,10 +151,8 @@ public class GitDetailsServiceTest {
 
         // then
         verify(propertyConfigMock).getGitApiEndpoint();
-        verify(propertyConfigMock).getGitReposUri();
         verify(urlUtilsMock).isValidURL(anyString());
         verify(propertyConfigMock).getGitApiEndpoint();
-        verify(propertyConfigMock).getGitReposUri();
         verify(gitClient).createConn(anyString());
         verify(gitClient).readInputStream(any(HttpsURLConnection.class));
         verify(objectMapperMock).readValue(any(InputStream.class), any(Class.class));
@@ -183,6 +178,8 @@ public class GitDetailsServiceTest {
         List<RepositoryDetailDto> results = gitDetailsService.getRepoDetails(testUserId);
 
         // then
+        verify(gitRepoCacheMock).get(GitDetailsJob.USERNAME_HOME_PAGE);
+
         assertThat(results, is(notNullValue()));
         assertThat(results, is(hasSize(0)));
     }
@@ -191,11 +188,14 @@ public class GitDetailsServiceTest {
     public void test_getRepoDetails_url_invalid_fail() {
         // given
         String testUserId = "conorheffron-test-id";
+        when(propertyConfigMock.getGitApiEndpoint()).thenReturn(TEST_URI);
 
         // when
         List<RepositoryDetailDto> results = gitDetailsService.getRepoDetails(testUserId);
 
         // then
+        verify(propertyConfigMock).getGitApiEndpoint();
+
         assertThat(results, is(notNullValue()));
         assertThat(results, is(hasSize(0)));
     }
@@ -214,10 +214,14 @@ public class GitDetailsServiceTest {
         Optional<RepositoryDetailDomain> result = results.stream().findFirst();
         assertThat(result.get().getName(), is("bio-cell-red-edge"));
         assertThat(result.get().getFullName(), is("conorheffron/bio-cell-red-edge"));
-        assertThat(result.get().getDescription(), is("Edge Detection of Biological Cell (Image Processing Script)"));
-        assertThat(result.get().getTopics(), is("[biology, computer-vision, image-processing, scikitlearn-machine-learning]"));
-        assertThat(result.get().getAppHome(), is("https://conorheffron.github.io/bio-cell-red-edge/"));
-        assertThat(result.get().getRepoUrl(), is("https://github.com/conorheffron/bio-cell-red-edge"));
+        assertThat(result.get().getDescription(),
+                is("Edge Detection of Biological Cell (Image Processing Script)"));
+        assertThat(result.get().getTopics(),
+                is("[biology, computer-vision, image-processing, scikitlearn-machine-learning]"));
+        assertThat(result.get().getAppHome(),
+                is("https://conorheffron.github.io/bio-cell-red-edge/"));
+        assertThat(result.get().getRepoUrl(),
+                is("https://github.com/conorheffron/bio-cell-red-edge"));
         RepositoryDetailDomain result2 = results.get(1);
         assertThat(result2.getName(), is("booking-sys"));
         assertThat(result2.getFullName(), is("conorheffron/booking-sys"));

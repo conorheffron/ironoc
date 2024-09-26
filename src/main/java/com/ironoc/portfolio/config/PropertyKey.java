@@ -11,11 +11,6 @@ public class PropertyKey implements PropertyKeyI {
     }
 
     @Override
-    public String getGitReposUri() {
-        return Properties.GIT_REPOS_URI.getKey();
-    }
-
-    @Override
     public String getGitTimeoutConnect() {
         return Properties.GIT_TIMEOUT_CONNECT.getKey();
     }

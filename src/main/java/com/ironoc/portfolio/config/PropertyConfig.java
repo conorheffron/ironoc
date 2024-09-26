@@ -21,11 +21,6 @@ public class PropertyConfig implements PropertyConfigI {
     }
 
     @Override
-    public String getGitReposUri() {
-        return environment.getRequiredProperty(propertyKey.getGitReposUri());
-    }
-
-    @Override
     public Integer getGitTimeoutConnect() {
         return Integer.valueOf(environment.getRequiredProperty(propertyKey.getGitTimeoutConnect()));
     }
