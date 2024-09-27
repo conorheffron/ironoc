@@ -34,7 +34,10 @@ public class GitClient implements Client {
 
     @Override
     public HttpsURLConnection createConn(String url) throws IOException {
-        if (!urlUtils.isValidURL(url)) {
+        String baseUrl = propertyConfig.getGitApiEndpoint();
+        URL urlBase = new URL(baseUrl);
+        String base = urlBase.getProtocol() + "://" + urlBase.getHost();
+        if (!urlUtils.isValidURL(url) || !url.startsWith(base)) {
             log.error("The url is not valid for GIT client connection, url={}", url);
             return null;
         }
