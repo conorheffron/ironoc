@@ -42,7 +42,7 @@ public class GitClientTest {
     @Mock
     private InputStream inputStreamMock;
 
-    private static final String TEST_URL = "https://cloud-conor.com";
+    private static final String TEST_URL = "https://unittest.github.com/users/conorheffron/repos";
 
     @Test
     public void test_readInputStream_fail() throws IOException {
@@ -79,6 +79,7 @@ public class GitClientTest {
     @Test
     public void test_createConn_without_token_success() throws IOException {
         // given
+        when(propertyConfigMock.getGitApiEndpoint()).thenReturn(TEST_URL);
         when(urlUtilsMock.isValidURL(TEST_URL)).thenReturn(true);
 
         // when
@@ -86,6 +87,7 @@ public class GitClientTest {
 
         // then
         verify(urlUtilsMock).isValidURL(TEST_URL);
+        verify(propertyConfigMock).getGitApiEndpoint();
         verify(propertyConfigMock).getGitFollowRedirects();
         verify(propertyConfigMock).getGitTimeoutConnect();
         verify(propertyConfigMock).getGitTimeoutRead();
@@ -98,6 +100,7 @@ public class GitClientTest {
     @Test
     public void test_createConn_with_token_success() throws IOException {
         // given
+        when(propertyConfigMock.getGitApiEndpoint()).thenReturn(TEST_URL);
         when(urlUtilsMock.isValidURL(TEST_URL)).thenReturn(true);
         when(secretManagerMock.getGitSecret()).thenReturn("test_fake_token");
 
@@ -106,6 +109,7 @@ public class GitClientTest {
 
         // then
         verify(urlUtilsMock).isValidURL(TEST_URL);
+        verify(propertyConfigMock).getGitApiEndpoint();
         verify(propertyConfigMock).getGitFollowRedirects();
         verify(propertyConfigMock).getGitTimeoutConnect();
         verify(propertyConfigMock).getGitTimeoutRead();
@@ -118,6 +122,7 @@ public class GitClientTest {
     @Test
     public void test_createConn_invalid_url_fail() throws IOException {
         // given
+        when(propertyConfigMock.getGitApiEndpoint()).thenReturn(TEST_URL);
         when(urlUtilsMock.isValidURL(TEST_URL)).thenReturn(false);
 
         // when
@@ -125,6 +130,7 @@ public class GitClientTest {
 
         // then
         verify(urlUtilsMock).isValidURL(TEST_URL);
+        verify(propertyConfigMock).getGitApiEndpoint();
         verify(propertyConfigMock, never()).getGitFollowRedirects();
         verify(propertyConfigMock, never()).getGitTimeoutConnect();
         verify(propertyConfigMock, never()).getGitTimeoutRead();
