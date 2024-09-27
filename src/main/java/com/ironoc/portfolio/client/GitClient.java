@@ -41,7 +41,7 @@ public class GitClient implements Client {
             log.error("The url is not valid for GIT client connection, url={}", url);
             return null;
         }
-        URL apiUrlEndpoint = new URL(UriComponentsBuilder.fromHttpUrl(url).toUriString());
+        URL apiUrlEndpoint = new URL(url);
         HttpsURLConnection conn = (HttpsURLConnection) apiUrlEndpoint.openConnection();
         String token = secretManager.getGitSecret();
         if (StringUtils.isBlank(token)) {
