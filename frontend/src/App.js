@@ -11,6 +11,7 @@ class App extends Component {
           <Switch>
             <Route path='/' exact={true} component={Home}/>
             <Route path='/repos' exact={true} component={RepoDetails}/>
+            <Route path="*" component={Home} />
           </Switch>
         </Router>
     )
