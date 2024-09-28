@@ -3,7 +3,7 @@ import './App.css';
 import AppNavbar from './AppNavbar';
 import { Link } from 'react-router-dom';
 import { Button, Container } from 'reactstrap';
-import logo from './logo.svg';
+import logo from './robot-logo.png';
 
 class Home extends Component {
   state = {
@@ -23,18 +23,7 @@ class Home extends Component {
         <div className="App">
           <AppNavbar/>
           <header className="App-header">
-            <img src={logo} className="App-logo" alt="logo" />
-            <div className="App-intro">
-              <h2>Repository Details</h2>
-              {repoDetails.map(repoDetail =>
-                  <div key={repoDetail.name}>
-                    Name: {repoDetail.name} <br />
-                    Description: {repoDetail.description}  <br />
-                    Topics: {repoDetail.topics}
-                    <br />
-                  </div>
-              )}
-            </div>
+            <img src={logo} />
           </header>
         </div>
     );
