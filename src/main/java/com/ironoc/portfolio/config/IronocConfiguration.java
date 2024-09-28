@@ -8,42 +8,33 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import org.springframework.web.servlet.view.InternalResourceViewResolver;
+
+import java.util.Arrays;
+import java.util.List;
 
 @Configuration
-@EnableWebMvc
 @EnableAsync
 @EnableScheduling
 @ComponentScan(basePackages = { "com.ironoc.portfolio" })
 public class IronocConfiguration implements WebMvcConfigurer {
 
-    protected static final String RESOURCES_HANDLER = "/resources/**";
-    protected static final String FAV_ICON = "/favicon.ico";
-    protected static final String SITE_MAP = "/sitemap.xml";
-    protected static final String ROBOTS_TEXT = "/robots.txt";
-    protected static final String STATIC_LOC = "/static/";
-    protected static final String IMAGES_LOC = STATIC_LOC + "imgs/";
-    protected static final String STATIC_CONF_LOC = STATIC_LOC + "config/";
-
-    @Bean
-    public ViewResolver getViewResolver() {
-        InternalResourceViewResolver resolver = new InternalResourceViewResolver();
-        resolver.setPrefix("/templates/");
-        resolver.setSuffix(".html");
-        return resolver;
-    }
-
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler(RESOURCES_HANDLER).addResourceLocations(STATIC_LOC);
-        registry.addResourceHandler(FAV_ICON).addResourceLocations(IMAGES_LOC);
-        registry.addResourceHandler(SITE_MAP).addResourceLocations(STATIC_CONF_LOC);
-        registry.addResourceHandler(ROBOTS_TEXT).addResourceLocations(STATIC_CONF_LOC);
+        List<String> ignorePaths = Arrays.asList("api");
+        List<String> handledExtensions = Arrays.asList(
+                "html", "js", "json",
+                "csv", "css",
+                "svg", "eot", "ttf", "woff",
+                "appcache",
+                "png", "jpg", "jpeg",
+                "gif", "ico");
+        registry.addResourceHandler("/**")
+                .addResourceLocations("classpath:/static/")
+                .resourceChain(false)
+                .addResolver(new PushStateResourceResolver(handledExtensions, ignorePaths));
     }
 
     @Override
