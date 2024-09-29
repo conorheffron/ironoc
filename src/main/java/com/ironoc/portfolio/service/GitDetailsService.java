@@ -12,6 +12,7 @@ import com.ironoc.portfolio.logger.AbstractLogger;
 import com.ironoc.portfolio.utils.UrlUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -61,7 +62,7 @@ public class GitDetailsService extends AbstractLogger implements GitDetails {
             warn("URL is not valid: url={}", apiUri);
             return Collections.emptyList();
         }
-        return gitClient.callGitHubApi(apiUri, uri, RepositoryDetailDto.class);
+        return gitClient.callGitHubApi(apiUri, uri, RepositoryDetailDto.class, HttpMethod.GET.name());
     }
 
     @Override
@@ -107,7 +108,7 @@ public class GitDetailsService extends AbstractLogger implements GitDetails {
             warn("URL is not valid: url={}", apiUri);
             return Collections.emptyList();
         }
-        return gitClient.callGitHubApi(apiUri, uri, RepositoryIssueDto.class);
+        return gitClient.callGitHubApi(apiUri, uri, RepositoryIssueDto.class, HttpMethod.GET.name());
     }
 
     @Override

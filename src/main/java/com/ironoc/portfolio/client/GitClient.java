@@ -45,12 +45,12 @@ public class GitClient extends AbstractLogger implements Client {
     }
 
     @Override
-    public <T> List<T> callGitHubApi(String apiUri, String uri, Class<T> type) {
+    public <T> List<T> callGitHubApi(String apiUri, String uri, Class<T> type, String httpMethod) {
         info("Triggering GET request: url={}", apiUri);
         List<T> dtos = new ArrayList<>();
         InputStream inputStream = null;
         try {
-            HttpsURLConnection conn = this.createConn(apiUri, uri);
+            HttpsURLConnection conn = this.createConn(apiUri, uri, httpMethod);
             if (conn == null) {
                 error("Failed to created connection");
                 return Collections.emptyList();
@@ -78,7 +78,7 @@ public class GitClient extends AbstractLogger implements Client {
     }
 
     @Override
-    public HttpsURLConnection createConn(String url, String baseUrl) throws IOException {
+    public HttpsURLConnection createConn(String url, String baseUrl, String httpMethod) throws IOException {
         URL urlBase = new URL(baseUrl);
         String base = urlBase.getProtocol() + "://" + urlBase.getHost();
         if (!urlUtils.isValidURL(url) || !url.startsWith(base)) {
@@ -93,7 +93,7 @@ public class GitClient extends AbstractLogger implements Client {
         } else {
             conn.setRequestProperty("Authorization", token);
         }
-        conn.setRequestMethod(HttpMethod.GET.name());
+        conn.setRequestMethod(httpMethod);
         conn.setFollowRedirects(propertyConfig.getGitFollowRedirects());
         conn.setConnectTimeout(propertyConfig.getGitTimeoutConnect());
         conn.setReadTimeout(propertyConfig.getGitTimeoutRead());

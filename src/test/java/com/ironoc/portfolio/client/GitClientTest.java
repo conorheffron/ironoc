@@ -9,6 +9,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.HttpMethod;
 
 import javax.net.ssl.HttpsURLConnection;
 import java.io.IOException;
@@ -51,7 +52,7 @@ public class GitClientTest {
     public void test_callGitHubApi_fail() {
         // when
         Collection<RepositoryDetailDto> result = gitClient
-                .callGitHubApi(TEST_URL, TEST_URL, RepositoryDetailDto.class);
+                .callGitHubApi(TEST_URL, TEST_URL, RepositoryDetailDto.class, HttpMethod.GET.name());
 
         // then
         assertThat(result, is(emptyIterable()));
@@ -95,7 +96,7 @@ public class GitClientTest {
         when(urlUtilsMock.isValidURL(TEST_URL)).thenReturn(true);
 
         // when
-        HttpsURLConnection result = gitClient.createConn(TEST_URL, TEST_URL);
+        HttpsURLConnection result = gitClient.createConn(TEST_URL, TEST_URL, HttpMethod.GET.name());
 
         // then
         verify(urlUtilsMock).isValidURL(TEST_URL);
@@ -115,7 +116,7 @@ public class GitClientTest {
         when(secretManagerMock.getGitSecret()).thenReturn("test_fake_token");
 
         // when
-        HttpsURLConnection result = gitClient.createConn(TEST_URL, TEST_URL);
+        HttpsURLConnection result = gitClient.createConn(TEST_URL, TEST_URL, HttpMethod.GET.name());
 
         // then
         verify(urlUtilsMock).isValidURL(TEST_URL);
@@ -134,7 +135,7 @@ public class GitClientTest {
         when(urlUtilsMock.isValidURL(TEST_URL)).thenReturn(false);
 
         // when
-        HttpsURLConnection result = gitClient.createConn(TEST_URL, TEST_URL);
+        HttpsURLConnection result = gitClient.createConn(TEST_URL, TEST_URL, HttpMethod.GET.name());
 
         // then
         verify(urlUtilsMock).isValidURL(TEST_URL);

@@ -7,9 +7,9 @@ import java.util.List;
 
 public interface Client {
 
-    <T> List<T> callGitHubApi(String apiUri, String uri, Class<T> type);
+    <T> List<T> callGitHubApi(String apiUri, String uri, Class<T> type, String httpMethod);
 
-    HttpsURLConnection createConn(String url, String baseUrl) throws IOException;
+    HttpsURLConnection createConn(String url, String baseUrl, String httpMethod) throws IOException;
 
     InputStream readInputStream(HttpsURLConnection conn) throws IOException;
 
