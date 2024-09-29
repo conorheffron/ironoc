@@ -19,6 +19,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Component
@@ -44,12 +45,16 @@ public class GitClient extends AbstractLogger implements Client {
     }
 
     @Override
-    public <T> List<T> callGitHubApi(String username, String apiUri, String uri, Class<T> type) {
+    public <T> List<T> callGitHubApi(String apiUri, String uri, Class<T> type) {
         info("Triggering GET request: url={}", apiUri);
         List<T> dtos = new ArrayList<>();
         InputStream inputStream = null;
         try {
             HttpsURLConnection conn = this.createConn(apiUri, uri);
+            if (conn == null) {
+                error("Failed to created connection");
+                return Collections.emptyList();
+            }
             inputStream = this.readInputStream(conn);
             String jsonResponse = convertInputStreamToString(inputStream);
             CollectionType listType = objectMapper.getTypeFactory()

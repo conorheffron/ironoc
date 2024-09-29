@@ -2,6 +2,7 @@ package com.ironoc.portfolio.client;
 
 import com.ironoc.portfolio.aws.SecretManager;
 import com.ironoc.portfolio.config.PropertyConfigI;
+import com.ironoc.portfolio.dto.RepositoryDetailDto;
 import com.ironoc.portfolio.utils.UrlUtils;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -12,11 +13,13 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import javax.net.ssl.HttpsURLConnection;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Collection;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
 import static org.hamcrest.Matchers.notNullValue;
+import static org.hamcrest.Matchers.emptyIterable;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -43,6 +46,16 @@ public class GitClientTest {
     private InputStream inputStreamMock;
 
     private static final String TEST_URL = "https://unittest.github.com/users/conorheffron/repos";
+
+    @Test
+    public void test_callGitHubApi_fail() {
+        // when
+        Collection<RepositoryDetailDto> result = gitClient
+                .callGitHubApi(TEST_URL, TEST_URL, RepositoryDetailDto.class);
+
+        // then
+        assertThat(result, is(emptyIterable()));
+    }
 
     @Test
     public void test_readInputStream_fail() throws IOException {

@@ -61,7 +61,7 @@ public class GitDetailsService extends AbstractLogger implements GitDetails {
             warn("URL is not valid: url={}", apiUri);
             return Collections.emptyList();
         }
-        return gitClient.callGitHubApi(username, apiUri, uri, RepositoryDetailDto.class);
+        return gitClient.callGitHubApi(apiUri, uri, RepositoryDetailDto.class);
     }
 
     @Override
@@ -107,7 +107,7 @@ public class GitDetailsService extends AbstractLogger implements GitDetails {
             warn("URL is not valid: url={}", apiUri);
             return Collections.emptyList();
         }
-        return gitClient.callGitHubApi(userId, apiUri, uri, RepositoryIssueDto.class);
+        return gitClient.callGitHubApi(apiUri, uri, RepositoryIssueDto.class);
     }
 
     @Override
