@@ -67,26 +67,21 @@ public class GitProjectsController extends AbstractLogger {
 	private ResponseEntity<List<RepositoryIssueDomain>> getIssuesByUsernameAndRepo(HttpServletRequest request,
 																			 String username,
 																			 String repository) {
-		// username validation (must contain only letters, numbers and/or dash chars)
+		// user & repo name validation (must contain only letters, numbers and/or dash chars)
 		String userId = "";
-		if (StringUtils.isBlank(username)) {
+		String repo = "";
+		if (!StringUtils.isNoneBlank(username, repository)) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Collections.emptyList());
 		} else if (!StringUtils.isAlphanumericSpace(sanitizeValue(username)
 				.replaceAll("-", " "))) {
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Collections.emptyList());
-		} else {
-			userId = sanitizeValue(username);
-		}
-
-		// repository name validation (must contain only letters, numbers and/or dash chars)
-		String repo = "";
-		if (StringUtils.isBlank(repository)) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Collections.emptyList());
 		} else if (!StringUtils.isAlphanumericSpace(sanitizeValue(repository)
 				.replaceAll("-", " "))) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Collections.emptyList());
 		} else {
-			repo = sanitizeValue(repository);
+			List<String> pathVars = sanitizeValues(username, repository);
+			userId = pathVars.get(0);
+			repo = pathVars.get(1);
 		}
 		info("Github list issues by username={} and repo={} for request, host={}, uri={}, user-agent={}",
 				userId, repo,
@@ -121,6 +116,13 @@ public class GitProjectsController extends AbstractLogger {
 		info("The repository details for user={} are: {}", userId, repositories);
 		return ResponseEntity.status(HttpStatus.OK)
 				.body(gitDetailsService.mapRepositoriesToResponse(repositories));
+	}
+
+	private List<String> sanitizeValues(String... values) {
+		// trim leading and trailing whitespace
+		String sanitizedValueUserId = sanitizeValue(values[0]);
+		String sanitizedValueRepo = sanitizeValue(values[1]);
+		return List.of(sanitizedValueUserId, sanitizedValueRepo);
 	}
 
 	private String sanitizeValue(String value) {
