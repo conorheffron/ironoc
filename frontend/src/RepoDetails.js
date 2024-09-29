@@ -42,7 +42,7 @@ class RepoDetails extends Component {
         });
         return (
                 <div>
-                    <AppNavbar/>
+                    <AppNavbar/><br /><br />
                     <Container fluid>
                         <br />
                         <div className="float-right">
