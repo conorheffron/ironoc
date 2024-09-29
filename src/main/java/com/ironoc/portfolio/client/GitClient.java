@@ -8,6 +8,7 @@ import com.ironoc.portfolio.logger.AbstractLogger;
 import com.ironoc.portfolio.utils.UrlUtils;
 import io.micrometer.common.util.StringUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.IOUtils;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 
@@ -51,9 +52,10 @@ public class GitClient extends AbstractLogger implements Client {
             HttpsURLConnection conn = this.createConn(apiUri, uri);
             inputStream = this.readInputStream(conn);
             String jsonResponse = convertInputStreamToString(inputStream);
-            CollectionType listType = objectMapper.getTypeFactory().constructCollectionType(ArrayList.class, type);
+            CollectionType listType = objectMapper.getTypeFactory()
+                    .constructCollectionType(ArrayList.class, type);
             dtos = objectMapper.readValue(jsonResponse, listType);
-            debug("dtos={}", dtos);
+            debug("List.of(DTO)={}", dtos);
         } catch(Exception ex) {
             error("Unexpected error occurred while retrieving data.", ex);
         } finally {
@@ -104,14 +106,10 @@ public class GitClient extends AbstractLogger implements Client {
         inputStream.close();
     }
 
-    private String convertInputStreamToString(InputStream inputStream) throws IOException {
+    private String convertInputStreamToString(InputStream inputStream) throws Exception {
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-        StringBuilder stringBuilder = new StringBuilder();
-        String line;
-        while ((line = bufferedReader.readLine()) != null) {
-            stringBuilder.append(line).append("\n");
-        }
+        String json = IOUtils.toString(bufferedReader);
         bufferedReader.close();
-        return stringBuilder.toString();
+        return json;
     }
 }
