@@ -24,7 +24,7 @@ export default function AppNavBar() {
                 API Options
               </DropdownToggle>
               <DropdownMenu end>
-                <DropdownItem href="/get-repo-detail?username=conorheffron">Projects JSON</DropdownItem>
+                <DropdownItem target="_blank" href="/get-repo-detail?username=conorheffron">Projects JSON</DropdownItem>
                 <DropdownItem>Issues JSON</DropdownItem>
                 <DropdownItem divider />
                 <DropdownItem href="/">Reset</DropdownItem>
