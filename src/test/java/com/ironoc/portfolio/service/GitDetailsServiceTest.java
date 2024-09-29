@@ -85,10 +85,10 @@ public class GitDetailsServiceTest {
                 .isPrivate(false)
                 .build();
 
-        when(propertyConfigMock.getGitApiEndpoint())
+        when(propertyConfigMock.getGitApiEndpointRepos())
                 .thenReturn(TEST_URI);
         when(urlUtilsMock.isValidURL(anyString())).thenReturn(true);
-        when(gitClient.createConn(anyString())).thenReturn(httpsURLConnectionMock);
+        when(gitClient.createConn(anyString(), anyString())).thenReturn(httpsURLConnectionMock);
         when(gitClient.readInputStream(httpsURLConnectionMock)).thenReturn(jsonInputStream);
         when(objectMapperMock.readValue(jsonInputStream, RepositoryDetailDto[].class))
                 .thenReturn(objectMapper.readValue(jsonInputStream, RepositoryDetailDto[].class));
@@ -97,10 +97,9 @@ public class GitDetailsServiceTest {
         List<RepositoryDetailDto> results = gitDetailsService.getRepoDetails(testUserId);
 
         // then
-        verify(propertyConfigMock).getGitApiEndpoint();
+        verify(propertyConfigMock).getGitApiEndpointRepos();
         verify(urlUtilsMock).isValidURL(anyString());
-        verify(propertyConfigMock).getGitApiEndpoint();
-        verify(gitClient).createConn(anyString());
+        verify(gitClient).createConn(anyString(), anyString());
         verify(gitClient).readInputStream(any(HttpsURLConnection.class));
         verify(objectMapperMock).readValue(any(InputStream.class), any(Class.class));
         verify(gitClient).closeConn(any(InputStream.class));
@@ -139,9 +138,9 @@ public class GitDetailsServiceTest {
                 .isPrivate(false)
                 .build();
 
-        when(propertyConfigMock.getGitApiEndpoint()).thenReturn(TEST_URI);
+        when(propertyConfigMock.getGitApiEndpointRepos()).thenReturn(TEST_URI);
         when(urlUtilsMock.isValidURL(anyString())).thenReturn(true);
-        when(gitClient.createConn(anyString())).thenReturn(httpsURLConnectionMock);
+        when(gitClient.createConn(anyString(), anyString())).thenReturn(httpsURLConnectionMock);
         when(gitClient.readInputStream(httpsURLConnectionMock)).thenReturn(jsonInputStream);
         when(objectMapperMock.readValue(jsonInputStream, RepositoryDetailDto[].class))
                 .thenReturn(objectMapper.readValue(jsonInputStream, RepositoryDetailDto[].class));
@@ -150,14 +149,13 @@ public class GitDetailsServiceTest {
         List<RepositoryDetailDto> results = gitDetailsService.getRepoDetails(testUserId);
 
         // then
-        verify(propertyConfigMock).getGitApiEndpoint();
+        verify(propertyConfigMock).getGitApiEndpointRepos();
         verify(urlUtilsMock).isValidURL(anyString());
-        verify(propertyConfigMock).getGitApiEndpoint();
-        verify(gitClient).createConn(anyString());
+        verify(gitClient).createConn(anyString(), anyString());
         verify(gitClient).readInputStream(any(HttpsURLConnection.class));
         verify(objectMapperMock).readValue(any(InputStream.class), any(Class.class));
         verify(gitClient).closeConn(any(InputStream.class));
-        ;
+
         assertThat(results, is(hasSize(1)));
         Optional<RepositoryDetailDto> result = results.stream().findFirst();
         assertThat(result.get().getName(), is(expected.getName()));
@@ -188,13 +186,13 @@ public class GitDetailsServiceTest {
     public void test_getRepoDetails_url_invalid_fail() {
         // given
         String testUserId = "conorheffron-test-id";
-        when(propertyConfigMock.getGitApiEndpoint()).thenReturn(TEST_URI);
+        when(propertyConfigMock.getGitApiEndpointRepos()).thenReturn(TEST_URI);
 
         // when
         List<RepositoryDetailDto> results = gitDetailsService.getRepoDetails(testUserId);
 
         // then
-        verify(propertyConfigMock).getGitApiEndpoint();
+        verify(propertyConfigMock).getGitApiEndpointRepos();
 
         assertThat(results, is(notNullValue()));
         assertThat(results, is(hasSize(0)));

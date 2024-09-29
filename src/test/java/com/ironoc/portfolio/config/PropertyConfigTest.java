@@ -27,17 +27,17 @@ public class PropertyConfigTest {
     private static final String TEST_PROP_VAL = "test_val";
 
     @Test
-    public void test_getGitApiEndpoint_success() {
+    public void test_getGitApiEndpoint_Repos_success() {
         // given
-        when(propertyKeyMock.getGitApiEndpoint()).thenReturn(Properties.GIT_API_ENDPOINT.getKey());
-        when(environmentMock.getRequiredProperty(Properties.GIT_API_ENDPOINT.getKey())).thenReturn(TEST_PROP_VAL);
+        when(propertyKeyMock.getGitApiEndpointRepos()).thenReturn(Properties.GIT_API_ENDPOINT_REPOS.getKey());
+        when(environmentMock.getRequiredProperty(Properties.GIT_API_ENDPOINT_REPOS.getKey())).thenReturn(TEST_PROP_VAL);
 
         // when
-        String result = propertyConfig.getGitApiEndpoint();
+        String result = propertyConfig.getGitApiEndpointRepos();
 
         // then
-        verify(propertyKeyMock).getGitApiEndpoint();
-        verify(environmentMock).getRequiredProperty(Properties.GIT_API_ENDPOINT.getKey());
+        verify(propertyKeyMock).getGitApiEndpointRepos();
+        verify(environmentMock).getRequiredProperty(Properties.GIT_API_ENDPOINT_REPOS.getKey());
 
         assertThat(result, is(TEST_PROP_VAL));
     }

@@ -17,6 +17,9 @@ export default function AppNavBar() {
               <NavLink href="/projects">GitHub Projects</NavLink>
             </NavItem>
             <NavItem>
+              <NavLink href="/issues/ironoc">iRonoc Issues</NavLink>
+            </NavItem>
+            <NavItem>
               <NavLink target="_blank" href="/swagger-ui-ironoc.html">iRonoc API</NavLink>
             </NavItem>
             <UncontrolledDropdown inNavbar nav>
@@ -25,7 +28,7 @@ export default function AppNavBar() {
               </DropdownToggle>
               <DropdownMenu end>
                 <DropdownItem target="_blank" href="/get-repo-detail?username=conorheffron">Projects JSON</DropdownItem>
-                <DropdownItem>Issues JSON</DropdownItem>
+                <DropdownItem target="_blank" href="/get-repo-issue/conorheffron/ironoc/">Issues JSON (iRonoc)</DropdownItem>
                 <DropdownItem divider />
                 <DropdownItem href="/">Reset</DropdownItem>
               </DropdownMenu>

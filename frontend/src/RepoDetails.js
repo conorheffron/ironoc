@@ -13,7 +13,6 @@ class RepoDetails extends Component {
 
     async componentDidMount() {
         const response = await fetch('/get-repo-detail?username=conorheffron');
-        console.log('whasup')
         console.log(response)
         const body = await response.json();
         this.setState({repoDetailList: body, isLoading: false});
@@ -34,8 +33,7 @@ class RepoDetails extends Component {
                 <td>{repo.topics}</td>
                 <td>
                     <ButtonGroup>
-                        <Button size="sm" color="secondary" tag={Link} to={"/list-issues?" + repo.name}>List Issues</Button>
-                        <Button size="sm" color="primary" tag={Link} to={"/add-issue"}>Add Issue</Button>
+                        <Button size="sm" color="secondary" tag={Link} to={"/issues/" + repo.name}>List Issues</Button>
                     </ButtonGroup>
                 </td>
             </tr>

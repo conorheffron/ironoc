@@ -2,7 +2,7 @@ package com.ironoc.portfolio.config;
 
 public interface PropertyKeyI {
 
-    String getGitApiEndpoint();
+    String getGitApiEndpointRepos();
 
     String getGitTimeoutConnect();
 
@@ -11,4 +11,6 @@ public interface PropertyKeyI {
     String getGitInstanceFollowRedirects();
 
     String getGitFollowRedirects();
+
+    String getGitApiEndpointIssues();
 }

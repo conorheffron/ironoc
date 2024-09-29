@@ -79,15 +79,13 @@ public class GitClientTest {
     @Test
     public void test_createConn_without_token_success() throws IOException {
         // given
-        when(propertyConfigMock.getGitApiEndpoint()).thenReturn(TEST_URL);
         when(urlUtilsMock.isValidURL(TEST_URL)).thenReturn(true);
 
         // when
-        HttpsURLConnection result = gitClient.createConn(TEST_URL);
+        HttpsURLConnection result = gitClient.createConn(TEST_URL, TEST_URL);
 
         // then
         verify(urlUtilsMock).isValidURL(TEST_URL);
-        verify(propertyConfigMock).getGitApiEndpoint();
         verify(propertyConfigMock).getGitFollowRedirects();
         verify(propertyConfigMock).getGitTimeoutConnect();
         verify(propertyConfigMock).getGitTimeoutRead();
@@ -100,16 +98,14 @@ public class GitClientTest {
     @Test
     public void test_createConn_with_token_success() throws IOException {
         // given
-        when(propertyConfigMock.getGitApiEndpoint()).thenReturn(TEST_URL);
         when(urlUtilsMock.isValidURL(TEST_URL)).thenReturn(true);
         when(secretManagerMock.getGitSecret()).thenReturn("test_fake_token");
 
         // when
-        HttpsURLConnection result = gitClient.createConn(TEST_URL);
+        HttpsURLConnection result = gitClient.createConn(TEST_URL, TEST_URL);
 
         // then
         verify(urlUtilsMock).isValidURL(TEST_URL);
-        verify(propertyConfigMock).getGitApiEndpoint();
         verify(propertyConfigMock).getGitFollowRedirects();
         verify(propertyConfigMock).getGitTimeoutConnect();
         verify(propertyConfigMock).getGitTimeoutRead();
@@ -122,15 +118,13 @@ public class GitClientTest {
     @Test
     public void test_createConn_invalid_url_fail() throws IOException {
         // given
-        when(propertyConfigMock.getGitApiEndpoint()).thenReturn(TEST_URL);
         when(urlUtilsMock.isValidURL(TEST_URL)).thenReturn(false);
 
         // when
-        HttpsURLConnection result = gitClient.createConn(TEST_URL);
+        HttpsURLConnection result = gitClient.createConn(TEST_URL, TEST_URL);
 
         // then
         verify(urlUtilsMock).isValidURL(TEST_URL);
-        verify(propertyConfigMock).getGitApiEndpoint();
         verify(propertyConfigMock, never()).getGitFollowRedirects();
         verify(propertyConfigMock, never()).getGitTimeoutConnect();
         verify(propertyConfigMock, never()).getGitTimeoutRead();

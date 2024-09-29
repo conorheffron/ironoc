@@ -27,8 +27,8 @@ public class GitDetailsRunnable implements Runnable {
     @Override
     public void run() {
         for (String userId : userIds) {
-            List<RepositoryDetailDto> repoDetails = gitDetails.getRepoDetails(userId);
-            gitRepoCache.put(userId, repoDetails);
+            List<RepositoryDetailDto> dtos = gitDetails.getRepoDetails(userId);
+            gitRepoCache.put(userId, gitDetails.mapRepositoriesToResponse(dtos));
         }
     }
 

@@ -16,8 +16,13 @@ public class PropertyConfig implements PropertyConfigI {
     }
 
     @Override
-    public String getGitApiEndpoint() {
-        return environment.getRequiredProperty(propertyKey.getGitApiEndpoint());
+    public String getGitApiEndpointRepos() {
+        return environment.getRequiredProperty(propertyKey.getGitApiEndpointRepos());
+    }
+
+    @Override
+    public String getGitApiEndpointIssues() {
+        return environment.getRequiredProperty(propertyKey.getGitApiEndpointIssues());
     }
 
     @Override

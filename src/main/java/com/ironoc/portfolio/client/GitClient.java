@@ -7,7 +7,6 @@ import io.micrometer.common.util.StringUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
-import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.net.ssl.HttpsURLConnection;
 import java.io.IOException;
@@ -33,8 +32,7 @@ public class GitClient implements Client {
     }
 
     @Override
-    public HttpsURLConnection createConn(String url) throws IOException {
-        String baseUrl = propertyConfig.getGitApiEndpoint();
+    public HttpsURLConnection createConn(String url, String baseUrl) throws IOException {
         URL urlBase = new URL(baseUrl);
         String base = urlBase.getProtocol() + "://" + urlBase.getHost();
         if (!urlUtils.isValidURL(url) || !url.startsWith(base)) {

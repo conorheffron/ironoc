@@ -6,7 +6,7 @@ import java.io.InputStream;
 
 public interface Client {
 
-    HttpsURLConnection createConn(String url) throws IOException;
+    HttpsURLConnection createConn(String url, String baseUrl) throws IOException;
 
     InputStream readInputStream(HttpsURLConnection conn) throws IOException;
 

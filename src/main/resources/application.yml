@@ -8,7 +8,9 @@ com:
         instance-follow-redirects: true
         follow-redirects: true
         api:
-          endpoint: https://api.github.com/users/{username}/repos
+          endpoint:
+            repos: https://api.github.com/users/{username}/repos
+            issues: https://api.github.com/repos/{username}/{repo}/issues
 
 spring:
   mvc:

@@ -6,8 +6,13 @@ import org.springframework.stereotype.Component;
 public class PropertyKey implements PropertyKeyI {
 
     @Override
-    public String getGitApiEndpoint() {
-        return Properties.GIT_API_ENDPOINT.getKey();
+    public String getGitApiEndpointRepos() {
+        return Properties.GIT_API_ENDPOINT_REPOS.getKey();
+    }
+
+    @Override
+    public String getGitApiEndpointIssues() {
+        return Properties.GIT_API_ENDPOINT_ISSUES.getKey();
     }
 
     @Override
