@@ -23,7 +23,7 @@ class Home extends Component {
         <div className="App">
           <AppNavbar/>
           <header className="App-header">
-            <img src={logo} />
+            <img src={logo} className="App-logo" alt="logo"/>
           </header>
         </div>
     );
