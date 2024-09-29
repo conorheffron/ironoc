@@ -1,7 +1,6 @@
 package com.ironoc.portfolio.service;
 
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ironoc.portfolio.client.Client;
 import com.ironoc.portfolio.config.PropertyConfigI;
 import com.ironoc.portfolio.domain.RepositoryDetailDomain;
@@ -16,10 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import javax.net.ssl.HttpsURLConnection;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -30,8 +25,6 @@ public class GitDetailsService extends AbstractLogger implements GitDetails {
 
     private final PropertyConfigI propertyConfig;
 
-    private final ObjectMapper objectMapper;
-
     private final Client gitClient;
 
     private final GitRepoCache gitRepoCache;
@@ -40,12 +33,10 @@ public class GitDetailsService extends AbstractLogger implements GitDetails {
 
     @Autowired
     public GitDetailsService(PropertyConfigI propertyConfig,
-                             ObjectMapper objectMapper,
                              Client gitClient,
                              GitRepoCache gitRepoCache,
                              UrlUtils urlUtils) {
         this.propertyConfig = propertyConfig;
-        this.objectMapper = objectMapper;
         this.gitClient = gitClient;
         this.urlUtils = urlUtils;
         this.gitRepoCache = gitRepoCache;
@@ -70,29 +61,7 @@ public class GitDetailsService extends AbstractLogger implements GitDetails {
             warn("URL is not valid: url={}", apiUri);
             return Collections.emptyList();
         }
-        info("Triggering repositories GET request: url={}", apiUri);
-        List<RepositoryDetailDto> repositoryDetailDtos = new ArrayList<>();
-        InputStream inputStream = null;
-        try {
-            HttpsURLConnection conn = gitClient.createConn(apiUri, uri);
-            inputStream = gitClient.readInputStream(conn);
-            repositoryDetailDtos = Arrays.asList(objectMapper.readValue(inputStream,
-                    RepositoryDetailDto[].class));
-            debug("repositoryDetailDtos={}", repositoryDetailDtos);
-        } catch(IOException ex) {
-            error("Unexpected error occurred while retrieving repo details for user=" + username, ex);
-        } finally {
-            try {
-                if (inputStream != null) {
-                    gitClient.closeConn(inputStream);
-                } else {
-                    warn("Input stream already closed.");
-                }
-            } catch (IOException ex) {
-                error("Unexpected error occurred while closing input stream.", ex);
-            }
-        }
-        return repositoryDetailDtos;
+        return gitClient.callGitHubApi(username, apiUri, uri, RepositoryDetailDto.class);
     }
 
     @Override
@@ -138,29 +107,7 @@ public class GitDetailsService extends AbstractLogger implements GitDetails {
             warn("URL is not valid: url={}", apiUri);
             return Collections.emptyList();
         }
-        info("Triggering issues GET request: url={}", apiUri);
-        List<RepositoryIssueDto> repositoryIssueDtos = new ArrayList<>();
-        InputStream inputStream = null;
-        try {
-            HttpsURLConnection conn = gitClient.createConn(apiUri, uri);
-            inputStream = gitClient.readInputStream(conn);
-            repositoryIssueDtos = Arrays.asList(objectMapper.readValue(inputStream,
-                    RepositoryIssueDto[].class));
-            debug("repositoryIssueDtos={}", repositoryIssueDtos);
-        } catch(IOException ex) {
-            error("Unexpected error occurred while retrieving data.", ex);
-        } finally {
-            try {
-                if (inputStream != null) {
-                    gitClient.closeConn(inputStream);
-                } else {
-                    warn("Input stream already closed.");
-                }
-            } catch (IOException ex) {
-                error("Unexpected error occurred while closing input stream.", ex);
-            }
-        }
-        return repositoryIssueDtos;
+        return gitClient.callGitHubApi(userId, apiUri, uri, RepositoryIssueDto.class);
     }
 
     @Override

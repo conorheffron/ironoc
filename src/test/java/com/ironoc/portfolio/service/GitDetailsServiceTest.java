@@ -1,6 +1,7 @@
 package com.ironoc.portfolio.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.type.CollectionType;
 import com.ironoc.portfolio.client.Client;
 import com.ironoc.portfolio.config.PropertyConfigI;
 import com.ironoc.portfolio.domain.RepositoryDetailDomain;
@@ -13,11 +14,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import javax.net.ssl.HttpsURLConnection;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -44,13 +45,7 @@ public class GitDetailsServiceTest {
     private PropertyConfigI propertyConfigMock;
 
     @Mock
-    private ObjectMapper objectMapperMock;
-
-    @Mock
-    private Client gitClient;
-
-    @Mock
-    private HttpsURLConnection httpsURLConnectionMock;
+    private Client gitClientMock;
 
     @Mock
     private UrlUtils urlUtilsMock;
@@ -88,10 +83,12 @@ public class GitDetailsServiceTest {
         when(propertyConfigMock.getGitApiEndpointRepos())
                 .thenReturn(TEST_URI);
         when(urlUtilsMock.isValidURL(anyString())).thenReturn(true);
-        when(gitClient.createConn(anyString(), anyString())).thenReturn(httpsURLConnectionMock);
-        when(gitClient.readInputStream(httpsURLConnectionMock)).thenReturn(jsonInputStream);
-        when(objectMapperMock.readValue(jsonInputStream, RepositoryDetailDto[].class))
-                .thenReturn(objectMapper.readValue(jsonInputStream, RepositoryDetailDto[].class));
+        when(propertyConfigMock.getGitApiEndpointRepos()).thenReturn(TEST_URI);
+        when(urlUtilsMock.isValidURL(anyString())).thenReturn(true);
+        CollectionType listType = objectMapper.getTypeFactory()
+                .constructCollectionType(ArrayList.class, RepositoryDetailDto.class);
+        when(gitClientMock.callGitHubApi(anyString(), anyString(), anyString(),  any()))
+                .thenReturn(objectMapper.readValue(jsonInputStream, listType));
 
         // when
         List<RepositoryDetailDto> results = gitDetailsService.getRepoDetails(testUserId);
@@ -99,11 +96,8 @@ public class GitDetailsServiceTest {
         // then
         verify(propertyConfigMock).getGitApiEndpointRepos();
         verify(urlUtilsMock).isValidURL(anyString());
-        verify(gitClient).createConn(anyString(), anyString());
-        verify(gitClient).readInputStream(any(HttpsURLConnection.class));
-        verify(objectMapperMock).readValue(any(InputStream.class), any(Class.class));
-        verify(gitClient).closeConn(any(InputStream.class));
-;
+        verify(gitClientMock).callGitHubApi(anyString(), anyString(), anyString(),  any());
+
         assertThat(results, is(hasSize(2)));
         Optional<RepositoryDetailDto> result = results.stream().findFirst();
         assertThat(result.get().getName(), is(expected.getName()));
@@ -140,10 +134,10 @@ public class GitDetailsServiceTest {
 
         when(propertyConfigMock.getGitApiEndpointRepos()).thenReturn(TEST_URI);
         when(urlUtilsMock.isValidURL(anyString())).thenReturn(true);
-        when(gitClient.createConn(anyString(), anyString())).thenReturn(httpsURLConnectionMock);
-        when(gitClient.readInputStream(httpsURLConnectionMock)).thenReturn(jsonInputStream);
-        when(objectMapperMock.readValue(jsonInputStream, RepositoryDetailDto[].class))
-                .thenReturn(objectMapper.readValue(jsonInputStream, RepositoryDetailDto[].class));
+        CollectionType listType = objectMapper.getTypeFactory()
+                .constructCollectionType(ArrayList.class, RepositoryDetailDto.class);
+        when(gitClientMock.callGitHubApi(anyString(), anyString(), anyString(),  any()))
+                .thenReturn(objectMapper.readValue(jsonInputStream, listType));
 
         // when
         List<RepositoryDetailDto> results = gitDetailsService.getRepoDetails(testUserId);
@@ -151,10 +145,7 @@ public class GitDetailsServiceTest {
         // then
         verify(propertyConfigMock).getGitApiEndpointRepos();
         verify(urlUtilsMock).isValidURL(anyString());
-        verify(gitClient).createConn(anyString(), anyString());
-        verify(gitClient).readInputStream(any(HttpsURLConnection.class));
-        verify(objectMapperMock).readValue(any(InputStream.class), any(Class.class));
-        verify(gitClient).closeConn(any(InputStream.class));
+        verify(gitClientMock).callGitHubApi(anyString(), anyString(), anyString(),  any());
 
         assertThat(results, is(hasSize(1)));
         Optional<RepositoryDetailDto> result = results.stream().findFirst();

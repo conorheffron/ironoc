@@ -78,7 +78,7 @@ public class GitProjectsController extends AbstractLogger {
 			userId = sanitizeValue(username);
 		}
 
-		// username validation (must contain only letters, numbers and/or dash chars)
+		// repository name validation (must contain only letters, numbers and/or dash chars)
 		String repo = "";
 		if (StringUtils.isBlank(repository)) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Collections.emptyList());
