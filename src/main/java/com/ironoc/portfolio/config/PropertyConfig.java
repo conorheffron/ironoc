@@ -26,6 +26,11 @@ public class PropertyConfig implements PropertyConfigI {
     }
 
     @Override
+    public String getGitApiEndpointCreateIssue() {
+        return environment.getRequiredProperty(propertyKey.getGitApiEndpointCreateIssue());
+    }
+
+    @Override
     public Integer getGitTimeoutConnect() {
         return Integer.valueOf(environment.getRequiredProperty(propertyKey.getGitTimeoutConnect()));
     }

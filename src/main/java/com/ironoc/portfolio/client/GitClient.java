@@ -9,14 +9,10 @@ import com.ironoc.portfolio.utils.UrlUtils;
 import io.micrometer.common.util.StringUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
-import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 
 import javax.net.ssl.HttpsURLConnection;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -46,7 +42,7 @@ public class GitClient extends AbstractLogger implements Client {
 
     @Override
     public <T> List<T> callGitHubApi(String apiUri, String uri, Class<T> type, String httpMethod) {
-        info("Triggering GET request: url={}", apiUri);
+        info("Triggering {} request: url={}", httpMethod, apiUri);
         List<T> dtos = new ArrayList<>();
         InputStream inputStream = null;
         try {
@@ -75,6 +71,50 @@ public class GitClient extends AbstractLogger implements Client {
             }
         }
         return dtos;
+    }
+
+    @Override
+    public void postGitHubApi(String apiUri, String uri, String httpMethod, String jsonBody) throws Exception {
+        info("Triggering {} request: url={}", httpMethod, apiUri);
+        URL urlBase = new URL(uri);
+        String base = urlBase.getProtocol() + "://" + urlBase.getHost();
+        if (!urlUtils.isValidURL(apiUri) || !apiUri.startsWith(base)) {
+            log.error("The url is not valid for GIT client connection, url={}", apiUri);
+            return;
+        }
+        URL apiUrlEndpoint = new URL(apiUri);
+        HttpsURLConnection conn = (HttpsURLConnection) apiUrlEndpoint.openConnection();
+        String token = secretManager.getGitSecret();
+        if (StringUtils.isBlank(token)) {
+            log.warn("GIT token not set, the lower request rate will apply");
+        } else {
+            // TODO generate token
+            conn.setRequestProperty("Authorization", "Bearer " + token);
+            conn.setRequestProperty("Accept", "application/vnd.github.raw+json");
+            conn.setRequestProperty("X-GitHub-Api-Version", "2022-11-28");
+        }
+        conn.setRequestMethod(httpMethod);
+        conn.setFollowRedirects(propertyConfig.getGitFollowRedirects());
+        conn.setConnectTimeout(propertyConfig.getGitTimeoutConnect());
+        conn.setReadTimeout(propertyConfig.getGitTimeoutRead());
+        conn.setInstanceFollowRedirects(propertyConfig.getGitInstanceFollowRedirects());
+
+//        conn.setDoInput(true);
+        conn.setDoOutput(true);
+//        conn.setRequestProperty("Accept", "application/json");
+//        conn.setRequestProperty("Content-Type", "application/json");
+        OutputStream os = conn.getOutputStream();
+        os.write(jsonBody.getBytes());
+        os.flush();
+
+//        InputStream inputStream = this.readInputStream(conn);
+
+        info("code={}, message={}", conn.getResponseCode(), conn.getResponseMessage());
+
+        InputStream errorStream = conn.getErrorStream();
+        String jsonResponse = this.convertInputStreamToString(errorStream);
+        info(jsonResponse);
+        this.closeConn(errorStream);
     }
 
     @Override

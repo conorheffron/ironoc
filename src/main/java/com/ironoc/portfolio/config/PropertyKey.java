@@ -16,6 +16,11 @@ public class PropertyKey implements PropertyKeyI {
     }
 
     @Override
+    public String getGitApiEndpointCreateIssue() {
+        return Properties.GIT_API_ENDPOINT_CREATE_ISSUE.getKey();
+    }
+
+    @Override
     public String getGitTimeoutConnect() {
         return Properties.GIT_TIMEOUT_CONNECT.getKey();
     }

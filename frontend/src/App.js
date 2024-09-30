@@ -5,6 +5,7 @@ import About from './About';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import RepoDetails from './RepoDetails';
 import RepoIssues from './RepoIssues';
+import CreateIssue from './CreateIssue';
 
 class App extends Component {
   render() {
@@ -16,6 +17,7 @@ class App extends Component {
             <Route path='/projects' exact={true} component={RepoDetails}/>
             <Route path='/issues' exact={true} component={RepoIssues}/>
             <Route path='/issues/:repo' component={RepoIssues}/>
+            <Route path='/create-issue/:repo' component={CreateIssue}/>
             <Route path="*" component={Home} />
           </Switch>
         </Router>

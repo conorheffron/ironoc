@@ -11,6 +11,7 @@ com:
           endpoint:
             repos: https://api.github.com/users/{username}/repos
             issues: https://api.github.com/repos/{username}/{repo}/issues
+            create-issue: https://api.github.com/repos/{username}/{repo}/issues
 
 spring:
   mvc:

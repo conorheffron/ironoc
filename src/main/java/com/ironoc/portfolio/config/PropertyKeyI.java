@@ -13,4 +13,6 @@ public interface PropertyKeyI {
     String getGitFollowRedirects();
 
     String getGitApiEndpointIssues();
+
+    String getGitApiEndpointCreateIssue();
 }

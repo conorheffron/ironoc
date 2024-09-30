@@ -1,10 +1,14 @@
 package com.ironoc.portfolio.service;
 
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
 import com.ironoc.portfolio.client.Client;
 import com.ironoc.portfolio.config.PropertyConfigI;
+import com.ironoc.portfolio.domain.CreateIssueDomain;
 import com.ironoc.portfolio.domain.RepositoryDetailDomain;
 import com.ironoc.portfolio.domain.RepositoryIssueDomain;
+import com.ironoc.portfolio.dto.CreateIssueDto;
 import com.ironoc.portfolio.dto.RepositoryDetailDto;
 import com.ironoc.portfolio.dto.RepositoryIssueDto;
 import com.ironoc.portfolio.job.GitDetailsJob;
@@ -16,9 +20,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -98,7 +100,7 @@ public class GitDetailsService extends AbstractLogger implements GitDetails {
 
     @Override
     public List<RepositoryIssueDto> getIssues(String userId, String repo) {
-        // further end-point validation (contains User ID)
+        // further end-point validation (contains User ID & repository)
         String uri = propertyConfig.getGitApiEndpointIssues();
         String apiUri = UriComponentsBuilder.fromHttpUrl(uri)
                 .buildAndExpand(userId, repo)
@@ -109,6 +111,41 @@ public class GitDetailsService extends AbstractLogger implements GitDetails {
             return Collections.emptyList();
         }
         return gitClient.callGitHubApi(apiUri, uri, RepositoryIssueDto.class, HttpMethod.GET.name());
+    }
+
+    @Override
+    public void createIssue(String userId, String repo, CreateIssueDomain createIssue) {
+        // further end-point validation (contains User ID & repository)
+        String uri = propertyConfig.getGitApiEndpointCreateIssue();
+        String apiUri = UriComponentsBuilder.fromHttpUrl(uri)
+                .buildAndExpand(userId, repo)
+                .toUriString();
+        if (StringUtils.isBlank(apiUri) | StringUtils.isBlank(apiUri)
+                | !urlUtils.isValidURL(apiUri)) {
+            warn("URL is not valid: url={}", apiUri);
+            return;
+        }
+
+        try {
+//            '{"title":"Found a bug","body":"I'\''m having a problem with this.","assignees":["octocat"],"milestone":1,"labels":["bug"]}'
+            Map<String, String> headers = new HashMap<String, String>();
+            headers.put("X-GitHub-Api-Version", "2022-11-28");
+            CreateIssueDto createIssueDto = CreateIssueDto.builder()
+                    .owner(userId)
+                    .repo(repo)
+//                    .assignees(Arrays.asList(createIssue.getAssignee()))
+//                    .labels(Arrays.asList("bug"))
+//                    .milestone(1)
+                    .title(createIssue.getTitle())
+                    .body(createIssue.getBody())
+                    .headers(headers)
+                    .build();
+            ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
+            String json = ow.writeValueAsString(createIssueDto);
+            gitClient.postGitHubApi(apiUri, uri, HttpMethod.POST.name(), json);
+        }  catch (Exception ex) {
+            error("Unexpected error occurred creating GIT issue", ex);
+        }
     }
 
     @Override

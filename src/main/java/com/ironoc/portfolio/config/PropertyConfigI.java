@@ -13,4 +13,6 @@ public interface PropertyConfigI {
     Boolean getGitFollowRedirects();
 
     String getGitApiEndpointIssues();
+
+    String getGitApiEndpointCreateIssue();
 }

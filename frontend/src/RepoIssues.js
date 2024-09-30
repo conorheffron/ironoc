@@ -33,13 +33,15 @@ class RepoIssues extends Component {
                 <td>{issue.body}</td>
             </tr>
         });
+
+        const repo = this.props.match.params.repo;
         return (
                 <div>
                     <AppNavbar/><br /><br />
                     <Container fluid>
                         <br />
                         <div className="float-right">
-                            <Button color="success" tag={Link} to="/create-issue">Create Issue</Button>
+                            <Button color="success" tag={Link} to={`/create-issue/${this.props.match.params.repo}`} >Create Issue</Button>
                         </div>
                         <br />
                         <h3>GitHub Projects</h3>
