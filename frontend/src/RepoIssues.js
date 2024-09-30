@@ -25,7 +25,6 @@ class RepoIssues extends Component {
         if (isLoading) {
             return <p>Loading...</p>;
         }
-
         const repoList = repoIssueList.map(issue => {
             return <tr key={issue.number}>
                 <td>{issue.number}</td>
@@ -38,17 +37,13 @@ class RepoIssues extends Component {
                     <AppNavbar/><br /><br />
                     <Container fluid>
                         <br />
-                        <div className="float-right">
-                            <Button color="success" tag={Link} to="/create-issue">Create Issue</Button>
-                        </div>
-                        <br />
-                        <h3>GitHub Projects</h3>
+                        <h3>GitHub <b>{this.props.match.params.repo}</b> Issues</h3>
                         <Table className="mt-4">
                             <thead>
                             <tr>
-                                <th width="33%">Issue No.</th>
-                                <th width="33%">Title</th>
-                                <th width="33%">Description</th>
+                                <th width="5%">Issue No.</th>
+                                <th width="25%">Title</th>
+                                <th width="70%">Description</th>
                             </tr>
                             </thead>
                             <tbody>

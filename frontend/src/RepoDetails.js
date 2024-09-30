@@ -43,19 +43,15 @@ class RepoDetails extends Component {
                     <AppNavbar/><br /><br />
                     <Container fluid>
                         <br />
-                        <div className="float-right">
-                            <Button color="success" tag={Link} to="/create-repo">Create Repository</Button>
-                        </div>
-                        <br />
-                        <h3>GitHub Projects</h3>
+                        <h3>GitHub Projects for username: <b>conorheffron</b></h3>
                         <Table className="mt-4">
                             <thead>
                             <tr>
-                                <th width="20%">Repository</th>
-                                <th width="20%">Description</th>
-                                <th width="20%">App URL</th>
-                                <th width="20%">Topics</th>
-                                <th width="20%">Actions</th>
+                                <th width="10%">Repository</th>
+                                <th width="30%">Description</th>
+                                <th width="10%">App URL</th>
+                                <th width="30%">Topics</th>
+                                <th width="10%">Actions</th>
                             </tr>
                             </thead>
                             <tbody>
