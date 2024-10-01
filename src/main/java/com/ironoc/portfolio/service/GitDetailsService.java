@@ -57,7 +57,7 @@ public class GitDetailsService extends AbstractLogger implements GitDetails {
         String apiUri = UriComponentsBuilder.fromHttpUrl(uri)
                 .buildAndExpand(username)
                 .toUriString();
-        if (StringUtils.isBlank(apiUri) | StringUtils.isBlank(apiUri)
+        if (StringUtils.isBlank(apiUri) | StringUtils.isBlank(uri)
                 | !urlUtils.isValidURL(apiUri)) {
             warn("URL is not valid: url={}", apiUri);
             return Collections.emptyList();
@@ -90,7 +90,9 @@ public class GitDetailsService extends AbstractLogger implements GitDetails {
                         .description(parseNull(repositoryDetailDomain.getDescription()))
                         .homePage(parseNull(repositoryDetailDomain.getAppHome()))
                         .topics(StringUtils.isNotBlank(repositoryDetailDomain.getTopics()) ?
-                                Arrays.asList(repositoryDetailDomain.getTopics().split(", ")) : Collections.emptyList())
+                                Arrays.asList(repositoryDetailDomain.getTopics()
+                                        .substring(1, repositoryDetailDomain.getTopics().length() - 1)
+                                        .split(", ")) : Collections.emptyList())
                         .htmlUrl(repositoryDetailDomain.getRepoUrl())
                         .build())
                 .collect(Collectors.toList());
@@ -103,7 +105,7 @@ public class GitDetailsService extends AbstractLogger implements GitDetails {
         String apiUri = UriComponentsBuilder.fromHttpUrl(uri)
                 .buildAndExpand(userId, repo)
                 .toUriString();
-        if (StringUtils.isBlank(apiUri) | StringUtils.isBlank(apiUri)
+        if (StringUtils.isBlank(apiUri) | StringUtils.isBlank(uri)
                 | !urlUtils.isValidURL(apiUri)) {
             warn("URL is not valid: url={}", apiUri);
             return Collections.emptyList();

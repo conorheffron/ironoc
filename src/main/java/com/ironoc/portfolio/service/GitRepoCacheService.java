@@ -1,7 +1,6 @@
 package com.ironoc.portfolio.service;
 
 import com.ironoc.portfolio.domain.RepositoryDetailDomain;
-import com.ironoc.portfolio.dto.RepositoryDetailDto;
 import jakarta.annotation.PreDestroy;
 import org.springframework.stereotype.Service;
 
@@ -31,6 +30,5 @@ public class GitRepoCacheService implements GitRepoCache {
     @PreDestroy
     public void tearDown() {
         this.userGitDetails.clear();
-        this.tearDown();
     }
 }
