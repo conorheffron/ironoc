@@ -5,7 +5,9 @@ import com.fasterxml.jackson.databind.type.CollectionType;
 import com.ironoc.portfolio.client.Client;
 import com.ironoc.portfolio.config.PropertyConfigI;
 import com.ironoc.portfolio.domain.RepositoryDetailDomain;
+import com.ironoc.portfolio.domain.RepositoryIssueDomain;
 import com.ironoc.portfolio.dto.RepositoryDetailDto;
+import com.ironoc.portfolio.dto.RepositoryIssueDto;
 import com.ironoc.portfolio.job.GitDetailsJob;
 import com.ironoc.portfolio.utils.UrlUtils;
 import org.junit.jupiter.api.Test;
@@ -116,6 +118,51 @@ public class GitDetailsServiceTest {
                 is("https://booking-sys-ebgefrdmh3afbhee.northeurope-01.azurewebsites.net/book/"));
         assertThat(result2.getHtmlUrl(), is("https://github.com/conorheffron/booking-sys"));
         assertThat(result2.isPrivate(), is(Boolean.TRUE));
+    }
+
+    @Test
+    public void test_get_issues_success() throws IOException {
+        // given
+        InputStream jsonInputStream = Thread.currentThread().getContextClassLoader()
+                .getResourceAsStream("json" + File.separator + "test_issues_response.json");
+        String testRepo = "bio-cell-red-edge";
+        String testUserId = "conor-h";
+        String testBody = "Use React or Angular framework & JavaScript or TypeScript as implementation language? " +
+                "\r\n- Research & select best option.";
+        String testTitle = "Re-write frontend with React <POC>";
+        String testIssueNo = "62";
+        RepositoryIssueDto expected = RepositoryIssueDto.builder()
+                .number(testIssueNo)
+                .title(testTitle)
+                .body(testBody)
+                .build();
+
+        when(propertyConfigMock.getGitApiEndpointIssues()).thenReturn(TEST_URI);
+        when(urlUtilsMock.isValidURL(anyString())).thenReturn(true);
+        when(urlUtilsMock.isValidURL(anyString())).thenReturn(true);
+        CollectionType listType = objectMapper.getTypeFactory()
+                .constructCollectionType(ArrayList.class, RepositoryIssueDto.class);
+        when(gitClientMock.callGitHubApi(anyString(), anyString(), any(), anyString()))
+                .thenReturn(objectMapper.readValue(jsonInputStream, listType));
+
+        // when
+        List<RepositoryIssueDto> results = gitDetailsService.getIssues(testUserId, testRepo);
+
+        // then
+        verify(propertyConfigMock).getGitApiEndpointIssues();
+        verify(urlUtilsMock).isValidURL(anyString());
+        verify(gitClientMock).callGitHubApi(anyString(), anyString(), any(), anyString());
+
+        assertThat(results, is(hasSize(2)));
+        Optional<RepositoryIssueDto> result = results.stream().findFirst();
+        assertThat(result.get().getNumber(), is(expected.getNumber()));
+        assertThat(result.get().getTitle(), is(expected.getTitle()));
+        assertThat(result.get().getBody(), is(expected.getBody()));
+        RepositoryIssueDto result2 = results.get(1);
+        assertThat(result2.getNumber(), is("57"));
+        assertThat(result2.getTitle(), is("Setup LB, Support SSL"));
+        assertThat(result2.getBody(), is("- [x] 1. Setup LB\r\n- [ ] 2. " +
+                "Support SSL\r\n- [ ] 3. Setup domain, map to AWS LB"));
     }
 
     @Test
@@ -241,6 +288,30 @@ public class GitDetailsServiceTest {
         assertThat(result.get().getTopics(), is("[]"));
         assertThat(result.get().getAppHome(), is(emptyString()));
         assertThat(result.get().getRepoUrl(), is(emptyString()));
+        jsonInputStream.close();
+    }
+
+    @Test
+    public void test_mapIssuesToResponse_success() throws IOException {
+        // given
+        InputStream jsonInputStream = Thread.currentThread().getContextClassLoader()
+                .getResourceAsStream("json" + File.separator + "test_issues_response.json");
+
+        // when
+        List<RepositoryIssueDomain> results = gitDetailsService.mapIssuesToResponse(
+                Arrays.asList(objectMapper.readValue(jsonInputStream, RepositoryIssueDto[].class)));
+
+        assertThat(results, is(hasSize(2)));
+        Optional<RepositoryIssueDomain> result = results.stream().findFirst();
+        assertThat(result.get().getNumber(), is("62"));
+        assertThat(result.get().getTitle(), is("Re-write frontend with React <POC>"));
+        assertThat(result.get().getBody(), is("Use React or Angular framework & JavaScript " +
+                "or TypeScript as implementation language? \r\n- Research & select best option."));
+        RepositoryIssueDomain result2 = results.get(1);
+        assertThat(result2.getNumber(), is("57"));
+        assertThat(result2.getTitle(), is("Setup LB, Support SSL"));
+        assertThat(result2.getBody(), is("- [x] 1. Setup LB\r\n- [ ] 2. " +
+                "Support SSL\r\n- [ ] 3. Setup domain, map to AWS LB"));
         jsonInputStream.close();
     }
 }
