@@ -57,6 +57,12 @@ public class GitProjectsController extends AbstractLogger {
 		return getReposByUsername(request, username);
 	}
 
+	@Operation(summary = "Get project issues by GitHub username & repository (project name).",
+			description = "Returns a list of Github project bugs/issues per 'username' & 'repository' path variables.")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200",
+					description = "Successfully retrieved GitHub issues for username & repository path variables.")
+	})
 	@GetMapping(value = {"/get-repo-issue/{username}/{repository}/"}, produces= MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<RepositoryIssueDomain>> getIssuesByUsernameAndRepoPathVars(HttpServletRequest request,
 																				  @PathVariable(value = "username") String username,
