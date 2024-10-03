@@ -11,7 +11,10 @@ export default function AppNavBar() {
         <Collapse navbar>
           <Nav className="me-auto" navbar>
             <NavItem>
-              <NavLink href="/about/">About</NavLink>
+              <NavLink href="/about">About</NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink href="/highs">Highlights</NavLink>
             </NavItem>
             <NavItem>
               <NavLink href="/projects">GitHub Projects</NavLink>
