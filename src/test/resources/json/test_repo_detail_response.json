@@ -1,0 +1,17 @@
+[
+  {
+    "name": "bio-cell-red-edge",
+    "fullName": "conorheffron/bio-cell-red-edge",
+    "repoUrl": "https://github.com/conorheffron/bio-cell-red-edge",
+    "description": "Edge Detection of Biological Cell (Image Processing Script)",
+    "appHome": "https://conorheffron.github.io/bio-cell-red-edge/",
+    "topics": "[Biology, computer-vision, image-processing, scikitlearn-machine-learning]"
+  },
+  {
+    "name": "booking-sys",
+    "repoUrl": "https://github.com/conorheffron/booking-sys",
+    "appHome": "https://booking-sys-ebgefrdmh3afbhee.northeurope-01.azurewebsites.net/book/",
+    "description": "python3 and django5 web app",
+    "topics": ""
+  }
+]

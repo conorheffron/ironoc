@@ -55,7 +55,7 @@ public class GitDetailsServiceTest {
     @Mock
     private GitRepoCache gitRepoCacheMock;
 
-    private ObjectMapper objectMapper = new ObjectMapper();
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     private static final String TEST_URI = "https://unittest.github.com/users/{username}/repos";
 
@@ -102,13 +102,15 @@ public class GitDetailsServiceTest {
 
         assertThat(results, is(hasSize(2)));
         Optional<RepositoryDetailDto> result = results.stream().findFirst();
-        assertThat(result.get().getName(), is(expected.getName()));
-        assertThat(result.get().getFullName(), is(expected.getFullName()));
-        assertThat(result.get().getDescription(), is(expected.getDescription()));
-        assertThat(result.get().getTopics(), is(expected.getTopics()));
-        assertThat(result.get().getHomePage(), is(expected.getHomePage()));
-        assertThat(result.get().getHtmlUrl(), is(expected.getHtmlUrl()));
-        assertThat(result.get().isPrivate(), is(expected.isPrivate()));
+        if (result.isPresent()) {
+            assertThat(result.get().getName(), is(expected.getName()));
+            assertThat(result.get().getFullName(), is(expected.getFullName()));
+            assertThat(result.get().getDescription(), is(expected.getDescription()));
+            assertThat(result.get().getTopics(), is(expected.getTopics()));
+            assertThat(result.get().getHomePage(), is(expected.getHomePage()));
+            assertThat(result.get().getHtmlUrl(), is(expected.getHtmlUrl()));
+            assertThat(result.get().isPrivate(), is(expected.isPrivate()));
+        }
         RepositoryDetailDto result2 = results.get(1);
         assertThat(result2.getName(), is("booking-sys"));
         assertThat(result2.getFullName(), is("conorheffron/booking-sys"));
@@ -266,7 +268,41 @@ public class GitDetailsServiceTest {
         assertThat(result2.getAppHome(),
                 is("https://booking-sys-ebgefrdmh3afbhee.northeurope-01.azurewebsites.net/book/"));
         assertThat(result2.getRepoUrl(), is("https://github.com/conorheffron/booking-sys"));
+        jsonInputStream.close();
+    }
 
+    @Test
+    public void test_mapResponseToRepositories_success() throws IOException {
+        // given
+        InputStream jsonInputStream = Thread.currentThread().getContextClassLoader()
+                .getResourceAsStream("json" + File.separator + "test_repo_detail_response.json");
+
+        // when
+        List<RepositoryDetailDto> results = gitDetailsService.mapResponseToRepositories(
+                Arrays.asList(objectMapper.readValue(jsonInputStream, RepositoryDetailDomain[].class)));
+
+        assertThat(results, is(hasSize(2)));
+        Optional<RepositoryDetailDto> result = results.stream().findFirst();
+        assertThat(result.get().getName(), is("bio-cell-red-edge"));
+        assertThat(result.get().getFullName(), is("conorheffron/bio-cell-red-edge"));
+        assertThat(result.get().getDescription(),
+                is("Edge Detection of Biological Cell (Image Processing Script)"));
+        String testTopics = "[Biology, computer-vision, image-processing, scikitlearn-machine-learning]";
+        assertThat(result.get().getTopics(),
+                is(Arrays.asList(testTopics.substring(1, testTopics.length() - 1)
+                        .split(", "))));
+        assertThat(result.get().getHomePage(),
+                is("https://conorheffron.github.io/bio-cell-red-edge/"));
+        assertThat(result.get().getHtmlUrl(),
+                is("https://github.com/conorheffron/bio-cell-red-edge"));
+        RepositoryDetailDto result2 = results.get(1);
+        assertThat(result2.getName(), is("booking-sys"));
+        assertThat(result2.getFullName(), is(emptyString()));
+        assertThat(result2.getDescription(), is("python3 and django5 web app"));
+        assertThat(result2.getTopics(), is(emptyIterable()));
+        assertThat(result2.getHomePage(),
+                is("https://booking-sys-ebgefrdmh3afbhee.northeurope-01.azurewebsites.net/book/"));
+        assertThat(result2.getHtmlUrl(), is("https://github.com/conorheffron/booking-sys"));
         jsonInputStream.close();
     }
 
@@ -280,6 +316,7 @@ public class GitDetailsServiceTest {
         List<RepositoryDetailDomain> results = gitDetailsService.mapRepositoriesToResponse(
                 Arrays.asList(objectMapper.readValue(jsonInputStream, RepositoryDetailDto[].class)));
 
+        // then
         assertThat(results, is(hasSize(1)));
         Optional<RepositoryDetailDomain> result = results.stream().findFirst();
         assertThat(result.get().getName(), is("conorheffron/ironoc-test"));
@@ -301,6 +338,7 @@ public class GitDetailsServiceTest {
         List<RepositoryIssueDomain> results = gitDetailsService.mapIssuesToResponse(
                 Arrays.asList(objectMapper.readValue(jsonInputStream, RepositoryIssueDto[].class)));
 
+        // then
         assertThat(results, is(hasSize(2)));
         Optional<RepositoryIssueDomain> result = results.stream().findFirst();
         assertThat(result.get().getNumber(), is("62"));
