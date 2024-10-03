@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Button, ButtonGroup, Container, Table } from 'reactstrap';
 import AppNavbar from './AppNavbar';
 import { Link } from 'react-router-dom';
-import logo from './robot-logo.png';
 
 class RepoDetails extends Component {
 
@@ -27,9 +26,9 @@ class RepoDetails extends Component {
 
         const repoList = repoDetailList.map(repo => {
             return <tr key={repo.name}>
-                <td><a href={repo.repoUrl} target="_blank">{repo.fullName}</a></td>
+                <td><a href={repo.repoUrl} target="_blank" rel="noreferrer">{repo.fullName}</a></td>
                 <td>{repo.description}</td>
-                <td><a href={repo.appHome} target="_blank">{repo.name}</a></td>
+                <td><a href={repo.appHome} target="_blank" rel="noreferrer">{repo.name}</a></td>
                 <td>{repo.topics}</td>
                 <td>
                     <ButtonGroup>
