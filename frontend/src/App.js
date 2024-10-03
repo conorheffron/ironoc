@@ -5,6 +5,7 @@ import About from './About';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import RepoDetails from './RepoDetails';
 import RepoIssues from './RepoIssues';
+import ControlledCarousel from './ControlledCarousel';
 
 class App extends Component {
   render() {
@@ -13,6 +14,7 @@ class App extends Component {
           <Switch>
             <Route path='/' exact={true} component={Home}/>
             <Route path='/about' exact={true} component={About}/>
+            <Route path='/highs' exact={true} component={ControlledCarousel}/>
             <Route path='/projects' exact={true} component={RepoDetails}/>
             <Route path='/issues' exact={true} component={RepoIssues}/>
             <Route path='/issues/:repo' component={RepoIssues}/>
