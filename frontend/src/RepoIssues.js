@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
-import { Button, ButtonGroup, Container, Table } from 'reactstrap';
+import { Container, Table } from 'reactstrap';
 import AppNavbar from './AppNavbar';
-import { Link } from 'react-router-dom';
-import logo from './robot-logo.png';
-import { useParams } from 'react-router-dom';
 
 class RepoIssues extends Component {
 
