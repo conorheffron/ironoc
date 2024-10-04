@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Container } from 'reactstrap';
 import '.././App.css';
 import AppNavbar from '.././AppNavbar';
 import logo from './img/robot-logo.png';
@@ -9,9 +10,13 @@ class Home extends Component {
         return (
             <div className="App">
               <AppNavbar/>
-              <header className="App-header">
-                <img src={logo} className="App-logo" alt="logo"/>
-              </header>
+              <Container fluid>
+                  <header className="App-header">
+                    <img src={logo} className="App-logo" alt="logo"/>
+                    <h1>iRonoc</h1>
+                    <p>Web Application Development | Software Engineering | Data Engineering | Cloud Deployments | DevOps</p>
+                  </header>
+              </Container>
             </div>
         );
     }
