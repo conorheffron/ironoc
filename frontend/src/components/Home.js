@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import './App.css';
-import AppNavbar from './AppNavbar';
-import logo from './robot-logo.png';
-import './App.css';
+import '.././App.css';
+import AppNavbar from '.././AppNavbar';
+import logo from './img/robot-logo.png';
 
 class Home extends Component {
 
