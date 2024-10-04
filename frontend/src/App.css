@@ -14,7 +14,6 @@
 }
 
 .App-header {
-  background-color: darkblue;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -22,6 +21,7 @@
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
+  background-color: #1D428A;
 }
 
 .App-link {
@@ -36,3 +36,19 @@
     transform: rotate(360deg);
   }
 }
+
+.carousel-caption {
+    top: 0;
+    bottom: auto;
+}
+
+.App-intro {
+  content: "";
+  display: inline-block;
+}
+
+#my-intro {
+    padding-left: 15%;
+    padding-right: 15%;
+}
+
