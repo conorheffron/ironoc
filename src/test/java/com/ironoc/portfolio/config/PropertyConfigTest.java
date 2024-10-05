@@ -43,6 +43,22 @@ public class PropertyConfigTest {
     }
 
     @Test
+    public void test_getGitApiEndpointIssues_success() {
+        // given
+        when(propertyKeyMock.getGitApiEndpointIssues()).thenReturn(Properties.GIT_API_ENDPOINT_ISSUES.getKey());
+        when(environmentMock.getRequiredProperty(Properties.GIT_API_ENDPOINT_ISSUES.getKey())).thenReturn(TEST_PROP_VAL);
+
+        // when
+        String result = propertyConfig.getGitApiEndpointIssues();
+
+        // then
+        verify(propertyKeyMock).getGitApiEndpointIssues();
+        verify(environmentMock).getRequiredProperty(Properties.GIT_API_ENDPOINT_ISSUES.getKey());
+
+        assertThat(result, is(TEST_PROP_VAL));
+    }
+
+    @Test
     public void test_getGitFollowRedirects_success() {
         // given
         when(propertyKeyMock.getGitFollowRedirects()).thenReturn(Properties.GIT_FOLLOW_REDIRECTS.getKey());
