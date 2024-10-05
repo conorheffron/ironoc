@@ -7,17 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import java.util.HashSet;
-import java.util.Set;
-
 @Component
 public class GitDetailsJob {
 
     private final GitRepoCache gitRepoCache;
 
     private final GitDetails gitDetails;
-
-    public static final String USERNAME_HOME_PAGE = "conorheffron";
 
     @Autowired
     public GitDetailsJob(GitDetails gitDetails, GitRepoCache gitRepoCache) {
@@ -36,12 +31,8 @@ public class GitDetailsJob {
     }
 
     private void triggerJob() {
-        // set user ID list
-        Set<String> userIds = new HashSet<>();
-        userIds.add(USERNAME_HOME_PAGE);
-
         // run background process to update cache
-        GitDetailsRunnable runnable = new GitDetailsRunnable(gitRepoCache, gitDetails, userIds);
+        GitDetailsRunnable runnable = new GitDetailsRunnable(gitRepoCache, gitDetails);
         runnable.run();
     }
 }
