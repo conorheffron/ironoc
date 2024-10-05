@@ -1,22 +1,28 @@
 package com.ironoc.portfolio.client;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.type.CollectionType;
 import com.ironoc.portfolio.aws.SecretManager;
 import com.ironoc.portfolio.config.PropertyConfigI;
+import com.ironoc.portfolio.logger.AbstractLogger;
 import com.ironoc.portfolio.utils.UrlUtils;
 import io.micrometer.common.util.StringUtils;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpMethod;
+import org.apache.commons.io.IOUtils;
 import org.springframework.stereotype.Component;
-import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.net.ssl.HttpsURLConnection;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 @Component
 @Slf4j
-public class GitClient implements Client {
+public class GitClient extends AbstractLogger implements Client {
 
     private final PropertyConfigI propertyConfig;
 
@@ -24,17 +30,53 @@ public class GitClient implements Client {
 
     private final UrlUtils urlUtils;
 
+    private final ObjectMapper objectMapper;
+
     public GitClient(PropertyConfigI propertyConfig,
                      SecretManager secretManager,
-                     UrlUtils urlUtils) {
+                     UrlUtils urlUtils,
+                     ObjectMapper objectMapper) {
         this.propertyConfig = propertyConfig;
         this.secretManager = secretManager;
         this.urlUtils = urlUtils;
+        this.objectMapper = objectMapper;
     }
 
     @Override
-    public HttpsURLConnection createConn(String url) throws IOException {
-        String baseUrl = propertyConfig.getGitApiEndpoint();
+    public <T> List<T> callGitHubApi(String apiUri, String uri, Class<T> type, String httpMethod) {
+        info("Triggering GET request: url={}", apiUri);
+        List<T> dtos = new ArrayList<>();
+        InputStream inputStream = null;
+        try {
+            HttpsURLConnection conn = this.createConn(apiUri, uri, httpMethod);
+            if (conn == null) {
+                error("Failed to created connection");
+                return Collections.emptyList();
+            }
+            inputStream = this.readInputStream(conn);
+            String jsonResponse = convertInputStreamToString(inputStream);
+            CollectionType listType = objectMapper.getTypeFactory()
+                    .constructCollectionType(ArrayList.class, type);
+            dtos = objectMapper.readValue(jsonResponse, listType);
+            debug("List.of(DTO)={}", dtos);
+        } catch(Exception ex) {
+            error("Unexpected error occurred while retrieving data.", ex);
+        } finally {
+            try {
+                if (inputStream != null) {
+                    this.closeConn(inputStream);
+                } else {
+                    warn("Input stream already closed.");
+                }
+            } catch (IOException ex) {
+                error("Unexpected error occurred while closing input stream.", ex);
+            }
+        }
+        return dtos;
+    }
+
+    @Override
+    public HttpsURLConnection createConn(String url, String baseUrl, String httpMethod) throws IOException {
         URL urlBase = new URL(baseUrl);
         String base = urlBase.getProtocol() + "://" + urlBase.getHost();
         if (!urlUtils.isValidURL(url) || !url.startsWith(base)) {
@@ -49,7 +91,7 @@ public class GitClient implements Client {
         } else {
             conn.setRequestProperty("Authorization", token);
         }
-        conn.setRequestMethod(HttpMethod.GET.name());
+        conn.setRequestMethod(httpMethod);
         conn.setFollowRedirects(propertyConfig.getGitFollowRedirects());
         conn.setConnectTimeout(propertyConfig.getGitTimeoutConnect());
         conn.setReadTimeout(propertyConfig.getGitTimeoutRead());
@@ -65,5 +107,9 @@ public class GitClient implements Client {
     @Override
     public void closeConn(InputStream inputStream) throws IOException {
         inputStream.close();
+    }
+
+    String convertInputStreamToString(InputStream inputStream) throws Exception {
+        return IOUtils.toString(inputStream, StandardCharsets.UTF_8);
     }
 }

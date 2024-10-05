@@ -10,20 +10,19 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.web.server.WebServerFactoryCustomizer;
 import org.springframework.boot.web.servlet.server.ConfigurableServletWebServerFactory;
-import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
+import org.springframework.web.servlet.config.annotation.ResourceChainRegistration;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistration;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.times;
 
 @ExtendWith(MockitoExtension.class)
 public class IronocConfigurationTest {
@@ -40,21 +39,18 @@ public class IronocConfigurationTest {
     @Mock
     private DefaultServletHandlerConfigurer defaultServletHandlerConfigurerMock;
 
-    @Test
-    public void test_getViewResolver_success() {
-        // when
-        ViewResolver result = ironocConfiguration.getViewResolver();
-
-        // then
-        assertThat(result, is(notNullValue()));
-        assertThat(result.getClass(), is(InternalResourceViewResolver.class));
-    }
+    @Mock
+    private ResourceChainRegistration resourceChainRegistrationMock;
 
     @Test
     public void test_addResourceHandlers_success() {
         // given
         when(resourceHandlerRegistryMock.addResourceHandler(ArgumentMatchers.anyString()))
                 .thenReturn(resourceHandlerRegistrationMock);
+        when(resourceHandlerRegistrationMock.addResourceLocations(ArgumentMatchers.anyString()))
+                .thenReturn(resourceHandlerRegistrationMock);
+        when(resourceHandlerRegistrationMock.resourceChain(false))
+                .thenReturn(resourceChainRegistrationMock);
 
         // when
         ironocConfiguration.addResourceHandlers(resourceHandlerRegistryMock);
@@ -63,20 +59,13 @@ public class IronocConfigurationTest {
         ArgumentCaptor<String> resourceHandlerCaptors = ArgumentCaptor.forClass(String.class);
         ArgumentCaptor<String> resourceLocationCaptors = ArgumentCaptor.forClass(String.class);
 
-        verify(resourceHandlerRegistryMock, times(4)).addResourceHandler(resourceHandlerCaptors.capture());
-        verify(resourceHandlerRegistrationMock, times(4)).addResourceLocations(resourceLocationCaptors.capture());
+        verify(resourceHandlerRegistryMock).addResourceHandler(resourceHandlerCaptors.capture());
+        verify(resourceHandlerRegistrationMock).addResourceLocations(resourceLocationCaptors.capture());
+        verify(resourceHandlerRegistrationMock).resourceChain(false);
+        verify(resourceChainRegistrationMock).addResolver(any(PushStateResourceResolver.class));
 
         List<String> capturedResourceHandlers = resourceHandlerCaptors.getAllValues();
-        assertThat(IronocConfiguration.RESOURCES_HANDLER, is(capturedResourceHandlers.get(0)));
-        assertThat(IronocConfiguration.FAV_ICON, is(capturedResourceHandlers.get(1)));
-        assertThat(IronocConfiguration.SITE_MAP, is(capturedResourceHandlers.get(2)));
-        assertThat(IronocConfiguration.ROBOTS_TEXT, is(capturedResourceHandlers.get(3)));
-
-        List<String> capturedLocations = resourceLocationCaptors.getAllValues();
-        assertThat(IronocConfiguration.STATIC_LOC, is(capturedLocations.get(0)));
-        assertThat(IronocConfiguration.IMAGES_LOC, is(capturedLocations.get(1)));
-        assertThat(IronocConfiguration.STATIC_CONF_LOC, is(capturedLocations.get(2)));
-        assertThat(IronocConfiguration.STATIC_CONF_LOC, is(capturedLocations.get(3)));
+        assertThat(capturedResourceHandlers.get(0), is("/**"));
     }
 
     @Test
