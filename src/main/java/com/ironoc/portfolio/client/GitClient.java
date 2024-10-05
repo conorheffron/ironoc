@@ -9,15 +9,13 @@ import com.ironoc.portfolio.utils.UrlUtils;
 import io.micrometer.common.util.StringUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
-import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 
 import javax.net.ssl.HttpsURLConnection;
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -111,10 +109,7 @@ public class GitClient extends AbstractLogger implements Client {
         inputStream.close();
     }
 
-    private String convertInputStreamToString(InputStream inputStream) throws Exception {
-        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-        String json = IOUtils.toString(bufferedReader);
-        bufferedReader.close();
-        return json;
+    String convertInputStreamToString(InputStream inputStream) throws Exception {
+        return IOUtils.toString(inputStream, StandardCharsets.UTF_8);
     }
 }
