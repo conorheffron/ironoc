@@ -7,7 +7,7 @@ import com.ironoc.portfolio.domain.RepositoryDetailDomain;
 import com.ironoc.portfolio.domain.RepositoryIssueDomain;
 import com.ironoc.portfolio.dto.RepositoryDetailDto;
 import com.ironoc.portfolio.dto.RepositoryIssueDto;
-import com.ironoc.portfolio.job.GitDetailsJob;
+import com.ironoc.portfolio.job.GitDetailsRunnable;
 import com.ironoc.portfolio.logger.AbstractLogger;
 import com.ironoc.portfolio.utils.UrlUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -46,8 +46,9 @@ public class GitDetailsService extends AbstractLogger implements GitDetails {
     @Override
     public List<RepositoryDetailDto> getRepoDetails(String username) {
         // check cache for home page user ID
-        if (username.toLowerCase().equals(GitDetailsJob.USERNAME_HOME_PAGE)) {
-            List<RepositoryDetailDomain> repoDetails = gitRepoCache.get(GitDetailsJob.USERNAME_HOME_PAGE);
+        if (username.toLowerCase().equals(GitDetailsRunnable.USERNAME_HOME_PAGE)) {
+            List<RepositoryDetailDomain> repoDetails = gitRepoCache
+                    .get(GitDetailsRunnable.USERNAME_HOME_PAGE);
             if (repoDetails != null) {
                 return this.mapResponseToRepositories(repoDetails);
             }
