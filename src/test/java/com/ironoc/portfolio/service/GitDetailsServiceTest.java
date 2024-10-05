@@ -8,7 +8,7 @@ import com.ironoc.portfolio.domain.RepositoryDetailDomain;
 import com.ironoc.portfolio.domain.RepositoryIssueDomain;
 import com.ironoc.portfolio.dto.RepositoryDetailDto;
 import com.ironoc.portfolio.dto.RepositoryIssueDto;
-import com.ironoc.portfolio.job.GitDetailsJob;
+import com.ironoc.portfolio.job.GitDetailsRunnable;
 import com.ironoc.portfolio.utils.UrlUtils;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -216,7 +216,7 @@ public class GitDetailsServiceTest {
         List<RepositoryDetailDto> results = gitDetailsService.getRepoDetails(testUserId);
 
         // then
-        verify(gitRepoCacheMock).get(GitDetailsJob.USERNAME_HOME_PAGE);
+        verify(gitRepoCacheMock).get(GitDetailsRunnable.USERNAME_HOME_PAGE);
 
         assertThat(results, is(notNullValue()));
         assertThat(results, is(hasSize(0)));
@@ -246,7 +246,7 @@ public class GitDetailsServiceTest {
 
         // when
         List<RepositoryDetailDomain> results = gitDetailsService.mapRepositoriesToResponse(
-                Arrays.asList(objectMapper.readValue(jsonInputStream, RepositoryDetailDto[].class)));
+                List.of(objectMapper.readValue(jsonInputStream, RepositoryDetailDto[].class)));
 
         assertThat(results, is(hasSize(2)));
         Optional<RepositoryDetailDomain> result = results.stream().findFirst();
