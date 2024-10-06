@@ -14,10 +14,10 @@
 - [ironoc loab balancer](https://ironoc-lb-6a36dafeeca59581.elb.eu-north-1.amazonaws.com/)
 
 ## About
-Personal website / portfolio  http://www.ironoc.com/ (no longer hosted)
+Personal website / portfolio  [https://www.ironoc.net/](https://www.ironoc.net/)
 
 ## Tech Stack
-Java 21 (LTS), Spring Boot 3.3, Maven 3.8, HTML5+CSS, JQuery, Docker / Bash, AWS
+Java 21 (LTS), Spring Boot 3.3, ReactJs 18, Maven 3.8, HTML5+CSS, Docker / Bash, AWS
 
 ## Run without cloning project:
 ```
