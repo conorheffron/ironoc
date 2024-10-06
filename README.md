@@ -10,7 +10,7 @@
 - [ironoc Docker Hub Link](https://hub.docker.com/repository/docker/conorheffron/ironoc/general)
 
 ## Hosted at:
-- [ironoc.net](https://ironoc.net)
+- [ironoc.net](https://me.ironoc.net)
 - [ironoc load balancer](https://ironoc-lb-6a36dafeeca59581.elb.eu-north-1.amazonaws.com/)
 
 ## About
