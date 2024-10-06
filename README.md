@@ -10,7 +10,8 @@
 - [ironoc Docker Hub Link](https://hub.docker.com/repository/docker/conorheffron/ironoc/general)
 
 ## Hosted at:
-- [ironoc website](http://ironoc-lb-6a36dafeeca59581.elb.eu-north-1.amazonaws.com/)
+- [ironoc.net](https://ironoc.net)
+- [ironoc loab balancer](https://ironoc-lb-6a36dafeeca59581.elb.eu-north-1.amazonaws.com/)
 
 ## About
 Personal website / portfolio  http://www.ironoc.com/ (no longer hosted)
