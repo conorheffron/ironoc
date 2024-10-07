@@ -41,8 +41,11 @@ class RepoIssues extends Component {
             return <p>Loading...</p>;
         }
         const repoList = repoIssueList.map(issue => {
+            let username = this.props.match.params.id
+            let repository = this.props.match.params.repo
+            const issueLink = `https://github.com/${username}/${repository}/issues/${issue.number}/`;
             return <tr key={issue.number}>
-                <td><b><i>{issue.number}</i></b></td>
+                <td className="table-info"><a href={issueLink} target="_blank" rel="noreferrer"><b><i>{issue.number}</i></b></a></td>
                 <td><b>{issue.title}</b></td>
                 <td>{issue.body}</td>
             </tr>
@@ -60,11 +63,11 @@ class RepoIssues extends Component {
                                 onClick={this.onSubmit}>Search Issues</Button>
                         </InputGroup>
                         <h3>Issues for project <b>{this.props.match.params.repo}</b> and account <b>{this.props.match.params.id}</b></h3>
-                        <Table className="mt-4">
+                        <Table striped hover bordered>
                             <thead>
-                                <tr>
-                                    <th width="5%">Issue No.</th>
-                                    <th width="25%">Title</th>
+                                <tr className="table-secondary">
+                                    <th width="3%">Issue No.</th>
+                                    <th width="27%">Title</th>
                                     <th width="70%">Description</th>
                                 </tr>
                             </thead>
