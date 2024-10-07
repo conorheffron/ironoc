@@ -4,9 +4,9 @@ import 'bootstrap/dist/css/bootstrap.css';
 import '.././App.css';
 import { Container } from 'reactstrap';
 import AppNavbar from '.././AppNavbar';
-import navy from './img/darkblue-bg.png';
-import teal from './img/teal-bg.png';
-import red from './img/red-bg.png';
+import navy from '.././img/darkblue-bg.png';
+import teal from '.././img/teal-bg.png';
+import red from '.././img/red-bg.png';
 
 class ControlledCarousel extends Component {
 
