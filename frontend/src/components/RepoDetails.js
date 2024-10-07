@@ -44,9 +44,9 @@ class RepoDetails extends Component {
         let gitUser = this.props.match.params.id;
         const repoList = repoDetailList.map(repo => {
             return <tr key={repo.name}>
-                <td><a href={repo.repoUrl} target="_blank" rel="noreferrer">{repo.fullName}</a></td>
+                <td className="table-info"><a href={repo.repoUrl} target="_blank" rel="noreferrer">{repo.fullName}</a></td>
                 <td>{repo.description}</td>
-                <td><a href={repo.appHome} target="_blank" rel="noreferrer">{repo.name}</a></td>
+                <td className="table-info"><a href={repo.appHome} target="_blank" rel="noreferrer">{repo.name}</a></td>
                 <td>{repo.topics}</td>
                 <td>
                     <ButtonGroup>
@@ -69,9 +69,9 @@ class RepoDetails extends Component {
                                 onClick={this.onSubmit}>Search Projects</Button>
                         </InputGroup>
                         <h3>GitHub Projects for username: <b>{this.props.match.params.id}</b></h3>
-                        <Table className="mt-4">
+                        <Table striped hover bordered>
                             <thead>
-                                <tr>
+                                <tr className="table-primary">
                                     <th width="10%">Repository</th>
                                     <th width="50%">Description</th>
                                     <th width="10%">App URL</th>
