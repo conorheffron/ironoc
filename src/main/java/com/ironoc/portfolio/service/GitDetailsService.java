@@ -16,7 +16,6 @@ import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -91,7 +90,7 @@ public class GitDetailsService extends AbstractLogger implements GitDetails {
                         .description(parseNull(repositoryDetailDomain.getDescription()))
                         .homePage(parseNull(repositoryDetailDomain.getAppHome()))
                         .topics(StringUtils.isNotBlank(repositoryDetailDomain.getTopics()) ?
-                                Arrays.asList(repositoryDetailDomain.getTopics()
+                                List.of(repositoryDetailDomain.getTopics()
                                         .substring(1, repositoryDetailDomain.getTopics().length() - 1)
                                         .split(", ")) : Collections.emptyList())
                         .htmlUrl(repositoryDetailDomain.getRepoUrl())

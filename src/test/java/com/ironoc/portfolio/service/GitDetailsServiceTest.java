@@ -19,7 +19,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -68,7 +67,7 @@ public class GitDetailsServiceTest {
         String testName = "bio-cell-red-edge";
         String testFullName = "conorheffron/bio-cell-red-edge";
         String testDesc = "Edge Detection of Biological Cell (Image Processing Script)";
-        List<String> testTop = Arrays.asList("biology", "computer-vision", "image-processing",
+        List<String> testTop = List.of("biology", "computer-vision", "image-processing",
                 "scikitlearn-machine-learning");
         String testApp = "https://conorheffron.github.io/bio-cell-red-edge/";
         String testHtmlUrl = "https://github.com/conorheffron/bio-cell-red-edge";
@@ -279,7 +278,7 @@ public class GitDetailsServiceTest {
 
         // when
         List<RepositoryDetailDto> results = gitDetailsService.mapResponseToRepositories(
-                Arrays.asList(objectMapper.readValue(jsonInputStream, RepositoryDetailDomain[].class)));
+                List.of(objectMapper.readValue(jsonInputStream, RepositoryDetailDomain[].class)));
 
         assertThat(results, is(hasSize(2)));
         Optional<RepositoryDetailDto> result = results.stream().findFirst();
@@ -289,7 +288,7 @@ public class GitDetailsServiceTest {
                 is("Edge Detection of Biological Cell (Image Processing Script)"));
         String testTopics = "[Biology, computer-vision, image-processing, scikitlearn-machine-learning]";
         assertThat(result.get().getTopics(),
-                is(Arrays.asList(testTopics.substring(1, testTopics.length() - 1)
+                is(List.of(testTopics.substring(1, testTopics.length() - 1)
                         .split(", "))));
         assertThat(result.get().getHomePage(),
                 is("https://conorheffron.github.io/bio-cell-red-edge/"));
@@ -314,7 +313,7 @@ public class GitDetailsServiceTest {
 
         // when
         List<RepositoryDetailDomain> results = gitDetailsService.mapRepositoriesToResponse(
-                Arrays.asList(objectMapper.readValue(jsonInputStream, RepositoryDetailDto[].class)));
+                List.of(objectMapper.readValue(jsonInputStream, RepositoryDetailDto[].class)));
 
         // then
         assertThat(results, is(hasSize(1)));
@@ -336,7 +335,7 @@ public class GitDetailsServiceTest {
 
         // when
         List<RepositoryIssueDomain> results = gitDetailsService.mapIssuesToResponse(
-                Arrays.asList(objectMapper.readValue(jsonInputStream, RepositoryIssueDto[].class)));
+                List.of(objectMapper.readValue(jsonInputStream, RepositoryIssueDto[].class)));
 
         // then
         assertThat(results, is(hasSize(2)));

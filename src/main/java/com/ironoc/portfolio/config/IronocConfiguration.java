@@ -12,7 +12,6 @@ import org.springframework.web.servlet.config.annotation.DefaultServletHandlerCo
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import java.util.Arrays;
 import java.util.List;
 
 @Configuration
@@ -23,9 +22,8 @@ public class IronocConfiguration implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        List<String> ignorePaths = Arrays.asList("api");
-        List<String> handledExtensions = Arrays.asList(
-                "html", "js", "json",
+        List<String> ignorePaths = List.of("api");
+        List<String> handledExtensions = List.of("html", "js", "json",
                 "csv", "css",
                 "svg", "eot", "ttf", "woff",
                 "appcache",
