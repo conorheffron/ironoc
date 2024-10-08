@@ -14,7 +14,7 @@ class App extends Component {
           <Switch>
             <Route path='/' exact={true} component={Home}/>
             <Route path='/about' exact={true} component={About}/>
-            <Route path='/highs' exact={true} component={ControlledCarousel}/>
+            <Route path='/portfolio' exact={true} component={ControlledCarousel}/>
             <Route path='/projects' exact={true} component={RepoDetails}/>
             <Route path='/projects/:id' component={RepoDetails}/>
             <Route path='/issues/:id/:repo' component={RepoIssues}/>

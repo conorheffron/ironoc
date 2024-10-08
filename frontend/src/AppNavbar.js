@@ -17,7 +17,7 @@ export default function AppNavBar() {
                             <DropdownToggle caret nav>iRonoc</DropdownToggle>
                             <DropdownMenu end>
                                 <DropdownItem href="/about">About</DropdownItem>
-                                <DropdownItem href="/highs">Portfolio</DropdownItem>
+                                <DropdownItem href="/portfolio">Portfolio</DropdownItem>
                                 <DropdownItem divider />
                                 <DropdownItem href="https://linktr.ee/conorheffron" target="_blank" rel="noreferrer">Link Tree</DropdownItem>
                             </DropdownMenu>
