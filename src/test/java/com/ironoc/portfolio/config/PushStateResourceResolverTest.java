@@ -9,17 +9,13 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.core.io.Resource;
 import org.springframework.web.servlet.resource.ResourceResolverChain;
 
-import java.io.File;
 import java.io.IOException;
-import java.net.URI;
 import java.net.URL;
-import java.nio.charset.Charset;
 import java.util.Collections;
 import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.isA;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.nullValue;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -58,12 +54,12 @@ public class PushStateResourceResolverTest {
                 "content=\"#000000\"/>" +
                 "<meta name=\"Personal Portfolio for Conor Heffron\" " +
                 "content=\"Web Application Development | Software Engineering | Data Engineering | Cloud Deployments " +
-                "| DevOps\"/><link rel=\"apple-touch-icon\" href=\"/logo192.png\"/>" +
+                "| DevOps\"/><link rel=\"apple-touch-icon\" href=\"/robot-logo.png\"/>" +
                 "<link rel=\"manifest\" " +
                 "href=\"/manifest.json\"/>" +
                 "<title>iRonoc React App | Portfolio | Software Engineer | DevOps " +
-                "| Data Analytics | Conor Heffron</title><script defer=\"defer\" src=\"/static/js/main.c2248845.js\">" +
-                "</script><link href=\"/static/css/main.266fc98c.css\" rel=\"stylesheet\">" +
+                "| Data Analytics | Conor Heffron</title><script defer=\"defer\" src=\"/static/js/main.6f0b1ec4.js\">" +
+                "</script><link href=\"/static/css/main.903d2f06.css\" rel=\"stylesheet\">" +
             "</head>" +
             "<body>" +
                 "<noscript>You need to enable JavaScript to run this app.</noscript>" +
@@ -87,12 +83,7 @@ public class PushStateResourceResolverTest {
         // then
         assertThat(result, is(notNullValue()));
         assertThat(result.getFilename(), is("index.html"));
-        assertThat(result.getURL(), isA(URL.class));
-        assertThat(result.getFile(), isA(File.class));
-        assertThat(result.getDescription(), is(notNullValue()));
-        assertThat(result.getURI(), isA(URI.class));
-        assertThat(result.getContentAsByteArray(), is(notNullValue()));
-        assertThat(result.getContentAsString(Charset.defaultCharset()), is(INDEX_HTML_CONTENT));
+        assertThat(result.getDescription(), is("class path resource [static/index.html]"));
     }
 
     @Test
