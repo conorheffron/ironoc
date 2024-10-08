@@ -17,7 +17,7 @@
 	</distributionManagement>
 
 	<name>ironoc</name>
-	<description>ironoc personal portfolio site</description>
+	<description>iRonoc personal portfolio site</description>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -32,8 +32,7 @@
 		<java.version>21</java.version>
 		<spring.version>3.3.4</spring.version>
 		<frontend-maven-plugin.version>1.15.1</frontend-maven-plugin.version>
-		<node.version>v20.16.0</node.version>
-		<yarn.version>v1.22.22</yarn.version>
+		<node.version>v22.9.0</node.version>
 	</properties>
 
 	<dependencies>
@@ -222,48 +221,36 @@
 				<version>${frontend-maven-plugin.version}</version>
 				<configuration>
 					<workingDirectory>frontend</workingDirectory>
+					<installDirectory>target</installDirectory>
 				</configuration>
 				<executions>
 					<execution>
-						<id>install node</id>
+						<id>install node and npm</id>
 						<goals>
-							<goal>install-node-and-yarn</goal>
+							<goal>install-node-and-npm</goal>
 						</goals>
 						<configuration>
 							<nodeVersion>${node.version}</nodeVersion>
-							<yarnVersion>${yarn.version}</yarnVersion>
 						</configuration>
 					</execution>
 					<execution>
-						<id>yarn install</id>
+						<id>npm install</id>
 						<goals>
-							<goal>yarn</goal>
+							<goal>npm</goal>
 						</goals>
-						<phase>generate-resources</phase>
+						<configuration>
+							<arguments>install</arguments>
+						</configuration>
 					</execution>
-<!--					<execution>-->
-<!--						<id>yarn test</id>-->
-<!--						<goals>-->
-<!--							<goal>yarn</goal>-->
-<!--						</goals>-->
-<!--						<phase>test</phase>-->
-<!--						<configuration>-->
-<!--							<arguments>test</arguments>-->
-<!--							<environmentVariables>-->
-<!--								<CI>true</CI>-->
-<!--							</environmentVariables>-->
-<!--						</configuration>-->
-<!--					</execution>-->
-<!--					<execution>-->
-<!--						<id>yarn build</id>-->
-<!--						<goals>-->
-<!--							<goal>yarn</goal>-->
-<!--						</goals>-->
-<!--						<phase>compile</phase>-->
-<!--						<configuration>-->
-<!--							<arguments>build</arguments>-->
-<!--						</configuration>-->
-<!--					</execution>-->
+					<execution>
+						<id>npm run build</id>
+						<goals>
+							<goal>npm</goal>
+						</goals>
+						<configuration>
+							<arguments>run build</arguments>
+						</configuration>
+					</execution>
 				</executions>
 			</plugin>
 		</plugins>
