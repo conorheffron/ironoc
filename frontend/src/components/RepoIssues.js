@@ -56,7 +56,7 @@ class RepoIssues extends Component {
                     <Container fluid>
                         <br />
                         <InputGroup className="mb-3">
-                            <Form.Control placeholder="Enter Project Name..." aria-label="Enter Project Name..."
+                            <Form.Control placeholder="Enter Project Name... Example: ironoc-db" aria-label="Enter Project Name..."
                                 aria-describedby="basic-addon2" type="text" value={this.state.value}
                                 onChange={e => this.setState({ value: e.target.value })} />
                             <Button color="primary" variant="outline-secondary" id="button-addon2"

@@ -62,7 +62,7 @@ class RepoDetails extends Component {
                     <Container fluid>
                         <br />
                         <InputGroup className="mb-3">
-                            <Form.Control placeholder="Enter GitHub User ID..." aria-label="Enter GitHub User ID..."
+                            <Form.Control placeholder="Enter GitHub User ID... Example: conorheffron" aria-label="Enter GitHub User ID..."
                                 aria-describedby="basic-addon2" value={this.state.value}
                                     onChange={e => this.setState({ value: e.target.value })} type="text"/>
                             <Button color="primary" variant="outline-secondary" id="button-addon2"
