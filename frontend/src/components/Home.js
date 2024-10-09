@@ -10,11 +10,10 @@ class Home extends Component {
         return (
             <div className="App">
               <AppNavbar/>
-              <Container fluid>
+              <Container>
                   <header className="App-header">
-                    <img src={logo} className="App-logo" alt="iRonoc"/>
-                    <p id="my-intro">Web Application Development | Software Engineering
-                    | Data Engineering | Cloud Deployments | DevOps</p>
+                    <a href="/"><img src={logo} className="App-logo" alt="iRonoc"/></a>
+                    <p id="my-intro">Web Application Development | Software & Data Engineering | DevOps</p>
                   </header>
               </Container>
             </div>

@@ -1,15 +1,15 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import {Navbar, Container, Collapse, NavbarBrand, Nav, NavItem, NavLink, UncontrolledDropdown, DropdownToggle, DropdownItem, DropdownMenu } from "reactstrap";
+import {Navbar, NavbarText, Container, Collapse, NavbarBrand, Nav, NavItem, NavLink, UncontrolledDropdown, DropdownToggle, DropdownItem, DropdownMenu } from "reactstrap";
 import logo from './img/robot-logo.png';
 
 export default function AppNavBar() {
   return (
         <div>
-            <Navbar color="light" fixed="top" light expand={true} className="nav-bar">
+            <Navbar color="primary" light={false} dark={true} fixed="top" container={true} expand={true} className="nav-bar">
                 <Container>
                     <NavbarBrand href="/">
-                        <img alt="" src={logo} width="30" height="30" className="d-inline-block align-top"/>{' '}Home
+                        <img alt="" src={logo} width="30" height="30" className="d-inline-block align-top"/>
                     </NavbarBrand>
                     <Collapse navbar>
                     <Nav className="me-auto" navbar>
@@ -23,7 +23,7 @@ export default function AppNavBar() {
                             </DropdownMenu>
                         </UncontrolledDropdown>
                         <UncontrolledDropdown inNavbar nav>
-                            <DropdownToggle caret nav>GitHub Views</DropdownToggle>
+                            <DropdownToggle caret nav>GitHub PM</DropdownToggle>
                             <DropdownMenu end>
                                 <DropdownItem href="/projects/conorheffron">Projects</DropdownItem>
                                 <DropdownItem href="/issues/conorheffron/ironoc">Issues</DropdownItem>
@@ -34,11 +34,14 @@ export default function AppNavBar() {
                             <DropdownMenu end>
                                 <DropdownItem target="_blank" href="/swagger-ui-ironoc.html">Swagger Doc</DropdownItem>
                                 <DropdownItem divider />
-                                <DropdownItem target="_blank" href="/get-repo-detail?username=conorheffron">Projects JSON (conorheffron)</DropdownItem>
-                                <DropdownItem target="_blank" href="/get-repo-issue/conorheffron/ironoc/">Issues JSON (iRonoc)</DropdownItem>
+                                <DropdownItem target="_blank" href="/get-repo-detail?username=conorheffron">GET Projects</DropdownItem>
+                                <DropdownItem target="_blank" href="/get-repo-issue/conorheffron/ironoc/">GET Issues</DropdownItem>
                             </DropdownMenu>
                         </UncontrolledDropdown>
                     </Nav>
+                    <a href="/">
+                        <NavbarText href="/">Home</NavbarText>
+                    </a>
                     </Collapse>
                 </Container>
             </Navbar>
