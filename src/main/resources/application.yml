@@ -9,7 +9,7 @@ com:
         follow-redirects: true
         api:
           endpoint:
-            repos: https://api.github.com/users/{username}/repos
+            repos: https://api.github.com/users/{username}/repos?per_page=100
             issues: https://api.github.com/repos/{username}/{repo}/issues
 
 spring:
