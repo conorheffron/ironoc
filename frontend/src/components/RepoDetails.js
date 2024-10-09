@@ -44,9 +44,9 @@ class RepoDetails extends Component {
         let gitUser = this.props.match.params.id;
         const repoList = repoDetailList.map(repo => {
             return <tr key={repo.name}>
-                <td><a href={repo.repoUrl} target="_blank" rel="noreferrer">{repo.fullName}</a></td>
+                <td className="table-info"><a href={repo.repoUrl} target="_blank" rel="noreferrer">{repo.fullName}</a></td>
                 <td>{repo.description}</td>
-                <td><a href={repo.appHome} target="_blank" rel="noreferrer">{repo.name}</a></td>
+                <td className="table-info"><a href={repo.appHome} target="_blank" rel="noreferrer">{repo.name}</a></td>
                 <td>{repo.topics}</td>
                 <td>
                     <ButtonGroup>
@@ -62,16 +62,16 @@ class RepoDetails extends Component {
                     <Container fluid>
                         <br />
                         <InputGroup className="mb-3">
-                            <Form.Control placeholder="Enter GitHub User ID..." aria-label="Enter GitHub User ID..."
+                            <Form.Control placeholder="Enter GitHub User ID... Example: conorheffron" aria-label="Enter GitHub User ID..."
                                 aria-describedby="basic-addon2" value={this.state.value}
                                     onChange={e => this.setState({ value: e.target.value })} type="text"/>
                             <Button color="primary" variant="outline-secondary" id="button-addon2"
                                 onClick={this.onSubmit}>Search Projects</Button>
                         </InputGroup>
                         <h3>GitHub Projects for username: <b>{this.props.match.params.id}</b></h3>
-                        <Table className="mt-4">
+                        <Table striped hover bordered>
                             <thead>
-                                <tr>
+                                <tr className="table-primary">
                                     <th width="10%">Repository</th>
                                     <th width="50%">Description</th>
                                     <th width="10%">App URL</th>

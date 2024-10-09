@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Container } from 'reactstrap';
 import '.././App.css';
 import AppNavbar from '.././AppNavbar';
-import logo from './img/robot-logo.png';
+import logo from '.././img/robot-logo.png';
 
 class Home extends Component {
 
@@ -10,11 +10,10 @@ class Home extends Component {
         return (
             <div className="App">
               <AppNavbar/>
-              <Container fluid>
+              <Container>
                   <header className="App-header">
-                    <img src={logo} className="App-logo" alt="logo"/>
-                    <h1>iRonoc</h1>
-                    <p>Web Application Development | Software Engineering | Data Engineering | Cloud Deployments | DevOps</p>
+                    <a href="/"><img src={logo} className="App-logo" alt="iRonoc"/></a>
+                    <p id="my-intro">Web Application Development | Software & Data Engineering | DevOps</p>
                   </header>
               </Container>
             </div>

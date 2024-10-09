@@ -1,5 +1,6 @@
 package com.ironoc.portfolio.job;
 
+import com.ironoc.portfolio.logger.AbstractLogger;
 import com.ironoc.portfolio.service.GitRepoCache;
 import com.ironoc.portfolio.dto.RepositoryDetailDto;
 import com.ironoc.portfolio.service.GitDetails;
@@ -11,7 +12,7 @@ import java.util.List;
 import java.util.Set;
 
 @Getter
-public class GitDetailsRunnable implements Runnable {
+public class GitDetailsRunnable extends AbstractLogger implements Runnable {
 
     private final GitRepoCache gitRepoCache;
 
@@ -37,14 +38,17 @@ public class GitDetailsRunnable implements Runnable {
 
     @Override
     public void run() {
+        info("GitDetailsRunnable running for userIds={}", getUserIds());
         for (String userId : userIds) {
             List<RepositoryDetailDto> dtos = gitDetails.getRepoDetails(userId);
+            info("-----Running GIT details job for userIds={}, repositoryDetailDtos={}", getUserIds(), dtos);
             gitRepoCache.put(userId, gitDetails.mapRepositoriesToResponse(dtos));
         }
     }
 
     @PreDestroy
     public void tearDown() {
+        info("Entering GitDetailsRunnable.tearDown for userIds={}", getUserIds());
         this.userIds.clear();
     }
 }

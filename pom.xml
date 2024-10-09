@@ -5,7 +5,7 @@
 
 	<groupId>conorheffron</groupId>
 	<artifactId>ironoc</artifactId>
-	<version>5.1.1</version>
+	<version>5.2.0</version>
 	<packaging>war</packaging>
 
 	<distributionManagement>
@@ -17,7 +17,7 @@
 	</distributionManagement>
 
 	<name>ironoc</name>
-	<description>ironoc personal portfolio site</description>
+	<description>iRonoc personal portfolio site</description>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -32,8 +32,7 @@
 		<java.version>21</java.version>
 		<spring.version>3.3.4</spring.version>
 		<frontend-maven-plugin.version>1.15.1</frontend-maven-plugin.version>
-		<node.version>v20.16.0</node.version>
-		<yarn.version>v1.22.22</yarn.version>
+		<node.version>v22.9.0</node.version>
 	</properties>
 
 	<dependencies>
@@ -141,13 +140,13 @@
 		<dependency>
 			<groupId>io.swagger.core.v3</groupId>
 			<artifactId>swagger-annotations</artifactId>
-			<version>2.2.24</version>
+			<version>2.2.25</version>
 		</dependency>
 		<!-- AWS-->
 		<dependency>
 			<groupId>software.amazon.awssdk</groupId>
 			<artifactId>aws-sdk-java</artifactId>
-			<version>2.28.11</version>
+			<version>2.28.16</version>
 		</dependency>
 	</dependencies>
 
@@ -156,7 +155,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
-				<version>3.5.0</version>
+				<version>3.5.1</version>
 			</plugin>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
@@ -197,7 +196,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-resources-plugin</artifactId>
-				<version>3.1.0</version>
+				<version>3.3.1</version>
 				<executions>
 					<execution>
 						<id>copy-resources</id>
@@ -222,46 +221,34 @@
 				<version>${frontend-maven-plugin.version}</version>
 				<configuration>
 					<workingDirectory>frontend</workingDirectory>
+					<installDirectory>target</installDirectory>
 				</configuration>
 				<executions>
 					<execution>
-						<id>install node</id>
+						<id>install node and npm</id>
 						<goals>
-							<goal>install-node-and-yarn</goal>
+							<goal>install-node-and-npm</goal>
 						</goals>
 						<configuration>
 							<nodeVersion>${node.version}</nodeVersion>
-							<yarnVersion>${yarn.version}</yarnVersion>
 						</configuration>
 					</execution>
 					<execution>
-						<id>yarn install</id>
+						<id>npm install</id>
 						<goals>
-							<goal>yarn</goal>
+							<goal>npm</goal>
 						</goals>
-						<phase>generate-resources</phase>
+						<configuration>
+							<arguments>install</arguments>
+						</configuration>
 					</execution>
 <!--					<execution>-->
-<!--						<id>yarn test</id>-->
+<!--						<id>npm run build</id>-->
 <!--						<goals>-->
-<!--							<goal>yarn</goal>-->
+<!--							<goal>npm</goal>-->
 <!--						</goals>-->
-<!--						<phase>test</phase>-->
 <!--						<configuration>-->
-<!--							<arguments>test</arguments>-->
-<!--							<environmentVariables>-->
-<!--								<CI>true</CI>-->
-<!--							</environmentVariables>-->
-<!--						</configuration>-->
-<!--					</execution>-->
-<!--					<execution>-->
-<!--						<id>yarn build</id>-->
-<!--						<goals>-->
-<!--							<goal>yarn</goal>-->
-<!--						</goals>-->
-<!--						<phase>compile</phase>-->
-<!--						<configuration>-->
-<!--							<arguments>build</arguments>-->
+<!--							<arguments>run build</arguments>-->
 <!--						</configuration>-->
 <!--					</execution>-->
 				</executions>
