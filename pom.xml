@@ -33,6 +33,7 @@
 		<spring.version>3.3.4</spring.version>
 		<frontend-maven-plugin.version>1.15.1</frontend-maven-plugin.version>
 		<node.version>v20.16.0</node.version>
+		<npm.version>10.8.1</npm.version>
 	</properties>
 
 	<dependencies>
@@ -231,6 +232,7 @@
 						</goals>
 						<configuration>
 							<nodeVersion>${node.version}</nodeVersion>
+							<npmVersion>${npm.version}</npmVersion>
 						</configuration>
 					</execution>
 					<execution>
