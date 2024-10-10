@@ -239,7 +239,7 @@
 							<outputDirectory>${basedir}/target/classes/static</outputDirectory>
 							<resources>
 								<resource>
-									<directory>frontend</directory>
+									<directory>frontend/build</directory>
 								</resource>
 							</resources>
 						</configuration>
