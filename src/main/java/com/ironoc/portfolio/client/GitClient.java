@@ -18,6 +18,7 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -56,13 +57,12 @@ public class GitClient extends AbstractLogger implements Client {
             }
             inputStream = this.readInputStream(conn);
             Map<String, List<String>> map = conn.getHeaderFields();
-            List<String> linkHeader = map.getOrDefault("Link", Collections.emptyList());
-            info("Link.Header value: {}", linkHeader);
-            String jsonResponse = convertInputStreamToString(inputStream);
-            CollectionType listType = objectMapper.getTypeFactory()
-                    .constructCollectionType(ArrayList.class, type);
-            dtos = objectMapper.readValue(jsonResponse, listType);
-            debug("List.of(DTO)={}", dtos);
+            List<String> linkHeader = map.get("Link");
+            Map<String, String> linkHeaders = new HashMap<>();
+            if (linkHeader != null && !linkHeader.isEmpty()) {
+                info("Link.Header: {}", linkHeader);
+            }
+            dtos = readJsonResponse(inputStream, type);
         } catch (Exception ex) {
             error("Unexpected error occurred while retrieving data.", ex);
         } finally {
@@ -76,6 +76,16 @@ public class GitClient extends AbstractLogger implements Client {
                 error("Unexpected error occurred while closing input stream.", ex);
             }
         }
+        return dtos;
+    }
+
+    private <T> List<T> readJsonResponse(InputStream inputStream, Class<T> type) throws Exception {
+        List<T> dtos = new ArrayList<>();
+        String jsonResponse = convertInputStreamToString(inputStream);
+        CollectionType listType = objectMapper.getTypeFactory()
+                .constructCollectionType(ArrayList.class, type);
+        dtos = objectMapper.readValue(jsonResponse, listType);
+        debug("List.of(DTO)={}", dtos);
         return dtos;
     }
 
