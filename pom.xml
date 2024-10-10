@@ -32,7 +32,7 @@
 		<java.version>21</java.version>
 		<spring.version>3.3.4</spring.version>
 		<frontend-maven-plugin.version>1.6</frontend-maven-plugin.version>
-		<node.version>v8.10.0</node.version>
+		<node.version>v16.20.2</node.version>
 	</properties>
 
 	<dependencies>
@@ -199,33 +199,20 @@
 				<version>${frontend-maven-plugin.version}</version>
 				<configuration>
 					<workingDirectory>frontend</workingDirectory>
+					<installDirectory>target</installDirectory>
 				</configuration>
 				<executions>
 					<execution>
-						<id>install node and npm</id>
+						<id>npm install</id>
 						<goals>
 							<goal>npm</goal>
 						</goals>
-						<configuration>
-							<nodeVersion>${node.version}</nodeVersion>
-						</configuration>
 					</execution>
 					<execution>
-						<id>npm test</id>
+						<id>npm build</id>
 						<goals>
 							<goal>npm</goal>
 						</goals>
-						<phase>test</phase>
-						<configuration>
-							<arguments>run test</arguments>
-						</configuration>
-					</execution>
-					<execution>
-						<id>ionic build prod</id>
-						<goals>
-							<goal>npm</goal>
-						</goals>
-						<phase>compile</phase>
 						<configuration>
 							<arguments>run build</arguments>
 						</configuration>
