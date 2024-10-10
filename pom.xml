@@ -32,8 +32,8 @@
 		<java.version>21</java.version>
 		<spring.version>3.3.4</spring.version>
 		<frontend-maven-plugin.version>1.15.1</frontend-maven-plugin.version>
-		<node.version>v20.16.0</node.version>
-		<npm.version>v10.8.1</npm.version>
+		<nodeVersion>v12.16.3</nodeVersion>
+		<npmVersion>6.14.4</npmVersion>
 	</properties>
 
 	<dependencies>
