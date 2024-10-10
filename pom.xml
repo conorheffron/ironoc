@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>conorheffron</groupId>
@@ -9,11 +9,11 @@
 	<packaging>war</packaging>
 
 	<distributionManagement>
-	   <repository>
-	     <id>github</id>
-	     <name>GitHub conorheffron Apache Maven Packages</name>
-	     <url>https://maven.pkg.github.com/conorheffron/ironoc</url>
-	   </repository>
+		<repository>
+			<id>github</id>
+			<name>GitHub conorheffron Apache Maven Packages</name>
+			<url>https://maven.pkg.github.com/conorheffron/ironoc</url>
+		</repository>
 	</distributionManagement>
 
 	<name>ironoc</name>
@@ -199,7 +199,7 @@
 				<version>${frontend-maven-plugin.version}</version>
 				<configuration>
 					<workingDirectory>frontend</workingDirectory>
-                    			<installDirectory>target</installDirectory>
+					<installDirectory>target</installDirectory>
 					<nodeVersion>${node.version}</nodeVersion>
 				</configuration>
 				<executions>
@@ -217,7 +217,15 @@
 						<goals>
 							<goal>npm</goal>
 						</goals>
-						<phase>generate-resources</phase>
+					</execution>
+					<execution>
+						<id>npm build</id>
+						<goals>
+							<goal>npm</goal>
+						</goals>
+						<configuration>
+							<arguments>run build</arguments>
+						</configuration>
 					</execution>
 				</executions>
 			</plugin>
@@ -236,7 +244,7 @@
 							<outputDirectory>${basedir}/target/classes/static</outputDirectory>
 							<resources>
 								<resource>
-									<directory>frontend/build</directory>
+									<directory>${basedir}/frontend/build</directory>
 								</resource>
 							</resources>
 						</configuration>
