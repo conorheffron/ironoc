@@ -208,7 +208,7 @@
 							<outputDirectory>${basedir}/target/classes/static</outputDirectory>
 							<resources>
 								<resource>
-									<directory>frontend/build</directory>
+									<directory>frontend/build/frontend</directory>
 								</resource>
 							</resources>
 						</configuration>
@@ -220,8 +220,6 @@
 				<artifactId>frontend-maven-plugin</artifactId>
 				<version>${frontend-maven-plugin.version}</version>
 				<configuration>
-					<workingDirectory>frontend</workingDirectory>
-					<installDirectory>target</installDirectory>
 					<nodeVersion>${node.version}</nodeVersion>
 				</configuration>
 				<executions>
@@ -230,9 +228,6 @@
 						<goals>
 							<goal>install-node-and-npm</goal>
 						</goals>
-						<configuration>
-							
-						</configuration>
 					</execution>
 					<execution>
 						<id>npm install</id>
