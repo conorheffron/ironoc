@@ -251,7 +251,7 @@
 						</goals>
 						<phase>prepare-package</phase>
 						<configuration>
-							<arguments>run build</arguments>
+							<arguments>run build --verbose</arguments>
 						</configuration>
 					</execution>
 				</executions>
