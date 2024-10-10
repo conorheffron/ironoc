@@ -4,3 +4,7 @@
 /.env
 /.settings/
 /.idea
+/logs
+/frontend/node
+/frontend/node_modules
+/frontend/build
