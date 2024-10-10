@@ -217,15 +217,7 @@
 						<goals>
 							<goal>npm</goal>
 						</goals>
-					</execution>
-					<execution>
-						<id>npm run build</id>
-						<goals>
-							<goal>npm</goal>
-						</goals>
-						<configuration>
-							<arguments>run build</arguments>
-						</configuration>
+						<phase>generate-resources</phase>
 					</execution>
 				</executions>
 			</plugin>
