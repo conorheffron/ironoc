@@ -221,7 +221,7 @@
 				<version>${frontend-maven-plugin.version}</version>
 				<configuration>
 					<workingDirectory>frontend</workingDirectory>
-					<installDirectory>target</installDirectory>
+					<installDirectory>target/classes/static</installDirectory>
 				</configuration>
 				<executions>
 					<execution>
