@@ -31,9 +31,8 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>21</java.version>
 		<spring.version>3.3.4</spring.version>
-		<frontend-maven-plugin.version>1.10.3</frontend-maven-plugin.version>
-		<node.version>v20.18.0</node.version>
-		<npm.version>v10.8.2</npm.version>
+		<frontend-maven-plugin.version>1.6</frontend-maven-plugin.version>
+		<node.version>v8.10.0</node.version>
 	</properties>
 
 	<dependencies>
@@ -200,37 +199,36 @@
 				<version>${frontend-maven-plugin.version}</version>
 				<configuration>
 					<workingDirectory>frontend</workingDirectory>
-					<installDirectory>target</installDirectory>
-					<nodeVersion>${node.version}</nodeVersion>
-					<npmVersion>${npm.version}}</npmVersion>
 				</configuration>
-				<executions>
-					<execution>
-						<id>install node and npm</id>
-						<goals>
-							<goal>install-node-and-npm</goal>
-						</goals>
-						<configuration>
-							<nodeVersion>${node.version}</nodeVersion>
-							<npmVersion>${npm.version}</npmVersion>
-						</configuration>
-					</execution>
-					<execution>
-						<id>npm install</id>
-						<goals>
-							<goal>npm</goal>
-						</goals>
-					</execution>
-					<execution>
-						<id>npm build</id>
-						<goals>
-							<goal>npm</goal>
-						</goals>
-						<configuration>
-							<arguments>run build</arguments>
-						</configuration>
-					</execution>
-				</executions>
+				<execution>
+					<id>install node and npm</id>
+					<goals>
+						<goal>install-node-and-npm</goal>
+					</goals>
+					<configuration>
+						<nodeVersion>${node.version}</nodeVersion>
+					</configuration>
+				</execution>
+				<execution>
+					<id>npm test</id>
+					<goals>
+						<goal>npm</goal>
+					</goals>
+					<phase>test</phase>
+					<configuration>
+						<arguments>run test</arguments>
+					</configuration>
+				</execution>
+				<execution>
+					<id>ionic build prod</id>
+					<goals>
+						<goal>npm</goal>
+					</goals>
+					<phase>compile</phase>
+					<configuration>
+						<arguments>run build</arguments>
+					</configuration>
+				</execution>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
