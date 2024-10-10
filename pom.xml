@@ -206,6 +206,9 @@
 						<goals>
 							<goal>install-node-and-npm</goal>
 						</goals>
+						<configuration>
+							<nodeVersion>${node.version}</nodeVersion>
+						</configuration>
 					</execution>
 					<execution>
 						<id>npm install</id>
