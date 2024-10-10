@@ -33,10 +33,10 @@ class ControlledCarousel extends Component {
                                     <img className="d-block w-100" src={teal} alt="Image Two" />
                                     <Carousel.Caption>
                                         <h1><u>booking-sys</u></h1>
-                                        <h2>Sample Reservations & Viewing System (Python / Django Web App)</h2>
+                                        <h2>Sample Reservations & Viewer System</h2>
                                         <br /><br />
                                         <h3>Tech Stack:</h3>
-                                        <h4>Python & Django, SQLite3 or MySQL database.</h4>
+                                        <h4>Python & Django Web App, JavaScript, SQLite3 or MySQL database.</h4>
                                     </Carousel.Caption>
                                 </a>
                             </Carousel.Item>
@@ -45,7 +45,7 @@ class ControlledCarousel extends Component {
                                     <img className="d-block w-100" src={navy} alt="Image Three" />
                                     <Carousel.Caption>
                                         <h1><u>nba-stats</u></h1>
-                                        <h2>NBA Analytics (Data for seasons 2015 - 2023): Player Statistics</h2>
+                                        <h2>NBA Analytics (Seasons 2015 - 2023): Player Statistics</h2>
                                         <br /><br />
                                         <h3>Tech Stack:</h3>
                                         <h4>Jupyter Notebooks, Python, Pandas, & Requests / JSON API.</h4>
@@ -57,7 +57,7 @@ class ControlledCarousel extends Component {
                                     <img className="d-block w-100" src={red} alt="Image Four" />
                                     <Carousel.Caption>
                                         <h1><u>cbio-skin-canc</u></h1>
-                                        <h2>Skin Cancer Dataset Analysis (R Programming)</h2>
+                                        <h2>Skin Cancer Dataset Analysis</h2>
                                         <br /><br />
                                         <h3>Tech Stack:</h3>
                                         <h4>R, dplyr, plotly, knitr, testthat, covr, GIT.</h4>
@@ -69,7 +69,7 @@ class ControlledCarousel extends Component {
                                     <img className="d-block w-100" src={navy} alt="Image Five" />
                                     <Carousel.Caption>
                                         <h1><u>gene-expr</u></h1>
-                                        <h2>Breast Cancer Dataset Analysis (R Programming)</h2>
+                                        <h2>Breast Cancer Dataset Analysis</h2>
                                         <br /><br />
                                         <h3>Tech Stack:</h3>
                                         <h4>R, ggplot2, dplyr, deseq2-analysis, & R markdown.</h4>
@@ -81,7 +81,7 @@ class ControlledCarousel extends Component {
                                     <img className="d-block w-100" src={red} alt="Image Six" />
                                     <Carousel.Caption>
                                         <h1><u>bio-cell-red-edge</u></h1>
-                                        <h2>Edge Detection of Biological Cell (Image Processing Python Script)</h2>
+                                        <h2>Edge Detection of Biological Cell (Image Processing Script)</h2>
                                         <br /><br />
                                         <h3>Tech Stack:</h3>
                                         <h4>Python, sci-kit-image, matplotlib.pyplot, & scipy.ndimage.</h4>
@@ -93,7 +93,7 @@ class ControlledCarousel extends Component {
                                     <img className="d-block w-100" src={teal} alt="Image Seven" />
                                     <Carousel.Caption>
                                         <h1><u>global-max-sim-matrix</u></h1>
-                                        <h2>Compute Global Maximum Similarity Matrix (R Package)</h2>
+                                        <h2>Compute Global Maximum Similarity Matrix</h2>
                                         <br /><br />
                                         <h3>Tech Stack:</h3>
                                         <h4>R Package, testthat, stringr, & devtools.

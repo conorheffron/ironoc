@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import './App.css';
 import Home from './components/Home';
+import NotFound from './components/NotFound';
 import About from './components/About';
 import RepoDetails from './components/RepoDetails';
 import RepoIssues from './components/RepoIssues';
@@ -18,7 +19,7 @@ class App extends Component {
             <Route path='/projects' exact={true} component={RepoDetails}/>
             <Route path='/projects/:id' component={RepoDetails}/>
             <Route path='/issues/:id/:repo' component={RepoIssues}/>
-            <Route path="*" component={Home} />
+            <Route path="*" component={NotFound} />
           </Switch>
         </Router>
     )

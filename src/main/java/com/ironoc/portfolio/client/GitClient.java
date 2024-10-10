@@ -6,9 +6,9 @@ import com.ironoc.portfolio.aws.SecretManager;
 import com.ironoc.portfolio.config.PropertyConfigI;
 import com.ironoc.portfolio.logger.AbstractLogger;
 import com.ironoc.portfolio.utils.UrlUtils;
-import io.micrometer.common.util.StringUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -18,7 +18,9 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Component
 @Slf4j
@@ -54,12 +56,14 @@ public class GitClient extends AbstractLogger implements Client {
                 return Collections.emptyList();
             }
             inputStream = this.readInputStream(conn);
-            String jsonResponse = convertInputStreamToString(inputStream);
-            CollectionType listType = objectMapper.getTypeFactory()
-                    .constructCollectionType(ArrayList.class, type);
-            dtos = objectMapper.readValue(jsonResponse, listType);
-            debug("List.of(DTO)={}", dtos);
-        } catch(Exception ex) {
+            Map<String, List<String>> map = conn.getHeaderFields();
+            List<String> linkHeader = map.get("Link");
+            Map<String, String> linkHeaders = new HashMap<>();
+            if (linkHeader != null && !linkHeader.isEmpty()) {
+                info("Link.Header: {}", linkHeader);
+            }
+            dtos = readJsonResponse(inputStream, type);
+        } catch (Exception ex) {
             error("Unexpected error occurred while retrieving data.", ex);
         } finally {
             try {
@@ -72,6 +76,16 @@ public class GitClient extends AbstractLogger implements Client {
                 error("Unexpected error occurred while closing input stream.", ex);
             }
         }
+        return dtos;
+    }
+
+    private <T> List<T> readJsonResponse(InputStream inputStream, Class<T> type) throws Exception {
+        List<T> dtos = new ArrayList<>();
+        String jsonResponse = convertInputStreamToString(inputStream);
+        CollectionType listType = objectMapper.getTypeFactory()
+                .constructCollectionType(ArrayList.class, type);
+        dtos = objectMapper.readValue(jsonResponse, listType);
+        debug("List.of(DTO)={}", dtos);
         return dtos;
     }
 

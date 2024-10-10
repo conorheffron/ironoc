@@ -54,15 +54,18 @@ public class GitDetailsService extends AbstractLogger implements GitDetails {
         }
         // further end-point validation (contains User ID)
         String uri = propertyConfig.getGitApiEndpointRepos();
+        Integer page = 1;
+        Integer per_page = 100;
         String apiUri = UriComponentsBuilder.fromHttpUrl(uri)
-                .buildAndExpand(username)
+                .buildAndExpand(username, per_page, page)
                 .toUriString();
         if (StringUtils.isBlank(apiUri) | StringUtils.isBlank(uri)
                 | !urlUtils.isValidURL(apiUri)) {
             warn("URL is not valid: url={}", apiUri);
             return Collections.emptyList();
         }
-        return gitClient.callGitHubApi(apiUri, uri, RepositoryDetailDto.class, HttpMethod.GET.name());
+        List<RepositoryDetailDto> dtos = gitClient.callGitHubApi(apiUri, uri, RepositoryDetailDto.class, HttpMethod.GET.name());
+        return dtos;
     }
 
     @Override
@@ -102,8 +105,10 @@ public class GitDetailsService extends AbstractLogger implements GitDetails {
     public List<RepositoryIssueDto> getIssues(String userId, String repo) {
         // further end-point validation (contains User ID)
         String uri = propertyConfig.getGitApiEndpointIssues();
+        Integer page = 1;
+        Integer per_page = 100;
         String apiUri = UriComponentsBuilder.fromHttpUrl(uri)
-                .buildAndExpand(userId, repo)
+                .buildAndExpand(userId, repo, per_page, page)
                 .toUriString();
         if (StringUtils.isBlank(apiUri) | StringUtils.isBlank(uri)
                 | !urlUtils.isValidURL(apiUri)) {
