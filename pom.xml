@@ -31,7 +31,7 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>21</java.version>
 		<spring.version>3.3.4</spring.version>
-		<frontend-maven-plugin.version>1.15.1</frontend-maven-plugin.version>
+		<frontend-maven-plugin.version>1.6</frontend-maven-plugin.version>
 		<node.version>v20.18.0</node.version>
 	</properties>
 
