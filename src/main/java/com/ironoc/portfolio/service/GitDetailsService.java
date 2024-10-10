@@ -54,15 +54,17 @@ public class GitDetailsService extends AbstractLogger implements GitDetails {
         }
         // further end-point validation (contains User ID)
         String uri = propertyConfig.getGitApiEndpointRepos();
+        Integer page = 1;
         String apiUri = UriComponentsBuilder.fromHttpUrl(uri)
-                .buildAndExpand(username)
+                .buildAndExpand(username, page)
                 .toUriString();
         if (StringUtils.isBlank(apiUri) | StringUtils.isBlank(uri)
                 | !urlUtils.isValidURL(apiUri)) {
             warn("URL is not valid: url={}", apiUri);
             return Collections.emptyList();
         }
-        return gitClient.callGitHubApi(apiUri, uri, RepositoryDetailDto.class, HttpMethod.GET.name());
+        List<RepositoryDetailDto> dtos = gitClient.callGitHubApi(apiUri, uri, RepositoryDetailDto.class, HttpMethod.GET.name());
+        return dtos;
     }
 
     @Override

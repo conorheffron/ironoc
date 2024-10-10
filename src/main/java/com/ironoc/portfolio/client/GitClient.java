@@ -6,9 +6,9 @@ import com.ironoc.portfolio.aws.SecretManager;
 import com.ironoc.portfolio.config.PropertyConfigI;
 import com.ironoc.portfolio.logger.AbstractLogger;
 import com.ironoc.portfolio.utils.UrlUtils;
-import io.micrometer.common.util.StringUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -19,6 +19,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 @Component
 @Slf4j
@@ -54,12 +55,15 @@ public class GitClient extends AbstractLogger implements Client {
                 return Collections.emptyList();
             }
             inputStream = this.readInputStream(conn);
+            Map<String, List<String>> map = conn.getHeaderFields();
+            List<String> linkHeader = map.getOrDefault("Link", Collections.emptyList());
+            info("Link.Header value: {}", linkHeader);
             String jsonResponse = convertInputStreamToString(inputStream);
             CollectionType listType = objectMapper.getTypeFactory()
                     .constructCollectionType(ArrayList.class, type);
             dtos = objectMapper.readValue(jsonResponse, listType);
             debug("List.of(DTO)={}", dtos);
-        } catch(Exception ex) {
+        } catch (Exception ex) {
             error("Unexpected error occurred while retrieving data.", ex);
         } finally {
             try {
