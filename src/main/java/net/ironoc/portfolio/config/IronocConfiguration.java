@@ -24,11 +24,12 @@ public class IronocConfiguration implements WebMvcConfigurer {
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         List<String> ignorePaths = List.of("api");
         List<String> handledExtensions = List.of("html", "js", "json",
-                "csv", "css",
+                "csv", "css", "map",
                 "svg", "eot", "ttf", "woff",
                 "appcache",
                 "png", "jpg", "jpeg",
-                "gif", "ico");
+                "gif", "ico",
+                "txt");
         registry.addResourceHandler("/**")
                 .addResourceLocations("classpath:/static/")
                 .resourceChain(false)

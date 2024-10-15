@@ -10,6 +10,7 @@ import org.springframework.web.servlet.resource.ResourceResolverChain;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 public class PushStateResourceResolver extends AbstractLogger implements ResourceResolver {
 
@@ -48,14 +49,20 @@ public class PushStateResourceResolver extends AbstractLogger implements Resourc
 
     private Resource resolve(String requestPath, List<? extends Resource> locations) {
         if (isIgnored(requestPath)) {
+            warn("The ignored request path is: {}", requestPath);
             return null;
         }
         if (isHandled(requestPath)) {
-            return locations.stream()
+            Optional<Resource> staticResource = locations.stream()
                     .map(loc -> createRelative(loc, requestPath))
                     .filter(resource -> resource != null && resource.exists())
-                    .findFirst()
-                    .orElseGet(null);
+                    .findFirst();
+            info("The request path is: {}", requestPath);
+            if (staticResource.isPresent()) {
+                return staticResource.get();
+            } else {
+                error("The request path {} does not exist.", requestPath);
+            }
         }
         return index;
     }
