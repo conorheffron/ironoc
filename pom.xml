@@ -30,7 +30,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>21</java.version>
-		<spring.version>3.3.4</spring.version>
+		<spring.version>3.3.5</spring.version>
 		<frontend-maven-plugin.version>1.15.1</frontend-maven-plugin.version>
 		<node.version>v20.16.0</node.version>
 		<npm.version>10.8.1</npm.version>
