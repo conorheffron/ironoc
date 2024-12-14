@@ -39,14 +39,14 @@ export default function AppNavBar() {
                             </DropdownMenu>
                         </UncontrolledDropdown>
                         <UncontrolledDropdown inNavbar nav>
-                            <DropdownToggle caret nav>Projects</DropdownToggle>
+                            <DropdownToggle caret nav>GitHub Projects</DropdownToggle>
                             <DropdownMenu end>
                                 <DropdownItem target="_blank" href="https://github.com/conorheffron/ironoc">iRonoc</DropdownItem>
                                 <DropdownItem divider />
                                 <DropdownItem target="_blank" href="https://github.com/conorheffron/ironoc-db">iRonoc-DB</DropdownItem>
                                 <DropdownItem target="_blank" href="https://github.com/conorheffron/booking-sys">Booking System Sample</DropdownItem>
                                 <DropdownItem target="_blank" href="https://github.com/conorheffron/nba-stats">NBA Stats Analysis</DropdownItem>
-                                <DropdownItem target="_blank" href="https://github.com/conorheffron/ironoc-pytest">PyTest/GitHub Client Python Package</DropdownItem>
+                                <DropdownItem target="_blank" href="https://github.com/conorheffron/ironoc-pytest">PyTest / GitHub Client Package</DropdownItem>
                             </DropdownMenu>
                         </UncontrolledDropdown>
                     </Nav>
