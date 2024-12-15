@@ -18,7 +18,7 @@ class ControlledCarousel extends Component {
                         <Carousel className="App-header">
                             <Carousel.Item interval={500}>
                                 <a href="https://github.com/conorheffron/ironoc-db" target="_blank" rel="noreferrer">
-                                    <img className="d-block w-100" src={navy} alt="Image One"/>
+                                    <img className="d-block w-100" src={navy} alt="navy1"/>
                                     <Carousel.Caption>
                                         <h1><u>ironoc-db</u></h1>
                                         <h2>Sample Data Manager Service with UI</h2>
@@ -30,7 +30,7 @@ class ControlledCarousel extends Component {
                             </Carousel.Item>
                             <Carousel.Item interval={500}>
                                 <a href="https://github.com/conorheffron/booking-sys" target="_blank" rel="noreferrer">
-                                    <img className="d-block w-100" src={teal} alt="Image Two" />
+                                    <img className="d-block w-100" src={teal} alt="teal2" />
                                     <Carousel.Caption>
                                         <h1><u>booking-sys</u></h1>
                                         <h2>Sample Reservations & Viewer System</h2>
@@ -42,7 +42,7 @@ class ControlledCarousel extends Component {
                             </Carousel.Item>
                             <Carousel.Item interval={500}>
                                 <a href="https://github.com/cph33/nba-stats" target="_blank" rel="noreferrer">
-                                    <img className="d-block w-100" src={navy} alt="Image Three" />
+                                    <img className="d-block w-100" src={navy} alt="navy3" />
                                     <Carousel.Caption>
                                         <h1><u>nba-stats</u></h1>
                                         <h2>NBA Analytics (Seasons 2015 - 2023): Player Statistics</h2>
@@ -54,7 +54,7 @@ class ControlledCarousel extends Component {
                             </Carousel.Item>
                             <Carousel.Item interval={500}>
                                 <a href="https://github.com/conorheffron/cbio-skin-canc" target="_blank" rel="noreferrer">
-                                    <img className="d-block w-100" src={red} alt="Image Four" />
+                                    <img className="d-block w-100" src={red} alt="red4" />
                                     <Carousel.Caption>
                                         <h1><u>cbio-skin-canc</u></h1>
                                         <h2>Skin Cancer Dataset Analysis</h2>
@@ -66,7 +66,7 @@ class ControlledCarousel extends Component {
                             </Carousel.Item>
                             <Carousel.Item interval={500}>
                                 <a href="https://github.com/conorheffron/gene-expr" target="_blank" rel="noreferrer">
-                                    <img className="d-block w-100" src={navy} alt="Image Five" />
+                                    <img className="d-block w-100" src={navy} alt="navy5" />
                                     <Carousel.Caption>
                                         <h1><u>gene-expr</u></h1>
                                         <h2>Breast Cancer Dataset Analysis</h2>
@@ -78,7 +78,7 @@ class ControlledCarousel extends Component {
                             </Carousel.Item>
                             <Carousel.Item interval={500}>
                                 <a href="https://github.com/conorheffron/bio-cell-red-edge" target="_blank" rel="noreferrer">
-                                    <img className="d-block w-100" src={red} alt="Image Six" />
+                                    <img className="d-block w-100" src={red} alt="red6" />
                                     <Carousel.Caption>
                                         <h1><u>bio-cell-red-edge</u></h1>
                                         <h2>Edge Detection of Biological Cell (Image Processing Script)</h2>
@@ -90,7 +90,7 @@ class ControlledCarousel extends Component {
                             </Carousel.Item>
                             <Carousel.Item interval={500}>
                                 <a href="https://github.com/conorheffron/global-max-sim-matrix" target="_blank" rel="noreferrer">
-                                    <img className="d-block w-100" src={teal} alt="Image Seven" />
+                                    <img className="d-block w-100" src={teal} alt="teal7" />
                                     <Carousel.Caption>
                                         <h1><u>global-max-sim-matrix</u></h1>
                                         <h2>Compute Global Maximum Similarity Matrix</h2>
