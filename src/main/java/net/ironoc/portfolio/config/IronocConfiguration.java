@@ -1,6 +1,8 @@
 package net.ironoc.portfolio.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import net.ironoc.portfolio.resolver.PushStateResourceResolver;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.server.WebServerFactoryCustomizer;
 import org.springframework.boot.web.servlet.server.ConfigurableServletWebServerFactory;
 import org.springframework.context.annotation.Bean;
@@ -20,18 +22,19 @@ import java.util.List;
 @ComponentScan(basePackages = { "net.ironoc.portfolio" })
 public class IronocConfiguration implements WebMvcConfigurer {
 
+    private final PropertyConfigI propertyConfig;
+
+    @Autowired
+    public IronocConfiguration(PropertyConfigI propertyConfig) {
+        this.propertyConfig = propertyConfig;
+    }
+
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        List<String> ignorePaths = List.of("api");
-        List<String> handledExtensions = List.of("html", "js", "json",
-                "csv", "css", "map",
-                "svg", "eot", "ttf", "woff",
-                "appcache",
-                "png", "jpg", "jpeg",
-                "gif", "ico",
-                "txt");
-        registry.addResourceHandler("/**")
-                .addResourceLocations("classpath:/static/")
+        List<String> ignorePaths = List.of(propertyConfig.getStaticConfIgnorePaths());
+        List<String> handledExtensions = propertyConfig.getStaticConfHandleExt();
+        registry.addResourceHandler(propertyConfig.getStaticConfResourceHandler())
+                .addResourceLocations(propertyConfig.getStaticConfResourceLoc())
                 .resourceChain(false)
                 .addResolver(new PushStateResourceResolver(handledExtensions, ignorePaths));
     }

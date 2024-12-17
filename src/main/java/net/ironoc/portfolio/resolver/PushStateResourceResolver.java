@@ -1,4 +1,4 @@
-package net.ironoc.portfolio.config;
+package net.ironoc.portfolio.resolver;
 
 import net.ironoc.portfolio.logger.AbstractLogger;
 import jakarta.servlet.http.HttpServletRequest;

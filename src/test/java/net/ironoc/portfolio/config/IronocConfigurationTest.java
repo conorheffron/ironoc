@@ -1,6 +1,7 @@
 package net.ironoc.portfolio.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import net.ironoc.portfolio.resolver.PushStateResourceResolver;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -31,6 +32,9 @@ public class IronocConfigurationTest {
     private IronocConfiguration ironocConfiguration;// config bean under test
 
     @Mock
+    private PropertyConfigI propertyConfigMock;
+
+    @Mock
     private ResourceHandlerRegistry resourceHandlerRegistryMock;
 
     @Mock
@@ -51,6 +55,10 @@ public class IronocConfigurationTest {
                 .thenReturn(resourceHandlerRegistrationMock);
         when(resourceHandlerRegistrationMock.resourceChain(false))
                 .thenReturn(resourceChainRegistrationMock);
+        when(propertyConfigMock.getStaticConfHandleExt()).thenReturn(List.of("json", "css", "html", "js"));
+        when(propertyConfigMock.getStaticConfIgnorePaths()).thenReturn("api");
+        when(propertyConfigMock.getStaticConfResourceHandler()).thenReturn("/**");
+        when(propertyConfigMock.getStaticConfResourceLoc()).thenReturn("classpath:/static/");
 
         // when
         ironocConfiguration.addResourceHandlers(resourceHandlerRegistryMock);
@@ -63,6 +71,10 @@ public class IronocConfigurationTest {
         verify(resourceHandlerRegistrationMock).addResourceLocations(resourceLocationCaptors.capture());
         verify(resourceHandlerRegistrationMock).resourceChain(false);
         verify(resourceChainRegistrationMock).addResolver(any(PushStateResourceResolver.class));
+        verify(propertyConfigMock).getStaticConfHandleExt();
+        verify(propertyConfigMock).getStaticConfIgnorePaths();
+        verify(propertyConfigMock).getStaticConfResourceHandler();
+        verify(propertyConfigMock).getStaticConfResourceLoc();
 
         List<String> capturedResourceHandlers = resourceHandlerCaptors.getAllValues();
         assertThat(capturedResourceHandlers.get(0), is("/**"));
