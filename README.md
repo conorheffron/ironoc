@@ -39,10 +39,22 @@ docker run -d --restart=always -p 8080:8080 conorheffron/ironoc
 ![ui-config-screenshot](screen-grabs/local-ui-proxy.png)
 
 ## Run after project checkout (JDK 21 & Maven 3.8.3 required)
-Build / Run App:
-```
+### Build app
+```shell
 mvn clean package
+```
 
+#### View Java Code Coverage reports
+##### Path to reports is `target/site/jacoco/index.html`
+
+![ui-config-screenshot](screen-grabs/jacoco.png)
+
+##### View in browser at `http://localhost:63342/ironoc/target/site/jacoco/index.html?_ijt=s0hqlj2p4s6554gldritju13qr&_ij_reload=RELOAD_ON_SAVE`
+###### Note: Change port as needed.
+![ui-config-screenshot](screen-grabs/jacoco-browser.png)
+
+### Run app
+```shell
 mvn -DAWS_ACCESS_KEY_ID="<val1>" \
     -DAWS_REGION=<val2> \
     -DAWS_SECRET_ACCESS_KEY="<val3>" \
