@@ -1,53 +1,75 @@
 .App {
-  text-align: center;
+    text-align: center;
 }
 
 .App-logo {
-  height: 70vmin;
-  pointer-events: none;
+    height: 70vmin;
+    pointer-events: none;
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+    .App-logo {
+        animation: App-logo-spin infinite 20s linear;
+    }
 }
 
 .App-header {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-  background-color: #1D428A;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+    color: white;
+    background-color: #1D428A;
 }
 
 .App-link {
-  color: #61dafb;
+    color: #61dafb;
 }
 
 @keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 .carousel-caption {
-    top: 0;
-    bottom: auto;
+	top: 0;
+	bottom: auto;
 }
 
 .App-intro {
-  content: "";
-  display: inline-block;
+    content: "";
+    display: inline-block;
 }
 
 #my-intro {
-    padding-left: 15%;
-    padding-right: 15%;
+	padding-left: 15%;
+	padding-right: 15%;
+}
+
+.strava-badge {
+	display: inline-block;
+	background-color: #FC5200;
+	color: #fff;
+	padding: 5px 10px 5px 30px;
+	font-size: 11px;
+	font-family: Helvetica, Arial, sans-serif;
+	white-space: nowrap;
+	text-decoration: none;
+	background-repeat: no-repeat;
+	background-position: 10px center;
+	border-radius: 3px;
+	background-image: url('https://badges.strava.com/logo-strava-echelon.png')
+}
+
+.strava-badge-img {
+    margin-left: 2px;
+    vertical-align: text-bottom;
+    height: 13;
+    width: 51;
 }

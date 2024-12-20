@@ -1,5 +1,7 @@
 package net.ironoc.portfolio.config;
 
+import java.util.List;
+
 public interface PropertyConfigI {
 
     String getGitApiEndpointRepos();
@@ -13,4 +15,12 @@ public interface PropertyConfigI {
     Boolean getGitFollowRedirects();
 
     String getGitApiEndpointIssues();
+
+    String getStaticConfIgnorePaths();
+
+    List<String> getStaticConfHandleExt();
+
+    String getStaticConfResourceHandler();
+
+    String getStaticConfResourceLoc();
 }

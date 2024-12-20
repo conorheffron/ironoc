@@ -1,6 +1,6 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import {Navbar, NavbarText, Container, Collapse, NavbarBrand, Nav, NavItem, NavLink, UncontrolledDropdown, DropdownToggle, DropdownItem, DropdownMenu } from "reactstrap";
+import {Navbar, NavbarText, Container, Collapse, NavbarBrand, Nav, UncontrolledDropdown, DropdownToggle, DropdownItem, DropdownMenu } from "reactstrap";
 import logo from './img/robot-logo.png';
 
 export default function AppNavBar() {
@@ -36,6 +36,17 @@ export default function AppNavBar() {
                                 <DropdownItem divider />
                                 <DropdownItem target="_blank" href="/get-repo-detail?username=conorheffron">GET Projects</DropdownItem>
                                 <DropdownItem target="_blank" href="/get-repo-issue/conorheffron/ironoc/">GET Issues</DropdownItem>
+                            </DropdownMenu>
+                        </UncontrolledDropdown>
+                        <UncontrolledDropdown inNavbar nav>
+                            <DropdownToggle caret nav>GitHub Projects</DropdownToggle>
+                            <DropdownMenu end>
+                                <DropdownItem target="_blank" href="https://github.com/conorheffron/ironoc">iRonoc</DropdownItem>
+                                <DropdownItem divider />
+                                <DropdownItem target="_blank" href="https://github.com/conorheffron/ironoc-db">iRonoc-DB</DropdownItem>
+                                <DropdownItem target="_blank" href="https://github.com/conorheffron/booking-sys">Booking System Sample</DropdownItem>
+                                <DropdownItem target="_blank" href="https://github.com/conorheffron/nba-stats">NBA Stats Analysis</DropdownItem>
+                                <DropdownItem target="_blank" href="https://github.com/conorheffron/ironoc-pytest">PyTest / GitHub Client Package</DropdownItem>
                             </DropdownMenu>
                         </UncontrolledDropdown>
                     </Nav>
