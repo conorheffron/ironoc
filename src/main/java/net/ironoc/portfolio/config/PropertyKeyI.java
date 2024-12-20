@@ -13,4 +13,12 @@ public interface PropertyKeyI {
     String getGitFollowRedirects();
 
     String getGitApiEndpointIssues();
+
+    String getStaticConfIgnorePaths();
+
+    String getStaticConfHandleExt();
+
+    String getStaticConfResourceHandler();
+
+    String getStaticConfResourceLoc();
 }

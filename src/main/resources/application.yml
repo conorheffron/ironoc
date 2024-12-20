@@ -11,6 +11,11 @@ net:
           endpoint:
             repos: https://api.github.com/users/{username}/repos?per_page={per_page}&page={page}
             issues: https://api.github.com/repos/{username}/{repo}/issues?per_page={per_page}&page={page}
+      config:
+        ignore-paths: api
+        handle-extensions: "html,js,json,csv,css,map,svg,eot,ttf,woff,appcache,png,jpg,jpeg,gif,ico,txt"
+        resource-handler: "/**"
+        resource-loc: "classpath:/static/"
 
 spring:
   mvc:

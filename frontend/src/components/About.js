@@ -21,11 +21,12 @@ class About extends Component {
                         developing high-performance applications. As a passionate Full Stack Developer, I am constantly
                         expanding my technical expertise across various tech stacks, languages, frameworks, and
                         tools in the realm of Software, Data, and DevOps. Let's connect and explore exciting
-                        opportunities together! See above & below for contact details and further information.</p>
-                        <iframe height='160' width='300' frameborder='0' allowtransparency='true' scrolling='no'
-                            title='strava-badge'
-                            src='https://www.strava.com/athletes/2582329/activity-summary/a106933e6b6e42ffb4dcf37d2b5fe047af61329a'>
-                        </iframe>
+                        opportunities together! See above & beyond for contact details and further information.
+                        </p><br />
+                        <a class="strava-badge" href='https://strava.com/athletes/2582329' target="_clean">
+                          Follow me on
+                          <img class="strava-badge-img" src='https://badges.strava.com/logo-strava.png' alt='Strava' />
+                        </a>
                 </header>
             </Container>
         </div>
