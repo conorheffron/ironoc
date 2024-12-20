@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class GitRepoCacheService implements GitRepoCache {
+public class GitRepoCacheService extends AbstractGitCache implements GitRepoCache {
 
     private final Map<String, List<RepositoryDetailDomain>> userGitDetails;
 
@@ -28,12 +28,8 @@ public class GitRepoCacheService implements GitRepoCache {
     }
 
     @Override
-    public void clear() {
-        this.userGitDetails.clear();
-    }
-
     @PreDestroy
-    private void tearDown() {
-        this.clear();
+    public void tearDown() {
+        this.clear(userGitDetails);
     }
 }

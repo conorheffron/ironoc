@@ -90,7 +90,8 @@ public class GitProjectsControllerIntegrationTest {
 
         when(gitDetailsServiceMock.getRepoDetails("conorheffron")).thenReturn(dtos);
         when(gitDetailsServiceMock.mapRepositoriesToResponse(anyList()))
-                .thenReturn(new GitDetailsService(null, null, null, null)
+                .thenReturn(new GitDetailsService(null, null,
+                        null,null,null)
                         .mapRepositoriesToResponse(dtos));
 
         // when
@@ -127,7 +128,8 @@ public class GitProjectsControllerIntegrationTest {
 
         when(gitDetailsServiceMock.getRepoDetails("conorheffron")).thenReturn(dtos);
         when(gitDetailsServiceMock.mapRepositoriesToResponse(anyList()))
-                .thenReturn(new GitDetailsService(null, null, null, null)
+                .thenReturn(new GitDetailsService(null, null, null,
+                        null, null)
                         .mapRepositoriesToResponse(dtos));
 
         // when
@@ -176,7 +178,8 @@ public class GitProjectsControllerIntegrationTest {
 
         when(gitDetailsServiceMock.getIssues("test-user", "test-repo")).thenReturn(dtos);
         when(gitDetailsServiceMock.mapIssuesToResponse(anyList()))
-                .thenReturn(new GitDetailsService(null, null, null, null)
+                .thenReturn(new GitDetailsService(null, null, null,
+                        null, null)
                         .mapIssuesToResponse(dtos));
 
         // when
