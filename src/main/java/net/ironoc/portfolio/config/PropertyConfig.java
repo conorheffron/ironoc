@@ -1,7 +1,11 @@
 package net.ironoc.portfolio.config;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
+
+import java.util.Arrays;
+import java.util.List;
 
 @Component
 public class PropertyConfig implements PropertyConfigI {
@@ -43,5 +47,28 @@ public class PropertyConfig implements PropertyConfigI {
     @Override
     public Boolean getGitFollowRedirects() {
         return Boolean.valueOf(environment.getRequiredProperty(propertyKey.getGitFollowRedirects()));
+    }
+
+    @Override
+    public String getStaticConfIgnorePaths() {
+        return environment.getRequiredProperty(propertyKey.getStaticConfIgnorePaths());
+    }
+
+    @Override
+    public List<String> getStaticConfHandleExt() {
+        String handleExt = environment.getRequiredProperty(propertyKey.getStaticConfHandleExt());
+        return Arrays.stream(StringUtils.split(handleExt, ",")).toList();
+    }
+
+    @Override
+    public String getStaticConfResourceHandler() {
+        return environment.getRequiredProperty(propertyKey.getStaticConfResourceHandler());
+
+    }
+
+    @Override
+    public String getStaticConfResourceLoc() {
+        return environment.getRequiredProperty(propertyKey.getStaticConfResourceLoc());
+
     }
 }

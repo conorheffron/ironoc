@@ -1,11 +1,15 @@
 package net.ironoc.portfolio.config;
 
+import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.core.env.Environment;
+
+import java.util.Arrays;
+import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
@@ -25,6 +29,7 @@ public class PropertyConfigTest {
     private PropertyKeyI propertyKeyMock;
 
     private static final String TEST_PROP_VAL = "test_val";
+    private static final String TEST_PROPS_VAL = "htnl,css,js";
 
     @Test
     public void test_getGitApiEndpoint_Repos_success() {
@@ -119,5 +124,69 @@ public class PropertyConfigTest {
         verify(environmentMock).getRequiredProperty(Properties.GIT_INSTANCE_FOLLOW_REDIRECTS.getKey());
 
         assertThat(result, is(Boolean.FALSE));
+    }
+
+    @Test
+    public void test_getStaticConfIgnorePaths_success() {
+        // given
+        when(propertyKeyMock.getStaticConfIgnorePaths()).thenReturn(Properties.STATIC_CONF_IGNORE_PATHS.getKey());
+        when(environmentMock.getRequiredProperty(Properties.STATIC_CONF_IGNORE_PATHS.getKey())).thenReturn(TEST_PROP_VAL);
+
+        // when
+        String result = propertyConfig.getStaticConfIgnorePaths();
+
+        // then
+        verify(propertyKeyMock).getStaticConfIgnorePaths();
+        verify(environmentMock).getRequiredProperty(Properties.STATIC_CONF_IGNORE_PATHS.getKey());
+
+        assertThat(result, is(TEST_PROP_VAL));
+    }
+
+    @Test
+    public void test_getStaticConfHandleExt_success() {
+        // given
+        when(propertyKeyMock.getStaticConfHandleExt()).thenReturn(Properties.STATIC_CONF_HANDLE_EXT.getKey());
+        when(environmentMock.getRequiredProperty(Properties.STATIC_CONF_HANDLE_EXT.getKey())).thenReturn(TEST_PROPS_VAL);
+
+        // when
+        List<String> result = propertyConfig.getStaticConfHandleExt();
+
+        // then
+        verify(propertyKeyMock).getStaticConfHandleExt();
+        verify(environmentMock).getRequiredProperty(Properties.STATIC_CONF_HANDLE_EXT.getKey());
+
+        assertThat(result, is(Arrays.stream(StringUtils.split(TEST_PROPS_VAL, ",")).toList()));
+    }
+
+    @Test
+    public void test_getStaticConfResourceHandler_success() {
+        // given
+        when(propertyKeyMock.getStaticConfResourceHandler()).thenReturn(Properties.STATIC_CONF_RESOURCE_HANDLER.getKey());
+        when(environmentMock.getRequiredProperty(Properties.STATIC_CONF_RESOURCE_HANDLER.getKey())).thenReturn(TEST_PROP_VAL);
+
+        // when
+        String result = propertyConfig.getStaticConfResourceHandler();
+
+        // then
+        verify(propertyKeyMock).getStaticConfResourceHandler();
+        verify(environmentMock).getRequiredProperty(Properties.STATIC_CONF_RESOURCE_HANDLER.getKey());
+
+        assertThat(result, is(TEST_PROP_VAL));
+    }
+
+    @Test
+    public void test_getStaticConfResourceLoc_success() {
+        // given
+        when(propertyKeyMock.getStaticConfResourceLoc()).thenReturn(Properties.STATIC_CONF_RESOURCE_LOC.getKey());
+        when(environmentMock.getRequiredProperty(Properties.STATIC_CONF_RESOURCE_LOC.getKey())).thenReturn(TEST_PROP_VAL);
+
+        // when
+        String result = propertyConfig.getStaticConfResourceLoc();
+
+        // then
+        verify(propertyKeyMock).getStaticConfResourceLoc();
+        verify(environmentMock).getRequiredProperty(Properties.STATIC_CONF_RESOURCE_LOC.getKey());
+
+        assertThat(result, is(TEST_PROP_VAL));
     }
 }
