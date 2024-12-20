@@ -6,8 +6,9 @@
 
 [![Deploy to Amazon ECS](https://github.com/conorheffron/ironoc/actions/workflows/aws.yml/badge.svg)](https://github.com/conorheffron/ironoc/actions/workflows/aws.yml)
 
-### Docker Image
-- [ironoc Docker Hub Link](https://hub.docker.com/repository/docker/conorheffron/ironoc/general)
+### Docker Image Repositories
+- [ironoc Docker Hub Repository](https://hub.docker.com/repository/docker/conorheffron/ironoc/general)
+- [ironoc GitHub Docker Container Registry](https://github.com/conorheffron/ironoc/pkgs/container/ironoc)
 
 ## Hosted at:
 - [ironoc.net](https://me.ironoc.net)
@@ -38,19 +39,19 @@ docker run -d --restart=always -p 8080:8080 conorheffron/ironoc
 ## Add localhost proxy to frontend config (do not commit - only for local runs).
 ![ui-config-screenshot](screen-grabs/local-ui-proxy.png)
 
-## Run after project checkout (JDK 21 & Maven 3.8.3 required)
-### Build app
+## Run after project checkout (JDK 21 & Maven 3.8 or later required)
+### Build frontend & server side, along with Java Code Coverage report.
 ```shell
 mvn clean package
 ```
 
-#### View Java Code Coverage reports
+#### View Java Code Coverage reports in Browser or Preview tab in IDE.
 ##### Path to reports is `target/site/jacoco/index.html`
 
 ![ui-config-screenshot](screen-grabs/jacoco.png)
 
 ##### View in browser at `http://localhost:63342/ironoc/target/site/jacoco/index.html?_ijt=s0hqlj2p4s6554gldritju13qr&_ij_reload=RELOAD_ON_SAVE`
-###### Note: Change port as needed.
+###### Note: Change port as needed/identifier as this is URL generated during build process & opened via IDE window.
 ![ui-config-screenshot](screen-grabs/jacoco-browser.png)
 
 ### Run app
