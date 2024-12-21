@@ -1,4 +1,4 @@
-package net.ironoc.portfolio.config;
+package net.ironoc.portfolio.resolver;
 
 import net.ironoc.portfolio.logger.AbstractLogger;
 import jakarta.servlet.http.HttpServletRequest;
@@ -57,11 +57,12 @@ public class PushStateResourceResolver extends AbstractLogger implements Resourc
                     .map(loc -> createRelative(loc, requestPath))
                     .filter(resource -> resource != null && resource.exists())
                     .findFirst();
-            info("The request path is: {}", requestPath);
+            debug("The request path is: {}", requestPath);
             if (staticResource.isPresent()) {
                 return staticResource.get();
             } else {
                 error("The request path {} does not exist.", requestPath);
+                return null;
             }
         }
         return index;
