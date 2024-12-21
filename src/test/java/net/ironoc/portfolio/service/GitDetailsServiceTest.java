@@ -215,7 +215,7 @@ public class GitDetailsServiceTest {
         List<RepositoryDetailDto> results = gitDetailsService.getRepoDetails(testUserId);
 
         // then
-        verify(gitRepoCacheMock).get(GitDetailsRunnable.USERNAME_HOME_PAGE);
+        verify(gitRepoCacheMock).get(GitDetailsRunnable.IRONOC_GIT_USER);
 
         assertThat(results, is(notNullValue()));
         assertThat(results, is(hasSize(0)));

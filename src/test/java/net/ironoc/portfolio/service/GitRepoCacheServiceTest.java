@@ -66,7 +66,7 @@ public class GitRepoCacheServiceTest {
         assertThat(result2.getRepoUrl(), is("https://github.com/conorheffron/booking-sys"));
         jsonInputStream.close();
         assertThat(results3, is(nullValue()));
-        gitRepoCacheService.clear();
+        gitRepoCacheService.tearDown();
         assertThat(gitRepoCacheService.get("user1"), is(nullValue()));
         assertThat(gitRepoCacheService.get("user-2"), is(nullValue()));
     }

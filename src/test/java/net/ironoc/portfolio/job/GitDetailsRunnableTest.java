@@ -1,6 +1,7 @@
 package net.ironoc.portfolio.job;
 
 import net.ironoc.portfolio.service.GitDetails;
+import net.ironoc.portfolio.service.GitProjectCache;
 import net.ironoc.portfolio.service.GitRepoCache;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -26,6 +27,9 @@ public class GitDetailsRunnableTest {
 
     @Mock
     private GitRepoCache gitRepoCacheMock;
+
+    @Mock
+    private GitProjectCache gitProjectCache;
 
     @Test
     public void test_run_tearDown_success() {
