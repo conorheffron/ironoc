@@ -12,5 +12,5 @@ public interface GitRepoCache {
 
     List<RepositoryDetailDomain> get(String userId);
 
-    void clear();
+    void remove(String key);
 }

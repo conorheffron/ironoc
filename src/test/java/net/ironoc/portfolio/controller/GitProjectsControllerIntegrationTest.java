@@ -43,7 +43,10 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
         "net.ironoc.portfolio.config.ignore-paths=api",
         "net.ironoc.portfolio.config.handle-extensions=css,html",
         "net.ironoc.portfolio.config.resource-handler=/**",
-        "net.ironoc.portfolio.config.resource-loc=\"classpath:/static/\""
+        "net.ironoc.portfolio.config.resource-loc=\"classpath:/static/\"",
+        "net.ironoc.portfolio.github.api.endpoint.user-ids-cache=conorheffron",
+        "net.ironoc.portfolio.github.api.endpoint.projects-cache=\"ironoc,ironoc-db,booking-sys\"",
+        "net.ironoc.portfolio.github.cron-job=0 1 1 ? * *"
 })
 public class GitProjectsControllerIntegrationTest {
 
@@ -97,7 +100,8 @@ public class GitProjectsControllerIntegrationTest {
 
         when(gitDetailsServiceMock.getRepoDetails("conorheffron")).thenReturn(dtos);
         when(gitDetailsServiceMock.mapRepositoriesToResponse(anyList()))
-                .thenReturn(new GitDetailsService(null, null, null, null)
+                .thenReturn(new GitDetailsService(null, null,
+                        null,null,null)
                         .mapRepositoriesToResponse(dtos));
 
         // when
@@ -134,7 +138,8 @@ public class GitProjectsControllerIntegrationTest {
 
         when(gitDetailsServiceMock.getRepoDetails("conorheffron")).thenReturn(dtos);
         when(gitDetailsServiceMock.mapRepositoriesToResponse(anyList()))
-                .thenReturn(new GitDetailsService(null, null, null, null)
+                .thenReturn(new GitDetailsService(null, null, null,
+                        null, null)
                         .mapRepositoriesToResponse(dtos));
 
         // when
@@ -183,7 +188,8 @@ public class GitProjectsControllerIntegrationTest {
 
         when(gitDetailsServiceMock.getIssues("test-user", "test-repo")).thenReturn(dtos);
         when(gitDetailsServiceMock.mapIssuesToResponse(anyList()))
-                .thenReturn(new GitDetailsService(null, null, null, null)
+                .thenReturn(new GitDetailsService(null, null, null,
+                        null, null)
                         .mapIssuesToResponse(dtos));
 
         // when

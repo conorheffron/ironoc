@@ -54,4 +54,14 @@ public class PropertyKey implements PropertyKeyI {
     public String getStaticConfResourceLoc() {
         return Properties.STATIC_CONF_RESOURCE_LOC.getKey();
     }
+
+    @Override
+    public String getGitApiEndpointUserIdsCache() {
+        return Properties.GIT_API_ENDPOINT_REPOS_PARAM_CACHE.getKey();
+    }
+
+    @Override
+    public String getGitApiEndpointProjectsCache() {
+        return Properties.GIT_API_ENDPOINT_ISSUES_PARAM_CACHE.getKey();
+    }
 }
