@@ -28,6 +28,10 @@ public class GitProjectCacheService extends AbstractGitCache implements GitProje
     }
 
     @Override
+    public void remove(String key) {
+        projectGitDetails.remove(key);
+    }
+
     @PreDestroy
     public void tearDown() {
         this.clear(projectGitDetails);

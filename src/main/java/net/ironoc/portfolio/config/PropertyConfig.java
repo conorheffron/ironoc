@@ -57,7 +57,7 @@ public class PropertyConfig implements PropertyConfigI {
     @Override
     public List<String> getStaticConfHandleExt() {
         String handleExt = environment.getRequiredProperty(propertyKey.getStaticConfHandleExt());
-        return Arrays.stream(StringUtils.split(handleExt, ",")).toList();
+        return extractValues(handleExt);
     }
 
     @Override
@@ -69,6 +69,21 @@ public class PropertyConfig implements PropertyConfigI {
     @Override
     public String getStaticConfResourceLoc() {
         return environment.getRequiredProperty(propertyKey.getStaticConfResourceLoc());
+    }
 
+    @Override
+    public List<String>  getGitApiEndpointUserIdsCache() {
+        String userIds = environment.getRequiredProperty(propertyKey.getGitApiEndpointUserIdsCache());
+        return extractValues(userIds);
+    }
+
+    @Override
+    public List<String> getGitApiEndpointProjectsCache() {
+        String projects = environment.getRequiredProperty(propertyKey.getGitApiEndpointProjectsCache());
+        return extractValues(projects);
+    }
+
+    private List<String> extractValues(String valuesStr) {
+        return Arrays.stream(StringUtils.split(valuesStr, ",")).toList();
     }
 }

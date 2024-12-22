@@ -10,5 +10,5 @@ public interface GitProjectCache {
 
     List<RepositoryIssueDomain> get(String userId, String project);
 
-    void tearDown();
+    void remove(String key);
 }

@@ -43,7 +43,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
         "net.ironoc.portfolio.config.ignore-paths=api",
         "net.ironoc.portfolio.config.handle-extensions=css,html",
         "net.ironoc.portfolio.config.resource-handler=/**",
-        "net.ironoc.portfolio.config.resource-loc=\"classpath:/static/\""
+        "net.ironoc.portfolio.config.resource-loc=\"classpath:/static/\"",
+        "net.ironoc.portfolio.github.api.endpoint.user-ids-cache=conorheffron",
+        "net.ironoc.portfolio.github.api.endpoint.projects-cache=\"ironoc,ironoc-db,booking-sys\""
 })
 public class GitProjectsControllerIntegrationTest {
 

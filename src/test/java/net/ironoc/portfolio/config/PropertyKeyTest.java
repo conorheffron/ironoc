@@ -103,4 +103,22 @@ public class PropertyKeyTest {
         // then
         assertThat(result, is("net.ironoc.portfolio.config.resource-loc"));
     }
+
+    @Test
+    public void test_getGitApiEndpointProjectsCache_success() {
+        // when
+        String result = propertyKey.getGitApiEndpointProjectsCache();
+
+        // then
+        assertThat(result, is("net.ironoc.portfolio.github.api.endpoint.projects-cache"));
+    }
+
+    @Test
+    public void test_getGitApiEndpointUserIdsCache_success() {
+        // when
+        String result = propertyKey.getGitApiEndpointUserIdsCache();
+
+        // then
+        assertThat(result, is("net.ironoc.portfolio.github.api.endpoint.user-ids-cache"));
+    }
 }

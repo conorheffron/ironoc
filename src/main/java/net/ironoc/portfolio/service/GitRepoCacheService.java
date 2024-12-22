@@ -28,6 +28,10 @@ public class GitRepoCacheService extends AbstractGitCache implements GitRepoCach
     }
 
     @Override
+    public void remove(String key) {
+        userGitDetails.remove(key);
+    }
+
     @PreDestroy
     public void tearDown() {
         this.clear(userGitDetails);

@@ -8,7 +8,6 @@ import net.ironoc.portfolio.domain.RepositoryDetailDomain;
 import net.ironoc.portfolio.domain.RepositoryIssueDomain;
 import net.ironoc.portfolio.dto.RepositoryDetailDto;
 import net.ironoc.portfolio.dto.RepositoryIssueDto;
-import net.ironoc.portfolio.job.GitDetailsRunnable;
 import net.ironoc.portfolio.utils.UrlUtils;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -24,6 +23,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+import static net.ironoc.portfolio.service.GitDetailsService.IRONOC_GIT_USER;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.emptyString;
@@ -215,7 +215,7 @@ public class GitDetailsServiceTest {
         List<RepositoryDetailDto> results = gitDetailsService.getRepoDetails(testUserId);
 
         // then
-        verify(gitRepoCacheMock).get(GitDetailsRunnable.IRONOC_GIT_USER);
+        verify(gitRepoCacheMock).get(IRONOC_GIT_USER);
 
         assertThat(results, is(notNullValue()));
         assertThat(results, is(hasSize(0)));
@@ -350,5 +350,22 @@ public class GitDetailsServiceTest {
         assertThat(result2.getBody(), is("- [x] 1. Setup LB\r\n- [ ] 2. " +
                 "Support SSL\r\n- [ ] 3. Setup domain, map to AWS LB"));
         jsonInputStream.close();
+    }
+
+    @Test
+    public void test_getIssues_url_invalid_fail() {
+        // given
+        String testUserId = "conorheffron-test-id";
+        String testProject = "ironoc-test-project";
+        when(propertyConfigMock.getGitApiEndpointIssues()).thenReturn(TEST_URI);
+
+        // when
+        List<RepositoryIssueDto> results = gitDetailsService.getIssues(testUserId, testProject);
+
+        // then
+        verify(propertyConfigMock).getGitApiEndpointIssues();
+
+        assertThat(results, is(notNullValue()));
+        assertThat(results, is(hasSize(0)));
     }
 }

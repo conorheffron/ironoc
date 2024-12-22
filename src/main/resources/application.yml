@@ -10,7 +10,9 @@ net:
         api:
           endpoint:
             repos: https://api.github.com/users/{username}/repos?per_page={per_page}&page={page}
+            user-ids-cache: conorheffron
             issues: https://api.github.com/repos/{username}/{repo}/issues?per_page={per_page}&page={page}
+            projects-cache: "bio-cell-red-edge,booking-sys,cbio-skin-canc,fun-with-r,gene-expr,global-max-sim-matrix,graphql-box,ironoc,ironoc-db,ironoc-msg,ironoc-pytest,ironoc-rustt,ironoc-spark,mern-essential-training,mern-sandbox,nba-stats,netflix-movie-duration,normalise-fetalh,normalise-spotify,nyc-school-scores,python-sandbox,rabbitmq-tester,react-graphql-course,redis-tester,ronoc-packages"
       config:
         ignore-paths: api
         handle-extensions: "html,js,json,csv,css,map,svg,eot,ttf,woff,appcache,png,jpg,jpeg,gif,ico,txt"

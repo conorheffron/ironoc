@@ -189,4 +189,36 @@ public class PropertyConfigTest {
 
         assertThat(result, is(TEST_PROP_VAL));
     }
+
+    @Test
+    public void test_getGitApiEndpointUserIdsCache_success() {
+        // given
+        when(propertyKeyMock.getGitApiEndpointUserIdsCache()).thenReturn(Properties.GIT_API_ENDPOINT_REPOS_PARAM_CACHE.getKey());
+        when(environmentMock.getRequiredProperty(Properties.GIT_API_ENDPOINT_REPOS_PARAM_CACHE.getKey())).thenReturn(TEST_PROPS_VAL);
+
+        // when
+        List<String> result = propertyConfig.getGitApiEndpointUserIdsCache();
+
+        // then
+        verify(propertyKeyMock).getGitApiEndpointUserIdsCache();
+        verify(environmentMock).getRequiredProperty(Properties.GIT_API_ENDPOINT_REPOS_PARAM_CACHE.getKey());
+
+        assertThat(result, is(Arrays.stream(StringUtils.split(TEST_PROPS_VAL, ",")).toList()));
+    }
+
+    @Test
+    public void test_getGitApiEndpointProjectsCache_success() {
+        // given
+        when(propertyKeyMock.getGitApiEndpointProjectsCache()).thenReturn(Properties.GIT_API_ENDPOINT_ISSUES_PARAM_CACHE.getKey());
+        when(environmentMock.getRequiredProperty(Properties.GIT_API_ENDPOINT_ISSUES_PARAM_CACHE.getKey())).thenReturn(TEST_PROPS_VAL);
+
+        // when
+        List<String> result = propertyConfig.getGitApiEndpointProjectsCache();
+
+        // then
+        verify(propertyKeyMock).getGitApiEndpointProjectsCache();
+        verify(environmentMock).getRequiredProperty(Properties.GIT_API_ENDPOINT_ISSUES_PARAM_CACHE.getKey());
+
+        assertThat(result, is(Arrays.stream(StringUtils.split(TEST_PROPS_VAL, ",")).toList()));
+    }
 }

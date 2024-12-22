@@ -1,5 +1,6 @@
 package net.ironoc.portfolio.job;
 
+import net.ironoc.portfolio.config.PropertyConfigI;
 import net.ironoc.portfolio.service.GitProjectCache;
 import net.ironoc.portfolio.service.GitRepoCache;
 import net.ironoc.portfolio.service.GitDetails;
@@ -17,11 +18,17 @@ public class GitDetailsJob {
 
     private final GitDetails gitDetails;
 
+    private final PropertyConfigI propertyConfig;
+
     @Autowired
-    public GitDetailsJob(GitDetails gitDetails, GitRepoCache gitRepoCache, GitProjectCache gitProjectCache) {
+    public GitDetailsJob(GitDetails gitDetails,
+                         GitRepoCache gitRepoCache,
+                         GitProjectCache gitProjectCache,
+                         PropertyConfigI propertyConfig) {
         this.gitRepoCache = gitRepoCache;
         this.gitDetails = gitDetails;
         this.gitProjectCache = gitProjectCache;
+        this.propertyConfig = propertyConfig;
     }
 
     @PostConstruct
@@ -36,7 +43,7 @@ public class GitDetailsJob {
 
     private void triggerJob() {
         // run background process to update cache
-        GitDetailsRunnable runnable = new GitDetailsRunnable(gitRepoCache, gitProjectCache, gitDetails);
+        GitDetailsRunnable runnable = new GitDetailsRunnable(gitRepoCache, gitProjectCache, gitDetails, propertyConfig);
         runnable.run();
     }
 }

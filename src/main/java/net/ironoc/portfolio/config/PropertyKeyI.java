@@ -21,4 +21,8 @@ public interface PropertyKeyI {
     String getStaticConfResourceHandler();
 
     String getStaticConfResourceLoc();
+
+    String getGitApiEndpointUserIdsCache();
+
+    String getGitApiEndpointProjectsCache();
 }
