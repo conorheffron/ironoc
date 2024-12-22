@@ -2,6 +2,7 @@ net:
   ironoc:
     portfolio:
       github:
+        cron-job: "0 1 1 ? * *"
         timeout:
           connect: 100000
           read: 100000

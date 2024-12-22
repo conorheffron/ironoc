@@ -36,7 +36,7 @@ public class GitDetailsJob {
         triggerJob();
     }
 
-    @Scheduled(cron = "0 1 1 ? * *")
+    @Scheduled(cron = "${net.ironoc.portfolio.github.cron-job}")
     public void triggerGitDetailsJob() {
         triggerJob();
     }
