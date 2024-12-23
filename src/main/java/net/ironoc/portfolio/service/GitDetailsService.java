@@ -44,7 +44,7 @@ public class GitDetailsService extends AbstractLogger implements GitDetails {
         this.urlUtils = urlUtils;
         this.gitRepoCache = gitRepoCache;
         this.gitProjectCache = gitProjectCache;
-;    }
+    }
 
     @Override
     public List<RepositoryDetailDto> getRepoDetails(String username) {
