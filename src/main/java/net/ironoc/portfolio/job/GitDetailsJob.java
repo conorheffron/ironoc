@@ -1,6 +1,7 @@
 package net.ironoc.portfolio.job;
 
 import net.ironoc.portfolio.config.PropertyConfigI;
+import net.ironoc.portfolio.logger.AbstractLogger;
 import net.ironoc.portfolio.service.GitProjectCache;
 import net.ironoc.portfolio.service.GitRepoCache;
 import net.ironoc.portfolio.service.GitDetails;
@@ -10,7 +11,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 @Component
-public class GitDetailsJob {
+public class GitDetailsJob extends AbstractLogger {
 
     private final GitRepoCache gitRepoCache;
 
@@ -33,12 +34,20 @@ public class GitDetailsJob {
 
     @PostConstruct
     public void populateCache() {
-        triggerJob();
+        if (propertyConfig.isCacheJobEnabled()) {
+            triggerJob();
+        } else {
+            warn("The job to pre-populate the cache of GitHub information is disabled.");
+        }
     }
 
     @Scheduled(cron = "${net.ironoc.portfolio.github.cron-job}")
     public void triggerGitDetailsJob() {
-        triggerJob();
+        if (propertyConfig.isCacheJobEnabled()) {
+            triggerJob();
+        } else {
+            warn("The job to update the cache of GitHub information is disabled.");
+        }
     }
 
     private void triggerJob() {

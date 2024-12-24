@@ -2,6 +2,7 @@ net:
   ironoc:
     portfolio:
       github:
+        job-enable: true
         cron-job: "0 1 1 ? * *"
         timeout:
           connect: 100000
@@ -16,7 +17,7 @@ net:
             projects-cache: "bio-cell-red-edge,booking-sys,cbio-skin-canc,fun-with-r,gene-expr,global-max-sim-matrix,graphql-box,ironoc,ironoc-db,ironoc-msg,ironoc-pytest,ironoc-rustt,ironoc-spark,mern-essential-training,mern-sandbox,nba-stats,netflix-movie-duration,normalise-fetalh,normalise-spotify,nyc-school-scores,python-sandbox,rabbitmq-tester,react-graphql-course,redis-tester,ronoc-packages"
       config:
         ignore-paths: api
-        handle-extensions: "html,js,json,csv,css,map,svg,eot,ttf,woff,appcache,png,jpg,jpeg,gif,ico,txt"
+        handle-extensions: "html,js,json,css,map,svg,eot,ttf,woff,png,jpg,jpeg,gif,ico"
         resource-handler: "/**"
         resource-loc: "classpath:/static/"
 
