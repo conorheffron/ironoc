@@ -38,7 +38,7 @@ jobs:
         with:
           node-version: 20
           # registry-url: https://npm.pkg.github.com/
-          registry-url: https://registry.npmjs.org/
+          registry-url: https://registry.npmjs.org/conorheffron
       - run: npm ci
         working-directory: './frontend'
       - run: npm set "//registry.npmjs.org/:_authToken=$NPM_TOKEN"
