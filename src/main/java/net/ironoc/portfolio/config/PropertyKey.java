@@ -34,4 +34,39 @@ public class PropertyKey implements PropertyKeyI {
     public String getGitFollowRedirects() {
         return Properties.GIT_FOLLOW_REDIRECTS.getKey();
     }
+
+    @Override
+    public String getStaticConfIgnorePaths() {
+        return Properties.STATIC_CONF_IGNORE_PATHS.getKey();
+    }
+
+    @Override
+    public String getStaticConfHandleExt() {
+        return Properties.STATIC_CONF_HANDLE_EXT.getKey();
+    }
+
+    @Override
+    public String getStaticConfResourceHandler() {
+        return Properties.STATIC_CONF_RESOURCE_HANDLER.getKey();
+    }
+
+    @Override
+    public String getStaticConfResourceLoc() {
+        return Properties.STATIC_CONF_RESOURCE_LOC.getKey();
+    }
+
+    @Override
+    public String getGitApiEndpointUserIdsCache() {
+        return Properties.GIT_API_ENDPOINT_REPOS_PARAM_CACHE.getKey();
+    }
+
+    @Override
+    public String getGitApiEndpointProjectsCache() {
+        return Properties.GIT_API_ENDPOINT_ISSUES_PARAM_CACHE.getKey();
+    }
+
+    @Override
+    public String isCacheJobEnabled() {
+        return Properties.IS_GITHUB_JOB_ENABLED.getKey();
+    }
 }

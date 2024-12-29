@@ -1,13 +1,11 @@
 package net.ironoc.portfolio.service;
 
-
 import net.ironoc.portfolio.client.Client;
 import net.ironoc.portfolio.config.PropertyConfigI;
 import net.ironoc.portfolio.domain.RepositoryDetailDomain;
 import net.ironoc.portfolio.domain.RepositoryIssueDomain;
 import net.ironoc.portfolio.dto.RepositoryDetailDto;
 import net.ironoc.portfolio.dto.RepositoryIssueDto;
-import net.ironoc.portfolio.job.GitDetailsRunnable;
 import net.ironoc.portfolio.logger.AbstractLogger;
 import net.ironoc.portfolio.utils.UrlUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -29,26 +27,32 @@ public class GitDetailsService extends AbstractLogger implements GitDetails {
 
     private final GitRepoCache gitRepoCache;
 
+    private final GitProjectCache gitProjectCache;
+
     private final UrlUtils urlUtils;
+
+    protected static final String IRONOC_GIT_USER = "conorheffron";
 
     @Autowired
     public GitDetailsService(PropertyConfigI propertyConfig,
                              Client gitClient,
                              GitRepoCache gitRepoCache,
+                             GitProjectCache gitProjectCache,
                              UrlUtils urlUtils) {
         this.propertyConfig = propertyConfig;
         this.gitClient = gitClient;
         this.urlUtils = urlUtils;
         this.gitRepoCache = gitRepoCache;
+        this.gitProjectCache = gitProjectCache;
 ;    }
 
     @Override
     public List<RepositoryDetailDto> getRepoDetails(String username) {
         // check cache for home page user ID
-        if (username.toLowerCase().equals(GitDetailsRunnable.USERNAME_HOME_PAGE)) {
+        if (username.equalsIgnoreCase(IRONOC_GIT_USER)) {
             List<RepositoryDetailDomain> repoDetails = gitRepoCache
-                    .get(GitDetailsRunnable.USERNAME_HOME_PAGE);
-            if (repoDetails != null) {
+                    .get(IRONOC_GIT_USER);
+            if (repoDetails != null && !repoDetails.isEmpty()) {
                 return this.mapResponseToRepositories(repoDetails);
             }
         }
@@ -56,16 +60,20 @@ public class GitDetailsService extends AbstractLogger implements GitDetails {
         String uri = propertyConfig.getGitApiEndpointRepos();
         Integer page = 1;
         Integer per_page = 100;
-        String apiUri = UriComponentsBuilder.fromHttpUrl(uri)
-                .buildAndExpand(username, per_page, page)
-                .toUriString();
+        String apiUri = "";
+        try {
+            apiUri = UriComponentsBuilder.fromUriString(uri)
+                    .buildAndExpand(username, per_page, page)
+                    .toUriString();
+        } catch (IllegalArgumentException e) {
+            error("Illegal argument passed for uri value: {}", uri);
+        }
         if (StringUtils.isBlank(apiUri) | StringUtils.isBlank(uri)
                 | !urlUtils.isValidURL(apiUri)) {
             warn("URL is not valid: url={}", apiUri);
             return Collections.emptyList();
         }
-        List<RepositoryDetailDto> dtos = gitClient.callGitHubApi(apiUri, uri, RepositoryDetailDto.class, HttpMethod.GET.name());
-        return dtos;
+        return gitClient.callGitHubApi(apiUri, uri, RepositoryDetailDto.class, HttpMethod.GET.name());
     }
 
     @Override
@@ -103,13 +111,25 @@ public class GitDetailsService extends AbstractLogger implements GitDetails {
 
     @Override
     public List<RepositoryIssueDto> getIssues(String userId, String repo) {
+        // check cache for home page user ID
+        if (userId.equalsIgnoreCase(IRONOC_GIT_USER)) {
+            List<RepositoryIssueDomain> repositoryIssues = gitProjectCache.get(userId, repo);
+            if (repositoryIssues != null && !repositoryIssues.isEmpty()) {
+                return this.mapResponseToIssues(repositoryIssues);
+            }
+        }
         // further end-point validation (contains User ID)
         String uri = propertyConfig.getGitApiEndpointIssues();
         Integer page = 1;
         Integer per_page = 100;
-        String apiUri = UriComponentsBuilder.fromHttpUrl(uri)
+        String apiUri = "";
+        try {
+            apiUri = UriComponentsBuilder.fromUriString(uri)
                 .buildAndExpand(userId, repo, per_page, page)
                 .toUriString();
+        } catch (IllegalArgumentException e) {
+            error("Illegal argument passed for uri value: {}", uri);
+        }
         if (StringUtils.isBlank(apiUri) | StringUtils.isBlank(uri)
                 | !urlUtils.isValidURL(apiUri)) {
             warn("URL is not valid: url={}", apiUri);
@@ -125,6 +145,16 @@ public class GitDetailsService extends AbstractLogger implements GitDetails {
                         .number(repositoryIssueDto.getNumber())
                         .title(repositoryIssueDto.getTitle())
                         .body(repositoryIssueDto.getBody())
+                        .build())
+                .collect(Collectors.toList());
+    }
+
+    private List<RepositoryIssueDto> mapResponseToIssues(List<RepositoryIssueDomain> repositoryIssueDomains) {
+        return repositoryIssueDomains.stream()
+                .map(repositoryIssueDomain -> RepositoryIssueDto.builder()
+                        .number(repositoryIssueDomain.getNumber())
+                        .title(repositoryIssueDomain.getTitle())
+                        .body(repositoryIssueDomain.getBody())
                         .build())
                 .collect(Collectors.toList());
     }

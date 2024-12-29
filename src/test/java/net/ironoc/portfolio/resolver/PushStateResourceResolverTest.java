@@ -1,4 +1,4 @@
-package net.ironoc.portfolio.config;
+package net.ironoc.portfolio.resolver;
 
 import jakarta.servlet.http.HttpServletRequest;
 import org.junit.jupiter.api.BeforeEach;

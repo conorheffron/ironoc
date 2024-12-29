@@ -11,11 +11,12 @@ import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
@@ -38,6 +39,16 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 @WebAppConfiguration()
 @ContextConfiguration(classes = {TestIronocConfiguration.class})
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@TestPropertySource(properties = {
+        "net.ironoc.portfolio.config.ignore-paths=api",
+        "net.ironoc.portfolio.config.handle-extensions=css,html",
+        "net.ironoc.portfolio.config.resource-handler=/**",
+        "net.ironoc.portfolio.config.resource-loc=\"classpath:/static/\"",
+        "net.ironoc.portfolio.github.api.endpoint.user-ids-cache=conorheffron",
+        "net.ironoc.portfolio.github.api.endpoint.projects-cache=\"ironoc,ironoc-db,booking-sys\"",
+        "net.ironoc.portfolio.github.cron-job=0 1 1 ? * *",
+        "net.ironoc.portfolio.github.job-enable=true"
+})
 public class GitProjectsControllerIntegrationTest {
 
     @Autowired
@@ -48,7 +59,7 @@ public class GitProjectsControllerIntegrationTest {
     @Autowired
     private ObjectMapper objectMapper;
 
-    @MockBean
+    @MockitoBean
     private GitDetailsService gitDetailsServiceMock;
 
     @InjectMocks
@@ -90,7 +101,8 @@ public class GitProjectsControllerIntegrationTest {
 
         when(gitDetailsServiceMock.getRepoDetails("conorheffron")).thenReturn(dtos);
         when(gitDetailsServiceMock.mapRepositoriesToResponse(anyList()))
-                .thenReturn(new GitDetailsService(null, null, null, null)
+                .thenReturn(new GitDetailsService(null, null,
+                        null,null,null)
                         .mapRepositoriesToResponse(dtos));
 
         // when
@@ -127,7 +139,8 @@ public class GitProjectsControllerIntegrationTest {
 
         when(gitDetailsServiceMock.getRepoDetails("conorheffron")).thenReturn(dtos);
         when(gitDetailsServiceMock.mapRepositoriesToResponse(anyList()))
-                .thenReturn(new GitDetailsService(null, null, null, null)
+                .thenReturn(new GitDetailsService(null, null, null,
+                        null, null)
                         .mapRepositoriesToResponse(dtos));
 
         // when
@@ -176,7 +189,8 @@ public class GitProjectsControllerIntegrationTest {
 
         when(gitDetailsServiceMock.getIssues("test-user", "test-repo")).thenReturn(dtos);
         when(gitDetailsServiceMock.mapIssuesToResponse(anyList()))
-                .thenReturn(new GitDetailsService(null, null, null, null)
+                .thenReturn(new GitDetailsService(null, null, null,
+                        null, null)
                         .mapIssuesToResponse(dtos));
 
         // when

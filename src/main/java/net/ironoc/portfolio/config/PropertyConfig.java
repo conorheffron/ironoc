@@ -1,7 +1,11 @@
 package net.ironoc.portfolio.config;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
+
+import java.util.Arrays;
+import java.util.List;
 
 @Component
 public class PropertyConfig implements PropertyConfigI {
@@ -43,5 +47,48 @@ public class PropertyConfig implements PropertyConfigI {
     @Override
     public Boolean getGitFollowRedirects() {
         return Boolean.valueOf(environment.getRequiredProperty(propertyKey.getGitFollowRedirects()));
+    }
+
+    @Override
+    public String getStaticConfIgnorePaths() {
+        return environment.getRequiredProperty(propertyKey.getStaticConfIgnorePaths());
+    }
+
+    @Override
+    public List<String> getStaticConfHandleExt() {
+        String handleExt = environment.getRequiredProperty(propertyKey.getStaticConfHandleExt());
+        return extractValues(handleExt);
+    }
+
+    @Override
+    public String getStaticConfResourceHandler() {
+        return environment.getRequiredProperty(propertyKey.getStaticConfResourceHandler());
+
+    }
+
+    @Override
+    public String getStaticConfResourceLoc() {
+        return environment.getRequiredProperty(propertyKey.getStaticConfResourceLoc());
+    }
+
+    @Override
+    public List<String>  getGitApiEndpointUserIdsCache() {
+        String userIds = environment.getRequiredProperty(propertyKey.getGitApiEndpointUserIdsCache());
+        return extractValues(userIds);
+    }
+
+    @Override
+    public List<String> getGitApiEndpointProjectsCache() {
+        String projects = environment.getRequiredProperty(propertyKey.getGitApiEndpointProjectsCache());
+        return extractValues(projects);
+    }
+
+    @Override
+    public boolean isCacheJobEnabled() {
+        return Boolean.parseBoolean(environment.getRequiredProperty(propertyKey.isCacheJobEnabled()));
+    }
+
+    private List<String> extractValues(String valuesStr) {
+        return Arrays.stream(StringUtils.split(valuesStr, ",")).toList();
     }
 }
