@@ -64,4 +64,9 @@ public class PropertyKey implements PropertyKeyI {
     public String getGitApiEndpointProjectsCache() {
         return Properties.GIT_API_ENDPOINT_ISSUES_PARAM_CACHE.getKey();
     }
+
+    @Override
+    public String isCacheJobEnabled() {
+        return Properties.IS_GITHUB_JOB_ENABLED.getKey();
+    }
 }

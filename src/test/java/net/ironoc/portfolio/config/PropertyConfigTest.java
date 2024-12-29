@@ -221,4 +221,20 @@ public class PropertyConfigTest {
 
         assertThat(result, is(Arrays.stream(StringUtils.split(TEST_PROPS_VAL, ",")).toList()));
     }
+
+    @Test
+    public void test_isCacheJobEnabled_success() {
+        // given
+        when(propertyKeyMock.isCacheJobEnabled()).thenReturn(Properties.IS_GITHUB_JOB_ENABLED.getKey());
+        when(environmentMock.getRequiredProperty(Properties.IS_GITHUB_JOB_ENABLED.getKey())).thenReturn("true");
+
+        // when
+        boolean result = propertyConfig.isCacheJobEnabled();
+
+        // then
+        verify(propertyKeyMock).isCacheJobEnabled();
+        verify(environmentMock).getRequiredProperty(Properties.IS_GITHUB_JOB_ENABLED.getKey());
+
+        assertThat(result, is(Boolean.TRUE.booleanValue()));
+    }
 }
