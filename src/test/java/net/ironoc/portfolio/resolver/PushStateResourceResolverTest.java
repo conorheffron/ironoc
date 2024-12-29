@@ -1,7 +1,6 @@
-package net.ironoc.portfolio.config;
+package net.ironoc.portfolio.resolver;
 
 import jakarta.servlet.http.HttpServletRequest;
-import net.ironoc.portfolio.resolver.PushStateResourceResolver;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
