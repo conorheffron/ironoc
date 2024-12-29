@@ -5,7 +5,6 @@ import lombok.Getter;
 @Getter
 public enum Properties {
 
-    IS_CACHE_JOB_ENABLED("net.ironoc.portfolio.github.job-enable"),
     STATIC_CONF_IGNORE_PATHS("net.ironoc.portfolio.config.ignore-paths"),
     STATIC_CONF_HANDLE_EXT("net.ironoc.portfolio.config.handle-extensions"),
     STATIC_CONF_RESOURCE_HANDLER("net.ironoc.portfolio.config.resource-handler"),
