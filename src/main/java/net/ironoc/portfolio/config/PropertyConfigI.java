@@ -27,4 +27,6 @@ public interface PropertyConfigI {
     List<String>  getGitApiEndpointUserIdsCache();
 
     List<String> getGitApiEndpointProjectsCache();
+
+    boolean isCacheJobEnabled();
 }

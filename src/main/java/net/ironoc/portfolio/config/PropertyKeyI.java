@@ -25,4 +25,6 @@ public interface PropertyKeyI {
     String getGitApiEndpointUserIdsCache();
 
     String getGitApiEndpointProjectsCache();
+
+    String isCacheJobEnabled();
 }

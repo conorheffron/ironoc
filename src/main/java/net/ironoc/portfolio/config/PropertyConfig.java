@@ -83,6 +83,11 @@ public class PropertyConfig implements PropertyConfigI {
         return extractValues(projects);
     }
 
+    @Override
+    public boolean isCacheJobEnabled() {
+        return Boolean.parseBoolean(environment.getRequiredProperty(propertyKey.isCacheJobEnabled()));
+    }
+
     private List<String> extractValues(String valuesStr) {
         return Arrays.stream(StringUtils.split(valuesStr, ",")).toList();
     }
