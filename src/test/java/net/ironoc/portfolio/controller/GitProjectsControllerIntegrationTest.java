@@ -47,7 +47,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
         "net.ironoc.portfolio.github.api.endpoint.user-ids-cache=conorheffron",
         "net.ironoc.portfolio.github.api.endpoint.projects-cache=\"ironoc,ironoc-db,booking-sys\"",
         "net.ironoc.portfolio.github.cron-job=0 1 1 ? * *",
-        "net.ironoc.portfolio.github.job-enabled=true"
+        "net.ironoc.portfolio.github.job-enable=true"
 })
 public class GitProjectsControllerIntegrationTest {
 
