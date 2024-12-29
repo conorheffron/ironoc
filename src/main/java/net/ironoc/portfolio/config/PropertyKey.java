@@ -67,6 +67,6 @@ public class PropertyKey implements PropertyKeyI {
 
     @Override
     public String isCacheJobEnabled() {
-        return Properties.IS_CACHE_JOB_ENABLED.getKey();
+        return Properties.IS_GITHUB_JOB_ENABLED.getKey();
     }
 }

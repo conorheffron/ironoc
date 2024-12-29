@@ -22,7 +22,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.4.0</version>
+		<version>3.4.1</version>
 		<relativePath />
 	</parent>
 
@@ -30,7 +30,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>21</java.version>
-		<spring.version>3.4.0</spring.version>
+		<spring.version>3.4.1</spring.version>
 		<frontend-maven-plugin.version>1.15.1</frontend-maven-plugin.version>
 		<node.version>v20.16.0</node.version>
 		<npm.version>10.8.1</npm.version>
@@ -147,7 +147,7 @@
 		<dependency>
 			<groupId>software.amazon.awssdk</groupId>
 			<artifactId>aws-sdk-java</artifactId>
-			<version>2.29.34</version>
+			<version>2.29.39</version>
 			<exclusions>
 				<exclusion>
 					<groupId>commons-logging</groupId>

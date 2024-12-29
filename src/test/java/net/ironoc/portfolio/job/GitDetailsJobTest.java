@@ -17,9 +17,10 @@ import java.util.List;
 
 import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.never;
 
 @ExtendWith(MockitoExtension.class)
 public class GitDetailsJobTest {
@@ -48,6 +49,7 @@ public class GitDetailsJobTest {
     @Test
     public void test_triggerGitDetailsJob_success() {
         // given
+        when(propertyConfigMock.isCacheJobEnabled()).thenReturn(true);
         when(propertyConfigMock.getGitApiEndpointUserIdsCache()).thenReturn(List.of("conorheffron"));
         when(propertyConfigMock.getGitApiEndpointProjectsCache())
                 .thenReturn(List.of("ironoc", "booking-sys"));
@@ -60,6 +62,7 @@ public class GitDetailsJobTest {
         gitDetailsJob.triggerGitDetailsJob();
 
         // then
+        verify(propertyConfigMock).isCacheJobEnabled();
         verify(propertyConfigMock).getGitApiEndpointProjectsCache();
         verify(propertyConfigMock).getGitApiEndpointUserIdsCache();
         verify(gitDetailsMock).getRepoDetails(anyString());
@@ -71,6 +74,7 @@ public class GitDetailsJobTest {
     @Test
     public void test_populateCache_success() {
         // given
+        when(propertyConfigMock.isCacheJobEnabled()).thenReturn(true);
         when(propertyConfigMock.getGitApiEndpointUserIdsCache()).thenReturn(List.of("ironoc-test-id"));
         when(propertyConfigMock.getGitApiEndpointProjectsCache())
                 .thenReturn(List.of("ironoc", "booking-sys", "ironoc-db", "nba-stats"));
@@ -83,11 +87,48 @@ public class GitDetailsJobTest {
         gitDetailsJob.populateCache();
 
         // then
+        verify(propertyConfigMock).isCacheJobEnabled();
         verify(propertyConfigMock).getGitApiEndpointProjectsCache();
         verify(propertyConfigMock).getGitApiEndpointUserIdsCache();
         verify(gitDetailsMock).getRepoDetails(anyString());
         verify(gitRepoCache).put(anyString(), anyList());
         verify(gitDetailsMock, times(4)).getIssues(anyString(), anyString());
         verify(gitProjectCache, times(4)).put(anyString(), anyString(), anyList());
+    }
+
+    @Test
+    public void test_triggerGitDetailsJob_fail() {
+        // given
+        when(propertyConfigMock.isCacheJobEnabled()).thenReturn(false);
+
+        // when
+        gitDetailsJob.triggerGitDetailsJob();
+
+        // then
+        verify(propertyConfigMock).isCacheJobEnabled();
+        verify(propertyConfigMock, never()).getGitApiEndpointProjectsCache();
+        verify(propertyConfigMock, never()).getGitApiEndpointUserIdsCache();
+        verify(gitDetailsMock, never()).getRepoDetails(anyString());
+        verify(gitRepoCache, never()).put(anyString(), anyList());
+        verify(gitDetailsMock, never()).getIssues(anyString(), anyString());
+        verify(gitProjectCache, never()).put(anyString(), anyString(), anyList());
+    }
+
+    @Test
+    public void test_populateCache_fail() {
+        // given
+        when(propertyConfigMock.isCacheJobEnabled()).thenReturn(false);
+
+        // when
+        gitDetailsJob.populateCache();
+
+        // then
+        verify(propertyConfigMock).isCacheJobEnabled();
+        verify(propertyConfigMock, never()).getGitApiEndpointProjectsCache();
+        verify(propertyConfigMock, never()).getGitApiEndpointUserIdsCache();
+        verify(gitDetailsMock, never()).getRepoDetails(anyString());
+        verify(gitRepoCache, never()).put(anyString(), anyList());
+        verify(gitDetailsMock, never()).getIssues(anyString(), anyString());
+        verify(gitProjectCache, never()).put(anyString(), anyString(), anyList());
     }
 }

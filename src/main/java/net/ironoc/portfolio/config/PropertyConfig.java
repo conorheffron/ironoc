@@ -83,9 +83,8 @@ public class PropertyConfig implements PropertyConfigI {
         return extractValues(projects);
     }
 
-    @Override
-    public Boolean isCacheJobEnabled() {
-        return Boolean.valueOf(environment.getRequiredProperty(propertyKey.isCacheJobEnabled()));
+    public boolean isCacheJobEnabled() {
+        return Boolean.parseBoolean(environment.getRequiredProperty(propertyKey.isCacheJobEnabled()));
     }
 
     private List<String> extractValues(String valuesStr) {
