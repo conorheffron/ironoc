@@ -1,5 +1,5 @@
 {
-  "name": "ironoc-frontend",
+  "name": "@conorheffron/ironoc-frontend",
   "version": "1.1.0",
   "private": false,
   "dependencies": {
