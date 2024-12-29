@@ -30,6 +30,7 @@ public class PropertyConfigTest {
 
     private static final String TEST_PROP_VAL = "test_val";
     private static final String TEST_PROPS_VAL = "htnl,css,js";
+    private static final String[] TEST_PROPS = new String[]{"htnl", "css", "js"};
 
     @Test
     public void test_getGitApiEndpoint_Repos_success() {
@@ -209,24 +210,28 @@ public class PropertyConfigTest {
     @Test
     public void test_getGitApiEndpointProjectsCache_success() {
         // given
-        when(propertyKeyMock.getGitApiEndpointProjectsCache()).thenReturn(Properties.GIT_API_ENDPOINT_ISSUES_PARAM_CACHE.getKey());
-        when(environmentMock.getRequiredProperty(Properties.GIT_API_ENDPOINT_ISSUES_PARAM_CACHE.getKey())).thenReturn(TEST_PROPS_VAL);
+        when(propertyKeyMock.getGitApiEndpointProjectsCache())
+                .thenReturn(Properties.GIT_API_ENDPOINT_ISSUES_PARAM_CACHE.getKey());
+        when(environmentMock
+                .getRequiredProperty(Properties.GIT_API_ENDPOINT_ISSUES_PARAM_CACHE.getKey(), String[].class))
+                .thenReturn(TEST_PROPS);
 
         // when
         List<String> result = propertyConfig.getGitApiEndpointProjectsCache();
 
         // then
         verify(propertyKeyMock).getGitApiEndpointProjectsCache();
-        verify(environmentMock).getRequiredProperty(Properties.GIT_API_ENDPOINT_ISSUES_PARAM_CACHE.getKey());
+        verify(environmentMock).getRequiredProperty(Properties.GIT_API_ENDPOINT_ISSUES_PARAM_CACHE.getKey(),
+                String[].class);
 
-        assertThat(result, is(Arrays.stream(StringUtils.split(TEST_PROPS_VAL, ",")).toList()));
+        assertThat(result, is(List.of(TEST_PROPS)));
     }
 
     @Test
     public void test_isCacheJobEnabled_success() {
         // given
         when(propertyKeyMock.isCacheJobEnabled()).thenReturn(Properties.IS_GITHUB_JOB_ENABLED.getKey());
-        when(environmentMock.getRequiredProperty(Properties.IS_GITHUB_JOB_ENABLED.getKey())).thenReturn("true");
+        when(environmentMock.getRequiredProperty(Properties.IS_GITHUB_JOB_ENABLED.getKey())).thenReturn(Boolean.TRUE.toString());
 
         // when
         boolean result = propertyConfig.isCacheJobEnabled();
@@ -235,6 +240,6 @@ public class PropertyConfigTest {
         verify(propertyKeyMock).isCacheJobEnabled();
         verify(environmentMock).getRequiredProperty(Properties.IS_GITHUB_JOB_ENABLED.getKey());
 
-        assertThat(result, is(Boolean.TRUE.booleanValue()));
+        assertThat(result, is(true));
     }
 }
