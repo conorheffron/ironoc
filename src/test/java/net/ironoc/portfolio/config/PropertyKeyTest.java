@@ -121,4 +121,13 @@ public class PropertyKeyTest {
         // then
         assertThat(result, is("net.ironoc.portfolio.github.api.endpoint.user-ids-cache"));
     }
+
+    @Test
+    public void test_isCacheJobEnabled_success() {
+        // when
+        String result = propertyKey.isCacheJobEnabled();
+
+        // then
+        assertThat(result, is("net.ironoc.portfolio.github.job-enable"));
+    }
 }
