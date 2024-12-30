@@ -1,4 +1,10 @@
-# Getting Started with Create React App
+# ironoc-frontend
+
+[![Node.js Package](https://github.com/conorheffron/ironoc/actions/workflows/npm-publish-github-packages.yml/badge.svg)](https://github.com/conorheffron/ironoc/actions/workflows/npm-publish-github-packages.yml)
+
+See project readme [here]([https://github.com/conorheffron/ironoc](https://github.com/conorheffron/ironoc/blob/main/README.md))
+
+## Getting Started with React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
