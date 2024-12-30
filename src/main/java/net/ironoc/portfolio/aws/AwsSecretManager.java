@@ -21,15 +21,14 @@ public class AwsSecretManager extends AbstractLogger implements SecretManager {
     @Override
     public String getGitSecret() {
         Region region = Region.of(REGION);
-        SecretsManagerClient client = SecretsManagerClient.builder()
-                .region(region)
-                .build();
-        GetSecretValueRequest getSecretValueRequest = GetSecretValueRequest.builder()
-                .secretId(SECRET_NAME_GIT_TOKEN)
-                .build();
-
         String secret = "";
-        try {
+        try (SecretsManagerClient client = SecretsManagerClient.builder()
+                .region(region)
+                .build()) {
+            GetSecretValueRequest getSecretValueRequest = GetSecretValueRequest.builder()
+                    .secretId(SECRET_NAME_GIT_TOKEN)
+                    .build();
+
             GetSecretValueResponse getSecretValueResponse = client.getSecretValue(getSecretValueRequest);
             String json = getSecretValueResponse.secretString();
 
