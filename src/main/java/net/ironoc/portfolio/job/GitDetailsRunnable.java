@@ -65,7 +65,7 @@ public class GitDetailsRunnable extends AbstractLogger implements Runnable {
 
                 for(String project : getProjects()) {
                     List<RepositoryIssueDto> issuesDtos = gitDetails.getIssues(userId, project);
-                    info("Running GIT details job for userIds={}, project={}, repositoryDetailDtos={}", userId,
+                    info("Running GIT details job for userIds={}, project={}, issuesDtos={}", userId,
                             project, issuesDtos);
                     if (issuesDtos != null && !issuesDtos.isEmpty()) {
                         gitProjectCache.remove(userId + project);

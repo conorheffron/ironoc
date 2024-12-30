@@ -14,11 +14,11 @@ import org.springframework.stereotype.Component;
 import javax.net.ssl.HttpsURLConnection;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -58,7 +58,6 @@ public class GitClient extends AbstractLogger implements Client {
             inputStream = this.readInputStream(conn);
             Map<String, List<String>> map = conn.getHeaderFields();
             List<String> linkHeader = map.get("Link");
-            Map<String, String> linkHeaders = new HashMap<>();
             if (linkHeader != null && !linkHeader.isEmpty()) {
                 info("Link.Header: {}", linkHeader);
             }
@@ -80,13 +79,13 @@ public class GitClient extends AbstractLogger implements Client {
     }
 
     private <T> List<T> readJsonResponse(InputStream inputStream, Class<T> type) throws Exception {
-        List<T> dtos = new ArrayList<>();
+        List<T> items;
         String jsonResponse = convertInputStreamToString(inputStream);
         CollectionType listType = objectMapper.getTypeFactory()
                 .constructCollectionType(ArrayList.class, type);
-        dtos = objectMapper.readValue(jsonResponse, listType);
-        debug("List.of(DTO)={}", dtos);
-        return dtos;
+        items = objectMapper.readValue(jsonResponse, listType);
+        debug("List.of(DTO)={}", items);
+        return items;
     }
 
     @Override
@@ -106,7 +105,7 @@ public class GitClient extends AbstractLogger implements Client {
             conn.setRequestProperty("Authorization", token);
         }
         conn.setRequestMethod(httpMethod);
-        conn.setFollowRedirects(propertyConfig.getGitFollowRedirects());
+        HttpURLConnection.setFollowRedirects(propertyConfig.getGitFollowRedirects());
         conn.setConnectTimeout(propertyConfig.getGitTimeoutConnect());
         conn.setReadTimeout(propertyConfig.getGitTimeoutRead());
         conn.setInstanceFollowRedirects(propertyConfig.getGitInstanceFollowRedirects());
@@ -123,7 +122,7 @@ public class GitClient extends AbstractLogger implements Client {
         inputStream.close();
     }
 
-    String convertInputStreamToString(InputStream inputStream) throws Exception {
+    protected String convertInputStreamToString(InputStream inputStream) throws Exception {
         return IOUtils.toString(inputStream, StandardCharsets.UTF_8);
     }
 }

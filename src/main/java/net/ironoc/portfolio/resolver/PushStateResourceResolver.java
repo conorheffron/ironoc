@@ -1,5 +1,6 @@
 package net.ironoc.portfolio.resolver;
 
+import org.springframework.lang.Nullable;
 import net.ironoc.portfolio.logger.AbstractLogger;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.core.io.ClassPathResource;
@@ -27,14 +28,14 @@ public class PushStateResourceResolver extends AbstractLogger implements Resourc
     }
 
     @Override
-    public Resource resolveResource(HttpServletRequest request, String requestPath,
-                                    List<? extends Resource> locations, ResourceResolverChain chain) {
+    public Resource resolveResource(@Nullable HttpServletRequest request, @Nullable String requestPath,
+                                    @Nullable List<? extends Resource> locations, @Nullable ResourceResolverChain chain) {
         return resolve(requestPath, locations);
     }
 
     @Override
-    public String resolveUrlPath(String resourcePath, List<? extends Resource> locations,
-                                 ResourceResolverChain chain) {
+    public String resolveUrlPath(@Nullable String resourcePath, @Nullable List<? extends Resource> locations,
+                                 @Nullable ResourceResolverChain chain) {
         Resource resolvedResource = resolve(resourcePath, locations);
         if (resolvedResource == null) {
             return null;
