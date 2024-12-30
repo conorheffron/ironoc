@@ -2,7 +2,7 @@
 
 [![Node.js Package](https://github.com/conorheffron/ironoc/actions/workflows/npm-publish-github-packages.yml/badge.svg)](https://github.com/conorheffron/ironoc/actions/workflows/npm-publish-github-packages.yml)
 
-See project readme [here]([https://github.com/conorheffron/ironoc](https://github.com/conorheffron/ironoc/blob/main/README.md))
+See project readme [here](https://github.com/conorheffron/ironoc/blob/main/README.md)
 
 ## Getting Started with React App
 
