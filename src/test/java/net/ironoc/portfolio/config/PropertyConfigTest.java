@@ -240,6 +240,6 @@ public class PropertyConfigTest {
         verify(propertyKeyMock).isCacheJobEnabled();
         verify(environmentMock).getRequiredProperty(Properties.IS_GITHUB_JOB_ENABLED.getKey());
 
-        assertThat(result, is(true));
+        assertThat(result, is(Boolean.TRUE.booleanValue()));
     }
 }
