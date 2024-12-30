@@ -74,8 +74,8 @@ public class GitProjectsController extends AbstractLogger {
 																			 String username,
 																			 String repository) {
 		// user & repo name validation (must contain only letters, numbers and/or dash chars)
-		String userId = "";
-		String repo = "";
+		String userId;
+		String repo;
 		if (!StringUtils.isNoneBlank(username, repository)) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Collections.emptyList());
 		} else if (!StringUtils.isAlphanumericSpace(sanitizeValue(username)
@@ -103,7 +103,7 @@ public class GitProjectsController extends AbstractLogger {
 	private ResponseEntity<List<RepositoryDetailDomain>> getReposByUsername(HttpServletRequest request,
 																			String username) {
 		// username validation (must contain only letters, numbers and/or dash chars)
-		String userId = "";
+		String userId;
 		if (StringUtils.isBlank(username)) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Collections.emptyList());
 		} else if (!StringUtils.isAlphanumericSpace(sanitizeValue(username)
