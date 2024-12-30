@@ -10,7 +10,7 @@ import lombok.AllArgsConstructor;
 
 @Data
 @NoArgsConstructor
-@ToString(includeFieldNames = true)
+@ToString()
 @Builder
 @AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
