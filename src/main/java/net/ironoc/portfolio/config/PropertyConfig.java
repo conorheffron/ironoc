@@ -79,8 +79,7 @@ public class PropertyConfig implements PropertyConfigI {
 
     @Override
     public List<String> getGitApiEndpointProjectsCache() {
-        String projects = environment.getRequiredProperty(propertyKey.getGitApiEndpointProjectsCache());
-        return extractValues(projects);
+        return List.of(environment.getRequiredProperty(propertyKey.getGitApiEndpointProjectsCache(), String[].class));
     }
 
     public boolean isCacheJobEnabled() {
