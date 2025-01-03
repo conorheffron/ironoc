@@ -36,14 +36,14 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '20.x'
-          registry-url: 'https://npm.pkg.github.com'
+          registry-url: https://npm.pkg.github.com/
           scope: '@conorheffron'
       - run: npm ci
         working-directory: './frontend'
-      - run: npm config set @conorheffron:registry https://npm.pkg.github.com
-      - run: npm config set //npm.pkg.github.com/:_authToken $NPM_TOKEN
+      - run: npm set "//npm.pkg.github.com/:_authToken=$NPM_TOKEN"
         env: 
           NPM_TOKEN: ${{secrets.GITHUB_TOKEN}}
+      - run: echo registry=https://npm.pkg.github.com/conorheffron >> .npmrc
       - run: npm publish
         working-directory: './frontend'
         env:
