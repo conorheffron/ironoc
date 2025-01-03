@@ -3,7 +3,8 @@
 [![Node.js Package](https://github.com/conorheffron/ironoc/actions/workflows/npm-publish-github-packages.yml/badge.svg)](https://github.com/conorheffron/ironoc/actions/workflows/npm-publish-github-packages.yml)
 
 - See project README.md [here](https://github.com/conorheffron/ironoc/blob/main/README.md)
-- See published GitHub package details [here](https://github.com/conorheffron/ironoc/pkgs/npm/ironoc-frontend)
+- See npmjs package details here [https://www.npmjs.com/package/@conorheffron/ironoc-frontend](https://www.npmjs.com/package/@conorheffron/ironoc-frontend)
+- See GitHub package details here [https://github.com/conorheffron/ironoc/pkgs/npm/ironoc-frontend](https://github.com/conorheffron/ironoc/pkgs/npm/ironoc-frontend)
 
 ## Getting Started with React App
 
