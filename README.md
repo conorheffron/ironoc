@@ -6,7 +6,7 @@
 
 [![Deploy to Amazon ECS](https://github.com/conorheffron/ironoc/actions/workflows/aws.yml/badge.svg)](https://github.com/conorheffron/ironoc/actions/workflows/aws.yml)
 
-See iromnoc-frontend README [here]{./frontend/README.md}
+See iromnoc-frontend README [here](./frontend/README.md)
 
 ### Docker Image Repositories
 - [ironoc Docker Hub Repository](https://hub.docker.com/repository/docker/conorheffron/ironoc/general)
