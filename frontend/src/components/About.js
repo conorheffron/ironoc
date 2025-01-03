@@ -20,11 +20,11 @@ class About extends Component {
                         With over ten years of professional experience, I specialize in writing clean code and
                         developing high-performance applications. As a passionate Full Stack Developer, I am constantly
                         expanding my technical expertise across various tech stacks, languages, frameworks, and
-                        tools in the realm of Software, Data, and DevOps. 
-                        <br />
+                        tools in the realm of Software Engineering, Data Engineering, & DevOps.
+                        <br /><br />
                         I believe in continuous learning & practical skills that can be demonstrated in a positive & collaborative manner (open source is great!). 
                         When not learning or working, I like jogging/cycling, music, cooking, & searching for new forms of caffeine & salsa verde!
-                        <br />
+                        <br /><br />
                         Let's connect and explore exciting
                         opportunities together! See above & beyond for contact details and further information.
                         </p><br />
