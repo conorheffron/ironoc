@@ -44,7 +44,7 @@ jobs:
         working-directory: './frontend'
         env: 
           NPM_TOKEN: ${{secrets.GITHUB_TOKEN}}
-      - run: echo registry=https://npm.pkg.github.com/ >> .npmrc
+      - run: echo registry=https://npm.pkg.github.com/conorheffron >> .npmrc
         working-directory: './frontend'
       - run: npm publish
         working-directory: './frontend'
