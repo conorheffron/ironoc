@@ -6,8 +6,6 @@
 
 [![Deploy to Amazon ECS](https://github.com/conorheffron/ironoc/actions/workflows/aws.yml/badge.svg)](https://github.com/conorheffron/ironoc/actions/workflows/aws.yml)
 
-See iromnoc-frontend README [here](./frontend/README.md)
-
 ### Docker Image Repositories
 - [ironoc Docker Hub Repository](https://hub.docker.com/repository/docker/conorheffron/ironoc/general)
 - [ironoc GitHub Docker Container Registry](https://github.com/conorheffron/ironoc/pkgs/container/ironoc)
@@ -22,6 +20,8 @@ Personal website / portfolio  [https://www.ironoc.net/](https://www.ironoc.net/)
 ## Tech Stack
 Java 21 (LTS), Spring Boot 3.4, ReactJs 18, Maven 3.8 or later, HTML5+CSS, 
     Docker / Bash, AWS, minikube, & kubectl.
+
+## See ironoc-frontend README [here](./frontend/README.md)
 
 ## Run without cloning project:
 ```
