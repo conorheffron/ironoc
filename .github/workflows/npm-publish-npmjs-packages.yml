@@ -46,19 +46,3 @@ jobs:
         working-directory: './frontend'
         env:
           NODE_AUTH_TOKEN: ${{secrets.NODE_AUTH_TOKEN}}
-
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '20.x'
-          registry-url: 'https://npm.pkg.github.com/coniorheffron/'
-          scope: '@conorheffron'
-      - run: npm ci
-        working-directory: './frontend'
-      - run: npm set "//npm.pkg.github.com/conorheffron/:_authToken=$NPM_TOKEN"
-        env: 
-          NPM_TOKEN: ${{secrets.GITHUB_TOKEN}}
-      - run: npm publish
-        working-directory: './frontend'
-        env:
-          NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
