@@ -62,7 +62,8 @@ jobs:
             scope: '@conorheffron'
         - run: npm ci
           working-directory: './frontend'
-        - run: npm set @conorheffron:registry "//npm.pkg.github.com/:_authToken=$NPM_TOKEN"
+        - run: npm config set @conorheffron:registry https://npm.pkg.github.com
+        - run: npm set "//npm.pkg.github.com/:_authToken=$NPM_TOKEN"
           env: 
             NPM_TOKEN: ${{secrets.GITHUB_TOKEN}}
         - run: npm publish
