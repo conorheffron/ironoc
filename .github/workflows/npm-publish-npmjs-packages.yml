@@ -41,9 +41,11 @@ jobs:
       - run: npm ci
         working-directory: './frontend'
       - run: npm set "//npm.pkg.github.com/:_authToken=$NPM_TOKEN"
+        working-directory: './frontend'
         env: 
           NPM_TOKEN: ${{secrets.GITHUB_TOKEN}}
       - run: echo registry=https://npm.pkg.github.com/conorheffron >> .npmrc
+        working-directory: './frontend'
       - run: npm publish
         working-directory: './frontend'
         env:
@@ -64,9 +66,10 @@ jobs:
       - run: npm ci
         working-directory: './frontend'
       - run: npm set "//registry.npmjs.org/conorheffron/:_authToken=$NPM_TOKEN"
+        working-directory: './frontend'
         env: 
           NPM_TOKEN: ${{secrets.NODE_AUTH_TOKEN}}
-      - run: npm publish
+      - run: npm publish --access public
         working-directory: './frontend'
         env:
           NODE_AUTH_TOKEN: ${{secrets.NODE_AUTH_TOKEN}}
