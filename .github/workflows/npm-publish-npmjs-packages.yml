@@ -24,6 +24,30 @@ jobs:
         working-directory: './frontend'
       - run: npm test
         working-directory: './frontend'
+
+  publish-gpr:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+          registry-url: 'https://npm.pkg.github.com'
+          scope: '@conorheffron'
+      - run: npm ci
+        working-directory: './frontend'
+      - run: npm config set @conorheffron:registry https://npm.pkg.github.com
+      - run: npm config set //npm.pkg.github.com/:_authToken $NPM_TOKEN
+        env: 
+          NPM_TOKEN: ${{secrets.GITHUB_TOKEN}}
+      - run: npm publish
+        working-directory: './frontend'
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
         
   publish-npm:
     needs: build
@@ -46,27 +70,3 @@ jobs:
         working-directory: './frontend'
         env:
           NODE_AUTH_TOKEN: ${{secrets.NODE_AUTH_TOKEN}}
-
-  publish-gpr:
-      needs: build
-      runs-on: ubuntu-latest
-      permissions:
-        contents: read
-        packages: write
-      steps:
-        - uses: actions/checkout@v4
-        - uses: actions/setup-node@v4
-          with:
-            node-version: '20.x'
-            registry-url: 'https://npm.pkg.github.com'
-            scope: '@conorheffron'
-        - run: npm ci
-          working-directory: './frontend'
-        - run: npm config set @conorheffron:registry https://npm.pkg.github.com
-        - run: npm set "//npm.pkg.github.com/:_authToken=$NPM_TOKEN"
-          env: 
-            NPM_TOKEN: ${{secrets.GITHUB_TOKEN}}
-        - run: npm publish
-          working-directory: './frontend'
-          env:
-            NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
