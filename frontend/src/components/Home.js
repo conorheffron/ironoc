@@ -23,8 +23,8 @@ class Home extends Component {
                     or to drill down to a specific repository name via search or 'List Issues' icon in the 'Actions' column 
                     of the <a href="https://www.ironoc.net/projects/conorheffron">projects component view</a>.
                     <br /><br />
-                    The ironoc API is documented with Open API & sample GET requests that return raw JSON responses are 
-                    available for demonstration purposes only i.e. 
+                    The ironoc API is documented with <a href="https://www.ironoc.net/swagger-ui-ironoc.html">Open API</a> 
+                    & sample GET requests that return raw JSON responses are available for demonstration purposes only i.e. 
                     <a href="https://www.ironoc.net/get-repo-issue/conorheffron/ironoc/">Issues JSON Sample</a>.</p>
                   </header>
               </Container>
