@@ -16,7 +16,9 @@ class About extends Component {
                             <img src="https://static.licdn.com/scds/common/u/img/webpromo/btn_viewmy_160x33.png"
                                 width="160" height="33" border="0" alt="View Conor Heffron's profile on LinkedIn"></img>
                         </a>
-                        <p id="my-intro"><br />Welcome, I'm Conor Heffron, a Software Engineer hailing from County Meath, Ireland.
+                        <p id="my-intro">
+                        <br />
+                        Welcome, I'm Conor Heffron, a Software Engineer hailing from County Meath, Ireland.
                         With over fourteen years of professional experience, I specialize in writing clean code and
                         developing high-performance applications. As a passionate Full Stack Developer, I am constantly
                         expanding my technical expertise across various tech stacks, languages, frameworks, and tools in the 
