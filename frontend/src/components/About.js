@@ -26,7 +26,7 @@ class About extends Component {
                         <br /><br />
                         I believe in continuous learning & practical skills that can be demonstrated in a positive & collaborative 
                         manner (open source is great!). When not learning or working, I like jogging/cycling, music, cooking, 
-                        pretending to be a coffee connoisseur, & searching for new forms of salsa verde / green sauce! 
+                        pretending to be a caffeine connoisseur, & searching for new forms of salsa verde / green sauce! 
                         <br /><br />
                         Let's connect and explore exciting
                         opportunities together! See above & beyond for contact details and further information.
