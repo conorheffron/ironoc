@@ -3,6 +3,7 @@ import { Button, Container, InputGroup, Table } from 'reactstrap';
 import '.././App.css';
 import Form from 'react-bootstrap/Form';
 import AppNavbar from '.././AppNavbar';
+import Footer from '.././Footer';
 
 class RepoIssues extends Component {
 
@@ -75,6 +76,7 @@ class RepoIssues extends Component {
                             <tbody>{repoList}</tbody>
                         </Table>
                     </Container>
+                    <Footer/>
                 </div>
             );
     }

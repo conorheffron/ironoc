@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Container } from 'reactstrap';
 import '.././App.css';
 import AppNavbar from '.././AppNavbar';
+import Footer from '.././Footer';
 
 class NotFound extends Component {
 
@@ -15,6 +16,7 @@ class NotFound extends Component {
                     <p id="my-intro">Sorry, the page you are looking for could not be found.</p>
                   </header>
               </Container>
+              <Footer/>
             </div>
         );
     }

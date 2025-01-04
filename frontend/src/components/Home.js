@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Container } from 'reactstrap';
 import '.././App.css';
 import AppNavbar from '.././AppNavbar';
+import Footer from '.././Footer';
 import logo from '.././img/robot-logo.png';
 
 class Home extends Component {
@@ -16,6 +17,7 @@ class Home extends Component {
                     <p id="my-intro">Web Application Development | Software & Data Engineering | DevOps</p>
                   </header>
               </Container>
+              <Footer/>
             </div>
         );
     }
