@@ -1,6 +1,6 @@
 {
   "name": "@conorheffron/ironoc-frontend",
-  "version": "5.5.8",
+  "version": "6.0.0",
   "private": false,
   "dependencies": {
     "@testing-library/jest-dom": "^5.17.0",
