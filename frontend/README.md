@@ -2,7 +2,7 @@
 
 The ironoc UI built with react for personal portfolio website.
 
-[![Node.js Package](https://github.com/conorheffron/ironoc/actions/workflows/npm-publish-github-packages.yml/badge.svg)](https://github.com/conorheffron/ironoc/actions/workflows/npm-publish-packages.yml)
+[![Node.js Package](https://github.com/conorheffron/ironoc/actions/workflows/npm-publish-packages.yml/badge.svg)](https://github.com/conorheffron/ironoc/actions/workflows/npm-publish-packages.yml)
 
 - See project README.md [here](https://github.com/conorheffron/ironoc/blob/main/README.md)
 - See npmjs package details here [https://www.npmjs.com/package/@conorheffron/ironoc-frontend](https://www.npmjs.com/package/@conorheffron/ironoc-frontend)
