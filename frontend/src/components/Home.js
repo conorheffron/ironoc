@@ -13,6 +13,7 @@ class Home extends Component {
               <AppNavbar/>
               <Container>
                   <header className="App-header">
+                    <br /><br />
                     <a href="/"><img src={logo} className="App-logo" alt="iRonoc"/></a>
                     <p id="my-intro"> Welcome to my personal portfolio site.<br />
                     Please use the navigation bar to view different features such as about me, my link tree, a carousel 
