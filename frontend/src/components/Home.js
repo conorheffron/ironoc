@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Container } from 'reactstrap';
 import '.././App.css';
 import AppNavbar from '.././AppNavbar';
+import Footer from '.././Footer';
 import logo from '.././img/robot-logo.png';
 
 class Home extends Component {
@@ -12,6 +13,7 @@ class Home extends Component {
               <AppNavbar/>
               <Container>
                   <header className="App-header">
+                    <br /><br />
                     <a href="/"><img src={logo} className="App-logo" alt="iRonoc"/></a>
                     <p id="my-intro"> Welcome to my personal portfolio site.<br />
                     Please use the navigation bar to view different features such as about me, my link tree, a carousel 
@@ -28,6 +30,7 @@ class Home extends Component {
                     <a href="https://www.ironoc.net/get-repo-issue/conorheffron/ironoc/">Issues JSON Sample</a>.</p>
                   </header>
               </Container>
+              <Footer/>
             </div>
         );
     }

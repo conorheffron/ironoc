@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Container } from 'reactstrap';
 import '.././App.css';
 import AppNavbar from '.././AppNavbar';
+import Footer from '.././Footer';
 
 class About extends Component {
 
@@ -37,6 +38,7 @@ class About extends Component {
                         </a>
                 </header>
             </Container>
+            <Footer/>
         </div>
     );
   }
