@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Container } from 'reactstrap';
 import '.././App.css';
 import AppNavbar from '.././AppNavbar';
+import Footer from '.././Footer';
 import logo from '.././img/robot-logo.png';
 
 class Home extends Component {
@@ -29,6 +30,7 @@ class Home extends Component {
                     <a href="https://www.ironoc.net/get-repo-issue/conorheffron/ironoc/">Issues JSON Sample</a>.</p>
                   </header>
               </Container>
+              <Footer/>
             </div>
         );
     }
