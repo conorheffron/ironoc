@@ -73,3 +73,24 @@
     height: 13;
     width: 51;
 }
+
+.carousel-caption h3, h5 {
+    color: navy;
+}
+
+p a {
+    color: yellow;
+}
+
+.carousel-caption h3, h5 {
+    background-color:yellow;
+    width: 50%;
+    height: auto;
+    margin: 0 auto;
+}
+
+.carousel-item img {
+    width: 50%;
+    height: auto;
+    margin: 0 auto;
+}
