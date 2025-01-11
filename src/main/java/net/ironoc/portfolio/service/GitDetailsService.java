@@ -47,9 +47,9 @@ public class GitDetailsService extends AbstractLogger implements GitDetails {
     }
 
     @Override
-    public List<RepositoryDetailDto> getRepoDetails(String username) {
+    public List<RepositoryDetailDto> getRepoDetails(String username, boolean isJob) {
         // check cache for home page user ID
-        if (username.equalsIgnoreCase(IRONOC_GIT_USER)) {
+        if (!isJob & username.equalsIgnoreCase(IRONOC_GIT_USER)) {
             List<RepositoryDetailDomain> repoDetails = gitRepoCache
                     .get(IRONOC_GIT_USER);
             if (repoDetails != null && !repoDetails.isEmpty()) {
@@ -110,9 +110,9 @@ public class GitDetailsService extends AbstractLogger implements GitDetails {
     }
 
     @Override
-    public List<RepositoryIssueDto> getIssues(String userId, String repo) {
+    public List<RepositoryIssueDto> getIssues(String userId, String repo, boolean isJob) {
         // check cache for home page user ID
-        if (userId.equalsIgnoreCase(IRONOC_GIT_USER)) {
+        if (!isJob & userId.equalsIgnoreCase(IRONOC_GIT_USER)) {
             List<RepositoryIssueDomain> repositoryIssues = gitProjectCache.get(userId, repo);
             if (repositoryIssues != null && !repositoryIssues.isEmpty()) {
                 return this.mapResponseToIssues(repositoryIssues);

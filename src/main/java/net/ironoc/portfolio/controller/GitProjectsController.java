@@ -94,7 +94,7 @@ public class GitProjectsController extends AbstractLogger {
 				request.getHeader("host"),
 				request.getRequestURI(),
 				request.getHeader("user-agent"));
-		List<RepositoryIssueDto> repositoryIssueDtos = gitDetailsService.getIssues(userId, repo);
+		List<RepositoryIssueDto> repositoryIssueDtos = gitDetailsService.getIssues(userId, repo, false);
 		info("The repository issues for user={} and repo={} are: {}", userId, repo, repositoryIssueDtos);
 		return ResponseEntity.status(HttpStatus.OK)
 				.body(gitDetailsService.mapIssuesToResponse(repositoryIssueDtos));
@@ -118,7 +118,7 @@ public class GitProjectsController extends AbstractLogger {
 				request.getHeader("host"),
 				request.getRequestURI(),
 				request.getHeader("user-agent"));
-		List<RepositoryDetailDto> repositories = gitDetailsService.getRepoDetails(userId);
+		List<RepositoryDetailDto> repositories = gitDetailsService.getRepoDetails(userId, false);
 		info("The repository details for user={} are: {}", userId, repositories);
 		return ResponseEntity.status(HttpStatus.OK)
 				.body(gitDetailsService.mapRepositoriesToResponse(repositories));
