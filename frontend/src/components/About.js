@@ -27,7 +27,8 @@ class About extends Component {
                         <br /><br />
                         I believe in continuous learning & practical skills that can be demonstrated in a positive & collaborative 
                         manner (open source is great!). When not learning or working, I like jogging/cycling, music, cooking, 
-                        pretending to be a caffeine connoisseur, & searching for new forms of salsa verde / green sauce! 
+                        pretending to be a <a href="/brews">caffeine connoisseur</a>, & searching for new forms of
+                        salsa verde / green sauce!
                         <br /><br />
                         Let's connect and explore exciting
                         opportunities together! See above & beyond for contact details and further information.
@@ -35,7 +36,7 @@ class About extends Component {
                         <a class="strava-badge" href='https://strava.com/athletes/2582329' target="_clean">
                           Follow me on
                           <img class="strava-badge-img" src='https://badges.strava.com/logo-strava.png' alt='Strava' />
-                        </a>
+                        </a><br />
                 </header>
             </Container>
             <Footer/>

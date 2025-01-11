@@ -18,6 +18,7 @@ export default function AppNavBar() {
                             <DropdownMenu end>
                                 <DropdownItem href="/about">About</DropdownItem>
                                 <DropdownItem href="/portfolio">Portfolio</DropdownItem>
+                                <DropdownItem href="/brews">Brews</DropdownItem>
                                 <DropdownItem divider />
                                 <DropdownItem href="https://linktr.ee/conorheffron" target="_blank" rel="noreferrer">Link Tree</DropdownItem>
                             </DropdownMenu>
