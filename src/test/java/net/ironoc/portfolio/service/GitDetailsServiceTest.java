@@ -92,7 +92,7 @@ public class GitDetailsServiceTest {
                 .thenReturn(objectMapper.readValue(jsonInputStream, listType));
 
         // when
-        List<RepositoryDetailDto> results = gitDetailsService.getRepoDetails(testUserId);
+        List<RepositoryDetailDto> results = gitDetailsService.getRepoDetails(testUserId, false);
 
         // then
         verify(propertyConfigMock).getGitApiEndpointRepos();
@@ -147,7 +147,7 @@ public class GitDetailsServiceTest {
                 .thenReturn(objectMapper.readValue(jsonInputStream, listType));
 
         // when
-        List<RepositoryIssueDto> results = gitDetailsService.getIssues(testUserId, testRepo);
+        List<RepositoryIssueDto> results = gitDetailsService.getIssues(testUserId, testRepo, false);
 
         // then
         verify(propertyConfigMock).getGitApiEndpointIssues();
@@ -188,7 +188,7 @@ public class GitDetailsServiceTest {
                 .thenReturn(objectMapper.readValue(jsonInputStream, listType));
 
         // when
-        List<RepositoryDetailDto> results = gitDetailsService.getRepoDetails(testUserId);
+        List<RepositoryDetailDto> results = gitDetailsService.getRepoDetails(testUserId, false);
 
         // then
         verify(propertyConfigMock).getGitApiEndpointRepos();
@@ -212,7 +212,7 @@ public class GitDetailsServiceTest {
         String testUserId = "conorheffron";
 
         // when
-        List<RepositoryDetailDto> results = gitDetailsService.getRepoDetails(testUserId);
+        List<RepositoryDetailDto> results = gitDetailsService.getRepoDetails(testUserId, false);
 
         // then
         verify(gitRepoCacheMock).get(IRONOC_GIT_USER);
@@ -228,7 +228,7 @@ public class GitDetailsServiceTest {
         when(propertyConfigMock.getGitApiEndpointRepos()).thenReturn(TEST_URI);
 
         // when
-        List<RepositoryDetailDto> results = gitDetailsService.getRepoDetails(testUserId);
+        List<RepositoryDetailDto> results = gitDetailsService.getRepoDetails(testUserId, false);
 
         // then
         verify(propertyConfigMock).getGitApiEndpointRepos();
@@ -360,7 +360,7 @@ public class GitDetailsServiceTest {
         when(propertyConfigMock.getGitApiEndpointIssues()).thenReturn(TEST_URI);
 
         // when
-        List<RepositoryIssueDto> results = gitDetailsService.getIssues(testUserId, testProject);
+        List<RepositoryIssueDto> results = gitDetailsService.getIssues(testUserId, testProject, false);
 
         // then
         verify(propertyConfigMock).getGitApiEndpointIssues();

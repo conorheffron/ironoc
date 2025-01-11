@@ -99,7 +99,7 @@ public class GitProjectsControllerIntegrationTest {
                 .getResourceAsStream("json" + File.separator + "test_response.json");
         List<RepositoryDetailDto> dtos = List.of(objectMapper.readValue(jsonInputStream, RepositoryDetailDto[].class));
 
-        when(gitDetailsServiceMock.getRepoDetails("conorheffron")).thenReturn(dtos);
+        when(gitDetailsServiceMock.getRepoDetails("conorheffron", false)).thenReturn(dtos);
         when(gitDetailsServiceMock.mapRepositoriesToResponse(anyList()))
                 .thenReturn(new GitDetailsService(null, null,
                         null,null,null)
@@ -111,7 +111,7 @@ public class GitProjectsControllerIntegrationTest {
                 .andReturn().getResponse();
 
         // then
-        verify(gitDetailsServiceMock).getRepoDetails("conorheffron");
+        verify(gitDetailsServiceMock).getRepoDetails("conorheffron", false);
         verify(gitDetailsServiceMock).mapRepositoriesToResponse(anyList());
 
         assertThat(response.getStatus(), is(HttpStatus.OK.value()));
@@ -137,7 +137,7 @@ public class GitProjectsControllerIntegrationTest {
                 .getResourceAsStream("json" + File.separator + "test_response.json");
         List<RepositoryDetailDto> dtos = List.of(objectMapper.readValue(jsonInputStream, RepositoryDetailDto[].class));
 
-        when(gitDetailsServiceMock.getRepoDetails("conorheffron")).thenReturn(dtos);
+        when(gitDetailsServiceMock.getRepoDetails("conorheffron", false)).thenReturn(dtos);
         when(gitDetailsServiceMock.mapRepositoriesToResponse(anyList()))
                 .thenReturn(new GitDetailsService(null, null, null,
                         null, null)
@@ -149,7 +149,7 @@ public class GitProjectsControllerIntegrationTest {
                 .andReturn().getResponse();
 
         // then
-        verify(gitDetailsServiceMock).getRepoDetails("conorheffron");
+        verify(gitDetailsServiceMock).getRepoDetails("conorheffron", false);
         verify(gitDetailsServiceMock).mapRepositoriesToResponse(anyList());
 
         assertThat(response.getStatus(), is(HttpStatus.OK.value()));
@@ -187,7 +187,7 @@ public class GitProjectsControllerIntegrationTest {
                 .getResourceAsStream("json" + File.separator + "test_issues_response.json");
         List<RepositoryIssueDto> dtos = List.of(objectMapper.readValue(jsonInputStream, RepositoryIssueDto[].class));
 
-        when(gitDetailsServiceMock.getIssues("test-user", "test-repo")).thenReturn(dtos);
+        when(gitDetailsServiceMock.getIssues("test-user", "test-repo", false)).thenReturn(dtos);
         when(gitDetailsServiceMock.mapIssuesToResponse(anyList()))
                 .thenReturn(new GitDetailsService(null, null, null,
                         null, null)
@@ -199,7 +199,7 @@ public class GitProjectsControllerIntegrationTest {
                 .andReturn().getResponse();
 
         // then
-        verify(gitDetailsServiceMock).getIssues("test-user", "test-repo");
+        verify(gitDetailsServiceMock).getIssues("test-user", "test-repo", false);
         verify(gitDetailsServiceMock).mapIssuesToResponse(anyList());
 
         assertThat(response.getStatus(), is(HttpStatus.OK.value()));
