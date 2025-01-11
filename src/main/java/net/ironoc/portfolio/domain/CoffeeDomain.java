@@ -1,18 +1,18 @@
-package net.ironoc.portfolio.dto;
+package net.ironoc.portfolio.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
-@Data
-@NoArgsConstructor
-@ToString()
 @Builder
 @AllArgsConstructor
-@JsonIgnoreProperties(ignoreUnknown = true)
-public class CoffeeDto {
+@NoArgsConstructor
+@Getter
+public class CoffeeDomain {
 
     @Schema(name= "title", description = "Coffee Name/Type.", example = "Cold Brew",
             requiredMode = Schema.RequiredMode.REQUIRED)

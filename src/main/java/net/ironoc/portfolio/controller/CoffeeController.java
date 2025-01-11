@@ -4,7 +4,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import net.ironoc.portfolio.logger.AbstractLogger;
-import net.ironoc.portfolio.dto.CoffeeDto;
+import net.ironoc.portfolio.domain.CoffeeDomain;
 import net.ironoc.portfolio.service.Coffees;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -31,8 +31,8 @@ public class CoffeeController extends AbstractLogger {
                     description = "Successfully retrieved coffee brew details.")
     })
     @GetMapping(value = {"/coffees"}, produces= MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<CoffeeDto>> getCoffeeDetails() {
-        List<CoffeeDto> coffeeDto = coffeesService.getCoffeeDetails();
-        return ResponseEntity.ok(coffeeDto);
+    public ResponseEntity<List<CoffeeDomain>> getCoffeeDetails() {
+        List<CoffeeDomain> coffeeDomain = coffeesService.getCoffeeDetails();
+        return ResponseEntity.ok(coffeeDomain);
     }
 }

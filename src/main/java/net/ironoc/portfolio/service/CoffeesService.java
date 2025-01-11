@@ -1,6 +1,6 @@
 package net.ironoc.portfolio.service;
 
-import net.ironoc.portfolio.dto.CoffeeDto;
+import net.ironoc.portfolio.domain.CoffeeDomain;
 import net.ironoc.portfolio.logger.AbstractLogger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
@@ -22,20 +22,20 @@ public class CoffeesService extends AbstractLogger implements Coffees {
     }
 
     @Override
-    public List<CoffeeDto> getCoffeeDetails() {
+    public List<CoffeeDomain> getCoffeeDetails() {
         // TODO move URLs to configurable
         info("Entering CoffeesService.getCoffeeDetails");
         String urlHotDrinks = "https://api.sampleapis.com/coffee/hot";
         String urlIcedDrinks = "https://api.sampleapis.com/coffee/iced";
-        List<CoffeeDto> coffeeDtos = new ArrayList<>();
-        List<CoffeeDto> hotCoffeeDtos = List.of(Objects.requireNonNull(
-                restTemplate.getForEntity(urlHotDrinks, CoffeeDto[].class).getBody()));
-        coffeeDtos.addAll(hotCoffeeDtos);
-        info("Hot Coffee Details: hotCoffeeDtos={}", hotCoffeeDtos);
-        List<CoffeeDto> icedCoffeeDtos = List.of(Objects.requireNonNull(
-                restTemplate.getForEntity(urlIcedDrinks, CoffeeDto[].class).getBody()));
-        coffeeDtos.addAll(icedCoffeeDtos);
-        info("Iced Coffee Details: icedCoffeeDtos={}", icedCoffeeDtos);
-        return coffeeDtos;
+        List<CoffeeDomain> coffeeDomains = new ArrayList<>();
+        List<CoffeeDomain> hotCoffeeDomains = List.of(Objects.requireNonNull(
+                restTemplate.getForEntity(urlHotDrinks, CoffeeDomain[].class).getBody()));
+        coffeeDomains.addAll(hotCoffeeDomains);
+        info("Hot Coffee Details: hotCoffeeDtos={}", hotCoffeeDomains);
+        List<CoffeeDomain> icedCoffeeDomains = List.of(Objects.requireNonNull(
+                restTemplate.getForEntity(urlIcedDrinks, CoffeeDomain[].class).getBody()));
+        coffeeDomains.addAll(icedCoffeeDomains);
+        info("Iced Coffee Details: icedCoffeeDtos={}", icedCoffeeDomains);
+        return coffeeDomains;
     }
 }
