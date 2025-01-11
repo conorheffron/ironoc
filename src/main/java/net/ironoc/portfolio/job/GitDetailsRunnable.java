@@ -56,7 +56,7 @@ public class GitDetailsRunnable extends AbstractLogger implements Runnable {
         info("GitDetailsRunnable running for userIds={}", getUserIds());
 
         for (String userId : userIds) {
-            List<RepositoryDetailDto> repositoryDetailDtos = gitDetails.getRepoDetails(userId);
+            List<RepositoryDetailDto> repositoryDetailDtos = gitDetails.getRepoDetails(userId, true);
             info("Running GIT details job for userIds={}, repositoryDetailDtos={}",
                     userId, repositoryDetailDtos);
             if (repositoryDetailDtos != null && !repositoryDetailDtos.isEmpty()) {
@@ -64,7 +64,7 @@ public class GitDetailsRunnable extends AbstractLogger implements Runnable {
                 gitRepoCache.put(userId, gitDetails.mapRepositoriesToResponse(repositoryDetailDtos));
 
                 for(String project : getProjects()) {
-                    List<RepositoryIssueDto> issuesDtos = gitDetails.getIssues(userId, project);
+                    List<RepositoryIssueDto> issuesDtos = gitDetails.getIssues(userId, project, true);
                     info("Running GIT details job for userIds={}, project={}, issuesDtos={}", userId,
                             project, issuesDtos);
                     if (issuesDtos != null && !issuesDtos.isEmpty()) {

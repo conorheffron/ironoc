@@ -48,6 +48,8 @@ spring:
   mvc:
     favicon:
       enabled: false
+  banner:
+    location: classpath:/static/ironoc-banner.txt
 
 springdoc:
   api-docs:

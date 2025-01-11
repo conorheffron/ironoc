@@ -18,6 +18,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.emptyIterable;
+import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.times;
@@ -126,7 +127,7 @@ public class GitProjectsControllerTest {
         // then
         verify(httpServletRequestMock).getRequestURI();
         verify(httpServletRequestMock, times(2)).getHeader(anyString());
-        verify(gitDetailsServiceMock).getIssues(anyString(), anyString());
+        verify(gitDetailsServiceMock).getIssues(anyString(), anyString(), anyBoolean());
         verify(gitDetailsServiceMock).mapIssuesToResponse(anyList());
 
         assertThat(result, is(notNullValue()));
@@ -142,7 +143,7 @@ public class GitProjectsControllerTest {
         // then
         verify(httpServletRequestMock, never()).getRequestURI();
         verify(httpServletRequestMock, never()).getHeader(anyString());
-        verify(gitDetailsServiceMock, never()).getIssues(anyString(), anyString());
+        verify(gitDetailsServiceMock, never()).getIssues(anyString(), anyString(), anyBoolean());
         verify(gitDetailsServiceMock, never()).mapIssuesToResponse(anyList());
 
         assertThat(result, is(notNullValue()));
@@ -159,7 +160,7 @@ public class GitProjectsControllerTest {
         // then
         verify(httpServletRequestMock, never()).getRequestURI();
         verify(httpServletRequestMock, never()).getHeader(anyString());
-        verify(gitDetailsServiceMock, never()).getIssues(anyString(), anyString());
+        verify(gitDetailsServiceMock, never()).getIssues(anyString(), anyString(), anyBoolean());
         verify(gitDetailsServiceMock, never()).mapIssuesToResponse(anyList());
 
         assertThat(result, is(notNullValue()));
@@ -176,7 +177,7 @@ public class GitProjectsControllerTest {
         // then
         verify(httpServletRequestMock, never()).getRequestURI();
         verify(httpServletRequestMock, never()).getHeader(anyString());
-        verify(gitDetailsServiceMock, never()).getIssues(anyString(), anyString());
+        verify(gitDetailsServiceMock, never()).getIssues(anyString(), anyString(), anyBoolean());
         verify(gitDetailsServiceMock, never()).mapIssuesToResponse(anyList());
 
         assertThat(result, is(notNullValue()));

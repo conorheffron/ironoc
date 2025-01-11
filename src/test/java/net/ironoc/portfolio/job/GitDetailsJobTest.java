@@ -15,6 +15,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.Collections;
 import java.util.List;
 
+import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
@@ -53,9 +54,9 @@ public class GitDetailsJobTest {
         when(propertyConfigMock.getGitApiEndpointUserIdsCache()).thenReturn(List.of("conorheffron"));
         when(propertyConfigMock.getGitApiEndpointProjectsCache())
                 .thenReturn(List.of("ironoc", "booking-sys"));
-        when(gitDetailsMock.getRepoDetails(anyString()))
+        when(gitDetailsMock.getRepoDetails(anyString(), anyBoolean()))
                 .thenReturn(Collections.singletonList(repositoryDetailDtoMock));
-        when(gitDetailsMock.getIssues(anyString(), anyString()))
+        when(gitDetailsMock.getIssues(anyString(), anyString(), anyBoolean()))
                 .thenReturn(Collections.singletonList(repositoryIssueDtoMock));
 
         // when
@@ -65,9 +66,9 @@ public class GitDetailsJobTest {
         verify(propertyConfigMock).isCacheJobEnabled();
         verify(propertyConfigMock).getGitApiEndpointProjectsCache();
         verify(propertyConfigMock).getGitApiEndpointUserIdsCache();
-        verify(gitDetailsMock).getRepoDetails(anyString());
+        verify(gitDetailsMock).getRepoDetails(anyString(), anyBoolean());
         verify(gitRepoCache).put(anyString(), anyList());
-        verify(gitDetailsMock, times(2)).getIssues(anyString(), anyString());
+        verify(gitDetailsMock, times(2)).getIssues(anyString(), anyString(), anyBoolean());
         verify(gitProjectCache, times(2)).put(anyString(), anyString(), anyList());
     }
 
@@ -78,9 +79,9 @@ public class GitDetailsJobTest {
         when(propertyConfigMock.getGitApiEndpointUserIdsCache()).thenReturn(List.of("ironoc-test-id"));
         when(propertyConfigMock.getGitApiEndpointProjectsCache())
                 .thenReturn(List.of("ironoc", "booking-sys", "ironoc-db", "nba-stats"));
-        when(gitDetailsMock.getRepoDetails(anyString()))
+        when(gitDetailsMock.getRepoDetails(anyString(), anyBoolean()))
                 .thenReturn(Collections.singletonList(repositoryDetailDtoMock));
-        when(gitDetailsMock.getIssues(anyString(), anyString()))
+        when(gitDetailsMock.getIssues(anyString(), anyString(), anyBoolean()))
                 .thenReturn(Collections.singletonList(repositoryIssueDtoMock));
 
         // when
@@ -90,9 +91,9 @@ public class GitDetailsJobTest {
         verify(propertyConfigMock).isCacheJobEnabled();
         verify(propertyConfigMock).getGitApiEndpointProjectsCache();
         verify(propertyConfigMock).getGitApiEndpointUserIdsCache();
-        verify(gitDetailsMock).getRepoDetails(anyString());
+        verify(gitDetailsMock).getRepoDetails(anyString(), anyBoolean());
         verify(gitRepoCache).put(anyString(), anyList());
-        verify(gitDetailsMock, times(4)).getIssues(anyString(), anyString());
+        verify(gitDetailsMock, times(4)).getIssues(anyString(), anyString(), anyBoolean());
         verify(gitProjectCache, times(4)).put(anyString(), anyString(), anyList());
     }
 
@@ -108,9 +109,9 @@ public class GitDetailsJobTest {
         verify(propertyConfigMock).isCacheJobEnabled();
         verify(propertyConfigMock, never()).getGitApiEndpointProjectsCache();
         verify(propertyConfigMock, never()).getGitApiEndpointUserIdsCache();
-        verify(gitDetailsMock, never()).getRepoDetails(anyString());
+        verify(gitDetailsMock, never()).getRepoDetails(anyString(), anyBoolean());
         verify(gitRepoCache, never()).put(anyString(), anyList());
-        verify(gitDetailsMock, never()).getIssues(anyString(), anyString());
+        verify(gitDetailsMock, never()).getIssues(anyString(), anyString(), anyBoolean());
         verify(gitProjectCache, never()).put(anyString(), anyString(), anyList());
     }
 
@@ -126,9 +127,9 @@ public class GitDetailsJobTest {
         verify(propertyConfigMock).isCacheJobEnabled();
         verify(propertyConfigMock, never()).getGitApiEndpointProjectsCache();
         verify(propertyConfigMock, never()).getGitApiEndpointUserIdsCache();
-        verify(gitDetailsMock, never()).getRepoDetails(anyString());
+        verify(gitDetailsMock, never()).getRepoDetails(anyString(), anyBoolean());
         verify(gitRepoCache, never()).put(anyString(), anyList());
-        verify(gitDetailsMock, never()).getIssues(anyString(), anyString());
+        verify(gitDetailsMock, never()).getIssues(anyString(), anyString(), anyBoolean());
         verify(gitProjectCache, never()).put(anyString(), anyString(), anyList());
     }
 }

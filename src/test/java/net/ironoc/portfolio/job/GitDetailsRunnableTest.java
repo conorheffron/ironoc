@@ -17,6 +17,7 @@ import java.util.List;
 
 import static org.hamcrest.Matchers.emptyIterable;
 import static org.hamcrest.Matchers.hasSize;
+import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -59,9 +60,9 @@ public class GitDetailsRunnableTest {
     @Test
     public void test_run_tearDown_success() {
         // given
-        when(gitDetailsMock.getRepoDetails(anyString()))
+        when(gitDetailsMock.getRepoDetails(anyString(), anyBoolean()))
                 .thenReturn(Collections.singletonList(repositoryDetailDtoMock));
-        when(gitDetailsMock.getIssues(anyString(), anyString()))
+        when(gitDetailsMock.getIssues(anyString(), anyString(), anyBoolean()))
                 .thenReturn(Collections.singletonList(repositoryIssueDtoMock));
 
         // when
@@ -70,7 +71,7 @@ public class GitDetailsRunnableTest {
         // then
         verify(propertyConfigMock).getGitApiEndpointProjectsCache();
         verify(propertyConfigMock).getGitApiEndpointUserIdsCache();
-        verify(gitDetailsMock).getRepoDetails(anyString());
+        verify(gitDetailsMock).getRepoDetails(anyString(), anyBoolean());
         verify(gitRepoCacheMock).put(anyString(), anyList());
         verify(gitDetailsMock).mapRepositoriesToResponse(anyList());
         verify(gitProjectCacheMock, times(3)).put(anyString(), anyString(), anyList());
