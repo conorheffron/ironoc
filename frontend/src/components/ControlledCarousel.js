@@ -24,7 +24,7 @@ class ControlledCarousel extends Component {
                                         <h1><u>ironoc-db</u></h1>
                                         <h2>Sample Data Manager Service with UI</h2>
                                         <br /><br />
-                                        <h3>Tech Stack:</h3>
+                                        <h4>Tech Stack:</h4>
                                         <h4>Java & Spring Boot, Thymeleaf Templating Engine, & MySQL.</h4>
                                     </Carousel.Caption>
                                 </a>
@@ -36,19 +36,19 @@ class ControlledCarousel extends Component {
                                         <h1><u>booking-sys</u></h1>
                                         <h2>Sample Reservations & Viewer System</h2>
                                         <br /><br />
-                                        <h3>Tech Stack:</h3>
+                                        <h4>Tech Stack:</h4>
                                         <h4>Python & Django Web App, JavaScript, SQLite3 or MySQL database.</h4>
                                     </Carousel.Caption>
                                 </a>
                             </Carousel.Item>
                             <Carousel.Item interval={500}>
-                                <a href="https://github.com/cph33/nba-stats" target="_blank" rel="noreferrer">
+                                <a href="https://github.com/cph43/nba-stats" target="_blank" rel="noreferrer">
                                     <img className="d-block w-100" src={navy} alt="navy3" />
                                     <Carousel.Caption>
                                         <h1><u>nba-stats</u></h1>
                                         <h2>NBA Analytics (Seasons 2015 - 2023): Player Statistics</h2>
                                         <br /><br />
-                                        <h3>Tech Stack:</h3>
+                                        <h4>Tech Stack:</h4>
                                         <h4>Jupyter Notebooks, Python, Pandas, & Requests / JSON API.</h4>
                                     </Carousel.Caption>
                                 </a>
@@ -60,7 +60,7 @@ class ControlledCarousel extends Component {
                                         <h1><u>cbio-skin-canc</u></h1>
                                         <h2>Skin Cancer Dataset Analysis</h2>
                                         <br /><br />
-                                        <h3>Tech Stack:</h3>
+                                        <h4>Tech Stack:</h4>
                                         <h4>R, dplyr, plotly, knitr, testthat, covr, GIT.</h4>
                                     </Carousel.Caption>
                                 </a>
@@ -72,7 +72,7 @@ class ControlledCarousel extends Component {
                                         <h1><u>gene-expr</u></h1>
                                         <h2>Breast Cancer Dataset Analysis</h2>
                                         <br /><br />
-                                        <h3>Tech Stack:</h3>
+                                        <h4>Tech Stack:</h4>
                                         <h4>R, ggplot2, dplyr, deseq2-analysis, & R markdown.</h4>
                                     </Carousel.Caption>
                                 </a>
@@ -84,7 +84,7 @@ class ControlledCarousel extends Component {
                                         <h1><u>bio-cell-red-edge</u></h1>
                                         <h2>Edge Detection of Biological Cell (Image Processing Script)</h2>
                                         <br /><br />
-                                        <h3>Tech Stack:</h3>
+                                        <h4>Tech Stack:</h4>
                                         <h4>Python, sci-kit-image, matplotlib.pyplot, & scipy.ndimage.</h4>
                                     </Carousel.Caption>
                                 </a>
@@ -96,7 +96,7 @@ class ControlledCarousel extends Component {
                                         <h1><u>global-max-sim-matrix</u></h1>
                                         <h2>Compute Global Maximum Similarity Matrix</h2>
                                         <br /><br />
-                                        <h3>Tech Stack:</h3>
+                                        <h4>Tech Stack:</h4>
                                         <h4>R Package, testthat, stringr, & devtools.
                                         </h4>
                                     </Carousel.Caption>

@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface GitDetails {
 
-    List<RepositoryDetailDto> getRepoDetails(String username);
+    List<RepositoryDetailDto> getRepoDetails(String username, boolean isJob);
 
     List<RepositoryDetailDomain> mapRepositoriesToResponse(
             List<RepositoryDetailDto> repositoryDetailDtos);
@@ -17,7 +17,7 @@ public interface GitDetails {
     List<RepositoryDetailDto> mapResponseToRepositories(
             List<RepositoryDetailDomain> repositoryDetailDomains);
 
-    List<RepositoryIssueDto> getIssues(String userId, String repo);
+    List<RepositoryIssueDto> getIssues(String userId, String repo, boolean isJob);
 
     List<RepositoryIssueDomain> mapIssuesToResponse(List<RepositoryIssueDto> repositoryIssueDtos);
 }
