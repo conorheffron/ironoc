@@ -1,6 +1,11 @@
 net:
   ironoc:
     portfolio:
+      brew:
+        api:
+          endpoint:
+            ice: https://api.sampleapis.com/coffee/iced
+            hot: https://api.sampleapis.com/coffee/hot
       github:
         job-enable: true
         cron-job: "0 1 1 ? * *"

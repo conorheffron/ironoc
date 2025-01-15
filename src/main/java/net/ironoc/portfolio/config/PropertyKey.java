@@ -69,4 +69,14 @@ public class PropertyKey implements PropertyKeyI {
     public String isCacheJobEnabled() {
         return Properties.IS_GITHUB_JOB_ENABLED.getKey();
     }
+
+    @Override
+    public String getBrewApiEndpointHot() {
+        return Properties.BREWS_API_ENDPOINT_HOT.getKey();
+    }
+
+    @Override
+    public String getBrewApiEndpointIce() {
+        return Properties.BREWS_API_ENDPOINT_ICE.getKey();
+    }
 }
