@@ -42,7 +42,7 @@ class ControlledCarousel extends Component {
                                 </a>
                             </Carousel.Item>
                             <Carousel.Item interval={500}>
-                                <a href="https://github.com/cph43/nba-stats" target="_blank" rel="noreferrer">
+                                <a href="https://github.com/conorheffron/nba-stats" target="_blank" rel="noreferrer">
                                     <img className="d-block w-100" src={navy} alt="navy3" />
                                     <Carousel.Caption>
                                         <h1><u>nba-stats</u></h1>
