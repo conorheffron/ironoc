@@ -3,7 +3,7 @@ net:
     portfolio:
       github:
         job-enable: true
-        cron-job: "0 1 1 ? * *"
+        cron-job: "0 1 1 */3 * ?"
         timeout:
           connect: 100000
           read: 100000
