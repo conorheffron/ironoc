@@ -1,5 +1,6 @@
 package net.ironoc.portfolio.service;
 
+import net.ironoc.portfolio.config.PropertyConfigI;
 import net.ironoc.portfolio.domain.CoffeeDomain;
 import net.ironoc.portfolio.logger.AbstractLogger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,24 +17,24 @@ public class CoffeesService extends AbstractLogger implements Coffees {
 
     private final RestTemplate restTemplate;
 
+    private final PropertyConfigI propertyConfig;
+
     @Autowired
-    public CoffeesService(RestTemplateBuilder restTemplateBuilder) {
+    public CoffeesService(RestTemplateBuilder restTemplateBuilder,
+                          PropertyConfigI propertyConfig) {
         this.restTemplate = restTemplateBuilder.build();
+        this.propertyConfig = propertyConfig;
     }
 
     @Override
     public List<CoffeeDomain> getCoffeeDetails() {
-        // TODO move URLs to configurable
         info("Entering CoffeesService.getCoffeeDetails");
-        String urlHotDrinks = "https://api.sampleapis.com/coffee/hot";
-        String urlIcedDrinks = "https://api.sampleapis.com/coffee/iced";
-        List<CoffeeDomain> coffeeDomains = new ArrayList<>();
         List<CoffeeDomain> hotCoffeeDomains = List.of(Objects.requireNonNull(
-                restTemplate.getForEntity(urlHotDrinks, CoffeeDomain[].class).getBody()));
-        coffeeDomains.addAll(hotCoffeeDomains);
+                restTemplate.getForEntity(propertyConfig.getBrewApiEndpointHot(), CoffeeDomain[].class).getBody()));
+        List<CoffeeDomain> coffeeDomains = new ArrayList<>(hotCoffeeDomains);
         info("Hot Coffee Details: hotCoffeeDtos={}", hotCoffeeDomains);
         List<CoffeeDomain> icedCoffeeDomains = List.of(Objects.requireNonNull(
-                restTemplate.getForEntity(urlIcedDrinks, CoffeeDomain[].class).getBody()));
+                restTemplate.getForEntity(propertyConfig.getBrewApiEndpointIce(), CoffeeDomain[].class).getBody()));
         coffeeDomains.addAll(icedCoffeeDomains);
         info("Iced Coffee Details: icedCoffeeDtos={}", icedCoffeeDomains);
         return coffeeDomains;

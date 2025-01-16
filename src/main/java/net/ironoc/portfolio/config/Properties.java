@@ -10,6 +10,8 @@ public enum Properties {
     STATIC_CONF_RESOURCE_HANDLER("net.ironoc.portfolio.config.resource-handler"),
     STATIC_CONF_RESOURCE_LOC("net.ironoc.portfolio.config.resource-loc"),
     IS_GITHUB_JOB_ENABLED("net.ironoc.portfolio.github.job-enable"),
+    BREWS_API_ENDPOINT_HOT("net.ironoc.portfolio.brew.api.endpoint.hot"),
+    BREWS_API_ENDPOINT_ICE("net.ironoc.portfolio.brew.api.endpoint.ice"),
     GIT_API_ENDPOINT_REPOS("net.ironoc.portfolio.github.api.endpoint.repos"),
     GIT_API_ENDPOINT_REPOS_PARAM_CACHE("net.ironoc.portfolio.github.api.endpoint.user-ids-cache"),
     GIT_API_ENDPOINT_ISSUES("net.ironoc.portfolio.github.api.endpoint.issues"),

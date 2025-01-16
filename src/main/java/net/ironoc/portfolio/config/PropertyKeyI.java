@@ -27,4 +27,8 @@ public interface PropertyKeyI {
     String getGitApiEndpointProjectsCache();
 
     String isCacheJobEnabled();
+
+    String getBrewApiEndpointHot();
+
+    String getBrewApiEndpointIce();
 }
