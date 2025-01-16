@@ -4,6 +4,7 @@ import '.././App.css';
 import Form from 'react-bootstrap/Form';
 import AppNavbar from '.././AppNavbar';
 import Footer from '.././Footer';
+import LoadingSpinner from '.././LoadingSpinner';
 
 class RepoIssues extends Component {
 
@@ -39,8 +40,18 @@ class RepoIssues extends Component {
     render() {
         const {repoIssueList, isLoading} = this.state;
         if (isLoading) {
-            return <p>Loading...</p>;
+            return (
+                <div className="App">
+                    <AppNavbar/>
+                    <Container>
+                        <br /><br /><br />
+                        <LoadingSpinner/>
+                    </Container>
+                    <Footer/>
+                </div>
+            );
         }
+
         const repoList = repoIssueList.map(issue => {
             let username = this.props.match.params.id
             let repository = this.props.match.params.repo

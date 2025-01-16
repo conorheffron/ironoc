@@ -4,6 +4,7 @@ import axios from 'axios';
 import AppNavbar from '.././AppNavbar';
 import CoffeeCarousel from './CoffeeCarousel';
 import Footer from '.././Footer';
+import LoadingSpinner from '.././LoadingSpinner';
 
 function CoffeeHome() {
     const [coffeeItems, setCoffeeItems] = useState([]);
@@ -18,11 +19,16 @@ function CoffeeHome() {
         <div className="App">
             <AppNavbar/>
             <Container>
-                <h1>Coffee Carousel</h1>
                 {coffeeItems.length > 0 ? (
+                    <>
+                    <br /><br />
                     <CoffeeCarousel items={coffeeItems} />
+                    </>
                 ) : (
-                    <div>Loading...</div>
+                    <>
+                    <br /><br /><br />
+                    <LoadingSpinner/>
+                    </>
                 )}
             </Container>
             <Footer/>
