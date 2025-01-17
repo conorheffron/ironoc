@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -36,6 +37,9 @@ public class CoffeesServiceTest {
     @Mock
     private PropertyConfigI propertyConfigMock;
 
+    @Mock
+    private CoffeesCache coffeesCacheMock;
+
     private static final String TEST_ICE_BREW_ENDPOINT = "www.brewskis.test/iced";
     private static final String TEST_HOT_BREW_ENDPOINT = "www.brewskis.test/hot";
 
@@ -43,7 +47,7 @@ public class CoffeesServiceTest {
     public void setUp() {
         when(restTemplateBuilderMock.build()).thenReturn(restTemplateMock);
 
-        coffeesService = new CoffeesService(restTemplateBuilderMock, propertyConfigMock);
+        coffeesService = new CoffeesService(restTemplateBuilderMock, propertyConfigMock, coffeesCacheMock);
     }
 
     @Test
@@ -59,19 +63,20 @@ public class CoffeesServiceTest {
                 .ingredients(Arrays.asList("Espresso", "Steamed milk", "Foam milk", "Dark Choc Shavings"))
                 .image("https://example.com/cappuccino.jpg")
                 .build();
-        CoffeeDomain[] mockResponse = {brew1, brew2};
+        List<CoffeeDomain> mockResponse = List.of(brew1, brew2);
 
         when(propertyConfigMock.getBrewApiEndpointIce()).thenReturn(TEST_ICE_BREW_ENDPOINT);
         when(propertyConfigMock.getBrewApiEndpointHot()).thenReturn(TEST_HOT_BREW_ENDPOINT);
-        when(restTemplateMock.getForEntity(TEST_HOT_BREW_ENDPOINT, CoffeeDomain[].class))
+        when(restTemplateMock.getForEntity(TEST_HOT_BREW_ENDPOINT, Object.class))
                 .thenReturn(new ResponseEntity<>(mockResponse, HttpStatus.OK));
-        when(restTemplateMock.getForEntity(TEST_ICE_BREW_ENDPOINT, CoffeeDomain[].class))
-                .thenReturn(new ResponseEntity<>(new CoffeeDomain[]{}, HttpStatus.OK));
+        when(restTemplateMock.getForEntity(TEST_ICE_BREW_ENDPOINT, Object.class))
+                .thenReturn(new ResponseEntity<>(Collections.emptyList(), HttpStatus.OK));
 
         // when
         List<CoffeeDomain> coffeeDomainList = coffeesService.getCoffeeDetails();
 
         // then
+        verify(coffeesCacheMock).put(mockResponse);
         verify(propertyConfigMock).getBrewApiEndpointIce();
         verify(propertyConfigMock).getBrewApiEndpointHot();
         verify(restTemplateMock, times(2)).getForEntity(anyString(), any(Class.class));
