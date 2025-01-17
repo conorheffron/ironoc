@@ -34,4 +34,9 @@ public class CoffeeDomain {
     @Schema(name= "id", description = "ID of Coffee Details Object.", example = "3",
             requiredMode = Schema.RequiredMode.AUTO)
     private Integer id;
+
+    @Override
+    public String toString() {
+        return "name: '" + this.title + "'" + " id: '" + this.id + "'";
+    }
 }

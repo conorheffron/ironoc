@@ -5,6 +5,7 @@ import Form from 'react-bootstrap/Form';
 import AppNavbar from '.././AppNavbar';
 import Footer from '.././Footer';
 import { Link } from 'react-router-dom';
+import LoadingSpinner from '.././LoadingSpinner';
 
 class RepoDetails extends Component {
 
@@ -39,7 +40,16 @@ class RepoDetails extends Component {
         const {repoDetailList, isLoading} = this.state;
 
         if (isLoading) {
-            return <p>Loading...</p>;
+            return (
+                <div className="App">
+                    <AppNavbar/>
+                    <Container>
+                        <br /><br /><br />
+                        <LoadingSpinner/>
+                    </Container>
+                    <Footer/>
+                </div>
+            );
         }
 
         let gitUser = this.props.match.params.id;

@@ -82,8 +82,19 @@ public class PropertyConfig implements PropertyConfigI {
         return List.of(environment.getRequiredProperty(propertyKey.getGitApiEndpointProjectsCache(), String[].class));
     }
 
+    @Override
     public boolean isCacheJobEnabled() {
         return Boolean.parseBoolean(environment.getRequiredProperty(propertyKey.isCacheJobEnabled()));
+    }
+
+    @Override
+    public String getBrewApiEndpointHot() {
+        return environment.getRequiredProperty(propertyKey.getBrewApiEndpointHot());
+    }
+
+    @Override
+    public String getBrewApiEndpointIce() {
+        return environment.getRequiredProperty(propertyKey.getBrewApiEndpointIce());
     }
 
     private List<String> extractValues(String valuesStr) {
