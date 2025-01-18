@@ -10,7 +10,7 @@ function CoffeeHome() {
     const [coffeeItems, setCoffeeItems] = useState([]);
 
     useEffect(() => {
-        axios.get('/coffees')
+        axios.get('/coffees-graph-ql')
             .then(response => setCoffeeItems(response.data))
             .catch(error => console.error('Error fetching coffee details:', error));
     }, []);

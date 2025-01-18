@@ -1,0 +1,14 @@
+{
+    allIceds {
+        id
+        ingredients
+        image
+        title
+    },
+    allHots {
+        id
+        ingredients
+        image
+        title
+    }
+}

@@ -34,6 +34,7 @@
 		<frontend-maven-plugin.version>1.15.1</frontend-maven-plugin.version>
 		<node.version>v20.16.0</node.version>
 		<npm.version>10.8.1</npm.version>
+		<kotlin.version>1.5.0</kotlin.version>
 	</properties>
 
 	<dependencies>
@@ -69,6 +70,36 @@
 			<artifactId>spring-boot-starter-tomcat</artifactId>
 			<version>${spring.version}</version>
 			<scope>provided</scope>
+		</dependency>
+		<!-- Spring Boot Starter GraphQL -->
+<!--		<dependency>-->
+<!--			<groupId>com.graphql-java-kickstart</groupId>-->
+<!--			<artifactId>graphql-spring-boot-starter</artifactId>-->
+<!--			<version>11.1.0</version>-->
+<!--		</dependency>-->
+		<!-- GraphQL Client -->
+<!--		<dependency>-->
+<!--			<groupId>com.graphql-java-kickstart</groupId>-->
+<!--			<artifactId>graphql-java-client</artifactId>-->
+<!--			<version>1.0.0</version>-->
+<!--		</dependency>-->
+		<dependency>
+			<groupId>com.graphql-java-kickstart</groupId>
+			<artifactId>graphql-spring-boot-starter</artifactId>
+			<version>15.0.0</version>
+		</dependency>
+
+		<!-- testing facilities -->
+		<dependency>
+			<groupId>com.graphql-java-kickstart</groupId>
+			<artifactId>graphql-spring-boot-starter-test</artifactId>
+			<version>15.0.0</version>
+			<scope>test</scope>
+		</dependency>
+		<!-- Jackson for JSON processing -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
 		</dependency>
 		<!-- Jakarta -->
 		<dependency>

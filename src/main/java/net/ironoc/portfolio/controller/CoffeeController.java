@@ -1,8 +1,10 @@
 package net.ironoc.portfolio.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import net.ironoc.portfolio.service.GraphQLClientService;
 import net.ironoc.portfolio.logger.AbstractLogger;
 import net.ironoc.portfolio.domain.CoffeeDomain;
 import net.ironoc.portfolio.service.Coffees;
@@ -13,7 +15,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class CoffeeController extends AbstractLogger {
@@ -22,10 +27,13 @@ public class CoffeeController extends AbstractLogger {
 
     private final CoffeesCache coffeesCache;
 
+    private final GraphQLClientService graphQLClientService;
+
     @Autowired
-    public CoffeeController(Coffees coffeesService, CoffeesCache coffeesCache) {
+    public CoffeeController(Coffees coffeesService, CoffeesCache coffeesCache, GraphQLClientService graphQLClientService) {
         this.coffeesService = coffeesService;
         this.coffeesCache = coffeesCache;
+        this.graphQLClientService = graphQLClientService;
     }
 
     @Operation(summary = "Get Hot/Iced Coffee Details",
@@ -43,5 +51,21 @@ public class CoffeeController extends AbstractLogger {
             List<CoffeeDomain> coffeeDomain = coffeesService.getCoffeeDetails();
             return ResponseEntity.ok(coffeeDomain);
         }
+    }
+
+    @GetMapping(value = {"/coffees-graph-ql"}, produces= MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<Map<String, Object>>> getCoffeeDetailsGraphQl() {
+        try {
+            Map<String, Object> response = graphQLClientService.fetchCoffeeDetails();
+            List<Map<String, Object>> hot = graphQLClientService.getAllHotCoffees(response);
+            List<Map<String, Object>> ice = graphQLClientService.getAllIcedCoffees(response);
+            List<Map<String, Object>> mergedCoffees = new ArrayList<>();
+            mergedCoffees.addAll(hot);
+            mergedCoffees.addAll(ice);
+            return ResponseEntity.ok(mergedCoffees);
+        } catch (JsonProcessingException e) {
+            error("Unexpected exception occurred loading GraphQL query, msg={}", e.getMessage());
+        }
+        return ResponseEntity.ok(Collections.emptyList());
     }
 }
