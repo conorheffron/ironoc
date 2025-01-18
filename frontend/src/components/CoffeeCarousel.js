@@ -3,7 +3,6 @@ import { Carousel } from 'react-bootstrap';
 import '.././App.css';
 
 const CoffeeCarousel = ({ items }) => {
-
     return (
         <Carousel className="App-header">
             {items.map((item, index) => (
