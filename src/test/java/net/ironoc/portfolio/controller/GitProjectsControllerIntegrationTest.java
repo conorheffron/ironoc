@@ -3,6 +3,7 @@ package net.ironoc.portfolio.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import net.ironoc.portfolio.dto.RepositoryDetailDto;
 import net.ironoc.portfolio.dto.RepositoryIssueDto;
+import net.ironoc.portfolio.service.GraphQLClientService;
 import net.ironoc.portfolio.service.GitDetailsService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -45,6 +46,9 @@ public class GitProjectsControllerIntegrationTest extends ControllerIntegrationT
 
     @MockitoBean
     private GitDetailsService gitDetailsServiceMock;
+
+    @MockitoBean
+    private GraphQLClientService graphQLClientServiceMock;
 
     @InjectMocks
     private GitProjectsController gitProjectsController;// controller under test

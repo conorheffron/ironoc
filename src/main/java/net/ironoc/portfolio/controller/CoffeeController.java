@@ -1,8 +1,11 @@
 package net.ironoc.portfolio.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import net.ironoc.portfolio.service.GraphQLClientService;
 import net.ironoc.portfolio.logger.AbstractLogger;
 import net.ironoc.portfolio.domain.CoffeeDomain;
 import net.ironoc.portfolio.service.Coffees;
@@ -13,7 +16,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class CoffeeController extends AbstractLogger {
@@ -22,10 +28,13 @@ public class CoffeeController extends AbstractLogger {
 
     private final CoffeesCache coffeesCache;
 
+    private final GraphQLClientService graphQLClientService;
+
     @Autowired
-    public CoffeeController(Coffees coffeesService, CoffeesCache coffeesCache) {
+    public CoffeeController(Coffees coffeesService, CoffeesCache coffeesCache, GraphQLClientService graphQLClientService) {
         this.coffeesService = coffeesService;
         this.coffeesCache = coffeesCache;
+        this.graphQLClientService = graphQLClientService;
     }
 
     @Operation(summary = "Get Hot/Iced Coffee Details",
@@ -42,6 +51,40 @@ public class CoffeeController extends AbstractLogger {
         } else {
             List<CoffeeDomain> coffeeDomain = coffeesService.getCoffeeDetails();
             return ResponseEntity.ok(coffeeDomain);
+        }
+    }
+
+    @GetMapping(value = {"/coffees-graph-ql"}, produces= MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<CoffeeDomain>> getCoffeeDetailsGraphQl() {
+        List<CoffeeDomain> cachedResults = coffeesCache.get();
+        if (cachedResults == null || cachedResults.isEmpty()) {
+            try {
+                Map<String, Object> response = graphQLClientService.fetchCoffeeDetails();
+                List<Map<String, Object>> hot = graphQLClientService.getAllHotCoffees(response);
+                List<Map<String, Object>> ice = graphQLClientService.getAllIcedCoffees(response);
+                List<Map<String, Object>> mergedCoffees = new ArrayList<>();
+                mergedCoffees.addAll(hot);
+                mergedCoffees.addAll(ice);
+
+                // map results
+                List<CoffeeDomain> coffeeDomains = new ArrayList<>();
+                for (Map<String, Object> coffeeMap : mergedCoffees) {
+                    CoffeeDomain coffeeDomain = new ObjectMapper().convertValue(coffeeMap, CoffeeDomain.class);
+                    coffeeDomains.add(coffeeDomain);
+                }
+
+                // cache result set
+                info("Retrieved brews from GraphQL query, coffeeDomains={}", coffeeDomains);
+                coffeesCache.put(coffeeDomains);
+
+                return ResponseEntity.ok(coffeeDomains);
+            } catch (JsonProcessingException e) {
+                error("Unexpected exception occurred loading GraphQL query, msg={}", e.getMessage());
+            }
+            return ResponseEntity.ok(Collections.emptyList());
+        } else {
+            info("Returning cached brews, cachedResults={}", cachedResults);
+            return ResponseEntity.ok(cachedResults);
         }
     }
 }
