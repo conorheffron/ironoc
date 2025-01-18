@@ -1,6 +1,7 @@
 package net.ironoc.portfolio.controller;
 
 import net.ironoc.portfolio.domain.CoffeeDomain;
+import net.ironoc.portfolio.service.GraphQLClientService;
 import net.ironoc.portfolio.service.CoffeesCache;
 import net.ironoc.portfolio.service.CoffeesService;
 import org.junit.jupiter.api.BeforeEach;
@@ -41,6 +42,9 @@ public class CoffeeControllerIntegrationTest extends ControllerIntegrationTest {
 
     @MockitoBean
     private CoffeesCache coffeesCacheMock;
+
+    @MockitoBean
+    private GraphQLClientService graphQLClientServiceMock;
 
     private MockMvc mockMvc;
 
