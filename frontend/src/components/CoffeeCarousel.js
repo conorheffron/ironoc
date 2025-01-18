@@ -3,6 +3,7 @@ import { Carousel } from 'react-bootstrap';
 import '.././App.css';
 
 const CoffeeCarousel = ({ items }) => {
+
     return (
         <Carousel className="App-header">
             {items.map((item, index) => (
@@ -10,7 +11,8 @@ const CoffeeCarousel = ({ items }) => {
                     <img src={item.image} alt={item.title}/>
                     <Carousel.Caption>
                         <h3>{item.title}</h3>
-                        <h5>{item.ingredients.join(', ')}</h5>
+                        <h5>Ingredients: {Array.isArray(item.ingredients) ?
+                            item.ingredients.join(', ') : item.ingredients}</h5>
                     </Carousel.Caption>
                 </Carousel.Item>
             ))}
