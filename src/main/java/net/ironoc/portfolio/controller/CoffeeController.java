@@ -59,6 +59,7 @@ public class CoffeeController extends AbstractLogger {
         List<CoffeeDomain> cachedResults = coffeesCache.get();
         if (cachedResults == null || cachedResults.isEmpty()) {
             try {
+                // fetch brew details
                 Map<String, Object> response = graphQLClientService.fetchCoffeeDetails();
                 List<Map<String, Object>> hot = graphQLClientService.getAllHotCoffees(response);
                 List<Map<String, Object>> ice = graphQLClientService.getAllIcedCoffees(response);
@@ -69,8 +70,12 @@ public class CoffeeController extends AbstractLogger {
                 // map results
                 List<CoffeeDomain> coffeeDomains = new ArrayList<>();
                 for (Map<String, Object> coffeeMap : mergedCoffees) {
-                    CoffeeDomain coffeeDomain = new ObjectMapper().convertValue(coffeeMap, CoffeeDomain.class);
-                    coffeeDomains.add(coffeeDomain);
+                    try {
+                        CoffeeDomain coffeeDomain = new ObjectMapper().convertValue(coffeeMap, CoffeeDomain.class);
+                        coffeeDomains.add(coffeeDomain);
+                    } catch (Exception e) {
+                        error("Error occurred mapping coffee domain object", e.getMessage());
+                    }
                 }
 
                 // cache result set
