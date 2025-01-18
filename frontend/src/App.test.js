@@ -39,7 +39,7 @@ describe('CoffeeCarousel', () => {
         coffeeItems.forEach((item) => {
             expect(screen.getByText(item.title)).toBeInTheDocument();
             expect(screen.getByAltText(item.title)).toBeInTheDocument();
-            expect(screen.getByText(item.ingredients.join(', '))).toBeInTheDocument();
+            expect(screen.getByText('Ingredients: ' + item.ingredients.join(', '))).toBeInTheDocument();
         });
     });
 
