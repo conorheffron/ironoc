@@ -1,5 +1,6 @@
 package net.ironoc.portfolio.domain;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,6 +25,7 @@ public class CoffeeDomain {
 
     @Schema(name= "ingredients", description = "Main Ingredients.", example = "Long steeped coffee, Ice",
             requiredMode = Schema.RequiredMode.REQUIRED)
+    @JsonDeserialize(using = IngredientsDeserializer.class)
     private List<String> ingredients;
 
     @Schema(name= "image", description = "Image URL.",
