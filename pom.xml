@@ -35,7 +35,7 @@
 		<node.version>v20.16.0</node.version>
 		<npm.version>10.8.1</npm.version>
 		<kotlin.version>1.5.0</kotlin.version>
-		<graphql.vers>15.0.0</graphql.vers>
+		<graphql.vers>15.1.0</graphql.vers>
 	</properties>
 
 	<dependencies>
