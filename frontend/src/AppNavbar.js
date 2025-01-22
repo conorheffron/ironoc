@@ -2,6 +2,8 @@ import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import {Navbar, NavbarText, Container, Collapse, NavbarBrand, Nav, UncontrolledDropdown, DropdownToggle, DropdownItem, DropdownMenu } from "reactstrap";
 import logo from './img/robot-logo.png';
+import "@fontsource/montserrat/700.css";
+import "@fontsource/open-sans/400-italic.css";
 
 export default function AppNavBar() {
   return (

@@ -79,7 +79,7 @@ class RepoDetails extends Component {
                             <Button color="primary" variant="outline-secondary" id="button-addon2"
                                 onClick={this.onSubmit}>Search Projects</Button>
                         </InputGroup>
-                        <h3>GitHub Projects for username: <b>{this.props.match.params.id}</b></h3>
+                        <h3 className="table-headers">GitHub Projects for username: <b>{this.props.match.params.id}</b></h3>
                         <Table striped hover bordered>
                             <thead>
                                 <tr className="table-primary">

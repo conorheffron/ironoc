@@ -75,7 +75,7 @@ class RepoIssues extends Component {
                             <Button color="primary" variant="outline-secondary" id="button-addon2"
                                 onClick={this.onSubmit}>Search Issues</Button>
                         </InputGroup>
-                        <h3>Issues for project <b>{this.props.match.params.repo}</b> and account <a href={projectLink}><b>{this.props.match.params.id}</b></a></h3>
+                        <h3 className="table-headers">Issues for project <b>{this.props.match.params.repo}</b> and account <a href={projectLink}><b>{this.props.match.params.id}</b></a></h3>
                         <Table striped hover bordered>
                             <thead>
                                 <tr className="table-secondary">

@@ -37,6 +37,16 @@
     }
 }
 
+.App-header, .body, .table-headers, .table, .mb-3 {
+    font-family: "Open Sans";
+    font-size: 1.4em;
+}
+
+.nav-bar, .ft {
+    font-family: "Montserrat";
+    font-size: 1.1em;
+}
+
 .carousel-caption {
 	top: 0;
 	bottom: auto;
@@ -72,6 +82,10 @@
     vertical-align: text-bottom;
     height: 13;
     width: 51;
+}
+
+.carousel-caption {
+    font-family: "Open Sans";
 }
 
 .carousel-caption h3, h5 {
