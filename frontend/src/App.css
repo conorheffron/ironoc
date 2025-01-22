@@ -42,7 +42,7 @@
     font-size: 1.4em;
 }
 
-.nav-bar, .ft {
+.nav-bar, .ft, h1, h3 {
     font-family: "Montserrat";
     font-size: 1.1em;
 }

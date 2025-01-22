@@ -31,7 +31,7 @@ class RepoIssues extends Component {
     }
 
     async componentDidMount() {
-        const response = await fetch(`/get-repo-issue/${this.props.match.params.id}/${this.props.match.params.repo}/`);
+        const response = await fetch(`/api/get-repo-issue/${this.props.match.params.id}/${this.props.match.params.repo}/`);
         const body = await response.json();
         console.log(body)
         this.setState({repoIssueList: body, isLoading: false});

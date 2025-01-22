@@ -30,7 +30,7 @@ class RepoDetails extends Component {
     }
 
     async componentDidMount() {
-        const response = await fetch(`/get-repo-detail?username=${this.props.match.params.id}`);
+        const response = await fetch(`/api/get-repo-detail?username=${this.props.match.params.id}`);
         const body = await response.json();
         console.log(body);
         this.setState({repoDetailList: body, isLoading: false});

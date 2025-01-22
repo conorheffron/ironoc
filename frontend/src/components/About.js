@@ -33,7 +33,7 @@ class About extends Component {
                         Let's connect and explore exciting
                         opportunities together! See above & beyond for contact details and further information.
                         </p><br />
-                        <a class="strava-badge" href='https://strava.com/athletes/2582329' target="_clean">
+                        <a class="strava-badge" href='https://strava.com/athletes/2582329' target="_blank">
                           Follow me on
                           <img class="strava-badge-img" src='https://badges.strava.com/logo-strava.png' alt='Strava' />
                         </a><br />

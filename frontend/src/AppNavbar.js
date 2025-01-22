@@ -37,8 +37,8 @@ export default function AppNavBar() {
                             <DropdownMenu end>
                                 <DropdownItem target="_blank" href="/swagger-ui-ironoc.html">Swagger Doc</DropdownItem>
                                 <DropdownItem divider />
-                                <DropdownItem target="_blank" href="/get-repo-detail?username=conorheffron">GET Projects</DropdownItem>
-                                <DropdownItem target="_blank" href="/get-repo-issue/conorheffron/ironoc/">GET Issues</DropdownItem>
+                                <DropdownItem target="_blank" href="/api/get-repo-detail?username=conorheffron">GET Projects</DropdownItem>
+                                <DropdownItem target="_blank" href="/api/get-repo-issue/conorheffron/ironoc/">GET Issues</DropdownItem>
                             </DropdownMenu>
                         </UncontrolledDropdown>
                         <UncontrolledDropdown inNavbar nav>

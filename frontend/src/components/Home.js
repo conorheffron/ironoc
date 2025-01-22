@@ -17,7 +17,7 @@ class Home extends Component {
                     <a href="/"><img src={logo} className="App-logo" alt="iRonoc"/></a>
                     <p id="my-intro"> Welcome to my personal portfolio site.<br />
                     Please use the navigation bar to view different features such as <a href="/about">about</a> me, my
-                    &nbsp;<a href="https://linktr.ee/conorheffron">link tree</a>, a <a href="/portfolio">carousel</a>
+                    &nbsp;<a href="https://linktr.ee/conorheffron" target="_blank">link tree</a>, a <a href="/portfolio">carousel</a>
                     &nbsp;that scrolls through highlighted projects & the GitHub project manager (PM) tool which is built
                     against the iRonoc API.
                     <br /><br />
@@ -26,9 +26,9 @@ class Home extends Component {
                     or to drill down to a specific repository name via search or 'List Issues' icon in the 'Actions' column 
                     of the <a href="/projects/conorheffron">projects view</a>.
                     <br /><br />
-                    The ironoc API is documented with &nbsp;<a href="/swagger-ui-ironoc.html">Open API</a>
+                    The ironoc API is documented with &nbsp;<a href="/swagger-ui-ironoc.html" target="_blank">Open API</a>
                     &nbsp; & sample GET requests that return raw JSON responses are available for demonstration
-                    purposes only i.e. &nbsp;<a href="/get-repo-issue/conorheffron/ironoc/">Issues JSON Sample</a>.</p>
+                    purposes only i.e. &nbsp;<a href="/api/get-repo-issue/conorheffron/ironoc/" target="_blank">Issues JSON Sample</a>.</p>
                   </header>
               </Container>
               <Footer/>
