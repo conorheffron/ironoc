@@ -6,6 +6,8 @@ net:
           endpoint:
             ice: https://api.sampleapis.com/coffee/iced
             hot: https://api.sampleapis.com/coffee/hot
+        graphql:
+          endpoint: https://api.sampleapis.com/coffee/graphql
       github:
         job-enable: true
         cron-job: "0 1 1 */3 * ?"

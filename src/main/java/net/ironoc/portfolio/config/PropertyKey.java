@@ -79,4 +79,9 @@ public class PropertyKey implements PropertyKeyI {
     public String getBrewApiEndpointIce() {
         return Properties.BREWS_API_ENDPOINT_ICE.getKey();
     }
+
+    @Override
+    public String getBrewGraphEndpoint() {
+        return Properties.BREWS_GRAPH_ENDPOINT.getKey();
+    }
 }

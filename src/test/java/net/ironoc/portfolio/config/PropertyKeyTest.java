@@ -130,4 +130,31 @@ public class PropertyKeyTest {
         // then
         assertThat(result, is("net.ironoc.portfolio.github.job-enable"));
     }
+
+    @Test
+    public void test_getBrewGraphEndpoint_success() {
+        // when
+        String result = propertyKey.getBrewGraphEndpoint();
+
+        // then
+        assertThat(result, is("net.ironoc.portfolio.brew.graph.endpoint"));
+    }
+
+    @Test
+    public void test_getBrewApiEndpointHot_success() {
+        // when
+        String result = propertyKey.getBrewApiEndpointHot();
+
+        // then
+        assertThat(result, is("net.ironoc.portfolio.brew.api.endpoint.hot"));
+    }
+
+    @Test
+    public void test_getBrewApiEndpointIce_success() {
+        // when
+        String result = propertyKey.getBrewApiEndpointIce();
+
+        // then
+        assertThat(result, is("net.ironoc.portfolio.brew.api.endpoint.ice"));
+    }
 }

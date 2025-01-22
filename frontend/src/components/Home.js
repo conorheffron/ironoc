@@ -24,7 +24,7 @@ class Home extends Component {
                     The GitHub PM tool allows you to view & navigate the backlog of issues & bugs for a given project
                     repository for the corresponding user or organisation account. There is an option to search by user ID
                     or to drill down to a specific repository name via search or 'List Issues' icon in the 'Actions' column 
-                    of the <a href="/projects/conorheffron">projects component view</a>.
+                    of the <a href="/projects/conorheffron">projects view</a>.
                     <br /><br />
                     The ironoc API is documented with &nbsp;<a href="/swagger-ui-ironoc.html">Open API</a>
                     &nbsp; & sample GET requests that return raw JSON responses are available for demonstration

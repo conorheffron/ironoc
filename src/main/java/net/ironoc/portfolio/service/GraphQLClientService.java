@@ -2,6 +2,7 @@ package net.ironoc.portfolio.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import net.ironoc.portfolio.config.PropertyConfigI;
 import net.ironoc.portfolio.logger.AbstractLogger;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +25,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class GraphQLClientService extends AbstractLogger {
+public class GraphQLClientService extends AbstractLogger implements GraphQLClient {
 
     private final ObjectMapper objectMapper;
 
@@ -32,33 +33,59 @@ public class GraphQLClientService extends AbstractLogger {
 
     private final RestTemplate restTemplate;
 
-    private static final String GRAPHQL_URL = "https://api.sampleapis.com/coffee/graphql";// TODO move to yml
+    private final PropertyConfigI propertyConfig;
 
     @Autowired
     public GraphQLClientService(RestTemplateBuilder restTemplateBuilder,
-                          ObjectMapper objectMapper, ResourceLoader resourceLoader) {
+                                ObjectMapper objectMapper,
+                                ResourceLoader resourceLoader,
+                                PropertyConfigI propertyConfig) {
         this.restTemplate = restTemplateBuilder.build();
         this.objectMapper = objectMapper;
         this.resourceLoader = resourceLoader;
+        this.propertyConfig = propertyConfig;
     }
 
+    @Override
     public Map<String, Object> fetchCoffeeDetails() throws JsonProcessingException {
         HttpHeaders headers = new HttpHeaders();
         headers.set("Content-Type", "application/json");
 
-        String query = this.loadQuery("query.graphql");
+        String query = this.loadQuery();
         if (!StringUtils.isBlank(query)) {
-            String requestPayload = "{ \"query\": \"" + query.replace("\"", "\\\"").replace("\n", " ") + "\" }";
+            String requestPayload = "{ \"query\": \"" + query.replace("\"", "\\\"")
+                    .replace("\n", " ") + "\" }";
             HttpEntity<String> request = new HttpEntity<>(requestPayload, headers);
-            ResponseEntity<String> response = restTemplate.exchange(GRAPHQL_URL, HttpMethod.POST, request, String.class);
+            ResponseEntity<String> response = restTemplate.exchange(propertyConfig.getBrewGraphEndpoint(),
+                    HttpMethod.POST, request, String.class);
             return objectMapper.readValue(response.getBody(), Map.class);
         } else {
             return new HashMap<>();
         }
     }
 
-    private String loadQuery(String fileName) {
-        Resource resource = resourceLoader.getResource("classpath:graphql" + File.separator + fileName);
+    @Override
+    public List<Map<String, Object>> getAllIcedCoffees(Map<String, Object> response) {
+        Map<String, Object> data = getDataFromResponse(response);
+        if (data != null) {
+            return (List<Map<String, Object>>) data.get("allIceds");
+        }
+        warn("No response data found during getAllIcedCoffees for response, response={}", response);
+        return null;
+    }
+
+    @Override
+    public List<Map<String, Object>> getAllHotCoffees(Map<String, Object> response) {
+        Map<String, Object> data = getDataFromResponse(response);
+        if (data != null) {
+            return (List<Map<String, Object>>) data.get("allHots");
+        }
+        warn("No response data found during getAllHotCoffees for response, response={}", response);
+        return null;
+    }
+
+    String loadQuery() {
+        Resource resource = resourceLoader.getResource("classpath:graphql" + File.separator + "query.graphql");
         try {
             return new String(Files.readAllBytes(Paths.get(resource.getURI())));
         } catch (IOException e) {
@@ -67,11 +94,7 @@ public class GraphQLClientService extends AbstractLogger {
         return null;
     }
 
-    public List<Map<String, Object>> getAllIcedCoffees(Map<String, Object> response) {
-        return (List<Map<String, Object>>) ((Map<String, Object>) response.get("data")).get("allIceds");
-    }
-
-    public List<Map<String, Object>> getAllHotCoffees(Map<String, Object> response) {
-        return (List<Map<String, Object>>) ((Map<String, Object>) response.get("data")).get("allHots");
+    private static Map<String, Object> getDataFromResponse(Map<String, Object> response) {
+        return (Map<String, Object>) response.get("data");
     }
 }

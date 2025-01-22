@@ -3,7 +3,7 @@ package net.ironoc.portfolio.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import net.ironoc.portfolio.dto.RepositoryDetailDto;
 import net.ironoc.portfolio.dto.RepositoryIssueDto;
-import net.ironoc.portfolio.service.GraphQLClientService;
+import net.ironoc.portfolio.service.GraphQLClient;
 import net.ironoc.portfolio.service.GitDetailsService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -34,7 +34,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 
 @ExtendWith(SpringExtension.class)
 @WebAppConfiguration()
-public class GitProjectsControllerIntegrationTest extends ControllerIntegrationTest {
+public class GitProjectsControllerIntegrationTest extends BaseControllerIntegrationTest {
 
     @Autowired
     private WebApplicationContext webAppContext;
@@ -48,7 +48,7 @@ public class GitProjectsControllerIntegrationTest extends ControllerIntegrationT
     private GitDetailsService gitDetailsServiceMock;
 
     @MockitoBean
-    private GraphQLClientService graphQLClientServiceMock;
+    private GraphQLClient graphQLClientServiceMock;
 
     @InjectMocks
     private GitProjectsController gitProjectsController;// controller under test
