@@ -94,7 +94,7 @@ public class GitProjectsControllerIntegrationTest extends BaseControllerIntegrat
                         .mapRepositoriesToResponse(dtos));
 
         // when
-        MockHttpServletResponse response = mockMvc.perform(get("/get-repo-detail/conorheffron/")
+        MockHttpServletResponse response = mockMvc.perform(get("/api/get-repo-detail/conorheffron/")
                         .accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
                 .andReturn().getResponse();
 
@@ -109,7 +109,7 @@ public class GitProjectsControllerIntegrationTest extends BaseControllerIntegrat
     @Test
     public void test_getReposByUsernamePathVar_empty_response_success() throws Exception {
         // when
-        MockHttpServletResponse response = mockMvc.perform(get("/get-repo-detail/test-user/")
+        MockHttpServletResponse response = mockMvc.perform(get("/api/get-repo-detail/test-user/")
                         .accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
                 .andReturn().getResponse();
 
@@ -132,7 +132,7 @@ public class GitProjectsControllerIntegrationTest extends BaseControllerIntegrat
                         .mapRepositoriesToResponse(dtos));
 
         // when
-        MockHttpServletResponse response = mockMvc.perform(get("/get-repo-detail?username=conorheffron")
+        MockHttpServletResponse response = mockMvc.perform(get("/api/get-repo-detail?username=conorheffron")
                         .accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
                 .andReturn().getResponse();
 
@@ -147,7 +147,7 @@ public class GitProjectsControllerIntegrationTest extends BaseControllerIntegrat
     @Test
     public void test_getReposByUsernameReqParam_empty_response_success() throws Exception {
         // when
-        MockHttpServletResponse response = mockMvc.perform(get("/get-repo-detail?username=test-user")
+        MockHttpServletResponse response = mockMvc.perform(get("/api/get-repo-detail?username=test-user")
                         .accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
                 .andReturn().getResponse();
 
@@ -159,7 +159,7 @@ public class GitProjectsControllerIntegrationTest extends BaseControllerIntegrat
     @Test
     public void test_getIssuesByUsernameAndRepoPathVars_empty_response_success() throws Exception {
         // when
-        MockHttpServletResponse response = mockMvc.perform(get("/get-repo-issue/test-user/test-repo/")
+        MockHttpServletResponse response = mockMvc.perform(get("/api/get-repo-issue/test-user/test-repo/")
                         .accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
                 .andReturn().getResponse();
 
@@ -182,7 +182,7 @@ public class GitProjectsControllerIntegrationTest extends BaseControllerIntegrat
                         .mapIssuesToResponse(dtos));
 
         // when
-        MockHttpServletResponse response = mockMvc.perform(get("/get-repo-issue/test-user/test-repo/")
+        MockHttpServletResponse response = mockMvc.perform(get("/api/get-repo-issue/test-user/test-repo/")
                         .accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
                 .andReturn().getResponse();
 

@@ -64,3 +64,6 @@ springdoc:
   swagger-ui:
     path: /swagger-ui-ironoc.html
     operationsSorter: method
+
+server:
+  forward-headers-strategy: framework
