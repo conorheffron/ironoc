@@ -6,7 +6,7 @@ net:
           endpoint:
             ice: https://api.sampleapis.com/coffee/iced
             hot: https://api.sampleapis.com/coffee/hot
-        graphql:
+        graph:
           endpoint: https://api.sampleapis.com/coffee/graphql
       github:
         job-enable: true
