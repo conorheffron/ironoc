@@ -12,7 +12,7 @@ import { Router, MemoryRouter } from 'react-router-dom';
 import RepoDetails from './components/RepoDetails';
 import RepoIssues from './components/RepoIssues';
 import LoadingSpinner from './LoadingSpinner';
-import AppNavBar from './AppNavBar';
+import AppNavBar from './AppNavbar';
 
 // Mocking axios
 jest.mock('axios');
