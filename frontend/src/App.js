@@ -11,20 +11,30 @@ import ControlledCarousel from './components/ControlledCarousel';
 
 class App extends Component {
   render() {
+    // Default props
+    const {
+      forceRefresh = true,
+      routes = [
+        { path: '/', exact: true, component: Home },
+        { path: '/about', exact: true, component: About },
+        { path: '/portfolio', exact: true, component: ControlledCarousel },
+        { path: '/projects', exact: true, component: RepoDetails },
+        { path: '/projects/:id', component: RepoDetails },
+        { path: '/issues/:id/:repo', component: RepoIssues },
+        { path: '/brews', exact: true, component: CoffeeHome },
+        { path: '*', component: NotFound }
+      ]
+    } = this.props;
+
     return (
-        <Router forceRefresh={true}>
-          <Switch>
-            <Route path='/' exact={true} component={Home}/>
-            <Route path='/about' exact={true} component={About}/>
-            <Route path='/portfolio' exact={true} component={ControlledCarousel}/>
-            <Route path='/projects' exact={true} component={RepoDetails}/>
-            <Route path='/projects/:id' component={RepoDetails}/>
-            <Route path='/issues/:id/:repo' component={RepoIssues}/>
-            <Route path='/brews' exact={true} component={CoffeeHome}/>
-            <Route path="*" component={NotFound} />
-          </Switch>
-        </Router>
-    )
+      <Router forceRefresh={forceRefresh}>
+        <Switch>
+          {routes.map((route, index) => (
+            <Route key={index} path={route.path} exact={route.exact} component={route.component} />
+          ))}
+        </Switch>
+      </Router>
+    );
   }
 }
 
