@@ -85,7 +85,7 @@ class ControlledCarousel extends Component {
                                         <h1><u>{item.title}</u></h1>
                                         <h2>{item.description}</h2>
                                         <br /><br />
-                                        <h4>Tech Stack:</h4>
+                                        <h4><b>Tech Stack:</b></h4>
                                         <h4>{item.techStack}</h4>
                                     </Carousel.Caption>
                                 </a>
