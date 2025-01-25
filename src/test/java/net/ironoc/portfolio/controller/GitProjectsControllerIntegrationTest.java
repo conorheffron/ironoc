@@ -3,7 +3,7 @@ package net.ironoc.portfolio.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import net.ironoc.portfolio.dto.RepositoryDetailDto;
 import net.ironoc.portfolio.dto.RepositoryIssueDto;
-import net.ironoc.portfolio.service.GraphQLClientService;
+import net.ironoc.portfolio.service.GraphQLClient;
 import net.ironoc.portfolio.service.GitDetailsService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -34,7 +34,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 
 @ExtendWith(SpringExtension.class)
 @WebAppConfiguration()
-public class GitProjectsControllerIntegrationTest extends ControllerIntegrationTest {
+public class GitProjectsControllerIntegrationTest extends BaseControllerIntegrationTest {
 
     @Autowired
     private WebApplicationContext webAppContext;
@@ -48,7 +48,7 @@ public class GitProjectsControllerIntegrationTest extends ControllerIntegrationT
     private GitDetailsService gitDetailsServiceMock;
 
     @MockitoBean
-    private GraphQLClientService graphQLClientServiceMock;
+    private GraphQLClient graphQLClientServiceMock;
 
     @InjectMocks
     private GitProjectsController gitProjectsController;// controller under test
@@ -94,7 +94,7 @@ public class GitProjectsControllerIntegrationTest extends ControllerIntegrationT
                         .mapRepositoriesToResponse(dtos));
 
         // when
-        MockHttpServletResponse response = mockMvc.perform(get("/get-repo-detail/conorheffron/")
+        MockHttpServletResponse response = mockMvc.perform(get("/api/get-repo-detail/conorheffron/")
                         .accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
                 .andReturn().getResponse();
 
@@ -109,7 +109,7 @@ public class GitProjectsControllerIntegrationTest extends ControllerIntegrationT
     @Test
     public void test_getReposByUsernamePathVar_empty_response_success() throws Exception {
         // when
-        MockHttpServletResponse response = mockMvc.perform(get("/get-repo-detail/test-user/")
+        MockHttpServletResponse response = mockMvc.perform(get("/api/get-repo-detail/test-user/")
                         .accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
                 .andReturn().getResponse();
 
@@ -132,7 +132,7 @@ public class GitProjectsControllerIntegrationTest extends ControllerIntegrationT
                         .mapRepositoriesToResponse(dtos));
 
         // when
-        MockHttpServletResponse response = mockMvc.perform(get("/get-repo-detail?username=conorheffron")
+        MockHttpServletResponse response = mockMvc.perform(get("/api/get-repo-detail?username=conorheffron")
                         .accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
                 .andReturn().getResponse();
 
@@ -147,7 +147,7 @@ public class GitProjectsControllerIntegrationTest extends ControllerIntegrationT
     @Test
     public void test_getReposByUsernameReqParam_empty_response_success() throws Exception {
         // when
-        MockHttpServletResponse response = mockMvc.perform(get("/get-repo-detail?username=test-user")
+        MockHttpServletResponse response = mockMvc.perform(get("/api/get-repo-detail?username=test-user")
                         .accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
                 .andReturn().getResponse();
 
@@ -159,7 +159,7 @@ public class GitProjectsControllerIntegrationTest extends ControllerIntegrationT
     @Test
     public void test_getIssuesByUsernameAndRepoPathVars_empty_response_success() throws Exception {
         // when
-        MockHttpServletResponse response = mockMvc.perform(get("/get-repo-issue/test-user/test-repo/")
+        MockHttpServletResponse response = mockMvc.perform(get("/api/get-repo-issue/test-user/test-repo/")
                         .accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
                 .andReturn().getResponse();
 
@@ -182,7 +182,7 @@ public class GitProjectsControllerIntegrationTest extends ControllerIntegrationT
                         .mapIssuesToResponse(dtos));
 
         // when
-        MockHttpServletResponse response = mockMvc.perform(get("/get-repo-issue/test-user/test-repo/")
+        MockHttpServletResponse response = mockMvc.perform(get("/api/get-repo-issue/test-user/test-repo/")
                         .accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
                 .andReturn().getResponse();
 

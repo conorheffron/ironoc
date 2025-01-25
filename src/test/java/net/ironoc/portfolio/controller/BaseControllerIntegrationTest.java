@@ -18,5 +18,5 @@ import org.springframework.test.context.TestPropertySource;
         "net.ironoc.portfolio.github.job-enable=true",
         "net.ironoc.portfolio.github.api.endpoint.repos=ironoc-db"
 })
-public class ControllerIntegrationTest {
+public class BaseControllerIntegrationTest {
 }

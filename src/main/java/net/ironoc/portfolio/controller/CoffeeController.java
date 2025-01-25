@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import net.ironoc.portfolio.service.GraphQLClientService;
+import net.ironoc.portfolio.service.GraphQLClient;
 import net.ironoc.portfolio.logger.AbstractLogger;
 import net.ironoc.portfolio.domain.CoffeeDomain;
 import net.ironoc.portfolio.service.Coffees;
@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
@@ -22,22 +23,23 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
+@RequestMapping("/api")
 public class CoffeeController extends AbstractLogger {
 
     private final Coffees coffeesService;
 
     private final CoffeesCache coffeesCache;
 
-    private final GraphQLClientService graphQLClientService;
+    private final GraphQLClient graphQLClient;
 
     @Autowired
-    public CoffeeController(Coffees coffeesService, CoffeesCache coffeesCache, GraphQLClientService graphQLClientService) {
+    public CoffeeController(Coffees coffeesService, CoffeesCache coffeesCache, GraphQLClient graphQLClient) {
         this.coffeesService = coffeesService;
         this.coffeesCache = coffeesCache;
-        this.graphQLClientService = graphQLClientService;
+        this.graphQLClient = graphQLClient;
     }
 
-    @Operation(summary = "Get Hot/Iced Coffee Details",
+    @Operation(summary = "Get Hot/Iced Coffee Details by REST API call",
             description = "Returns a list of Coffee Graphics & Recipes.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
@@ -54,15 +56,21 @@ public class CoffeeController extends AbstractLogger {
         }
     }
 
+    @Operation(summary = "Get Hot/Iced Coffee Details by GraphQL call",
+            description = "Returns a list of Coffee Graphics & Recipes.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Successfully retrieved coffee brew details.")
+    })
     @GetMapping(value = {"/coffees-graph-ql"}, produces= MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<CoffeeDomain>> getCoffeeDetailsGraphQl() {
         List<CoffeeDomain> cachedResults = coffeesCache.get();
         if (cachedResults == null || cachedResults.isEmpty()) {
             try {
                 // fetch brew details
-                Map<String, Object> response = graphQLClientService.fetchCoffeeDetails();
-                List<Map<String, Object>> hot = graphQLClientService.getAllHotCoffees(response);
-                List<Map<String, Object>> ice = graphQLClientService.getAllIcedCoffees(response);
+                Map<String, Object> response = graphQLClient.fetchCoffeeDetails();
+                List<Map<String, Object>> hot = graphQLClient.getAllHotCoffees(response);
+                List<Map<String, Object>> ice = graphQLClient.getAllIcedCoffees(response);
                 List<Map<String, Object>> mergedCoffees = new ArrayList<>();
                 mergedCoffees.addAll(hot);
                 mergedCoffees.addAll(ice);

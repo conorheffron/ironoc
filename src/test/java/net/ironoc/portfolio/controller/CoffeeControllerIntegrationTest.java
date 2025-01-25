@@ -1,8 +1,9 @@
 package net.ironoc.portfolio.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import net.ironoc.portfolio.domain.CoffeeDomain;
-import net.ironoc.portfolio.service.GraphQLClientService;
+import net.ironoc.portfolio.service.GraphQLClient;
 import net.ironoc.portfolio.service.CoffeesCache;
 import net.ironoc.portfolio.service.CoffeesService;
 import org.junit.jupiter.api.BeforeEach;
@@ -18,12 +19,14 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import java.io.File;
+import java.io.InputStream;
 import java.util.Map;
 import java.util.List;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 
+import static net.ironoc.portfolio.utils.TestRequestResponseUtils.getSampleCoffeeDomainList;
+import static net.ironoc.portfolio.utils.TestRequestResponseUtils.getSampleResponse;
 import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.times;
@@ -35,7 +38,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @ExtendWith(SpringExtension.class)
 @WebAppConfiguration()
-public class CoffeeControllerIntegrationTest extends ControllerIntegrationTest {
+public class CoffeeControllerIntegrationTest extends BaseControllerIntegrationTest {
 
     @Autowired
     private WebApplicationContext webAppContext;
@@ -50,7 +53,10 @@ public class CoffeeControllerIntegrationTest extends ControllerIntegrationTest {
     private CoffeesCache coffeesCacheMock;
 
     @MockitoBean
-    private GraphQLClientService graphQLClientServiceMock;
+    private GraphQLClient graphQLClientServiceMock;
+
+    @Autowired
+    private ObjectMapper objectMapper;
 
     private MockMvc mockMvc;
 
@@ -76,7 +82,7 @@ public class CoffeeControllerIntegrationTest extends ControllerIntegrationTest {
         when(coffeesServiceMock.getCoffeeDetails()).thenReturn(List.of(mockCoffeeDomain1, mockCoffeeDomain2));
 
         // when, then
-        mockMvc.perform(get("/coffees")
+        mockMvc.perform(get("/api/coffees")
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().json("[{'title':'Espresso','ingredients':['Water','Coffee beans']," +
@@ -105,7 +111,7 @@ public class CoffeeControllerIntegrationTest extends ControllerIntegrationTest {
         when(coffeesCacheMock.get()).thenReturn(List.of(mockCoffeeDomain1, mockCoffeeDomain2));
 
         // when, then
-        mockMvc.perform(get("/coffees")
+        mockMvc.perform(get("/api/coffees")
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().json("[{'title':'Cafecito','ingredients':['Frotted Milk'," +
@@ -127,7 +133,7 @@ public class CoffeeControllerIntegrationTest extends ControllerIntegrationTest {
 
         // When
         // When & Then
-        mockMvc.perform(get("/coffees-graph-ql")
+        mockMvc.perform(get("/api/coffees-graph-ql")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().json("[{'title':'Iced Coffee','ingredients':['Coffee'," +
@@ -145,13 +151,13 @@ public class CoffeeControllerIntegrationTest extends ControllerIntegrationTest {
     public void testGetCoffeeDetailsGraphQl_NoCachedResults() throws Exception {
         // Given
         when(coffeesCacheMock.get()).thenReturn(null);
-        Map<String, Object> response = getSampleResponse();
+        Map<String, Object> response = getSampleResponse(true);
         when(graphQLClientServiceMock.fetchCoffeeDetails()).thenReturn(response);
         when(graphQLClientServiceMock.getAllHotCoffees(response)).thenReturn((List<Map<String, Object>>) response.get("allHots"));
         when(graphQLClientServiceMock.getAllIcedCoffees(response)).thenReturn((List<Map<String, Object>>) response.get("allIceds"));
 
         // When & Then
-        mockMvc.perform(get("/coffees-graph-ql")
+        mockMvc.perform(get("/api/coffees-graph-ql")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().json("[{'title':'Black Coffee','ingredients':['Coffee']," +
@@ -172,7 +178,7 @@ public class CoffeeControllerIntegrationTest extends ControllerIntegrationTest {
         when(graphQLClientServiceMock.fetchCoffeeDetails()).thenThrow(JsonProcessingException.class);
 
         // When & Then
-        mockMvc.perform(get("/coffees-graph-ql")
+        mockMvc.perform(get("/api/coffees-graph-ql")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
 
@@ -180,49 +186,33 @@ public class CoffeeControllerIntegrationTest extends ControllerIntegrationTest {
         verify(coffeesCacheMock).get();
     }
 
-    private List<CoffeeDomain> getSampleCoffeeDomainList() {
-        List<CoffeeDomain> coffeeDomains = new ArrayList<>();
-        coffeeDomains.add(CoffeeDomain.builder()
-                .id(1)
-                .ingredients(List.of("Coffee", "Ice"))
-                .image("image_url_1")
-                .title("Iced Coffee").build());
-        coffeeDomains.add(CoffeeDomain.builder()
-                .id(2)
-                .ingredients(List.of("Espresso", "Milk"))
-                .image("image_url_2")
-                .title("Latte").build());
-        return coffeeDomains;
-    }
+    @Test
+    public void test_getIssuesByUsernameAndRepoPathVars_success() throws Exception {
+        // Given
+        InputStream jsonInputStream = Thread.currentThread().getContextClassLoader()
+                .getResourceAsStream("json" + File.separator + "test_coffees_input_response.json");
+        Map<String, Object> input = objectMapper.readValue(jsonInputStream, Map.class);
+        InputStream jsonInputStreamExpected = Thread.currentThread().getContextClassLoader()
+                .getResourceAsStream("json" + File.separator + "test_coffees_expected_response.json");
+        List<CoffeeDomain> expected = List.of(objectMapper.readValue(jsonInputStreamExpected, CoffeeDomain[].class));
 
-    private Map<String, Object> getSampleResponse() {
-        Map<String, Object> response = new HashMap<>();
-        List<Map<String, Object>> allHots = new ArrayList<>();
-        List<Map<String, Object>> allIceds = new ArrayList<>();
+        // Given
+        when(coffeesCacheMock.get()).thenReturn(null);
+        when(graphQLClientServiceMock.fetchCoffeeDetails()).thenReturn(input);
+        when(graphQLClientServiceMock.getAllHotCoffees(input))
+                .thenReturn((List<Map<String, Object>>) input.get("allHots"));
+        when(graphQLClientServiceMock.getAllIcedCoffees(input))
+                .thenReturn((List<Map<String, Object>>) input.get("allIceds"));
 
-        Map<String, Object> hotCoffee = new HashMap<>();
-        hotCoffee.put("id", "1");
-        hotCoffee.put("ingredients", List.of("Coffee"));
-        hotCoffee.put("image", "image_url_1");
-        hotCoffee.put("title", "Black Coffee");
-        allHots.add(hotCoffee);
+        // When & Then
+        mockMvc.perform(get("/api/coffees-graph-ql")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().json(objectMapper.writeValueAsString(expected)));
 
-        Map<String, Object> icedCoffee = new HashMap<>();
-        icedCoffee.put("id", "2");
-        icedCoffee.put("ingredients", List.of("Espresso", "Milk"));
-        icedCoffee.put("image", "image_url_2");
-        icedCoffee.put("title", "Latte");
-        allIceds.add(icedCoffee);
-
-        Map<String, Object> icedCoffee2 = new HashMap<>();
-        icedCoffee2.put("id", "3");
-        icedCoffee2.put("ingredients", "invalid_array");
-        icedCoffee2.put("image", "image_url_3");
-        icedCoffee2.put("title", "Ice Black");
-        allIceds.add(icedCoffee2);
-
-        response.put("allHots", allHots);
-        response.put("allIceds", allIceds);
-        return response;
+        verify(graphQLClientServiceMock, times(1)).fetchCoffeeDetails();
+        verify(graphQLClientServiceMock, times(1)).getAllHotCoffees(input);
+        verify(graphQLClientServiceMock, times(1)).getAllIcedCoffees(input);
+        verify(coffeesCacheMock, times(1)).put(anyList());
     }
 }

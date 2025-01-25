@@ -7,89 +7,102 @@ import Footer from '.././Footer';
 import LoadingSpinner from '.././LoadingSpinner';
 
 class RepoIssues extends Component {
-
     constructor(props) {
         super(props);
-        this.state = {repoIssueList: [], isLoading: true, value: ''};
+        this.state = {
+            repoIssueList: [],
+            isLoading: true,
+            value: ''
+        };
 
         this.handleChange = this.handleChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
     }
 
     handleChange(event) {
-        const {issues, isL, value} = this.state;
-        this.setState({repoIssueList: issues, isLoading: isL, value: event.target.value});
+        this.setState({ value: event.target.value });
     }
 
-    onSubmit(event){
-        let repo = this.state.value;
-        let id = this.props.match.params.id;
-        this.props.history.push(`/issues/${id}/${repo}`, {
-          id: id,
-          repo: repo
+    onSubmit(event) {
+        event.preventDefault();
+        const { value } = this.state;
+        const { match: { params: { id } }, history } = this.props;
+        history.push(`/issues/${id}/${value}`, {
+            id: id,
+            repo: value
         });
     }
 
     async componentDidMount() {
-        const response = await fetch(`/get-repo-issue/${this.props.match.params.id}/${this.props.match.params.repo}/`);
+        const { match: { params: { id, repo } } } = this.props;
+        const response = await fetch(`/api/get-repo-issue/${id}/${repo}/`);
         const body = await response.json();
-        console.log(body)
-        this.setState({repoIssueList: body, isLoading: false});
+        this.setState({ repoIssueList: body, isLoading: false });
     }
 
     render() {
-        const {repoIssueList, isLoading} = this.state;
+        const { repoIssueList = [], isLoading = true, value = '' } = this.state;
+        const { match: { params: { id = '', repo = '' } } } = this.props;
+
         if (isLoading) {
             return (
                 <div className="App">
-                    <AppNavbar/>
+                    <AppNavbar />
                     <Container>
                         <br /><br /><br />
-                        <LoadingSpinner/>
+                        <LoadingSpinner />
                     </Container>
-                    <Footer/>
+                    <Footer />
                 </div>
             );
         }
 
         const repoList = repoIssueList.map(issue => {
-            let username = this.props.match.params.id
-            let repository = this.props.match.params.repo
-            const issueLink = `https://github.com/${username}/${repository}/issues/${issue.number}/`;
-            return <tr key={issue.number}>
-                <td className="table-info"><a href={issueLink} target="_blank" rel="noreferrer"><b><i>{issue.number}</i></b></a></td>
-                <td><b>{issue.title}</b></td>
-                <td>{issue.body}</td>
-            </tr>
-        });
-        const projectLink = `/projects/${this.props.match.params.id}/`;
-        return (
-                <div>
-                    <AppNavbar/><br /><br />
-                    <Container fluid>
-                        <br />
-                        <InputGroup className="mb-3">
-                            <Form.Control placeholder="Enter Project Name... Example: ironoc-db" aria-label="Enter Project Name..."
-                                aria-describedby="basic-addon2" type="text" value={this.state.value}
-                                onChange={e => this.setState({ value: e.target.value })} />
-                            <Button color="primary" variant="outline-secondary" id="button-addon2"
-                                onClick={this.onSubmit}>Search Issues</Button>
-                        </InputGroup>
-                        <h3>Issues for project <b>{this.props.match.params.repo}</b> and account <a href={projectLink}><b>{this.props.match.params.id}</b></a></h3>
-                        <Table striped hover bordered>
-                            <thead>
-                                <tr className="table-secondary">
-                                    <th width="3%">Issue No.</th>
-                                    <th width="27%">Title</th>
-                                    <th width="70%">Description</th>
-                                </tr>
-                            </thead>
-                            <tbody>{repoList}</tbody>
-                        </Table>
-                    </Container>
-                    <Footer/>
-                </div>
+            const issueLink = `https://github.com/${id}/${repo}/issues/${issue.number}/`;
+            return (
+                <tr key={issue.number}>
+                    <td className="table-info">
+                        <a href={issueLink} target="_blank" rel="noreferrer"><b><i>{issue.number}</i></b></a>
+                    </td>
+                    <td><b>{issue.title}</b></td>
+                    <td>{issue.body}</td>
+                </tr>
             );
+        });
+
+        const projectLink = `/projects/${id}/`;
+
+        return (
+            <div>
+                <AppNavbar /><br /><br />
+                <Container fluid>
+                    <br />
+                    <InputGroup className="mb-3">
+                        <Form.Control
+                            placeholder="Enter Project Name... Example: ironoc-db"
+                            aria-label="Enter Project Name..."
+                            aria-describedby="basic-addon2"
+                            type="text"
+                            value={value}
+                            onChange={this.handleChange}
+                        />
+                        <Button color="primary" variant="outline-secondary" id="button-addon2" onClick={this.onSubmit}>Search Issues</Button>
+                    </InputGroup>
+                    <h3 className="table-headers">Issues for project <b>{repo}</b> and account <a href={projectLink}><b>{id}</b></a></h3>
+                    <Table striped hover bordered>
+                        <thead>
+                            <tr className="table-secondary">
+                                <th width="3%">Issue No.</th>
+                                <th width="27%">Title</th>
+                                <th width="70%">Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>{repoList}</tbody>
+                    </Table>
+                </Container>
+                <Footer />
+            </div>
+        );
     }
 }
 

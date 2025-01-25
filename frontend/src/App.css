@@ -37,6 +37,16 @@
     }
 }
 
+.App-header, .body, .table-headers, .table, .mb-3 {
+    font-family: "Open Sans";
+    font-size: 1.4em;
+}
+
+.nav-bar, .ft, h1, h3 {
+    font-family: "Montserrat";
+    font-size: 1.1em;
+}
+
 .carousel-caption {
 	top: 0;
 	bottom: auto;
@@ -74,6 +84,10 @@
     width: 51;
 }
 
+.carousel-caption {
+    font-family: "Open Sans";
+}
+
 .carousel-caption h3, h5 {
     color: navy;
 }
@@ -93,4 +107,16 @@ p a {
     width: 50%;
     height: auto;
     margin: 0 auto;
+}
+
+.overview-text {
+    display: block;
+    font-size: 1rem; /* Adjust the base font-size as needed */
+    line-height: 1.5;
+    white-space: normal;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    max-height: 200px; /* Set a max height to avoid overflow */
+    overflow: hidden;
+    text-overflow: ellipsis; /* Add ellipsis for text overflow */
 }

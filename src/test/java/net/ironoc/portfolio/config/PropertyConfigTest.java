@@ -240,6 +240,54 @@ public class PropertyConfigTest {
         verify(propertyKeyMock).isCacheJobEnabled();
         verify(environmentMock).getRequiredProperty(Properties.IS_GITHUB_JOB_ENABLED.getKey());
 
-        assertThat(result, is(Boolean.TRUE.booleanValue()));
+        assertThat(result, is(true));
+    }
+
+    @Test
+    public void test_getBrewGraphEndpoint_success() {
+        // given
+        when(propertyKeyMock.getBrewGraphEndpoint()).thenReturn(Properties.BREWS_GRAPH_ENDPOINT.getKey());
+        when(environmentMock.getRequiredProperty(Properties.BREWS_GRAPH_ENDPOINT.getKey())).thenReturn(TEST_PROP_VAL);
+
+        // when
+        String result = propertyConfig.getBrewGraphEndpoint();
+
+        // then
+        verify(propertyKeyMock).getBrewGraphEndpoint();
+        verify(environmentMock).getRequiredProperty(Properties.BREWS_GRAPH_ENDPOINT.getKey());
+
+        assertThat(result, is(TEST_PROP_VAL));
+    }
+
+    @Test
+    public void test_getBrewApiEndpointHot_success() {
+        // given
+        when(propertyKeyMock.getBrewApiEndpointHot()).thenReturn(Properties.BREWS_API_ENDPOINT_HOT.getKey());
+        when(environmentMock.getRequiredProperty(Properties.BREWS_API_ENDPOINT_HOT.getKey())).thenReturn(TEST_PROP_VAL);
+
+        // when
+        String result = propertyConfig.getBrewApiEndpointHot();
+
+        // then
+        verify(propertyKeyMock).getBrewApiEndpointHot();
+        verify(environmentMock).getRequiredProperty(Properties.BREWS_API_ENDPOINT_HOT.getKey());
+
+        assertThat(result, is(TEST_PROP_VAL));
+    }
+
+    @Test
+    public void test_getBrewApiEndpointIce_success() {
+        // given
+        when(propertyKeyMock.getBrewApiEndpointIce()).thenReturn(Properties.BREWS_API_ENDPOINT_ICE.getKey());
+        when(environmentMock.getRequiredProperty(Properties.BREWS_API_ENDPOINT_ICE.getKey())).thenReturn(TEST_PROP_VAL);
+
+        // when
+        String result = propertyConfig.getBrewApiEndpointIce();
+
+        // then
+        verify(propertyKeyMock).getBrewApiEndpointIce();
+        verify(environmentMock).getRequiredProperty(Properties.BREWS_API_ENDPOINT_ICE.getKey());
+
+        assertThat(result, is(TEST_PROP_VAL));
     }
 }

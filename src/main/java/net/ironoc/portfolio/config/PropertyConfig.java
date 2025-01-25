@@ -97,6 +97,11 @@ public class PropertyConfig implements PropertyConfigI {
         return environment.getRequiredProperty(propertyKey.getBrewApiEndpointIce());
     }
 
+    @Override
+    public String getBrewGraphEndpoint() {
+        return environment.getRequiredProperty(propertyKey.getBrewGraphEndpoint());
+    }
+
     private List<String> extractValues(String valuesStr) {
         return Arrays.stream(StringUtils.split(valuesStr, ",")).toList();
     }

@@ -33,4 +33,6 @@ public interface PropertyConfigI {
     String getBrewApiEndpointHot();
 
     String getBrewApiEndpointIce();
+
+    String getBrewGraphEndpoint();
 }
