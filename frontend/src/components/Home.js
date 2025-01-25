@@ -40,11 +40,12 @@ class Home extends Component {
                         <br /><br />
                         <a href="/"><img src={logoSrc} className={logoClassName} alt={logoAlt} /></a>
                         <p id={introId}>
-                            {welcomeMessage}<br />
-                            Please use the navigation bar to view different features such as <a href="/about">about</a> me, my
-                            &nbsp;<a href="https://linktr.ee/conorheffron" target="_blank" rel="noopener noreferrer">link tree</a>, a <a href="/portfolio">carousel</a>
-                            &nbsp;that scrolls through highlighted projects & the GitHub project manager (PM) tool which is built
-                            against the iRonoc API.
+                            {welcomeMessage}<br /><br />
+                            Please use the navigation bar to view different features such as <a href="/donate">donate</a>&nbsp;
+                            to one of my preferred charities (select anywhere on tile to go directly to online donation page),&nbsp;
+                            <a href="/about">about</a> me, my&nbsp;<a href="https://linktr.ee/conorheffron" target="_blank"
+                            rel="noopener noreferrer">link tree</a>, a <a href="/portfolio">carousel</a>&nbsp;that scrolls
+                            through highlighted projects & the GitHub project manager (PM) tool which is built against the iRonoc API.
                             <br /><br />
                             The GitHub PM tool allows you to view & navigate the backlog of issues & bugs for a given project
                             repository for the corresponding user or organisation account. There is an option to search by user ID

@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import './App.css';
 import Home from './components/Home';
 import CoffeeHome from './components/CoffeeHome';
+import Donate from './components/Donate';
 import NotFound from './components/NotFound';
 import About from './components/About';
 import RepoDetails from './components/RepoDetails';
@@ -22,6 +23,7 @@ class App extends Component {
         { path: '/projects/:id', component: RepoDetails },
         { path: '/issues/:id/:repo', component: RepoIssues },
         { path: '/brews', exact: true, component: CoffeeHome },
+        { path: '/donate', exact: true, component: Donate },
         { path: '*', component: NotFound }
       ]
     } = this.props;

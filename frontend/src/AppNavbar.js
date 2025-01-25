@@ -78,6 +78,12 @@ class AppNavBar extends Component {
                                     <DropdownItem target="_blank" href="https://github.com/conorheffron/ironoc-pytest">PyTest GitHub Client Package</DropdownItem>
                                 </DropdownMenu>
                             </UncontrolledDropdown>
+                            <UncontrolledDropdown inNavbar nav>
+                                <DropdownToggle caret nav>Charity Options</DropdownToggle>
+                                <DropdownMenu end>
+                                    <DropdownItem href="/donate">Donate</DropdownItem>
+                                </DropdownMenu>
+                            </UncontrolledDropdown>
                         </Nav>
                         <a href="/">
                             <NavbarText href="/">Home</NavbarText>
