@@ -8,8 +8,11 @@ class LoadingSpinner extends Component {
     return (
       <Container fluid>
         <Button variant="primary" disabled>
-          <Spinner as="span" animation="grow" size="sm" role="status" aria-hidden="true" />
-          Loading...
+            <Spinner animation="border" variant="secondary" />
+            <Spinner animation="border" variant="dark" />
+            <Spinner animation="border" variant="danger" />
+            <Spinner animation="border" variant="warning" />
+            <h1>Loading...</h1>
         </Button>
       </Container>
     );
