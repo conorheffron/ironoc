@@ -45,10 +45,10 @@ const donateItems = [
                    Temple Street cares for 145,000 children per year including 45,000 who attend the Emergency Department (ED) every year. A staff of 85 Consultants and over
                    950 other full-time and part-time HSCPs (Health and Social Care Professionals) and other staff deliver care and services.`,
         founded: 1872,
-        phone: `Crumlin: +353 01 409 6100. <br/>
-                        Temple Street: +353 01 878 4200. <br/>
-                        Connolly: +353 01 640 7500. <br/>
-                        Tallaght: +353 01 693 7500`
+        phone: `<br/><b>Crumlin:</b> +353 01 409 6100<br/>
+                        <b>Temple Street:</b> +353 01 878 4200<br/>
+                        <b>Connolly:</b> +353 01 640 7500<br/>
+                        <b>Tallaght:</b> +353 01 693 7500`
     },
     {
         donate: "https://donors.cancer.ie/page/FUNMTNWKDWV",

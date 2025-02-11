@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import Button from 'react-bootstrap/Button';
 import Spinner from 'react-bootstrap/Spinner';
 import { Container } from 'reactstrap';
-import AppNavbar from './AppNavbar';
 
 class LoadingSpinner extends Component {
   render() {
