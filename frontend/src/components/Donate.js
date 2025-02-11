@@ -38,17 +38,16 @@ const donateItems = [
         img: red,
         alt: "red3",
         name: "Temple Street Children’s University Hospital",
-        overview: `Temple Street Children’s University Hospital, is an acute national paediatric hospital. Seven major specialties at Temple Street today include
-                   neonatal and paediatric surgery, neurology, neurosurgery, nephrology, orthopaedics, ENT and plastic surgery. The Hospital is also the location for the
-                   national centre for paediatric ophthalmology, the National Paediatric Craniofacial Centre (NPCC), the national airway management centre, the Irish Meningitis
-                   & Sepsis Reference Laboratory (IMSRL), the National Centre for Inherited Metabolic Disorders (NCIMD) and the National Newborn Screening Centre (NNBSC).
-                   Temple Street cares for 145,000 children per year including 45,000 who attend the Emergency Department (ED) every year. A staff of 85 Consultants and over
-                   950 other full-time and part-time HSCPs (Health and Social Care Professionals) and other staff deliver care and services.`,
+        overview: `Temple Street, is an acute national paediatric hospital. Seven major specialties at Temple Street today include
+                   neonatal & paediatric surgery, neurology, neurosurgery, nephrology, orthopaedics, ENT & plastic surgery.
+                   Temple Street cares for 145,000 children per year including 45,000 who attend the Emergency Department (ED) every year.
+                   A staff of 85 Consultants& over 950 other full-time & part-time HSCPs (Health & Social
+                   Care Professionals) % other staff deliver care & services.`,
         founded: 1872,
-        phone: `Crumlin: +353 01 409 6100. <br/>
-                        Temple Street: +353 01 878 4200. <br/>
-                        Connolly: +353 01 640 7500. <br/>
-                        Tallaght: +353 01 693 7500`
+        phone: `<br/><b>Temple Street:</b> +353 01 878 4200,
+                        <b>Tallaght:</b> +353 01 693 7500,<br />
+                        <b>Crumlin:</b> +353 01 409 6100,
+                        <b>Connolly:</b> +353 01 640 7500`
     },
     {
         donate: "https://donors.cancer.ie/page/FUNMTNWKDWV",
@@ -104,9 +103,9 @@ class Donate extends Component {
                                 <a href={item.donate} target="_blank" rel="noreferrer">
                                     <img className="d-block w-100" src={item.img} alt={item.alt} />
                                     <Carousel.Caption>
-                                        <h7>
-                                            <b><u>{item.name}</u></b>
-                                        </h7><br />
+                                        <h1>
+                                            <u>{item.name}</u>
+                                        </h1><br />
                                         <h8>
                                             <b>Contact & Help by Phone: </b><span dangerouslySetInnerHTML={{ __html: item.phone }} />
                                         </h8><br />

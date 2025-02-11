@@ -42,7 +42,7 @@ class About extends Component {
                             Let's connect and explore exciting
                             opportunities together! See above & beyond for contact details and further information.
                         </p><br />
-                        <a className="strava-badge" href={stravaLink} target="_blank">
+                        <a className="strava-badge" href={stravaLink} target="_blank" rel="noreferrer" >
                             Follow me on
                             <img className="strava-badge-img" src={stravaImgSrc} alt={stravaImgAlt} />
                         </a><br />

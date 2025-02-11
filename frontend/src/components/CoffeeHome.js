@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Container, InputGroup, Table } from 'reactstrap';
+import { Container } from 'reactstrap';
 import axios from 'axios';
 import AppNavbar from '.././AppNavbar';
 import CoffeeCarousel from './CoffeeCarousel';
