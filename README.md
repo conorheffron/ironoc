@@ -80,7 +80,7 @@ docker logs ironoc-portfolio-1 -f
 
 ### Tear-down:
 ```
-docker-compose down
+docker compose down
 ```
 
 # Screenshot
