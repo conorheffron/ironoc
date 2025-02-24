@@ -80,7 +80,7 @@ docker logs ironoc-portfolio-1 -f
 
 ### Tear-down:
 ```
-docker-compose down
+docker compose down
 ```
 
 # Screenshot
@@ -92,7 +92,7 @@ MiniKube Install Notes for mac users
 ```
 brew install kubectl
 brew install virtualbox
-brew install minikube
+brew install / upgrade minikube
 ```
 
 ```shell
@@ -120,53 +120,44 @@ Context:           desktop-linux
 
 - Open terminal
 ```shell
-% minikube start --driver=docker
-😄  minikube v1.34.0 on Darwin 15.1.1
-❗  Both driver=docker and vm-driver=virtualbox have been set.
-
-    Since vm-driver is deprecated, minikube will default to driver=docker.
-
-    If vm-driver is set in the global config, please run "minikube config unset vm-driver" to resolve this warning.
-                        
-✨  Using the docker driver based on user configuration
-📌  Using Docker Desktop driver with root privileges
+%  minikube start --driver=docker                 
+😄  minikube v1.35.0 on Darwin 15.3.1
+🆕  Kubernetes 1.32.0 is now available. If you would like to upgrade, specify: --kubernetes-version=v1.32.0
+✨  Using the docker driver based on existing profile
 👍  Starting "minikube" primary control-plane node in "minikube" cluster
-🚜  Pulling base image v0.0.45 ...
-🔥  Creating docker container (CPUs=2, Memory=4000MB) ...
+🚜  Pulling base image v0.0.46 ...
+🏃  Updating the running docker "minikube" container ...
+❗  Image was not built for the current minikube version. To resolve this you can delete and recreate your minikube cluster using the latest images. Expected minikube version: v1.34.0 -> Actual minikube version: v1.35.0
 🐳  Preparing Kubernetes v1.31.0 on Docker 27.2.0 ...
-    ▪ Generating certificates and keys ...
-    ▪ Booting up control plane ...
-    ▪ Configuring RBAC rules ...
 🔗  Configuring bridge CNI (Container Networking Interface) ...
 🔎  Verifying Kubernetes components...
+    ▪ Using image docker.io/kubernetesui/metrics-scraper:v1.0.8
     ▪ Using image gcr.io/k8s-minikube/storage-provisioner:v5
-🌟  Enabled addons: storage-provisioner, default-storageclass
+    ▪ Using image docker.io/kubernetesui/dashboard:v2.7.0
+💡  Some dashboard features require the metrics-server addon. To enable all features please run:
+
+        minikube addons enable metrics-server
+
+🌟  Enabled addons: storage-provisioner, default-storageclass, dashboard
 🏄  Done! kubectl is now configured to use "minikube" cluster and "default" namespace by default
 
 
 % kubectl cluster-info
-Kubernetes control plane is running at https://127.0.0.1:62645
-CoreDNS is running at https://127.0.0.1:62645/api/v1/namespaces/kube-system/services/kube-dns:dns/proxy
+Kubernetes control plane is running at https://127.0.0.1:63402
+CoreDNS is running at https://127.0.0.1:63402/api/v1/namespaces/kube-system/services/kube-dns:dns/proxy
 
 To further debug and diagnose cluster problems, use 'kubectl cluster-info dump'.
 
 
 % minikube dashboard
-🔌  Enabling dashboard ...
-    ▪ Using image docker.io/kubernetesui/dashboard:v2.7.0
-    ▪ Using image docker.io/kubernetesui/metrics-scraper:v1.0.8
-💡  Some dashboard features require the metrics-server addon. To enable all features please run:
-
-        minikube addons enable metrics-server
-
 🤔  Verifying dashboard health ...
 🚀  Launching proxy ...
 🤔  Verifying proxy health ...
-🎉  Opening http://127.0.0.1:62706/api/v1/namespaces/kubernetes-dashboard/services/http:kubernetes-dashboard:/proxy/ in your default browser...
+🎉  Opening http://127.0.0.1:63612/api/v1/namespaces/kubernetes-dashboard/services/http:kubernetes-dashboard:/proxy/ in your default browser...
 ```
 
-### Then change namespace in browser from default to ironoc-ns
-- i.e. http://127.0.0.1:62706/api/v1/namespaces/kubernetes-dashboard/services/http:kubernetes-dashboard:/proxy/#/pod?namespace=ironoc-ns
+### Then change namespace in browser from default to ironoc-ns after 'kubectl create ns ironoc-ns'
+- i.e. http://127.0.0.1:63612/api/v1/namespaces/kubernetes-dashboard/services/http:kubernetes-dashboard:/proxy/#/pod?namespace=ironoc-ns
 
 ### Open New tab in terminal & create deployment
 ```shell
@@ -231,34 +222,33 @@ ironoc-app-deployment-6d84f75b44-5xvgj   1/1     Running   0          3m28s
 
 java  -jar /app.war
 
-Standard Commons Logging discovery in action with spring-jcl: please remove commons-logging.jar from classpath in order to avoid potential conflicts
 
-  .   ____          _            __ _ _
- /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
-( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
- \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
-  '  |____| .__|_| |_|_| |_\__, | / / / /
- =========|_|==============|___/=/_/_/_/
+_________ _______  _______  _        _______  _______
+\__   __/(  ____ )(  ___  )( (    /|(  ___  )(  ____ \
+   ) (   | (    )|| (   ) ||  \  ( || (   ) || (    \/
+   | |   | (____)|| |   | ||   \ | || |   | || |
+   | |   |     __)| |   | || (\ \) || |   | || |
+   | |   | (\ (   | |   | || | \   || |   | || |
+___) (___| ) \ \__| (___) || )  \  || (___) || (____/\
+\_______/|/   \__/(_______)|/    )_)(_______)(_______/
 
- :: Spring Boot ::                (v3.4.0)
 
-2024-12-14T17:50:40.926Z  INFO 7 --- [           main] n.i.p.App                                : Starting App v5.4.6 using Java 21.0.5 with PID 7 (/app.war started by root in /)
-2024-12-14T17:50:41.028Z  INFO 7 --- [           main] n.i.p.App                                : No active profile set, falling back to 1 default profile: "default"
-2024-12-14T17:50:48.042Z  INFO 7 --- [           main] o.s.b.w.e.t.TomcatWebServer              : Tomcat initialized with port 8080 (http)
-2024-12-14T17:50:48.109Z  INFO 7 --- [           main] o.a.c.c.StandardService                  : Starting service [Tomcat]
-2024-12-14T17:50:48.112Z  INFO 7 --- [           main] o.a.c.c.StandardEngine                   : Starting Servlet engine: [Apache Tomcat/10.1.33]
-2024-12-14T17:51:26.598Z  INFO 7 --- [           main] o.a.j.s.TldScanner                       : At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
-2024-12-14T17:51:27.320Z  INFO 7 --- [           main] o.a.c.c.C.[.[.[/]                        : Initializing Spring embedded WebApplicationContext
-2024-12-14T17:51:27.323Z  INFO 7 --- [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 45872 ms
-2024-12-14T17:51:28.210Z  INFO 7 --- [           main] n.i.p.l.AbstractLogger                   : GitDetailsRunnable running for userIds=[conorheffron]
-2024-12-14T17:51:28.696Z  INFO 7 --- [           main] n.i.p.l.AbstractLogger                   : Triggering GET request: url=https://api.github.com/users/conorheffron/repos?per_page=100&page=1
-2024-12-14T17:51:34.776Z  WARN 7 --- [           main] n.i.p.c.GitClient                        : GIT token not set, the lower request rate will apply
-2024-12-14T17:51:35.912Z  WARN 7 --- [           main] n.i.p.l.AbstractLogger                   : Input stream already closed.
-2024-12-14T17:51:35.912Z  INFO 7 --- [           main] n.i.p.l.AbstractLogger                   : Running GIT details job for userIds=[conorheffron], repositoryDetailDtos=[]
-2024-12-14T17:51:35.914Z  INFO 7 --- [           main] n.i.p.l.AbstractLogger                   : GitDetailsRunnable completed for userIds=[conorheffron]
-2024-12-14T17:51:36.925Z  INFO 7 --- [           main] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page: class path resource [static/index.html]
-2024-12-14T17:51:40.857Z  INFO 7 --- [           main] o.s.b.w.e.t.TomcatWebServer              : Tomcat started on port 8080 (http) with context path '/'
-2024-12-14T17:51:40.911Z  INFO 7 --- [           main] n.i.p.App                                : Started App in 62.867 seconds (process running for 68.625)
+2025-02-20T18:38:17.926Z  INFO 8 --- [           main] n.i.p.App                                : Starting App v7.1.3 using Java 21.0.6 with PID 8 (/app.war started by root in /)
+2025-02-20T18:38:17.954Z  INFO 8 --- [           main] n.i.p.App                                : No active profile set, falling back to 1 default profile: "default"
+2025-02-20T18:38:27.347Z  INFO 8 --- [           main] o.s.b.w.e.t.TomcatWebServer              : Tomcat initialized with port 8080 (http)
+2025-02-20T18:38:27.427Z  INFO 8 --- [           main] o.a.c.c.StandardService                  : Starting service [Tomcat]
+2025-02-20T18:38:27.428Z  INFO 8 --- [           main] o.a.c.c.StandardEngine                   : Starting Servlet engine: [Apache Tomcat/10.1.34]
+2025-02-20T18:39:01.657Z  INFO 8 --- [           main] o.a.j.s.TldScanner                       : At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+2025-02-20T18:39:02.392Z  INFO 8 --- [           main] o.a.c.c.C.[.[.[/]                        : Initializing Spring embedded WebApplicationContext
+2025-02-20T18:39:02.393Z  INFO 8 --- [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 44243 ms
+2025-02-20T18:39:05.533Z  WARN 8 --- [           main] n.i.p.l.AbstractLogger                   : The job to pre-populate the cache of GitHub information is disabled.
+2025-02-20T18:39:07.453Z  INFO 8 --- [           main] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page: class path resource [static/index.html]
+2025-02-20T18:39:11.032Z  INFO 8 --- [           main] o.s.b.w.e.t.TomcatWebServer              : Tomcat started on port 8080 (http) with context path '/'
+2025-02-20T18:39:11.056Z  INFO 8 --- [           main] n.i.p.App                                : Started App in 54.809 seconds (process running for 60.898)
+2025-02-20T18:39:35.727Z  INFO 8 --- [nio-8080-exec-1] o.a.c.c.C.[.[.[/]                        : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-02-20T18:39:35.730Z  INFO 8 --- [nio-8080-exec-1] o.s.w.s.DispatcherServlet                : Initializing Servlet 'dispatcherServlet'
+2025-02-20T18:39:35.741Z  INFO 8 --- [nio-8080-exec-1] o.s.w.s.DispatcherServlet                : Completed initialization in 11 ms
+2025-02-20T18:39:55.751Z  INFO 8 --- [nio-8080-exec-1] n.i.p.l.AbstractLogger                   : Retrieved brews from GraphQL query, coffeeDomains=[name: 'Black Coffee' id: '1', name: 'Latte' id: '2', name: 'Caramel Latte' id: '3', name: 'Cappuccino' id: '4', name: 'Americano' id: '5', name: 'Espresso' id: '6', name: 'Macchiato' id: '7', name: 'Mocha' id: '8', name: 'Hot Chocolate' id: '9', name: 'Chai Latte' id: '10', name: 'Matcha Latte' id: '11', name: 'Seasonal Brew' id: '12', name: 'Svart Te' id: '13', name: 'Islatte' id: '14', name: 'Islatte Mocha' id: '15', name: 'Frapino Caramel' id: '16', name: 'Frapino Mocka' id: '17', name: 'Apelsinjuice' id: '18', name: 'Frozen Lemonade' id: '19', name: 'Lemonad' id: '20', name: 'Iced Coffee' id: '1', name: 'Iced Espresso' id: '2', name: 'Cold Brew' id: '3', name: 'Frappuccino' id: '4', name: 'Nitro' id: '5', name: 'Mazagran' id: '6']
 ```
 
 ### (clean-up & again after local testing complete)
@@ -266,6 +256,6 @@ Standard Commons Logging discovery in action with spring-jcl: please remove comm
 % minikube delete 
 🔥  Deleting "minikube" in docker ...
 🔥  Deleting container "minikube" ...
-🔥  Removing /Users/conorheffron/.minikube/machines/minikube ...
+🔥  Removing /home/.minikube/machines/minikube ...
 💀  Removed all traces of the "minikube" cluster.
 ```
