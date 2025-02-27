@@ -1,5 +1,7 @@
 net:
   ironoc:
+    build:
+      version: @project.version@
     portfolio:
       brew:
         api:
