@@ -3,7 +3,6 @@ package net.ironoc.portfolio.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,11 +13,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api")
 public class VersionController {
 
-    @Value("${net.ironoc.build.version}")
     private final String buildVersion;
 
-    @Autowired
-    public VersionController(String buildVersion) {
+    public VersionController(@Value("${net.ironoc.build.version}") String buildVersion) {
         this.buildVersion = buildVersion;
     }
 
