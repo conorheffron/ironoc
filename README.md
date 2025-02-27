@@ -44,7 +44,7 @@ docker run -d --restart=always -p 8080:8080 conorheffron/ironoc
 ## Run after project checkout (JDK 21 & Maven 3.8 or later required)
 ### Build frontend & server side, along with Java Code Coverage report.
 ```shell
-mvn clean package
+mvn clean package -U
 ```
 
 #### View Java Code Coverage reports in Browser or Preview tab in IDE.

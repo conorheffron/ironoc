@@ -50,6 +50,9 @@ public class GitProjectsControllerIntegrationTest extends BaseControllerIntegrat
     @MockitoBean
     private GraphQLClient graphQLClientServiceMock;
 
+    @MockitoBean
+    private VersionController versionControllerMock;
+
     @InjectMocks
     private GitProjectsController gitProjectsController;// controller under test
 

@@ -55,6 +55,9 @@ public class CoffeeControllerIntegrationTest extends BaseControllerIntegrationTe
     @MockitoBean
     private GraphQLClient graphQLClientServiceMock;
 
+    @MockitoBean
+    private VersionController versionControllerMock;
+
     @Autowired
     private ObjectMapper objectMapper;
 
