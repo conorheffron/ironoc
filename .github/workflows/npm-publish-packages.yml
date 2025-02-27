@@ -16,8 +16,6 @@ jobs:
           node-version: 20
       - run: npm install
         working-directory: './frontend'
-      - run: npm ci
-        working-directory: './frontend'
       - run: npm test
         working-directory: './frontend'
 
@@ -34,7 +32,7 @@ jobs:
           node-version: '20.x'
           registry-url: https://npm.pkg.github.com/
           scope: '@conorheffron'
-      - run: npm ci
+      - run: npm install
         working-directory: './frontend'
       - run: npm set "//npm.pkg.github.com/:_authToken=$NPM_TOKEN"
         working-directory: './frontend'
@@ -59,7 +57,7 @@ jobs:
         with:
           node-version: '20.x'
           registry-url: https://registry.npmjs.org/
-      - run: npm ci
+      - run: npm install
         working-directory: './frontend'
       - run: npm set "//registry.npmjs.org/conorheffron/:_authToken=$NPM_TOKEN"
         working-directory: './frontend'
