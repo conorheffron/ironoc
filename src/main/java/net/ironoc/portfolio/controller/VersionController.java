@@ -27,6 +27,6 @@ public class VersionController {
     })
     @GetMapping(value = {"/application/version"}, produces= MediaType.TEXT_PLAIN_VALUE)
     public String getApplicationVersion() {
-        return "Version: " + buildVersion;
+        return "Version: " + this.buildVersion;
     }
 }
