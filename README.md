@@ -11,8 +11,7 @@
 - [ironoc GitHub Docker Container Registry](https://github.com/conorheffron/ironoc/pkgs/container/ironoc)
 
 ## Hosted at:
-- [ironoc.net](https://me.ironoc.net)
-- [ironoc load balancer](https://ironoc-lb-6a36dafeeca59581.elb.eu-north-1.amazonaws.com/)
+- [ironoc.net](https://ironoc.net)
 
 ## About
 Personal website / portfolio  [https://www.ironoc.net/](https://www.ironoc.net/)
