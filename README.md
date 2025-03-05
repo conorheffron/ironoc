@@ -51,6 +51,18 @@ mvn clean package -U
 
 ![ui-config-screenshot](screen-grabs/jacoco.png)
 
+### Build & Run frontend on react development server, then run react test suite.
+```shell
+cd frontend
+
+npm run build
+rpm run start
+
+npm run test
+```
+
+![react-tests](screen-grabs/react-tests.png)
+
 ##### View in browser at `http://localhost:63342/ironoc/target/site/jacoco/index.html?_ijt=s0hqlj2p4s6554gldritju13qr&_ij_reload=RELOAD_ON_SAVE`
 ###### Note: Change port as needed/identifier as this is URL generated during build process & opened via IDE window.
 ![ui-config-screenshot](screen-grabs/jacoco-browser.png)
