@@ -14,6 +14,7 @@ import RepoDetails from './components/RepoDetails';
 import RepoIssues from './components/RepoIssues';
 import LoadingSpinner from './LoadingSpinner';
 import AppNavBar from './AppNavbar';
+import Footer from './Footer';
 
 // Mocking axios
 jest.mock('axios');
@@ -378,4 +379,47 @@ describe('Donate Component', () => {
             expect(screen.getByAltText(item.alt)).toBeInTheDocument();
         });
     });
+});
+
+describe('Footer Component', () => {
+  beforeEach(() => {
+    // Mock the fetch API
+      global.fetch = jest.fn(() =>
+        Promise.resolve({
+          ok: true,
+          text: () => Promise.resolve('2.2.0'),
+        })
+      );
+  });
+
+  afterEach(() => {
+    fetch.mockClear();
+  });
+
+  test('renders without crashing', () => {
+    render(<Footer />);
+    expect(screen.getByText(/© 2025 by Conor Heffron/)).toBeInTheDocument();
+  });
+
+  test('initial state is set correctly', () => {
+    const { container } = render(<Footer />);
+    const footerText = container.querySelector('.ft');
+    expect(footerText).toHaveTextContent('© 2025 by Conor Heffron |');
+  });
+
+  test('fetches and displays the version', async () => {
+    render(<Footer />);
+    await waitFor(() => expect(fetch).toHaveBeenCalledTimes(1));
+    await waitFor(() => expect(screen.getByText('© 2025 by Conor Heffron | 2.2.0')).toBeInTheDocument());
+  });
+
+  test('handles fetch error', async () => {
+    fetch.mockImplementationOnce(() =>
+      Promise.reject(new Error('Network response was not ok'))
+    );
+
+    render(<Footer />);
+    await waitFor(() => expect(fetch).toHaveBeenCalledTimes(1));
+    await waitFor(() => expect(screen.getByText('© 2025 by Conor Heffron |')).toBeInTheDocument());
+  });
 });

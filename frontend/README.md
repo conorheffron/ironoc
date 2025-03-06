@@ -4,11 +4,27 @@ The ironoc UI built with react for personal portfolio website.
 
 [![Node.js Package](https://github.com/conorheffron/ironoc/actions/workflows/npm-publish-packages.yml/badge.svg)](https://github.com/conorheffron/ironoc/actions/workflows/npm-publish-packages.yml)
 
+- [GitHub Repository](https://github.com/conorheffron/ironoc)
+- [Frontend Source Code](https://github.com/conorheffron/ironoc/tree/main/frontend)
 - See project README.md [here](https://github.com/conorheffron/ironoc/blob/main/README.md)
 - See npmjs package details here [https://www.npmjs.com/package/@conorheffron/ironoc-frontend](https://www.npmjs.com/package/@conorheffron/ironoc-frontend)
 - See GitHub package details here [https://github.com/conorheffron/ironoc/pkgs/npm/ironoc-frontend](https://github.com/conorheffron/ironoc/pkgs/npm/ironoc-frontend)
 
-## Getting Started with React App
+## Getting Started with iRonoc React App
+
+#### Quick start
+```shell
+cd frontend
+
+npm install 
+
+npm run build 
+
+npm run start
+
+# press a/enter after the following command to run test suite
+npm run test
+```
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 

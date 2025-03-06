@@ -11,8 +11,7 @@
 - [ironoc GitHub Docker Container Registry](https://github.com/conorheffron/ironoc/pkgs/container/ironoc)
 
 ## Hosted at:
-- [ironoc.net](https://me.ironoc.net)
-- [ironoc load balancer](https://ironoc-lb-6a36dafeeca59581.elb.eu-north-1.amazonaws.com/)
+- [ironoc.net](https://ironoc.net)
 
 ## About
 Personal website / portfolio  [https://www.ironoc.net/](https://www.ironoc.net/)
@@ -51,6 +50,18 @@ mvn clean package -U
 ##### Path to reports is `target/site/jacoco/index.html`
 
 ![ui-config-screenshot](screen-grabs/jacoco.png)
+
+### Build & Run frontend on react development server, then run react test suite.
+```shell
+cd frontend
+
+npm run build
+rpm run start
+
+npm run test
+```
+
+![react-tests](screen-grabs/react-tests.png)
 
 ##### View in browser at `http://localhost:63342/ironoc/target/site/jacoco/index.html?_ijt=s0hqlj2p4s6554gldritju13qr&_ij_reload=RELOAD_ON_SAVE`
 ###### Note: Change port as needed/identifier as this is URL generated during build process & opened via IDE window.
