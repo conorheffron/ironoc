@@ -23,7 +23,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "CI=false && GENERATE_SOURCEMAP=false react-scripts build",
-    "test": "react-scripts test",
+    "test": "react-scripts test --transformIgnorePatterns \"node_modules/(?!axios)/\"",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
