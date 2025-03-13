@@ -86,6 +86,19 @@ const donateItems = [
                    life-saving results and is more cost-effective in the long run.`,
         founded: 1969,
         phone: "+353 (01) 671 5551"
+    },
+    {
+        donate:` "https://www.debra.ie/donate/",
+        link: "https://www.debra.ie/",
+        img: red,
+        alt: "red7",
+        name: "Debra Ireland",
+        overview: `We are dedicated to transforming the lives of people living with Epidermolysis Bullosa (EB), caring for someone with EB, or bereaved by EB, through care, 
+                   research and advocacy. EB is an incurable genetic condition that affects the body's largest organ; the skin. People living with EB are missing the 
+                   essential proteins that bind the skin's layers together, so any minor friction, movement or trauma causes it to break, tear, and blister. 
+                   It is as fragile as a butterfly wing. That's why we're here. To be a positive force for all those living with EB and all whose lives have been impacted by EB.`,
+        founded: 1988,
+        phone: "+353 (0)1 4126924"
     }
 ];
 
