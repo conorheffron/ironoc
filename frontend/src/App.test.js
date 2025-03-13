@@ -5,6 +5,7 @@ import Home from './components/Home';
 import axios from 'axios';
 import App from './App';
 import CoffeeCarousel from './components/CoffeeCarousel';
+import ControlledCarousel from './components/ControlledCarousel';
 import CoffeeHome from './components/CoffeeHome';
 import Donate from './components/Donate';
 import NotFound from './components/NotFound';
@@ -14,6 +15,7 @@ import RepoDetails from './components/RepoDetails';
 import RepoIssues from './components/RepoIssues';
 import LoadingSpinner from './LoadingSpinner';
 import AppNavBar from './AppNavbar';
+import About from './components/About';
 import Footer from './Footer';
 
 // Mocking axios
@@ -100,6 +102,60 @@ describe('Home', () => {
     });
     const element = screen.getByText(/Home/i);
     expect(element).toBeInTheDocument();
+  });
+});
+
+describe('About Component', () => {
+  test('renders with default props', () => {
+    render(<About />);
+
+    expect(screen.getByAltText("View Conor Heffron's profile on LinkedIn")).toBeInTheDocument();
+    expect(screen.getByAltText('Strava')).toBeInTheDocument();
+  });
+
+  test('renders with provided props', () => {
+    const props = {
+      link: 'https://example.com',
+      imgSrc: 'https://example.com/image.png',
+      imgAlt: 'Example Image',
+      stravaLink: 'https://example.com/strava',
+      stravaImgSrc: 'https://example.com/strava-image.png',
+      stravaImgAlt: 'Example Strava',
+    };
+    render(<About {...props} />);
+    expect(screen.getByAltText('Example Image')).toBeInTheDocument();
+    expect(screen.getByAltText('Example Strava')).toBeInTheDocument();
+  });
+});
+
+describe('ControlledCarousel Component', () => {
+  const items = [
+    {
+      link: 'https://example.com',
+      img: 'https://example.com/image.png',
+      alt: 'Example Image',
+      title: 'Example Title',
+      description: 'Example Description',
+      techStack: 'Example TechStack',
+    },
+  ];
+
+  test('renders with default props', () => {
+    render(<ControlledCarousel items={items} />);
+    expect(screen.getByAltText('Example Image')).toBeInTheDocument();
+    expect(screen.getByText('Example Title')).toBeInTheDocument();
+    expect(screen.getByText('Example Description')).toBeInTheDocument();
+    expect(screen.getByText('Example TechStack')).toBeInTheDocument();
+  });
+
+  test('renders carousel items', () => {
+    render(<ControlledCarousel items={items} />);
+    items.forEach((item) => {
+      expect(screen.getByAltText(item.alt)).toBeInTheDocument();
+      expect(screen.getByText(item.title)).toBeInTheDocument();
+      expect(screen.getByText(item.description)).toBeInTheDocument();
+      expect(screen.getByText(item.techStack)).toBeInTheDocument();
+    });
   });
 });
 
