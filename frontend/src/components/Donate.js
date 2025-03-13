@@ -88,7 +88,7 @@ const donateItems = [
         phone: "+353 (01) 671 5551"
     },
     {
-        donate:` "https://www.debra.ie/donate/",
+        donate: "https://www.debra.ie/donate/",
         link: "https://www.debra.ie/",
         img: red,
         alt: "red7",
