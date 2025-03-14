@@ -1,6 +1,6 @@
 {
   "name": "@conorheffron/ironoc-frontend",
-  "version": "7.2.3",
+  "version": "7.2.4",
   "private": false,
   "dependencies": {
     "@fontsource/montserrat": "^5.1.1",
@@ -24,6 +24,7 @@
     "start": "react-scripts start",
     "build": "CI=false && GENERATE_SOURCEMAP=false react-scripts build",
     "test": "react-scripts test --transformIgnorePatterns \"node_modules/(?!axios)/\"",
+    "test:coverage": "react-scripts test --transformIgnorePatterns \"node_modules/(?!axios)/\" --env=jsdom --watchAll=false --coverage",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {

@@ -51,6 +51,10 @@ mvn clean package -U
 
 ![ui-config-screenshot](screen-grabs/jacoco.png)
 
+##### View in browser at `http://localhost:63342/ironoc/target/site/jacoco/index.html?_ijt=s0hqlj2p4s6554gldritju13qr&_ij_reload=RELOAD_ON_SAVE`
+###### Note: Change port as needed/identifier as this is URL generated during build process & opened via IDE window.
+![ui-config-screenshot](screen-grabs/jacoco-browser.png)
+
 ### Build & Run frontend on react development server, then run react test suite.
 ```shell
 cd frontend
@@ -59,13 +63,22 @@ npm run build
 rpm run start
 
 npm run test
-```
 
+npm run test:coverage
+```
+##### See the output below to verify the frontend test suite results.
 ![react-tests](screen-grabs/react-tests.png)
 
-##### View in browser at `http://localhost:63342/ironoc/target/site/jacoco/index.html?_ijt=s0hqlj2p4s6554gldritju13qr&_ij_reload=RELOAD_ON_SAVE`
-###### Note: Change port as needed/identifier as this is URL generated during build process & opened via IDE window.
-![ui-config-screenshot](screen-grabs/jacoco-browser.png)
+##### See the output below to verify the test coverage for the frontend from the command line.
+![npm-test-coverage](screen-grabs/npm-test-coverage.png)
+
+#### View Frontend Code Coverage reports in Browser or Preview tab in IDE.
+##### Path to reports is `frontend/coverage/lcov-report/index.html`
+![npm-test-coverage-report-1](screen-grabs/npm-test-coverage-report-1.png)
+
+![npm-test-coverage-report-2](screen-grabs/npm-test-coverage-report-2.png)
+
+![npm-test-coverage-report-3](screen-grabs/npm-test-coverage-report-3.png)
 
 ### Run app
 ```shell

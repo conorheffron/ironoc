@@ -22,6 +22,8 @@
     font-size: calc(10px + 2vmin);
     color: white;
     background-color: #1D428A;
+    border-bottom-right-radius: 18%;
+    border-bottom-left-radius: 18%;
 }
 
 .App-link {

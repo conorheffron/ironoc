@@ -24,6 +24,9 @@ npm run start
 
 # press a/enter after the following command to run test suite
 npm run test
+
+#check test coverage
+npm run test:coverage
 ```
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
