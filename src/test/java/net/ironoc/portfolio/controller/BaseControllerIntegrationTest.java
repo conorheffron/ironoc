@@ -1,11 +1,12 @@
 package net.ironoc.portfolio.controller;
 
+import net.ironoc.portfolio.SeleniumConfig;
 import net.ironoc.portfolio.config.TestIronocConfiguration;
 import org.junit.jupiter.api.TestInstance;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
 
-@ContextConfiguration(classes = {TestIronocConfiguration.class})
+@ContextConfiguration(classes = {TestIronocConfiguration.class, SeleniumConfig.class})
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestPropertySource(properties = {
         "net.ironoc.portfolio.config.ignore-paths=api",

@@ -1,16 +1,22 @@
 package net.ironoc.portfolio;
 
 import lombok.extern.slf4j.Slf4j;
+import net.ironoc.portfolio.controller.BaseControllerIntegrationTest;
+import net.ironoc.portfolio.controller.VersionController;
 import net.ironoc.portfolio.web.page.HomePage;
 import net.ironoc.portfolio.web.page.AboutPage;
 import net.ironoc.portfolio.web.page.PortfolioPage;
 import net.ironoc.portfolio.web.page.DonatePage;
 import net.ironoc.portfolio.web.page.BrewsPage;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.PageFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.context.web.WebAppConfiguration;
+import org.springframework.web.context.WebApplicationContext;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.blankOrNullString;
@@ -21,8 +27,15 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.fail;
 
 @Slf4j
-@SpringBootTest
-public class RemoteBrowserBasedIntTest {
+@ExtendWith(SpringExtension.class)
+@WebAppConfiguration()
+public class RemoteBrowserBasedIntTest extends BaseControllerIntegrationTest {
+
+    @Autowired
+    private WebApplicationContext webAppContext;
+
+    @MockitoBean
+    private VersionController versionControllerMock;
 
     @Autowired
     private WebDriver webDriver;

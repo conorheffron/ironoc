@@ -4,15 +4,15 @@ import io.github.bonigarcia.wdm.managers.ChromeDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 
-@Configuration
+@TestConfiguration
 public class SeleniumConfig {
 
     @Bean
     public WebDriver webDriver() {
-        // Use Chrome Pop-Up to Run
+        // Use Chrome Pop-Up to run locally
 //        System.setProperty("webdriver.chrome.driver", "/usr/local/bin/chromedriver");
 //        WebDriver webDriver = new ChromeDriver();
 //        return webDriver;
