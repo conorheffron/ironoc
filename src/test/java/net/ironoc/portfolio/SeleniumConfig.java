@@ -1,7 +1,9 @@
 package net.ironoc.portfolio;
 
+import io.github.bonigarcia.wdm.managers.ChromeDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -10,10 +12,15 @@ public class SeleniumConfig {
 
     @Bean
     public WebDriver webDriver() {
-        //TODO move to configurable & change to silent process without browser popup
-        // Set the system property for ChromeDriver (path to chromedriver executable)
-        System.setProperty("webdriver.chrome.driver", "/usr/local/bin/chromedriver");
-        WebDriver webDriver = new ChromeDriver();
-        return webDriver;
+        // Use Chrome Pop-Up to Run
+//        System.setProperty("webdriver.chrome.driver", "/usr/local/bin/chromedriver");
+//        WebDriver webDriver = new ChromeDriver();
+//        return webDriver;
+
+        // Run selenium web driver as background process for CI only
+        ChromeDriverManager.getInstance().setup();
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--headless");
+        return new ChromeDriver(chromeOptions);
     }
 }

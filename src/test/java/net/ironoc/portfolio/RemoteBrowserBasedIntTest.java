@@ -6,13 +6,11 @@ import net.ironoc.portfolio.web.page.AboutPage;
 import net.ironoc.portfolio.web.page.PortfolioPage;
 import net.ironoc.portfolio.web.page.DonatePage;
 import net.ironoc.portfolio.web.page.BrewsPage;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.PageFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.blankOrNullString;
@@ -24,15 +22,12 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 @Slf4j
 @SpringBootTest
-@ActiveProfiles("selenium")
-@Disabled("Disabled until Ghost Driver Setup for CI")
 public class RemoteBrowserBasedIntTest {
 
     @Autowired
     private WebDriver webDriver;
 
     @Test
-    @Disabled("Disabled until Ghost Driver Setup for CI")
     public void test_quick_tour() {
         try {
             // Navigate to iRonoc
