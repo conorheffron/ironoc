@@ -15,19 +15,24 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.blankOrNullString;
+import static org.hamcrest.Matchers.notNullValue;
+import static org.hamcrest.Matchers.not;
+import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.fail;
 
 @Slf4j
 @SpringBootTest
 @ActiveProfiles("selenium")
+@Disabled("Disabled until Ghost Driver Setup for CI")
 public class RemoteBrowserBasedIntTest {
 
     @Autowired
     private WebDriver webDriver;
 
-    @Disabled("Disabled until Ghost Driver Setup for CI")
     @Test
+    @Disabled("Disabled until Ghost Driver Setup for CI")
     public void test_quick_tour() {
         try {
             // Navigate to iRonoc
