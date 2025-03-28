@@ -1,11 +1,16 @@
 package net.ironoc.portfolio;
 
-import io.github.bonigarcia.wdm.managers.ChromeDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
+import org.openqa.selenium.remote.DesiredCapabilities;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
+
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 @TestConfiguration
 public class SeleniumConfig {
@@ -17,10 +22,20 @@ public class SeleniumConfig {
 //        WebDriver webDriver = new ChromeDriver();
 //        return webDriver;
 
-        // Run selenium web driver as background process for CI only
-        ChromeDriverManager.getInstance().setup();
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--headless");
-        return new ChromeDriver(chromeOptions);
+        // Run selenium web driver as background process with headless chrome
+//        ChromeOptions options = new ChromeOptions();
+//        options.addArguments("--headless=new"); // Use new headless mode
+//        options.addArguments("--disable-gpu"); // Recommended for headless execution
+//        options.addArguments("--window-size=1920,1080"); // Set specific window size
+//        WebDriver webDriver = new ChromeDriver(options);
+//        return webDriver;
+
+        // Run selenium web driver as background process with headless FireFox
+        FirefoxOptions options = new FirefoxOptions();
+        options.addArguments("--headless"); // Enable headless mode
+        options.addArguments("--disable-gpu"); // Recommended for headless execution
+        options.addArguments("--window-size=1920,1080"); // Set specific window size
+        WebDriver webDriver = new FirefoxDriver(options);
+        return webDriver;
     }
 }

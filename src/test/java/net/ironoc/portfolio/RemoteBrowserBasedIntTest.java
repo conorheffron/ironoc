@@ -87,6 +87,6 @@ public class RemoteBrowserBasedIntTest extends BaseControllerIntegrationTest {
         String currentUrl = driver.getCurrentUrl();
         assertThat(currentUrl, not(blankOrNullString()));
         log.info("Current URL: {}", currentUrl);
-//        Thread.sleep(millis);
+        Thread.sleep(millis);
     }
 }
