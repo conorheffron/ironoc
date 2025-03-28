@@ -1,68 +1,77 @@
 package net.ironoc.portfolio;
 
-import org.openqa.selenium.By;
+import lombok.extern.slf4j.Slf4j;
+import net.ironoc.portfolio.web.page.HomePage;
+import net.ironoc.portfolio.web.page.AboutPage;
+import net.ironoc.portfolio.web.page.PortfolioPage;
+import net.ironoc.portfolio.web.page.DonatePage;
+import net.ironoc.portfolio.web.page.BrewsPage;
+import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.PageFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
+import static org.junit.jupiter.api.Assertions.fail;
+
+@Slf4j
+@SpringBootTest
+@ActiveProfiles("selenium")
 public class RemoteBrowserBasedIntTest {
 
-    public static void main(String[] args) {
-        // Set the system property for ChromeDriver (path to chromedriver executable)
-        System.setProperty("webdriver.chrome.driver", "/usr/local/bin/chromedriver");
+    @Autowired
+    private WebDriver webDriver;
 
-        // Create an instance of ChromeDriver (launch the Chrome browser)
-        WebDriver driver = new ChromeDriver();
-
+    @Test
+    public void test_quick_tour() {
         try {
             // Navigate to iRonoc
-            driver.get("https://ironoc.net/");
+//            driver.get("http://localhost:8080/");
+            webDriver.get("https://ironoc.net/");
 
-            // Get and print the page title
-            getPageDetails(driver, 1000);
+            HomePage homePage = PageFactory.initElements(webDriver, HomePage.class);
+            getPageDetails(webDriver, 1000);
+            assertThat(homePage, is(notNullValue()));
 
-            By charityOptions = By.ByLinkText.linkText("Charity Options");
-            driver.findElement(charityOptions).click();
+            DonatePage donatePage = homePage.goToDonate();
+            getPageDetails(donatePage.getDriver(), 1000);
+            assertThat(donatePage, is(notNullValue()));
 
-            By donate = By.ByLinkText.linkText("Donate");
-            driver.findElement(donate).click();
+            HomePage homePage1 = donatePage.goToHome();
+            getPageDetails(homePage1.getDriver(), 1000);
+            assertThat(homePage1, is(notNullValue()));
 
-            getPageDetails(driver, 1000);
+            AboutPage aboutPage = homePage.goToAbout();
+            getPageDetails(aboutPage.getDriver(), 1000);
+            assertThat(aboutPage, is(notNullValue()));
 
-            By home = By.ByLinkText.linkText("Home");
-            driver.findElement(home).click();
+            PortfolioPage portfolioPage = aboutPage.goToPortfolio();
+            getPageDetails(portfolioPage.getDriver(), 1000);
+            assertThat(portfolioPage, is(notNullValue()));
 
-            getPageDetails(driver, 1000);
-
-            By iRonoc = By.ByLinkText.linkText("iRonoc");
-            driver.findElement(iRonoc).click();
-
-            By about = By.ByLinkText.linkText("About");
-            driver.findElement(about).click();
-
-            getPageDetails(driver, 1000);
-
-            driver.findElement(iRonoc).click();
-            By portfolio = By.ByLinkText.linkText("Portfolio");
-            driver.findElement(portfolio).click();
-
-            getPageDetails(driver, 1000);
-
-            driver.findElement(iRonoc).click();
-            By brews = By.ByLinkText.linkText("Brews");
-            driver.findElement(brews).click();
-
-            getPageDetails(driver, 7000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+            BrewsPage brewsPage = portfolioPage.goToBrews();
+            assertThat(brewsPage, is(notNullValue()));
+            getPageDetails(brewsPage.getDriver(), 7000);
+        } catch (Exception e) {
+            log.error("Unexpected error occurred.", e);
+            fail("Failed to navigate quick tour of iRonoc");
         } finally {
             // Close the browser
-            driver.quit();
+            webDriver.quit();
         }
     }
 
-    private static void getPageDetails(WebDriver driver, int millis) throws InterruptedException {
-        System.out.println("Page Title: " + driver.getTitle());
-        System.out.println("Page Title: " + driver.getCurrentUrl());
+    private void getPageDetails(WebDriver driver, int millis) throws InterruptedException {
+        String title = driver.getTitle();
+        assertThat(title, containsString("iRonoc React App"));
+        assertThat(title, containsString("| Conor Heffron"));
+        log.info("Page Title: {}", title);
+        String currentUrl = driver.getCurrentUrl();
+        assertThat(currentUrl, not(blankOrNullString()));
+        log.info("Current URL: {}", currentUrl);
         Thread.sleep(millis);
     }
 }
