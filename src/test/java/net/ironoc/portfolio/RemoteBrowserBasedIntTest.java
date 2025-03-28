@@ -6,6 +6,7 @@ import net.ironoc.portfolio.web.page.AboutPage;
 import net.ironoc.portfolio.web.page.PortfolioPage;
 import net.ironoc.portfolio.web.page.DonatePage;
 import net.ironoc.portfolio.web.page.BrewsPage;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.PageFactory;
@@ -25,6 +26,7 @@ public class RemoteBrowserBasedIntTest {
     @Autowired
     private WebDriver webDriver;
 
+    @Disabled("Disabled until Ghost Driver Setup for CI")
     @Test
     public void test_quick_tour() {
         try {
