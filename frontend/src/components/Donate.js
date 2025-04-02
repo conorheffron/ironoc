@@ -74,7 +74,7 @@ const donateItems = [
         phone: "+353 1 884 8200"
     },
     {
-        donate: "http://www.dubsimon.ie",
+        donate: "https://www.dubsimon.ie/donate",
         link: "http://www.dubsimon.ie",
         img: red,
         alt: "red6",
