@@ -34,7 +34,7 @@ const donateItems = [
     },
     {
         donate: "https://www.childrenshealth.ie/donate/",
-        link: "http://www.cuh.ie/",
+        link: "https://www.childrenshealthireland.ie/",
         img: red,
         alt: "red3",
         name: "Temple Street Children’s University Hospital",
@@ -50,7 +50,7 @@ const donateItems = [
                         <b>Connolly:</b> +353 01 640 7500`
     },
     {
-        donate: "https://donors.cancer.ie/page/FUNMTNWKDWV",
+        donate: "https://donors.cancer.ie/page/FUNDZAZBHHS",
         link: "https://www.cancer.ie/",
         img: red,
         alt: "red4",
@@ -62,7 +62,7 @@ const donateItems = [
     },
     {
         donate: "https://www.svp.ie/donate/",
-        link: "http://www.svp.ie",
+        link: "https://www.svp.ie/",
         img: red,
         alt: "red5",
         name: "The Society of Saint Vincent de Paul",
@@ -75,7 +75,7 @@ const donateItems = [
     },
     {
         donate: "https://www.dubsimon.ie/donate",
-        link: "http://www.dubsimon.ie",
+        link: "https://www.dubsimon.ie/",
         img: red,
         alt: "red6",
         name: "Dublin Simon Community",
