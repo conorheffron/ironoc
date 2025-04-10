@@ -1,0 +1,16 @@
+type DonateItem {
+    donate: String!
+    link: String!
+    img: String!
+    alt: String!
+    name: String!
+    overview: String!
+    founded: Int!
+    phone: String!
+}
+
+type Query {
+    donateItems: [DonateItem]!
+    donateItemsByCountAndOffset(count: Int, offset: Int): [DonateItem]!
+    charityOptionByFounded(founded: Int): DonateItem!
+}

@@ -85,7 +85,7 @@ public class GraphQLClientService extends AbstractLogger implements GraphQLClien
     }
 
     String loadQuery() {
-        Resource resource = resourceLoader.getResource("classpath:graphql" + File.separator + "query.graphql");
+        Resource resource = resourceLoader.getResource("classpath:graphql" + File.separator + "coffeesQuery.graphqls");
         try {
             return new String(Files.readAllBytes(Paths.get(resource.getURI())));
         } catch (IOException e) {
