@@ -5,7 +5,7 @@
 
 	<groupId>conorheffron</groupId>
 	<artifactId>ironoc</artifactId>
-	<version>7.2.7</version>
+	<version>7.2.8</version>
 	<packaging>war</packaging>
 
 	<distributionManagement>
@@ -35,7 +35,7 @@
 		<node.version>v20.16.0</node.version>
 		<npm.version>10.8.1</npm.version>
 		<kotlin.version>1.6.0</kotlin.version>
-		<graphql.vers>15.1.0</graphql.vers>
+		<graphql.vers>12.0.0</graphql.vers>
 	</properties>
 
 	<dependencies>
@@ -74,9 +74,24 @@
 		</dependency>
 		<!-- GraphQL -->
 		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-graphql</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>com.graphql-java-kickstart</groupId>
 			<artifactId>graphql-spring-boot-starter</artifactId>
 			<version>${graphql.vers}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.graphql-java-kickstart</groupId>
+			<artifactId>graphql-java-tools</artifactId>
+			<version>${graphql.vers}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.graphql-java-kickstart</groupId>
+			<artifactId>voyager-spring-boot-starter</artifactId>
+			<version>11.1.0</version>
+			<scope>runtime</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.graphql-java-kickstart</groupId>
@@ -186,7 +201,7 @@
 		<dependency>
 			<groupId>software.amazon.awssdk</groupId>
 			<artifactId>aws-sdk-java</artifactId>
-			<version>2.31.11</version>
+			<version>2.31.16</version>
 			<exclusions>
 				<exclusion>
 					<groupId>commons-logging</groupId>
@@ -303,7 +318,7 @@
 			<plugin>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
-				<version>0.8.12</version>
+				<version>0.8.13</version>
 				<executions>
 					<execution>
 						<goals>

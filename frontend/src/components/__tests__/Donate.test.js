@@ -1,55 +1,76 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
+import App from '../../App';
+import { createMemoryHistory } from 'history';
+import { Router } from 'react-router-dom';
 import Donate from '../Donate';
+import LoadingSpinner from '../../LoadingSpinner';
 
-const donateItems = [
-    {
-        donate: "https://www.jackandjill.ie/professionals/ways-to-donate/",
-        link: "https://www.jackandjill.ie",
-        img: "red1.png",
-        alt: "red1",
-        name: "The Jack and Jill Children’s Foundation",
-        overview: `The Jack and Jill Children’s Foundation is a nationwide charity that funds and provides in-home nursing care
-                   and respite support for children with severe to profound neurodevelopmental delay, up to the age of 6.
-                   This may include children with brain injury, genetic diagnosis, cerebral palsy and undiagnosed conditions.
-                   Another key part of our service is end-of-life care for all children up to the age of 6, irrespective of diagnosis.`,
-        founded: 1997,
-        phone: "+353 (045) 894 538"
-    },
-    {
-        donate: "https://vi.ie/supporting-us/donate-now/",
-        link: "https://linktr.ee/vision_ireland",
-        img: "red2.png",
-        alt: "red2",
-        name: "Vision Ireland, the new name for NCBI",
-        overview: `Vision Ireland, the name for NCBI is Ireland’s national charity working for the rising number of people affected by sight loss.
-                   Our practical and emotional advice and support help 8,000 people and their families confidently face their futures every year.`,
-        founded: 1931,
-        phone: "+353 (0)1 830 7033"
-    }
-    // Add more items as needed
+// Mock API response
+const mockDonateItems = [
+  {
+    donate: 'https://example.com/donate1',
+    alt: 'Item 1 Alt Text',
+    name: 'Item 1',
+    phone: '+123456789',
+    link: 'https://example.com/home1',
+    founded: '2001',
+    overview: 'This is an overview of Item 1.',
+  },
+  {
+    donate: 'https://example.com/donate2',
+    alt: 'Item 2 Alt Text',
+    name: 'Item 2',
+    phone: '+987654321',
+    link: 'https://example.com/home2',
+    founded: '1999',
+    overview: 'This is an overview of Item 2.',
+  },
 ];
 
-describe('Donate Component', () => {
-    test('renders without crashing', () => {
-        render(<Donate items={donateItems} />);
-        expect(screen.getByText('The Jack and Jill Children’s Foundation')).toBeInTheDocument();
-        expect(screen.getByText('Vision Ireland, the new name for NCBI')).toBeInTheDocument();
+describe('Donate', () => {
+  beforeEach(() => {
+    jest.spyOn(global, 'fetch').mockResolvedValue({
+      json: jest.fn().mockResolvedValue(mockDonateItems)
+    });
+  });
+
+  afterEach(() => {
+    jest.restoreAllMocks();
+  });
+
+  test('renders AppNavbar component', () => {
+    render(<App />);
+    expect(screen.getByRole('banner')).toBeInTheDocument();
+  });
+
+  test('renders loading state initially', () => {
+    render(<Donate />);
+    expect(screen.getByText('Loading...')).toBeInTheDocument();
+  });
+
+  test('displays charity options after fetching data', async () => {
+    const history = createMemoryHistory();
+    const { container } = render(
+      <Router history={history}>
+        <Donate />
+      </Router>
+    );
+
+    // Wait for the component to finish loading
+    await waitFor(() => {
+      expect(screen.queryByText('Loading...')).not.toBeInTheDocument();
     });
 
-    test('renders all carousel items', () => {
-        render(<Donate items={donateItems} />);
-        donateItems.forEach(item => {
-            expect(screen.getByText(item.name)).toBeInTheDocument();
-            expect(screen.getByText(new RegExp(`Founded in ${item.founded}`))).toBeInTheDocument();
-            expect(screen.getByText(item.phone)).toBeInTheDocument();
-            expect(screen.getByText(new RegExp(item.link))).toBeInTheDocument();
-        });
+    // Check that repo details are displayed
+    mockDonateItems.forEach(item => {
+      expect(screen.getByText(item.name)).toBeInTheDocument();
+      expect(screen.getByText(new RegExp(`Founded in ${item.founded}`))).toBeInTheDocument();
+      expect(screen.getByText(item.phone)).toBeInTheDocument();
+      expect(screen.getByText(new RegExp(item.link))).toBeInTheDocument();
     });
 
-    test('renders images with correct alt text', () => {
-        render(<Donate items={donateItems} />);
-        donateItems.forEach(item => {
-            expect(screen.getByAltText(item.alt)).toBeInTheDocument();
-        });
-    });
+    // Verify that the component does not show the loading spinner
+    expect(container.querySelector('.LoadingSpinner')).not.toBeInTheDocument();
+  });
 });
+

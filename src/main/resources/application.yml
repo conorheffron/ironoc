@@ -48,7 +48,7 @@ net:
               redis-tester,
               ronoc-packages
       config:
-        ignore-paths: api
+        ignore-paths: api,graphiql
         handle-extensions: "html,js,json,css,map,svg,eot,ttf,woff,png,jpg,jpeg,gif,ico"
         resource-handler: "/**"
         resource-loc: "classpath:/static/"
@@ -59,6 +59,11 @@ spring:
       enabled: false
   banner:
     location: classpath:/static/ironoc-banner.txt
+  graphql:
+    graphiql:
+      enabled: true
+    schema:
+      fileExtensions: .graphql
 
 springdoc:
   api-docs:

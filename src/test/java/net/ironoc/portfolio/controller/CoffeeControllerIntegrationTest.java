@@ -58,6 +58,12 @@ public class CoffeeControllerIntegrationTest extends BaseControllerIntegrationTe
     @MockitoBean
     private VersionController versionControllerMock;
 
+    @MockitoBean
+    private DonateGraphqlController donateGraphqlControllerMock;
+
+    @MockitoBean
+    private DonateRestController donateRestControllerMock;
+
     @Autowired
     private ObjectMapper objectMapper;
 

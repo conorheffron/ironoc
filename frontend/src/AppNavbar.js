@@ -82,6 +82,8 @@ class AppNavBar extends Component {
                                 <DropdownToggle caret nav>Charity Options</DropdownToggle>
                                 <DropdownMenu end>
                                     <DropdownItem href="/donate">Donate</DropdownItem>
+                                    <DropdownItem divider />
+                                    <DropdownItem target="_blank" href="/graphiql?path=/graphql">GraphQL PG</DropdownItem>
                                 </DropdownMenu>
                             </UncontrolledDropdown>
                         </Nav>
