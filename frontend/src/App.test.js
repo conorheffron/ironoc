@@ -68,9 +68,17 @@ describe('AppNavBar', () => {
     const githubProjectsDropdown = screen.getByText('GitHub Projects');
     expect(githubProjectsDropdown).toBeInTheDocument();
 
-    // Check if the "GitHub Projects" dropdown is present
+    // Check if the "Charity Options" dropdown is present
     const donateDropdown = screen.getByText('Charity Options');
     expect(donateDropdown).toBeInTheDocument();
+
+    // Check if the "Donate" dropdown is present
+    const donate = screen.getByText('Donate');
+    expect(donate).toBeInTheDocument();
+
+    // Check if the "GraphQL PG" dropdown is present
+    const graphQLDropdown = screen.getByText('GraphQL PG');
+    expect(graphQLDropdown).toBeInTheDocument();
 
     // Check if the "Home" link is present
     const homeLink = screen.getByText('Home');
