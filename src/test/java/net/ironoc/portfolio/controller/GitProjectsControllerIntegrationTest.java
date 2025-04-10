@@ -53,6 +53,12 @@ public class GitProjectsControllerIntegrationTest extends BaseControllerIntegrat
     @MockitoBean
     private VersionController versionControllerMock;
 
+    @MockitoBean
+    private DonateGraphqlController donateGraphqlControllerMock;
+
+    @MockitoBean
+    private DonateRestController donateRestControllerMock;
+
     @InjectMocks
     private GitProjectsController gitProjectsController;// controller under test
 
