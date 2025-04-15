@@ -23,17 +23,22 @@ public class HomePage {
     @FindBy(linkText = "About")
     private WebElement about;
 
+    @FindBy(css = ".App .navbar-toggler-icon")
+    private WebElement hamburgerIcon;
+
     public HomePage(WebDriver driver) {
         this.driver = driver;
     }
 
     public DonatePage goToDonate() {
+        hamburgerIcon.click();
         charityOptions.click();
         donate.click();
         return PageFactory.initElements(driver, DonatePage.class);
     }
 
     public AboutPage goToAbout() {
+        hamburgerIcon.click();
         iRonoc.click();
         about.click();
         return PageFactory.initElements(driver, AboutPage.class);

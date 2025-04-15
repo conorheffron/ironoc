@@ -11,7 +11,7 @@ public class DonatePage {
 
     protected WebDriver driver;
 
-    @FindBy(linkText = "Home")
+    @FindBy(xpath = "//div[2]/div/div/nav/div/a/img")
     private WebElement home;
 
     public DonatePage(WebDriver driver) {

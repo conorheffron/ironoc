@@ -16,11 +16,15 @@ public class PortfolioPage {
     @FindBy(linkText = "Brews")
     private WebElement brews;
 
+    @FindBy(css = ".content-inner .navbar-toggler-icon")
+    private WebElement hamburgerIcon;
+
     public PortfolioPage(WebDriver driver) {
         this.driver = driver;
     }
 
     public BrewsPage goToBrews() {
+        hamburgerIcon.click();
         iRonoc.click();
         brews.click();
         return PageFactory.initElements(driver, BrewsPage.class);
