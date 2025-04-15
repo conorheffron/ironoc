@@ -3,7 +3,6 @@ import { Button, Container, InputGroup, Table } from 'reactstrap';
 import '.././App.css';
 import Form from 'react-bootstrap/Form';
 import AppNavbar from '.././AppNavbar';
-import Footer from '.././Footer';
 import LoadingSpinner from '.././LoadingSpinner';
 
 class RepoIssues extends Component {
@@ -52,7 +51,6 @@ class RepoIssues extends Component {
                         <br /><br /><br />
                         <LoadingSpinner />
                     </Container>
-                    <Footer />
                 </div>
             );
         }
@@ -100,7 +98,6 @@ class RepoIssues extends Component {
                         <tbody>{repoList}</tbody>
                     </Table>
                 </Container>
-                <Footer />
             </div>
         );
     }

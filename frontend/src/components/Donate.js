@@ -3,7 +3,6 @@ import Carousel from 'react-bootstrap/Carousel';
 import 'bootstrap/dist/css/bootstrap.css';
 import '../App.css';
 import AppNavbar from '../AppNavbar';
-import Footer from '../Footer';
 import red from '../img/red-bg.png';
 import { Container } from 'reactstrap';
 import LoadingSpinner from '.././LoadingSpinner';
@@ -35,7 +34,6 @@ class Donate extends Component {
                         <br /><br /><br />
                         <LoadingSpinner />
                     </Container>
-                    <Footer />
                 </div>
             );
         }
@@ -68,7 +66,6 @@ class Donate extends Component {
                         ))}
                     </Carousel>
                 </Container>
-                <Footer />
             </div>
         );
     }

@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Container } from 'reactstrap';
 import '.././App.css';
 import AppNavbar from '.././AppNavbar';
-import Footer from '.././Footer';
 import logo from '.././img/robot-logo.png';
 
 class Home extends Component {
@@ -58,7 +57,6 @@ class Home extends Component {
                         </p>
                     </header>
                 </Container>
-                <Footer />
             </div>
         );
     }

@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Container } from 'reactstrap';
 import '.././App.css';
 import AppNavbar from '.././AppNavbar';
-import Footer from '.././Footer';
 
 class NotFound extends Component {
     render() {
@@ -20,7 +19,6 @@ class NotFound extends Component {
                         <p id="my-intro">{message}</p>
                     </header>
                 </Container>
-                <Footer />
             </div>
         );
     }
