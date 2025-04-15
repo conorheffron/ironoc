@@ -3,7 +3,6 @@ import { Container } from 'reactstrap';
 import axios from 'axios';
 import AppNavbar from '.././AppNavbar';
 import CoffeeCarousel from './CoffeeCarousel';
-import Footer from '.././Footer';
 import LoadingSpinner from '.././LoadingSpinner';
 
 class CoffeeHome extends Component {
@@ -39,7 +38,6 @@ class CoffeeHome extends Component {
                         </>
                     )}
                 </Container>
-                <Footer/>
             </div>
         );
     }
