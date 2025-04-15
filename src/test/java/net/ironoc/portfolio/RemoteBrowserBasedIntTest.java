@@ -10,6 +10,7 @@ import net.ironoc.portfolio.web.page.DonatePage;
 import net.ironoc.portfolio.web.page.BrewsPage;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.PageFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +44,8 @@ public class RemoteBrowserBasedIntTest extends BaseControllerIntegrationTest {
     @Test
     public void test_quick_tour() {
         try {
+            Dimension dimension = new Dimension(878, 963);// mimic small device size
+            webDriver.manage().window().setSize(dimension);
             // Navigate to iRonoc
 //            driver.get("http://localhost:8080/");
             webDriver.get("https://ironoc.net/");
