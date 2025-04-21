@@ -33,8 +33,8 @@ class ControlledCarousel extends Component {
                     img: navy,
                     alt: "navy3",
                     title: "nba-stats",
-                    description: "NBA Analytics (Seasons 2015 - 2023): Player Statistics",
-                    techStack: "Jupyter Notebooks, Python, Pandas, & Requests / JSON API.",
+                    description: "NBA Analytics (Seasons 2015 - 2024): Player Statistics",
+                    techStack: "Jupyter Notebooks, Python, Pandas, PandasAI, OpenAI GPT-3.5 Turbo, LLM, & Requests / JSON API.",
                 },
                 {
                     link: "https://github.com/conorheffron/cbio-skin-canc",
