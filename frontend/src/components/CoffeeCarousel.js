@@ -13,8 +13,14 @@ class CoffeeCarousel extends Component {
                         <img src={item.image} alt={item.title} />
                         <Carousel.Caption>
                             <h3>{item.title}</h3>
-                            <h5><b>Ingredients:</b> {Array.isArray(item.ingredients) ?
-                                item.ingredients.join(', ') : item.ingredients}</h5>
+                            {item.ingredients && item.ingredients.length > 0 && (
+                                <h5>
+                                    <b>Ingredients:</b>{' '}
+                                    {Array.isArray(item.ingredients)
+                                        ? item.ingredients.join(', ')
+                                        : item.ingredients}
+                                </h5>
+                            )}
                         </Carousel.Caption>
                     </Carousel.Item>
                 ))}

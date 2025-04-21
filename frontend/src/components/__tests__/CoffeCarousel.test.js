@@ -36,4 +36,28 @@ describe('CoffeeCarousel', () => {
 
     expect(carouselItems.length).toBe(coffeeItems.length);
   });
+
+  test('does not render ingredients if item.ingredients is null or an empty array', () => {
+      const mockItems = [
+          {
+              image: 'image1.jpg',
+              title: 'Coffee with no ingredients',
+              ingredients: [],
+          },
+          {
+              image: 'image2.jpg',
+              title: 'Coffee with null ingredients',
+              ingredients: null,
+          },
+      ];
+
+      render(<CoffeeCarousel items={mockItems} />);
+
+      // Check that the titles are rendered
+      expect(screen.getByText('Coffee with no ingredients')).toBeInTheDocument();
+      expect(screen.getByText('Coffee with null ingredients')).toBeInTheDocument();
+
+      // Ensure ingredients are NOT rendered
+      expect(screen.queryByText('Ingredients:')).not.toBeInTheDocument();
+  });
 });
