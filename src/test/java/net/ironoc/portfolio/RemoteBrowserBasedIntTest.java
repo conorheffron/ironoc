@@ -47,42 +47,42 @@ public class RemoteBrowserBasedIntTest extends BaseControllerIntegrationTest {
             Dimension dimension = new Dimension(878, 963);// mimic small device size
             webDriver.manage().window().setSize(dimension);
             // Navigate to iRonoc
-//            driver.get("http://localhost:8080/");
+//            webDriver.get("http://localhost:8080/");
             webDriver.get("https://ironoc.net/");
 
             HomePage homePage = PageFactory.initElements(webDriver, HomePage.class);
-            getPageDetails(webDriver, 1000);
+            getPageDetails(webDriver, 1000L);
             assertThat(homePage, is(notNullValue()));
 
             DonatePage donatePage = homePage.goToDonate();
-            getPageDetails(donatePage.getDriver(), 1000);
+            getPageDetails(donatePage.getDriver(), 1000L);
             assertThat(donatePage, is(notNullValue()));
 
             HomePage homePage1 = donatePage.goToHome();
-            getPageDetails(homePage1.getDriver(), 1000);
+            getPageDetails(homePage1.getDriver(), 1000L);
             assertThat(homePage1, is(notNullValue()));
 
             AboutPage aboutPage = homePage.goToAbout();
-            getPageDetails(aboutPage.getDriver(), 1000);
+            getPageDetails(aboutPage.getDriver(), 1000L);
             assertThat(aboutPage, is(notNullValue()));
 
             PortfolioPage portfolioPage = aboutPage.goToPortfolio();
-            getPageDetails(portfolioPage.getDriver(), 1000);
+            getPageDetails(portfolioPage.getDriver(), 1000L);
             assertThat(portfolioPage, is(notNullValue()));
 
             BrewsPage brewsPage = portfolioPage.goToBrews();
             assertThat(brewsPage, is(notNullValue()));
-            getPageDetails(brewsPage.getDriver(), 7000);
+            getPageDetails(brewsPage.getDriver(), 4000L);
         } catch (Exception e) {
-            log.error("Unexpected error occurred.", e);
-            fail("Failed to navigate quick tour of iRonoc");
+            log.error("Unexpected exception occurred during test quick_tour", e);
+            fail("Failed to navigate quick tour of iRonoc via page object calls.");
         } finally {
             // Close the browser
             webDriver.quit();
         }
     }
 
-    private void getPageDetails(WebDriver driver, int millis) throws InterruptedException {
+    private void getPageDetails(WebDriver driver, Long millis) {
         String title = driver.getTitle();
         assertThat(title, containsString("iRonoc React App"));
         assertThat(title, containsString("| Conor Heffron"));
@@ -90,6 +90,14 @@ public class RemoteBrowserBasedIntTest extends BaseControllerIntegrationTest {
         String currentUrl = driver.getCurrentUrl();
         assertThat(currentUrl, not(blankOrNullString()));
         log.info("Current URL: {}", currentUrl);
-        Thread.sleep(millis);
+
+        synchronized (driver) {
+            try {
+                driver.wait(millis);
+            } catch (InterruptedException e) {
+                log.error("Unexpected exception occurred during test quick_tour", e);
+                fail("Failed to navigate quick tour of iRonoc verifying page details.");
+            }
+        }
     }
 }
