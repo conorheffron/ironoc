@@ -32,7 +32,7 @@ class App extends Component {
       <Router forceRefresh={forceRefresh}>
         <Routes>
           {routes.map((route, index) => (
-            <Route key={index} path={route.path} exact={route.exact} component={route.component} />
+            <Route key={index} path={route.path} exact={route.exact} element={<route.component />} />
           ))}
         </Routes>
       </Router>
