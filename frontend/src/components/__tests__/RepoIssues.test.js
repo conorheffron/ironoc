@@ -90,6 +90,7 @@ describe('RepoIssues Component', () => {
         fireEvent.click(button);
 
         expect(mockNavigate).toHaveBeenCalledWith('/issues/testUser/newRepo', {
+            replace: true,
             state: {
                 id: 'testUser',
                 repo: 'newRepo',

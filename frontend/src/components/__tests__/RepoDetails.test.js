@@ -123,6 +123,7 @@ describe('RepoDetails Component', () => {
 
         // Assert that navigation was triggered with the correct arguments
         expect(mockNavigate).toHaveBeenCalledWith('/projects/newUser', {
+            replace: true,
             state: { id: 'newUser' },
         });
     });
