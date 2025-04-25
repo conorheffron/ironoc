@@ -1,68 +1,121 @@
-import { render, screen, waitFor } from '@testing-library/react';
-import App from '../../App';
-import { createMemoryHistory } from 'history';
-import { Router } from 'react-router-dom';
+import React from 'react';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { MemoryRouter } from 'react-router';
 import RepoIssues from '../RepoIssues';
-import LoadingSpinner from '../../LoadingSpinner';
 
-const mockRepoIssues = [
-  {
-    number: 1,
-    title: 'Issue 1',
-    body: 'https://github.com/User/repo/issues/1'
-  },
-  {
-    number: 2,
-    title: 'Issue 2',
-    body: 'https://github.com/User/repo/issues/2'
-  }
-];
+jest.mock('react-router', () => ({
+    ...jest.requireActual('react-router'),
+    useParams: jest.fn(),
+    useNavigate: jest.fn(),
+}));
 
-describe('RepoIssues', () => {
-  beforeEach(() => {
-    jest.spyOn(global, 'fetch').mockResolvedValue({
-      json: jest.fn().mockResolvedValue(mockRepoIssues)
-    });
-  });
+describe('RepoIssues Component', () => {
+    const mockNavigate = jest.fn();
+    const mockParams = { id: 'testUser', repo: 'testRepo' };
 
-  afterEach(() => {
-    jest.restoreAllMocks();
-  });
+    beforeEach(() => {
+        require('react-router').useNavigate.mockReturnValue(mockNavigate);
+        require('react-router').useParams.mockReturnValue(mockParams);
 
-  test('renders AppNavbar component', () => {
-    render(<App />);
-    expect(screen.getByRole('banner')).toBeInTheDocument();
-  });
-
-  test('renders loading state initially', () => {
-    render(<RepoIssues match={{ params: { id: 'User', repo: 'ironoc-test' } }} />);
-    expect(screen.getByText('Loading...')).toBeInTheDocument();
-  });
-
-  test('displays repo issues after fetching data', async () => {
-    const history = createMemoryHistory();
-    const { container } = render(
-      <Router history={history}>
-        <RepoIssues match={{ params: { id: 'conors-id', repo: 'ironoc-testing' } }} />
-      </Router>
-    );
-
-    // Wait for the component to finish loading
-    await waitFor(() => {
-      expect(screen.queryByText('Loading...')).not.toBeInTheDocument();
+        global.fetch = jest.fn(() =>
+            Promise.resolve({
+                json: () =>
+                    Promise.resolve([
+                        {
+                            number: 1,
+                            title: 'Test Issue Title',
+                            body: 'Test issue body description',
+                        },
+                    ]),
+            })
+        );
     });
 
-    expect(screen.queryByText('conors-id')).toBeInTheDocument();
-    expect(screen.queryByText('ironoc-testing')).toBeInTheDocument();
-
-    // Check that repo issues are displayed
-    mockRepoIssues.forEach(issue => {
-      expect(screen.getByText(issue.title)).toBeInTheDocument();
-      expect(screen.getByText(issue.body)).toBeInTheDocument();
-      expect(screen.getByText(issue.number)).toBeInTheDocument();
+    afterEach(() => {
+        jest.clearAllMocks();
     });
 
-    // Verify that the component does not show the loading spinner
-    expect(container.querySelector('.LoadingSpinner')).not.toBeInTheDocument();
-  });
+    test('renders loading spinner initially', () => {
+        render(
+            <MemoryRouter>
+                <RepoIssues />
+            </MemoryRouter>
+        );
+
+        expect(screen.getByText(/loading/i)).toBeInTheDocument();
+    });
+
+    test('fetches and displays repo issues', async () => {
+        render(
+            <MemoryRouter>
+                <RepoIssues />
+            </MemoryRouter>
+        );
+
+        await waitFor(() => expect(fetch).toHaveBeenCalledTimes(1));
+
+        expect(screen.getByText(/Test Issue Title/i)).toBeInTheDocument();
+        expect(screen.getByText(/Test issue body description/i)).toBeInTheDocument();
+        expect(screen.getByText(/1/i)).toBeInTheDocument();
+    });
+
+    test('handles input change', async () => {
+        render(
+            <MemoryRouter>
+                <RepoIssues />
+            </MemoryRouter>
+        );
+
+        await waitFor(() => expect(fetch).toHaveBeenCalledTimes(1));
+
+        const input = screen.getByPlaceholderText(/Enter Project Name/i);
+        fireEvent.change(input, { target: { value: 'newRepo' } });
+
+        expect(input.value).toBe('newRepo');
+    });
+
+    test('navigates on form submission', async () => {
+        render(
+            <MemoryRouter>
+                <RepoIssues />
+            </MemoryRouter>
+        );
+
+        await waitFor(() => expect(fetch).toHaveBeenCalledTimes(1));
+
+        const input = screen.getByPlaceholderText(/Enter Project Name/i);
+        const button = screen.getByText(/Search Issues/i);
+
+        fireEvent.change(input, { target: { value: 'newRepo' } });
+        fireEvent.click(button);
+
+        expect(mockNavigate).toHaveBeenCalledWith('/issues/testUser/newRepo', {
+            replace: true,
+            state: {
+                id: 'testUser',
+                repo: 'newRepo',
+            },
+        });
+    });
+
+    test('displays table headers correctly', async () => {
+        render(
+            <MemoryRouter>
+                <RepoIssues />
+            </MemoryRouter>
+        );
+
+        // Wait for the loading spinner to disappear
+        await waitFor(() => expect(screen.queryByText(/loading/i)).not.toBeInTheDocument());
+
+        // Use getByRole for specific headers
+        const issueNoHeader = screen.getByRole('columnheader', { name: /Issue No./i });
+        const titleHeader = screen.getByRole('columnheader', { name: /Title/i });
+        const descriptionHeader = screen.getByRole('columnheader', { name: /Description/i });
+
+        // Assert that headers are in the document
+        expect(issueNoHeader).toBeInTheDocument();
+        expect(titleHeader).toBeInTheDocument();
+        expect(descriptionHeader).toBeInTheDocument();
+    });
 });

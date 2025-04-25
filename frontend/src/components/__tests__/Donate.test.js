@@ -1,7 +1,6 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import App from '../../App';
-import { createMemoryHistory } from 'history';
-import { Router } from 'react-router-dom';
+import { Router, MemoryRouter } from 'react-router';
 import Donate from '../Donate';
 import LoadingSpinner from '../../LoadingSpinner';
 
@@ -49,12 +48,11 @@ describe('Donate', () => {
   });
 
   test('displays charity options after fetching data', async () => {
-    const history = createMemoryHistory();
     const { container } = render(
-      <Router history={history}>
-        <Donate />
-      </Router>
-    );
+        <MemoryRouter>
+          <Donate />
+        </MemoryRouter>
+      );
 
     // Wait for the component to finish loading
     await waitFor(() => {
@@ -73,4 +71,3 @@ describe('Donate', () => {
     expect(container.querySelector('.LoadingSpinner')).not.toBeInTheDocument();
   });
 });
-

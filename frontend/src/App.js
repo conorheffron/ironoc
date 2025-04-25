@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router';
 import './App.css';
 import Home from './components/Home';
 import CoffeeHome from './components/CoffeeHome';
@@ -30,11 +30,16 @@ class App extends Component {
 
     return (
       <Router forceRefresh={forceRefresh}>
-        <Switch>
+        <Routes>
           {routes.map((route, index) => (
-            <Route key={index} path={route.path} exact={route.exact} component={route.component} />
+            <Route
+              key={index}
+              path={route.path}
+              {...(route.exact ? { exact: true } : {})}
+              element={<route.component />}
+            />
           ))}
-        </Switch>
+        </Routes>
       </Router>
     );
   }

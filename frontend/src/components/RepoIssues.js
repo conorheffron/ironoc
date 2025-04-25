@@ -4,6 +4,16 @@ import '.././App.css';
 import Form from 'react-bootstrap/Form';
 import AppNavbar from '.././AppNavbar';
 import LoadingSpinner from '.././LoadingSpinner';
+import { useParams, useNavigate } from 'react-router';
+
+// Helper function to inject `params` and `navigate` into class-based components
+function withRouter(Component) {
+    return (props) => {
+        const params = useParams();
+        const navigate = useNavigate();
+        return <Component {...props} params={params} navigate={navigate} />;
+    };
+}
 
 class RepoIssues extends Component {
     constructor(props) {
@@ -25,23 +35,31 @@ class RepoIssues extends Component {
     onSubmit(event) {
         event.preventDefault();
         const { value } = this.state;
-        const { match: { params: { id } }, history } = this.props;
-        history.push(`/issues/${id}/${value}`, {
-            id: id,
-            repo: value
+        const { id } = this.props.params;
+        this.props.navigate(`/issues/${id}/${value}`, {
+            replace: true,
+            state: {
+                id: id,
+                repo: value
+            }
         });
+        this.props.navigate(0)
     }
 
     async componentDidMount() {
-        const { match: { params: { id, repo } } } = this.props;
-        const response = await fetch(`/api/get-repo-issue/${id}/${repo}/`);
-        const body = await response.json();
-        this.setState({ repoIssueList: body, isLoading: false });
+        const { id, repo } = this.props.params;
+        if (id && repo) {
+            const response = await fetch(`/api/get-repo-issue/${id}/${repo}/`);
+            const body = await response.json();
+            this.setState({ repoIssueList: body, isLoading: false });
+        } else {
+            this.setState({ isLoading: false });
+        }
     }
 
     render() {
         const { repoIssueList = [], isLoading = true, value = '' } = this.state;
-        const { match: { params: { id = '', repo = '' } } } = this.props;
+        const { id = '', repo = '' } = this.props.params;
 
         if (isLoading) {
             return (
@@ -103,4 +121,4 @@ class RepoIssues extends Component {
     }
 }
 
-export default RepoIssues;
+export default withRouter(RepoIssues);

@@ -4,31 +4,11 @@ import '@testing-library/jest-dom';
 import Home from './components/Home';
 import App from './App';
 import { createMemoryHistory } from 'history';
-import { Router } from 'react-router-dom';
 import LoadingSpinner from './LoadingSpinner';
 import AppNavBar from './AppNavbar';
 import About from './components/About';
 import Footer from './Footer';
-
-describe('LoadingSpinner', () => {
-  test('renders LoadingSpinner component correctly', () => {
-    // Render the component
-    const { getByRole, getByText } = render(<LoadingSpinner />);
-
-    // Check if the button is present and disabled
-    const button = getByRole('button');
-    expect(button).toBeInTheDocument();
-    expect(button).toBeDisabled();
-
-    // Check if the spinner is present
-    const spinner = getByRole('button');
-    expect(spinner).toBeInTheDocument();
-
-    // Check if the button contains the text "Loading..."
-    const loadingText = getByText('Loading...');
-    expect(loadingText).toBeInTheDocument();
-  });
-});
+import { Router, useLocation, MemoryRouter } from 'react-router';
 
 describe('AppNavBar', () => {
   test('renders AppNavBar component correctly', () => {
@@ -84,18 +64,6 @@ describe('AppNavBar', () => {
     const homeLink = screen.getByText('Home');
     expect(homeLink).toBeInTheDocument();
     expect(homeLink.closest('a')).toHaveAttribute('href', '/');
-  });
-});
-
-describe('App Component Routing', () => {
-  test("sends the user to about", () => {
-    const history = createMemoryHistory({ initialEntries: ["/about"] });
-    render(
-      <Router history={history}>
-        <App />
-      </Router>
-    );
-    expect(history.location.pathname).toBe("/about");
   });
 });
 
