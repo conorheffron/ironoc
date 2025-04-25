@@ -37,11 +37,13 @@ class RepoIssues extends Component {
         const { value } = this.state;
         const { id } = this.props.params;
         this.props.navigate(`/issues/${id}/${value}`, {
+            replace: true,
             state: {
                 id: id,
                 repo: value
             }
         });
+        this.props.navigate(0)
     }
 
     async componentDidMount() {

@@ -36,10 +36,12 @@ class RepoDetails extends Component {
         event.preventDefault();
         const { value } = this.state;
         this.props.navigate(`/projects/${value}`, {
+            replace: true,
             state: {
                 id: value
             }
         });
+        this.props.navigate(0)
     }
 
     async componentDidMount() {
