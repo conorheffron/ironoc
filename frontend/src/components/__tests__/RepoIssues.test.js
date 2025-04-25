@@ -59,51 +59,62 @@ describe('RepoIssues Component', () => {
         expect(screen.getByText(/1/i)).toBeInTheDocument();
     });
 
-//    test('handles input change', () => {
-//        render(
-//            <MemoryRouter>
-//                <RepoIssues />
-//            </MemoryRouter>
-//        );
-//
-//        const input = screen.getByPlaceholderText(/Enter Project Name/i);
-//        fireEvent.change(input, { target: { value: 'newRepo' } });
-//
-//        expect(input.value).toBe('newRepo');
-//    });
+    test('handles input change', async () => {
+        render(
+            <MemoryRouter>
+                <RepoIssues />
+            </MemoryRouter>
+        );
 
-//    test('navigates on form submission', () => {
-//        render(
-//            <MemoryRouter>
-//                <RepoIssues />
-//            </MemoryRouter>
-//        );
-//
-//        const input = screen.getByPlaceholderText(/Enter Project Name/i);
-//        const button = screen.getByText(/Search Issues/i);
-//
-//        fireEvent.change(input, { target: { value: 'newRepo' } });
-//        fireEvent.click(button);
-//
-//        expect(mockNavigate).toHaveBeenCalledWith('/issues/testUser/newRepo', {
-//            state: {
-//                id: 'testUser',
-//                repo: 'newRepo',
-//            },
-//        });
-//    });
+        await waitFor(() => expect(fetch).toHaveBeenCalledTimes(1));
 
-//    test('displays table headers correctly', async () => {
-//        render(
-//            <MemoryRouter>
-//                <RepoIssues />
-//            </MemoryRouter>
-//        );
-//
-//        await waitFor(() => expect(fetch).toHaveBeenCalledTimes(1));
-//
-//        expect(screen.getByText(/Issue No./i)).toBeInTheDocument();
-//        expect(screen.getByText(/Title/i)).toBeInTheDocument();
-//        expect(screen.getByText(/Description/i)).toBeInTheDocument();
-//    });
+        const input = screen.getByPlaceholderText(/Enter Project Name/i);
+        fireEvent.change(input, { target: { value: 'newRepo' } });
+
+        expect(input.value).toBe('newRepo');
+    });
+
+    test('navigates on form submission', async () => {
+        render(
+            <MemoryRouter>
+                <RepoIssues />
+            </MemoryRouter>
+        );
+
+        await waitFor(() => expect(fetch).toHaveBeenCalledTimes(1));
+
+        const input = screen.getByPlaceholderText(/Enter Project Name/i);
+        const button = screen.getByText(/Search Issues/i);
+
+        fireEvent.change(input, { target: { value: 'newRepo' } });
+        fireEvent.click(button);
+
+        expect(mockNavigate).toHaveBeenCalledWith('/issues/testUser/newRepo', {
+            state: {
+                id: 'testUser',
+                repo: 'newRepo',
+            },
+        });
+    });
+
+    test('displays table headers correctly', async () => {
+        render(
+            <MemoryRouter>
+                <RepoIssues />
+            </MemoryRouter>
+        );
+
+        // Wait for the loading spinner to disappear
+        await waitFor(() => expect(screen.queryByText(/loading/i)).not.toBeInTheDocument());
+
+        // Use getByRole for specific headers
+        const issueNoHeader = screen.getByRole('columnheader', { name: /Issue No./i });
+        const titleHeader = screen.getByRole('columnheader', { name: /Title/i });
+        const descriptionHeader = screen.getByRole('columnheader', { name: /Description/i });
+
+        // Assert that headers are in the document
+        expect(issueNoHeader).toBeInTheDocument();
+        expect(titleHeader).toBeInTheDocument();
+        expect(descriptionHeader).toBeInTheDocument();
+    });
 });

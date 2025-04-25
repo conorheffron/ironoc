@@ -62,57 +62,68 @@ describe('RepoDetails Component', () => {
         expect(screen.getByText('topic1, topic2')).toBeInTheDocument();
     });
 
-//    test('handles input change', () => {
-//        render(
-//            <MemoryRouter>
-//                <RepoDetails />
-//            </MemoryRouter>
-//        );
-//
-//        const input = screen.getByPlaceholderText(/Enter GitHub User ID/i);
-//        fireEvent.change(input, { target: { value: 'newUser' } });
-//
-//        expect(input.value).toBe('newUser');
-//    });
 
-//    test('navigates on form submission', () => {
-//        render(
-//            <MemoryRouter>
-//                <RepoDetails />
-//            </MemoryRouter>
-//        );
-//
-//        const input = screen.getByPlaceholderText(/Enter GitHub User ID/i);
-//        const button = screen.getByText(/Search Projects/i);
-//
-//        fireEvent.change(input, { target: { value: 'newUser' } });
-//        fireEvent.click(button);
-//
-//        expect(mockNavigate).toHaveBeenCalledWith('/projects/newUser', {
-//            state: {
-//                id: 'newUser',
-//            },
-//        });
-//    });
+    test('handles input change', async () => {
+        render(
+            <MemoryRouter>
+                <RepoDetails />
+            </MemoryRouter>
+        );
 
-//    test('displays table headers correctly', async () => {
-//        render(
-//            <MemoryRouter>
-//                <RepoIssues />
-//            </MemoryRouter>
-//        );
-//
-//        // Wait for the loading spinner to disappear
-//        await waitFor(() => expect(screen.queryByText(/loading/i)).not.toBeInTheDocument());
-//
-//        // Use getByRole for specific headers
-//        const issueNoHeader = screen.getByRole('columnheader', { name: /Issue No./i });
-//        const titleHeader = screen.getByRole('columnheader', { name: /Title/i });
-//        const descriptionHeader = screen.getByRole('columnheader', { name: /Description/i });
-//
-//        // Assert that headers are in the document
-//        expect(issueNoHeader).toBeInTheDocument();
-//        expect(titleHeader).toBeInTheDocument();
-//        expect(descriptionHeader).toBeInTheDocument();
-//    });
+        // Wait for the loading spinner to disappear
+        await waitFor(() => expect(screen.queryByText(/loading/i)).not.toBeInTheDocument());
+
+        const input = screen.getByPlaceholderText(/Enter GitHub User ID/i);
+        fireEvent.change(input, { target: { value: 'newUser' } });
+
+        expect(input.value).toBe('newUser');
+    });
+
+    test('displays table headers correctly', async () => {
+        render(
+            <MemoryRouter>
+                <RepoDetails />
+            </MemoryRouter>
+        );
+
+        // Wait for the loading spinner to disappear
+        await waitFor(() => expect(screen.queryByText(/loading/i)).not.toBeInTheDocument());
+
+        // Assert that table headers are displayed correctly using roles
+        const repositoryHeader = screen.getByRole('columnheader', { name: /Repository/i });
+        const descriptionHeader = screen.getByRole('columnheader', { name: /Description/i });
+        const appUrlHeader = screen.getByRole('columnheader', { name: /App URL/i });
+        const topicsHeader = screen.getByRole('columnheader', { name: /Topics/i });
+        const actionsHeader = screen.getByRole('columnheader', { name: /Actions/i });
+
+        expect(repositoryHeader).toBeInTheDocument();
+        expect(descriptionHeader).toBeInTheDocument();
+        expect(appUrlHeader).toBeInTheDocument();
+        expect(topicsHeader).toBeInTheDocument();
+        expect(actionsHeader).toBeInTheDocument();
+    });
+
+    test('navigates on form submission', async () => { // Make the function async
+        render(
+            <MemoryRouter>
+                <RepoDetails />
+            </MemoryRouter>
+        );
+
+        // Wait for the loading spinner to disappear
+        await waitFor(() => expect(screen.queryByText(/loading/i)).not.toBeInTheDocument());
+
+        // Use getByRole to target the input field and button
+        const input = screen.getByRole('textbox', { name: /Enter GitHub User ID/i });
+        const button = screen.getByRole('button', { name: /Search Projects/i });
+
+        // Simulate user input and form submission
+        fireEvent.change(input, { target: { value: 'newUser' } });
+        fireEvent.click(button);
+
+        // Assert that navigation was triggered with the correct arguments
+        expect(mockNavigate).toHaveBeenCalledWith('/projects/newUser', {
+            state: { id: 'newUser' },
+        });
+    });
 });
