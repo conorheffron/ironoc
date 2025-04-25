@@ -1,7 +1,6 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import App from '../../App';
-import { createMemoryHistory } from 'history';
-import { Router } from 'react-router';
+import { Router, MemoryRouter } from 'react-router';
 import Donate from '../Donate';
 import LoadingSpinner from '../../LoadingSpinner';
 
@@ -48,28 +47,27 @@ describe('Donate', () => {
     expect(screen.getByText('Loading...')).toBeInTheDocument();
   });
 
-//  test('displays charity options after fetching data', async () => {
-//    const history = createMemoryHistory();
-//    const { container } = render(
-//      <Router history={history}>
-//        <Donate />
-//      </Router>
-//    );
-//
-//    // Wait for the component to finish loading
-//    await waitFor(() => {
-//      expect(screen.queryByText('Loading...')).not.toBeInTheDocument();
-//    });
-//
-//    // Check that repo details are displayed
-//    mockDonateItems.forEach(item => {
-//      expect(screen.getByText(item.name)).toBeInTheDocument();
-//      expect(screen.getByText(new RegExp(`Founded in ${item.founded}`))).toBeInTheDocument();
-//      expect(screen.getByText(item.phone)).toBeInTheDocument();
-//      expect(screen.getByText(new RegExp(item.link))).toBeInTheDocument();
-//    });
-//
-//    // Verify that the component does not show the loading spinner
-//    expect(container.querySelector('.LoadingSpinner')).not.toBeInTheDocument();
-//  });
+  test('displays charity options after fetching data', async () => {
+    const { container } = render(
+        <MemoryRouter>
+          <Donate />
+        </MemoryRouter>
+      );
+
+    // Wait for the component to finish loading
+    await waitFor(() => {
+      expect(screen.queryByText('Loading...')).not.toBeInTheDocument();
+    });
+
+    // Check that repo details are displayed
+    mockDonateItems.forEach(item => {
+      expect(screen.getByText(item.name)).toBeInTheDocument();
+      expect(screen.getByText(new RegExp(`Founded in ${item.founded}`))).toBeInTheDocument();
+      expect(screen.getByText(item.phone)).toBeInTheDocument();
+      expect(screen.getByText(new RegExp(item.link))).toBeInTheDocument();
+    });
+
+    // Verify that the component does not show the loading spinner
+    expect(container.querySelector('.LoadingSpinner')).not.toBeInTheDocument();
+  });
 });
