@@ -16,7 +16,7 @@
     "react-bootstrap-validation": "^0.1.11",
     "react-cookie": "^7.2.2",
     "react-dom": "^18.3.1",
-    "react-router-dom": "^7.5.2",
+    "react-router": "^7.5.2",
     "reactstrap": "^8.10.0",
     "recharts": "^3.0.0-alpha.5",
     "web-vitals": "^4.2.3"

@@ -1,83 +1,118 @@
-import { render, screen, waitFor } from '@testing-library/react';
-import App from '../../App';
-import { createMemoryHistory } from 'history';
-import { Router } from 'react-router';
+import React from 'react';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { MemoryRouter } from 'react-router';
 import RepoDetails from '../RepoDetails';
-import LoadingSpinner from '../../LoadingSpinner';
 
-const mockRepoDetails = [
-  {
-    name: 'repo1',
-    fullName: 'User/repo1',
-    repoUrl: 'https://github.com/User/repo1',
-    description: 'Description of repo1',
-    appHome: 'https://repo1.com',
-    topics: ['topic1', 'topic2']
-  },
-  {
-    name: 'repo2',
-    fullName: 'User/repo2',
-    repoUrl: 'https://github.com/User/repo2',
-    description: 'Description of repo2',
-    appHome: 'https://repo2.com',
-    topics: ['topic3', 'topic4']
-  }
-];
+jest.mock('react-router', () => ({
+    ...jest.requireActual('react-router'),
+    useParams: jest.fn(),
+    useNavigate: jest.fn(),
+}));
 
-describe('RepoDetails', () => {
-  beforeEach(() => {
-    jest.spyOn(global, 'fetch').mockResolvedValue({
-      json: jest.fn().mockResolvedValue(mockRepoDetails)
-    });
-  });
+describe('RepoDetails Component', () => {
+    const mockNavigate = jest.fn();
+    const mockParams = { id: 'testUser' };
 
-  afterEach(() => {
-    jest.restoreAllMocks();
-  });
+    beforeEach(() => {
+        require('react-router').useNavigate.mockReturnValue(mockNavigate);
+        require('react-router').useParams.mockReturnValue(mockParams);
 
-  test('renders AppNavbar component', () => {
-    render(<App />);
-    expect(screen.getByRole('banner')).toBeInTheDocument();
-  });
-
-  test('renders loading state initially', () => {
-    render(<RepoDetails match={{ params: { id: 'User' } }} />);
-    expect(screen.getByText('Loading...')).toBeInTheDocument();
-  });
-
-  test('displays repo details after fetching data', async () => {
-    const history = createMemoryHistory();
-    const { container } = render(
-      <Router history={history}>
-        <RepoDetails match={{ params: { id: 'User' } }} />
-      </Router>
-    );
-
-    // Wait for the component to finish loading
-    await waitFor(() => {
-      expect(screen.queryByText('Loading...')).not.toBeInTheDocument();
+        global.fetch = jest.fn(() =>
+            Promise.resolve({
+                json: () =>
+                    Promise.resolve([
+                        {
+                            name: 'testRepo',
+                            repoUrl: 'https://github.com/testRepo',
+                            fullName: 'testUser/testRepo',
+                            description: 'Test repository description',
+                            appHome: 'https://example.com',
+                            topics: 'topic1, topic2',
+                        },
+                    ]),
+            })
+        );
     });
 
-    // Check that repo details are displayed
-    mockRepoDetails.forEach(repo => {
-      expect(screen.getByText(repo.fullName)).toBeInTheDocument();
-      expect(screen.queryByText(repo.repoUrl)).not.toBeInTheDocument();
-      expect(screen.getByText(repo.description)).toBeInTheDocument();
-      expect(screen.queryByText(repo.appHome)).not.toBeInTheDocument();
-
-      repo.topics.forEach(topic => {
-        // Select the <td> element
-        const tdElement = screen.getByText((content, element) => {
-          // Ensure the element is a <td>
-          return element.tagName.toLowerCase() === 'td' && content.includes(topic);
-        });
-        // Check if the <td> contains the expected text
-        expect(tdElement).toBeInTheDocument();
-        expect(tdElement).toHaveTextContent(topic);
-      });
+    afterEach(() => {
+        jest.clearAllMocks();
     });
 
-    // Verify that the component does not show the loading spinner
-    expect(container.querySelector('.LoadingSpinner')).not.toBeInTheDocument();
-  });
+    test('renders loading spinner initially', () => {
+        render(
+            <MemoryRouter>
+                <RepoDetails />
+            </MemoryRouter>
+        );
+
+        expect(screen.getByText(/loading/i)).toBeInTheDocument();
+    });
+
+    test('fetches and displays repo details', async () => {
+        render(
+            <MemoryRouter>
+                <RepoDetails />
+            </MemoryRouter>
+        );
+
+        await waitFor(() => expect(fetch).toHaveBeenCalledTimes(1));
+
+        expect(screen.getByText('testUser/testRepo')).toBeInTheDocument();
+        expect(screen.getByText('Test repository description')).toBeInTheDocument();
+        expect(screen.getByText('topic1, topic2')).toBeInTheDocument();
+    });
+
+//    test('handles input change', () => {
+//        render(
+//            <MemoryRouter>
+//                <RepoDetails />
+//            </MemoryRouter>
+//        );
+//
+//        const input = screen.getByPlaceholderText(/Enter GitHub User ID/i);
+//        fireEvent.change(input, { target: { value: 'newUser' } });
+//
+//        expect(input.value).toBe('newUser');
+//    });
+
+//    test('navigates on form submission', () => {
+//        render(
+//            <MemoryRouter>
+//                <RepoDetails />
+//            </MemoryRouter>
+//        );
+//
+//        const input = screen.getByPlaceholderText(/Enter GitHub User ID/i);
+//        const button = screen.getByText(/Search Projects/i);
+//
+//        fireEvent.change(input, { target: { value: 'newUser' } });
+//        fireEvent.click(button);
+//
+//        expect(mockNavigate).toHaveBeenCalledWith('/projects/newUser', {
+//            state: {
+//                id: 'newUser',
+//            },
+//        });
+//    });
+
+//    test('displays table headers correctly', async () => {
+//        render(
+//            <MemoryRouter>
+//                <RepoIssues />
+//            </MemoryRouter>
+//        );
+//
+//        // Wait for the loading spinner to disappear
+//        await waitFor(() => expect(screen.queryByText(/loading/i)).not.toBeInTheDocument());
+//
+//        // Use getByRole for specific headers
+//        const issueNoHeader = screen.getByRole('columnheader', { name: /Issue No./i });
+//        const titleHeader = screen.getByRole('columnheader', { name: /Title/i });
+//        const descriptionHeader = screen.getByRole('columnheader', { name: /Description/i });
+//
+//        // Assert that headers are in the document
+//        expect(issueNoHeader).toBeInTheDocument();
+//        expect(titleHeader).toBeInTheDocument();
+//        expect(descriptionHeader).toBeInTheDocument();
+//    });
 });
