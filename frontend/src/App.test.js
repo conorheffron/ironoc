@@ -4,11 +4,11 @@ import '@testing-library/jest-dom';
 import Home from './components/Home';
 import App from './App';
 import { createMemoryHistory } from 'history';
-import { Router } from 'react-router-dom';
 import LoadingSpinner from './LoadingSpinner';
 import AppNavBar from './AppNavbar';
 import About from './components/About';
 import Footer from './Footer';
+import { Router, useLocation } from 'react-router';
 
 describe('LoadingSpinner', () => {
   test('renders LoadingSpinner component correctly', () => {

@@ -3,8 +3,17 @@ import { Button, ButtonGroup, Container, InputGroup, Table } from 'reactstrap';
 import '.././App.css';
 import Form from 'react-bootstrap/Form';
 import AppNavbar from '.././AppNavbar';
-import { Link } from 'react-router-dom';
 import LoadingSpinner from '.././LoadingSpinner';
+import { Link, useParams, useNavigate } from 'react-router';
+
+// Helper function to inject `params` and `navigate` into class-based components
+function withRouter(Component) {
+    return (props) => {
+        const params = useParams();
+        const navigate = useNavigate();
+        return <Component {...props} params={params} navigate={navigate} />;
+    };
+}
 
 class RepoDetails extends Component {
     constructor(props) {
@@ -26,21 +35,27 @@ class RepoDetails extends Component {
     onSubmit(event) {
         event.preventDefault();
         const { value } = this.state;
-        this.props.history.push(`/projects/${value}`, {
-            id: value
+        this.props.navigate(`/projects/${value}`, {
+            state: {
+                id: value
+            }
         });
     }
 
     async componentDidMount() {
-        const { match: { params: { id } } } = this.props;
-        const response = await fetch(`/api/get-repo-detail?username=${id}`);
-        const body = await response.json();
-        this.setState({ repoDetailList: body, isLoading: false });
+        const { id } = this.props.params;
+        if (id) {
+            const response = await fetch(`/api/get-repo-detail?username=${id}`);
+            const body = await response.json();
+            this.setState({ repoDetailList: body, isLoading: false });
+        } else {
+            this.setState({ isLoading: false });
+        }
     }
 
     render() {
         const { repoDetailList = [], isLoading = true, value = '' } = this.state;
-        const { match: { params: { id: gitUser = '' } } } = this.props;
+        const { id: gitUser = '' } = this.props.params;
 
         if (isLoading) {
             return (
@@ -107,4 +122,4 @@ class RepoDetails extends Component {
     }
 }
 
-export default RepoDetails;
+export default withRouter(RepoDetails);

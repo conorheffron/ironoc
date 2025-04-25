@@ -1,7 +1,7 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import App from '../../App';
 import { createMemoryHistory } from 'history';
-import { Router } from 'react-router-dom';
+import { Router } from 'react-router';
 import RepoDetails from '../RepoDetails';
 import LoadingSpinner from '../../LoadingSpinner';
 
