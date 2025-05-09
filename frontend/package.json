@@ -1,6 +1,6 @@
 {
   "name": "@conorheffron/ironoc-frontend",
-  "version": "7.3.4",
+  "version": "7.3.5",
   "private": false,
   "dependencies": {
     "@fontsource/montserrat": "^5.1.1",
