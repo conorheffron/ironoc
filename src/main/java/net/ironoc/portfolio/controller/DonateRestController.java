@@ -33,7 +33,7 @@ public class DonateRestController {
     })
     @GetMapping(value = {"/donate-items"}, produces= MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<Map<String, Object>>> getDonateItems() {
-        // Use the resolver to fetch the donate items
+        // Use the resolver to fetch the Donate/Charity option items
         List<Map<String, Object>> donateItems = donateItemsResolver.getDonateItems();
         return ResponseEntity.ok(donateItems);
     }
