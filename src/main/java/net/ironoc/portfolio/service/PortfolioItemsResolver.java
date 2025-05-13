@@ -1,8 +1,7 @@
-package net.ironoc.portfolio.graph;
+package net.ironoc.portfolio.service;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import graphql.kickstart.tools.GraphQLQueryResolver;
 import net.ironoc.portfolio.logger.AbstractLogger;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
@@ -13,19 +12,19 @@ import java.util.List;
 import java.util.Map;
 
 @Component
-public class DonateItemsResolver extends AbstractLogger implements GraphQLQueryResolver {
+public class PortfolioItemsResolver extends AbstractLogger {
 
-    protected static final String DONATE_ITEMS_JSON_FILE = "json/donate-items.json";
+    protected static final String PORTFOLIO_ITEMS_JSON_FILE = "json/portfolio-items.json";
 
-    public List<Map<String, Object>> getDonateItems() {
+    public List<Map<String, Object>> getPortfolioItems() {
         ObjectMapper objectMapper = new ObjectMapper();
         try {
             // Load the JSON file from resources
             return objectMapper.readValue(
-                    new ClassPathResource(DONATE_ITEMS_JSON_FILE).getInputStream(),
+                    new ClassPathResource(PORTFOLIO_ITEMS_JSON_FILE).getInputStream(),
                     new TypeReference<>() {});
         } catch (IOException e) {
-            error("Failed to load Donate items JSON", e);
+            error("Failed to load Portfolio items JSON", e);
         }
         return Collections.emptyList();
     }

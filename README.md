@@ -283,3 +283,13 @@ ___) (___| ) \ \__| (___) || )  \  || (___) || (____/\
 🔥  Removing /home/.minikube/machines/minikube ...
 💀  Removed all traces of the "minikube" cluster.
 ```
+
+### Navigate to GraphQL Playground via Charity Options drop down or directly by the following link(s):
+```
+http://localhost:8080/graphiql?path=/graphql
+
+or 
+
+https://ironoc.net/graphiql?path=/graphql
+```
+![GraphQL Playground (PG)](screen-grabs/graph-i-ql.png)
