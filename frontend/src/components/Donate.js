@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { gql } from '@apollo/client';
+import { withApollo } from '@apollo/client/react/hoc'; // HOC for injecting Apollo Client
 import Carousel from 'react-bootstrap/Carousel';
 import 'bootstrap/dist/css/bootstrap.css';
 import '../App.css';
@@ -7,32 +9,70 @@ import red from '../img/red-bg.png';
 import { Container } from 'reactstrap';
 import LoadingSpinner from '.././LoadingSpinner';
 
-class Donate extends Component {
+// Define the GraphQL query to fetch donate items
+export const GET_DONATE_ITEMS = gql`
+    query {
+        donateItems {
+            donate
+            link
+            img
+            alt
+            name
+            overview
+            founded
+            phone
+        }
+    }
+`;
 
+class Donate extends Component {
     constructor(props) {
         super(props);
-            this.state = {
+        this.state = {
             donateItems: [],
-            loading: true
+            loading: true,
+            error: null,
         };
     }
 
     async componentDidMount() {
-        const response = await fetch("/api/donate-items");
-        const body = await response.json();
-        this.setState({ donateItems: body, loading: false });
+        const { client } = this.props; // Injected Apollo Client
+        try {
+            const { data } = await client.query({
+                query: GET_DONATE_ITEMS,
+            });
+            this.setState({ donateItems: data.donateItems, loading: false });
+        } catch (error) {
+            this.setState({ donateItems: [], error: error.message, loading: false });
+        }
     }
 
     render() {
-        const { donateItems, loading} = this.state;
+        const { donateItems, loading, error } = this.state;
 
         if (loading) {
             return (
                 <div className="App">
                     <AppNavbar />
                     <Container>
-                        <br /><br /><br />
+                        <br />
+                        <br />
+                        <br />
                         <LoadingSpinner />
+                    </Container>
+                </div>
+            );
+        }
+
+        if (error) {
+            return (
+                <div className="App">
+                    <AppNavbar />
+                    <Container>
+                        <br />
+                        <br />
+                        <br />
+                        <p>Error loading data: {error}</p>
                     </Container>
                 </div>
             );
@@ -71,4 +111,5 @@ class Donate extends Component {
     }
 }
 
-export default Donate;
+// Wrap the component with Apollo Client
+export default withApollo(Donate);
