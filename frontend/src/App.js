@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router';
+import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 import './App.css';
 import Home from './components/Home';
 import CoffeeHome from './components/CoffeeHome';
@@ -28,17 +29,42 @@ class App extends Component {
       ]
     } = this.props;
 
+    // Create Apollo Client for '/donate' route
+    const donateClient = new ApolloClient({
+      uri: '/graphql', // Replace with your GraphQL endpoint
+      cache: new InMemoryCache(),
+    });
+
     return (
       <Router forceRefresh={forceRefresh}>
         <Routes>
-          {routes.map((route, index) => (
-            <Route
-              key={index}
-              path={route.path}
-              {...(route.exact ? { exact: true } : {})}
-              element={<route.component />}
-            />
-          ))}
+          {routes.map((route, index) => {
+            // Wrap the Donate component with ApolloProvider
+            if (route.path === '/donate') {
+              return (
+                <Route
+                  key={index}
+                  path={route.path}
+                  {...(route.exact ? { exact: true } : {})}
+                  element={
+                    <ApolloProvider client={donateClient}>
+                      <Donate />
+                    </ApolloProvider>
+                  }
+                />
+              );
+            }
+
+            // Return other routes as usual (using axios, fetch, Jest etc.)
+            return (
+              <Route
+                key={index}
+                path={route.path}
+                {...(route.exact ? { exact: true } : {})}
+                element={<route.component />}
+              />
+            );
+          })}
         </Routes>
       </Router>
     );
