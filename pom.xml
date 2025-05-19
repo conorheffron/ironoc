@@ -201,7 +201,7 @@
 		<dependency>
 			<groupId>software.amazon.awssdk</groupId>
 			<artifactId>aws-sdk-java</artifactId>
-			<version>2.31.40</version>
+			<version>2.31.45</version>
 			<exclusions>
 				<exclusion>
 					<groupId>commons-logging</groupId>
