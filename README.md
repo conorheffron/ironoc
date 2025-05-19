@@ -257,22 +257,29 @@ ___) (___| ) \ \__| (___) || )  \  || (___) || (____/\
 \_______/|/   \__/(_______)|/    )_)(_______)(_______/
 
 
-2025-02-20T18:38:17.926Z  INFO 8 --- [           main] n.i.p.App                                : Starting App v7.1.3 using Java 21.0.6 with PID 8 (/app.war started by root in /)
-2025-02-20T18:38:17.954Z  INFO 8 --- [           main] n.i.p.App                                : No active profile set, falling back to 1 default profile: "default"
-2025-02-20T18:38:27.347Z  INFO 8 --- [           main] o.s.b.w.e.t.TomcatWebServer              : Tomcat initialized with port 8080 (http)
-2025-02-20T18:38:27.427Z  INFO 8 --- [           main] o.a.c.c.StandardService                  : Starting service [Tomcat]
-2025-02-20T18:38:27.428Z  INFO 8 --- [           main] o.a.c.c.StandardEngine                   : Starting Servlet engine: [Apache Tomcat/10.1.34]
-2025-02-20T18:39:01.657Z  INFO 8 --- [           main] o.a.j.s.TldScanner                       : At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
-2025-02-20T18:39:02.392Z  INFO 8 --- [           main] o.a.c.c.C.[.[.[/]                        : Initializing Spring embedded WebApplicationContext
-2025-02-20T18:39:02.393Z  INFO 8 --- [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 44243 ms
-2025-02-20T18:39:05.533Z  WARN 8 --- [           main] n.i.p.l.AbstractLogger                   : The job to pre-populate the cache of GitHub information is disabled.
-2025-02-20T18:39:07.453Z  INFO 8 --- [           main] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page: class path resource [static/index.html]
-2025-02-20T18:39:11.032Z  INFO 8 --- [           main] o.s.b.w.e.t.TomcatWebServer              : Tomcat started on port 8080 (http) with context path '/'
-2025-02-20T18:39:11.056Z  INFO 8 --- [           main] n.i.p.App                                : Started App in 54.809 seconds (process running for 60.898)
-2025-02-20T18:39:35.727Z  INFO 8 --- [nio-8080-exec-1] o.a.c.c.C.[.[.[/]                        : Initializing Spring DispatcherServlet 'dispatcherServlet'
-2025-02-20T18:39:35.730Z  INFO 8 --- [nio-8080-exec-1] o.s.w.s.DispatcherServlet                : Initializing Servlet 'dispatcherServlet'
-2025-02-20T18:39:35.741Z  INFO 8 --- [nio-8080-exec-1] o.s.w.s.DispatcherServlet                : Completed initialization in 11 ms
-2025-02-20T18:39:55.751Z  INFO 8 --- [nio-8080-exec-1] n.i.p.l.AbstractLogger                   : Retrieved brews from GraphQL query, coffeeDomains=[name: 'Black Coffee' id: '1', name: 'Latte' id: '2', name: 'Caramel Latte' id: '3', name: 'Cappuccino' id: '4', name: 'Americano' id: '5', name: 'Espresso' id: '6', name: 'Macchiato' id: '7', name: 'Mocha' id: '8', name: 'Hot Chocolate' id: '9', name: 'Chai Latte' id: '10', name: 'Matcha Latte' id: '11', name: 'Seasonal Brew' id: '12', name: 'Svart Te' id: '13', name: 'Islatte' id: '14', name: 'Islatte Mocha' id: '15', name: 'Frapino Caramel' id: '16', name: 'Frapino Mocka' id: '17', name: 'Apelsinjuice' id: '18', name: 'Frozen Lemonade' id: '19', name: 'Lemonad' id: '20', name: 'Iced Coffee' id: '1', name: 'Iced Espresso' id: '2', name: 'Cold Brew' id: '3', name: 'Frappuccino' id: '4', name: 'Nitro' id: '5', name: 'Mazagran' id: '6']
+2025-05-19T18:47:04.581Z  INFO 7 --- [           main] n.i.p.App                                : Starting App v7.3.7 using Java 21.0.7 with PID 7 (/app.war started by root in /)
+2025-05-19T18:47:04.765Z  INFO 7 --- [           main] n.i.p.App                                : No active profile set, falling back to 1 default profile: "default"
+2025-05-19T18:47:22.489Z  INFO 7 --- [           main] o.s.b.w.e.t.TomcatWebServer              : Tomcat initialized with port 8080 (http)
+2025-05-19T18:47:22.788Z  INFO 7 --- [           main] o.a.c.c.StandardService                  : Starting service [Tomcat]
+2025-05-19T18:47:22.790Z  INFO 7 --- [           main] o.a.c.c.StandardEngine                   : Starting Servlet engine: [Apache Tomcat/10.1.40]
+2025-05-19T18:48:03.677Z  INFO 7 --- [           main] o.a.j.s.TldScanner                       : At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+2025-05-19T18:48:04.178Z  INFO 7 --- [           main] o.a.c.c.C.[.[.[/]                        : Initializing Spring embedded WebApplicationContext
+2025-05-19T18:48:04.181Z  INFO 7 --- [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 58800 ms
+2025-05-19T18:48:06.066Z  WARN 7 --- [           main] n.i.p.l.AbstractLogger                   : The job to pre-populate the cache of GitHub information is disabled.
+2025-05-19T18:48:08.397Z  INFO 7 --- [           main] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page: class path resource [static/index.html]
+2025-05-19T18:48:10.364Z  INFO 7 --- [           main] efaultSchemaResourceGraphQlSourceBuilder : Loaded 1 resource(s) in the GraphQL schema.
+2025-05-19T18:48:11.493Z  INFO 7 --- [           main] o.s.b.a.g.GraphQlAutoConfiguration       : GraphQL schema inspection:
+        Unmapped fields: {DonateItem=[donate, link, img, alt, name, overview, founded, phone], Query=[donateItemsByCountAndOffset]}
+        Unmapped registrations: {Query.donateItemsSchemaMapping=DonateGraphqlController#donateItemsSchemaMapping[0 args], Query.charityOptionByDonateLink=DonateGraphqlController#charityOptionByDonateLink[1 args], Donate.charityOptions=DonateGraphqlController#charityOptions[1 args]}
+        Unmapped arguments: {}
+        Skipped types: []
+2025-05-19T18:48:11.699Z  INFO 7 --- [           main] s.b.a.g.s.GraphQlWebMvcAutoConfiguration : GraphQL endpoint HTTP POST /graphql
+2025-05-19T18:48:13.978Z  INFO 7 --- [           main] o.s.b.w.e.t.TomcatWebServer              : Tomcat started on port 8080 (http) with context path '/'
+2025-05-19T18:48:14.061Z  INFO 7 --- [           main] n.i.p.App                                : Started App in 73.393 seconds (process running for 81.378)
+2025-05-19T18:50:24.815Z  INFO 7 --- [nio-8080-exec-1] o.a.c.c.C.[.[.[/]                        : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-05-19T18:50:24.816Z  INFO 7 --- [nio-8080-exec-1] o.s.w.s.DispatcherServlet                : Initializing Servlet 'dispatcherServlet'
+2025-05-19T18:50:24.821Z  INFO 7 --- [nio-8080-exec-1] o.s.w.s.DispatcherServlet                : Completed initialization in 5 ms
+2025-05-19T18:50:27.308Z  INFO 7 --- [nio-8080-exec-5] n.i.p.l.AbstractLogger                   : Retrieved brews from GraphQL query, coffeeDomains=[name: 'Black Coffee' id: '1', name: 'Latte' id: '2', name: 'Caramel Latte' id: '3', name: 'Cappuccino' id: '4', name: 'Americano' id: '5', name: 'Espresso' id: '6', name: 'Macchiato' id: '7', name: 'Mocha' id: '8', name: 'Hot Chocolate' id: '9', name: 'Chai Latte' id: '10', name: 'Matcha Latte' id: '11', name: 'Seasonal Brew' id: '12', name: 'Svart Te' id: '13', name: 'Islatte' id: '14', name: 'Islatte Mocha' id: '15', name: 'Frapino Caramel' id: '16', name: 'Frapino Mocka' id: '17', name: 'Apelsinjuice' id: '18', name: 'Frozen Lemonade' id: '19', name: 'Lemonad' id: '20', name: 'Iced Coffee' id: '1', name: 'Iced Espresso' id: '2', name: 'Cold Brew' id: '3', name: 'Frappuccino' id: '4', name: 'Nitro' id: '5', name: 'Mazagran' id: '6']
 ```
 
 ### (clean-up & again after local testing complete)
