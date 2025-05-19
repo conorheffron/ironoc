@@ -5,7 +5,7 @@
 
 	<groupId>conorheffron</groupId>
 	<artifactId>ironoc</artifactId>
-	<version>7.3.6</version>
+	<version>7.3.7</version>
 	<packaging>war</packaging>
 
 	<distributionManagement>
@@ -134,7 +134,7 @@
 		<dependency>
 			<groupId>org.apache.tomcat.embed</groupId>
 			<artifactId>tomcat-embed-jasper</artifactId>
-			<version>11.0.6</version>
+			<version>11.0.7</version>
 		</dependency>
 		<!-- Unit/integration tests -->
 		<dependency>
@@ -195,13 +195,13 @@
 		<dependency>
 			<groupId>io.swagger.core.v3</groupId>
 			<artifactId>swagger-annotations</artifactId>
-			<version>2.2.30</version>
+			<version>2.2.32</version>
 		</dependency>
 		<!-- AWS-->
 		<dependency>
 			<groupId>software.amazon.awssdk</groupId>
 			<artifactId>aws-sdk-java</artifactId>
-			<version>2.31.40</version>
+			<version>2.31.45</version>
 			<exclusions>
 				<exclusion>
 					<groupId>commons-logging</groupId>
