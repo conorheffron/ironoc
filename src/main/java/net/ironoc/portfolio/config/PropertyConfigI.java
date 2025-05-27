@@ -35,4 +35,6 @@ public interface PropertyConfigI {
     String getBrewApiEndpointIce();
 
     String getBrewGraphEndpoint();
+
+    boolean isBrewsCacheJobEnabled();
 }

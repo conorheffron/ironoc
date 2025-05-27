@@ -84,4 +84,9 @@ public class PropertyKey implements PropertyKeyI {
     public String getBrewGraphEndpoint() {
         return Properties.BREWS_GRAPH_ENDPOINT.getKey();
     }
+
+    @Override
+    public String isBrewCacheJobEnabled() {
+        return Properties.IS_BREWS_JOB_ENABLED.getKey();
+    }
 }

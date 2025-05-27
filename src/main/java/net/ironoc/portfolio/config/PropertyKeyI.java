@@ -33,4 +33,6 @@ public interface PropertyKeyI {
     String getBrewApiEndpointIce();
 
     String getBrewGraphEndpoint();
+
+    String isBrewCacheJobEnabled();
 }

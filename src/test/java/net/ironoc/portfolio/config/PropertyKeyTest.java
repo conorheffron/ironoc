@@ -157,4 +157,13 @@ public class PropertyKeyTest {
         // then
         assertThat(result, is("net.ironoc.portfolio.brew.api.endpoint.ice"));
     }
+
+    @Test
+    public void test_isBrewsCacheJobEnabled_success() {
+        // when
+        String result = propertyKey.isBrewCacheJobEnabled();
+
+        // then
+        assertThat(result, is("net.ironoc.portfolio.brew.job-enable"));
+    }
 }
