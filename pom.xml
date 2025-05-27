@@ -283,22 +283,20 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<version>${spring.version}</version>
+				<configuration>
+					<mainClass>net.ironoc.portfolio.App</mainClass>
+				</configuration>
 				<executions>
 					<execution>
+						<id>re-package</id>
+						<goals>
+							<goal>repackage</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>build-properties</id>
 						<goals>
 							<goal>build-info</goal>
-						</goals>
-					</execution>
-					<execution>
-						<id>pre-integration-test</id>
-						<goals>
-							<goal>start</goal>
-						</goals>
-					</execution>
-					<execution>
-						<id>post-integration-test</id>
-						<goals>
-							<goal>stop</goal>
 						</goals>
 					</execution>
 				</executions>
