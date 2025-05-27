@@ -1,7 +1,5 @@
 net:
   ironoc:
-    build:
-      version: @project.version@
     portfolio:
       brew:
         job-enable: true

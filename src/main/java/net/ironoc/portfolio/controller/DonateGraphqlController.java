@@ -38,7 +38,7 @@ public class DonateGraphqlController extends AbstractLogger {
     }
 
     @QueryMapping
-    public Donate charityOptionByFounded(@Argument Integer founded) {
+    public Donate charityOptionByFounded(@Argument("founded") Integer founded) {
         info("Entering method charityByFounded, founded={}", founded);
         List<Map<String, Object>> donateItems = donateItemsResolver.getDonateItems();
         List<Donate> charityOptions = mapDonateItemsToCharityOptions(donateItems);

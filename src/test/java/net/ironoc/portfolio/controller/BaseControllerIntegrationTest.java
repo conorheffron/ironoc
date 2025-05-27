@@ -16,9 +16,9 @@ import org.springframework.test.context.TestPropertySource;
         "net.ironoc.portfolio.github.api.endpoint.user-ids-cache=conorheffron",
         "net.ironoc.portfolio.github.api.endpoint.projects-cache=\"ironoc,ironoc-db,booking-sys\"",
         "net.ironoc.portfolio.github.cron-job=0 1 1 ? * *",
-        "net.ironoc.portfolio.github.job-enable=true",
+        "net.ironoc.portfolio.github.job-enable=false",
         "net.ironoc.portfolio.brew.cron-job=0 0 2 ? * *",
-        "net.ironoc.portfolio.brew.job-enable=true",
+        "net.ironoc.portfolio.brew.job-enable=false",
         "net.ironoc.portfolio.brew.api.endpoint.ice=https://api.sampleapis.com/coffee/iced",
         "net.ironoc.portfolio.brew.api.endpoint.hot=https://api.sampleapis.com/coffee/hot",
         "net.ironoc.portfolio.github.api.endpoint.repos=ironoc-db"
