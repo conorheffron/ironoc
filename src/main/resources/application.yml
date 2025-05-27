@@ -4,6 +4,8 @@ net:
       version: @project.version@
     portfolio:
       brew:
+        job-enable: true
+        cron-job: "0 0 2 */3 * ?"
         api:
           endpoint:
             ice: https://api.sampleapis.com/coffee/iced
