@@ -96,7 +96,7 @@ public class CoffeeController extends AbstractLogger {
             }
             return ResponseEntity.ok(Collections.emptyList());
         } else {
-            info("Returning cached brews, cachedResults={}", cachedResults);
+            debug("Returning cached brews, cachedResults={}", cachedResults);
             return ResponseEntity.ok(cachedResults);
         }
     }
