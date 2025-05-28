@@ -102,6 +102,11 @@ public class PropertyConfig implements PropertyConfigI {
         return environment.getRequiredProperty(propertyKey.getBrewGraphEndpoint());
     }
 
+    @Override
+    public boolean isBrewsCacheJobEnabled() {
+        return Boolean.parseBoolean(environment.getRequiredProperty(propertyKey.isBrewCacheJobEnabled()));
+    }
+
     private List<String> extractValues(String valuesStr) {
         return Arrays.stream(StringUtils.split(valuesStr, ",")).toList();
     }

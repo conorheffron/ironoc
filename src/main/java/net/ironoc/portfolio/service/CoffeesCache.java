@@ -10,4 +10,6 @@ public interface CoffeesCache {
     List<CoffeeDomain> get();
 
     void remove();
+
+    void tearDown();
 }

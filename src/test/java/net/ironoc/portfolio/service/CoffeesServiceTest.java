@@ -17,11 +17,15 @@ import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.doReturn;
 
 @ExtendWith(MockitoExtension.class)
 public class CoffeesServiceTest {
@@ -48,6 +52,52 @@ public class CoffeesServiceTest {
         when(restTemplateBuilderMock.build()).thenReturn(restTemplateMock);
 
         coffeesService = new CoffeesService(restTemplateBuilderMock, propertyConfigMock, coffeesCacheMock);
+    }
+
+    @Test
+    void testPopulateBrewsCache_enabled() {
+        when(propertyConfigMock.isBrewsCacheJobEnabled()).thenReturn(true);
+        CoffeesService spyService = spy(coffeesService);
+
+        doReturn(Collections.emptyList()).when(spyService).getCoffeeDetails();
+
+        spyService.populateBrewsCache();
+
+        verify(spyService, times(1)).getCoffeeDetails();
+    }
+
+    @Test
+    void testPopulateBrewsCache_disabled() {
+        when(propertyConfigMock.isBrewsCacheJobEnabled()).thenReturn(false);
+        CoffeesService spyService = spy(coffeesService);
+
+        spyService.populateBrewsCache();
+
+        verify(spyService, never()).getCoffeeDetails();
+        // no exception means we pass (warn logging tested via logs)
+    }
+
+    @Test
+    void testTriggerBrewsCacheJob_enabled() {
+        when(propertyConfigMock.isBrewsCacheJobEnabled()).thenReturn(true);
+        CoffeesService spyService = spy(coffeesService);
+
+        doReturn(Collections.emptyList()).when(spyService).getCoffeeDetails();
+
+        spyService.triggerBrewsCacheJob();
+
+        verify(spyService, times(1)).getCoffeeDetails();
+    }
+
+    @Test
+    void testTriggerBrewsCacheJob_disabled() {
+        when(propertyConfigMock.isBrewsCacheJobEnabled()).thenReturn(false);
+        CoffeesService spyService = spy(coffeesService);
+
+        spyService.triggerBrewsCacheJob();
+
+        verify(spyService, never()).getCoffeeDetails();
+        // no exception means we pass (warn logging tested via logs)
     }
 
     @Test
@@ -84,5 +134,57 @@ public class CoffeesServiceTest {
         assertEquals(2, coffeeDomainList.size());
         assertEquals("Espresso", coffeeDomainList.get(0).getTitle());
         assertEquals("Cappuccino", coffeeDomainList.get(1).getTitle());
+    }
+
+    @Test
+    void testGetBody_successWithList() {
+        String endpoint = "coffee-endpoint";
+        List<CoffeeDomain> body = Arrays.asList(new CoffeeDomain(), new CoffeeDomain());
+        ResponseEntity<Object> response = new ResponseEntity<>(body, HttpStatus.OK);
+
+        when(restTemplateMock.getForEntity(endpoint, Object.class)).thenReturn(response);
+
+        // Use reflection to call private method
+        List<CoffeeDomain> result = invokeGetBody(coffeesService, endpoint);
+
+        assertEquals(body, result);
+    }
+
+    @Test
+    void testGetBody_successWithNonListBody() {
+        String endpoint = "coffee-endpoint";
+        Object nonListBody = new Object();
+        ResponseEntity<Object> response = new ResponseEntity<>(nonListBody, HttpStatus.OK);
+
+        when(restTemplateMock.getForEntity(endpoint, Object.class)).thenReturn(response);
+
+        List<CoffeeDomain> result = invokeGetBody(coffeesService, endpoint);
+
+        assertTrue(result.isEmpty());
+    }
+
+    @Test
+    void testGetBody_non2xxStatus() {
+        String endpoint = "coffee-endpoint";
+        List<CoffeeDomain> body = Arrays.asList(new CoffeeDomain());
+        ResponseEntity<Object> response = new ResponseEntity<>(body, HttpStatus.INTERNAL_SERVER_ERROR);
+
+        when(restTemplateMock.getForEntity(endpoint, Object.class)).thenReturn(response);
+
+        List<CoffeeDomain> result = invokeGetBody(coffeesService, endpoint);
+
+        assertTrue(result.isEmpty());
+    }
+
+    // Helper to invoke private method getBody via reflection
+    @SuppressWarnings("unchecked")
+    private List<CoffeeDomain> invokeGetBody(CoffeesService service, String endpoint) {
+        try {
+            java.lang.reflect.Method m = CoffeesService.class.getDeclaredMethod("getBody", String.class);
+            m.setAccessible(true);
+            return (List<CoffeeDomain>) m.invoke(service, endpoint);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }

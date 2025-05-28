@@ -1,11 +1,13 @@
 package net.ironoc.portfolio.service;
 
+import jakarta.annotation.PostConstruct;
 import net.ironoc.portfolio.config.PropertyConfigI;
 import net.ironoc.portfolio.domain.CoffeeDomain;
 import net.ironoc.portfolio.logger.AbstractLogger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -31,8 +33,27 @@ public class CoffeesService extends AbstractLogger implements Coffees {
         this.coffeesCache = coffeesCache;
     }
 
+    @PostConstruct
+    public void populateBrewsCache() {
+        if (propertyConfig.isBrewsCacheJobEnabled()) {
+            getCoffeeDetails();
+        } else {
+            warn("The job to pre-populate the cache of Coffee Brews information is disabled.");
+        }
+    }
+
+    @Scheduled(cron = "${net.ironoc.portfolio.brew.cron-job}")
+    public void triggerBrewsCacheJob() {
+        if (propertyConfig.isBrewsCacheJobEnabled()) {
+            getCoffeeDetails();
+        } else {
+            warn("The job to update the cache of Coffee Brews information is disabled.");
+        }
+    }
+
     @Override
     public List<CoffeeDomain> getCoffeeDetails() {
+        coffeesCache.tearDown();
         info("Entering CoffeesService.getCoffeeDetails");
         List<CoffeeDomain> hotCoffeeDomains = getBody(propertyConfig.getBrewApiEndpointHot());
         List<CoffeeDomain> coffeeDomains = new ArrayList<>(hotCoffeeDomains);

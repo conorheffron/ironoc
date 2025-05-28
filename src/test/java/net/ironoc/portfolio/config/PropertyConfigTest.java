@@ -290,4 +290,20 @@ public class PropertyConfigTest {
 
         assertThat(result, is(TEST_PROP_VAL));
     }
+
+    @Test
+    public void test_isBrewsCacheJobEnabled_success() {
+        // given
+        when(propertyKeyMock.isBrewCacheJobEnabled()).thenReturn(Properties.IS_BREWS_JOB_ENABLED.getKey());
+        when(environmentMock.getRequiredProperty(Properties.IS_BREWS_JOB_ENABLED.getKey())).thenReturn(Boolean.TRUE.toString());
+
+        // when
+        boolean result = propertyConfig.isBrewsCacheJobEnabled();
+
+        // then
+        verify(propertyKeyMock).isBrewCacheJobEnabled();
+        verify(environmentMock).getRequiredProperty(Properties.IS_BREWS_JOB_ENABLED.getKey());
+
+        assertThat(result, is(true));
+    }
 }
