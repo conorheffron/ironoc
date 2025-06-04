@@ -3,7 +3,6 @@ package net.ironoc.portfolio.graph;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -93,7 +92,7 @@ class DonateItemsResolverTest {
     }
 
     @Test
-    void testGetDonateItems_ValidJson() throws IOException {
+    void testGetDonateItems_ValidJson() {
         // Execute the method
         List<Map<String, Object>> actualItems = donateItemsResolver.getDonateItems();
 

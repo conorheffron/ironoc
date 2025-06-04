@@ -76,12 +76,12 @@ public class GitProjectsControllerIntegrationTest extends BaseControllerIntegrat
     private static final String ISSUES_JSON_RESPONSE = "[{\"number\":\"62\"," +
             "\"title\":\"Re-write frontend with React <POC>\"," +
             "\"body\":\"Use React or Angular framework & JavaScript " +
-            "or TypeScript as implementation language? \\r\\n- Research & select best option.\"}," +
+            "or TypeScript as implementation language? \\r\\n- Research & select best option.\",\"state\":null,\"labels\":[]}," +
             "{\"number\":\"57\"," +
             "\"title\":\"Setup LB, Support SSL\"," +
             "\"body\":\"- [x] 1. Setup LB\\r\\n" +
             "- [ ] 2. Support SSL\\r\\n" +
-            "- [ ] 3. Setup domain, map to AWS LB\"}" +
+            "- [ ] 3. Setup domain, map to AWS LB\",\"state\":null,\"labels\":[]}" +
             "]";
 
     @BeforeEach

@@ -2,13 +2,26 @@ import React, { Component } from 'react';
 import { Carousel } from 'react-bootstrap';
 import '.././App.css';
 
+// Helper function to validate URLs
+function isValidUrl(url) {
+    try {
+        const parsed = new URL(url);
+        return parsed.protocol === "http:" || parsed.protocol === "https:";
+    } catch (e) {
+        return false;
+    }
+}
+
 class CoffeeCarousel extends Component {
     render() {
         const { items } = this.props;
 
+        // Only include items with a valid http/https URL
+        const validItems = items.filter(item => isValidUrl(item.image));
+
         return (
             <Carousel className="App-header">
-                {items.map((item, index) => (
+                {validItems.map((item, index) => (
                     <Carousel.Item key={index}>
                         <img src={item.image} alt={item.title} />
                         <Carousel.Caption>
