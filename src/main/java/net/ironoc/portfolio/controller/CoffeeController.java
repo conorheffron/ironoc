@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import net.ironoc.portfolio.graph.BrewsResolver;
 import net.ironoc.portfolio.service.GraphQLClient;
 import net.ironoc.portfolio.logger.AbstractLogger;
 import net.ironoc.portfolio.domain.CoffeeDomain;
@@ -14,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -32,11 +34,35 @@ public class CoffeeController extends AbstractLogger {
 
     private final GraphQLClient graphQLClient;
 
+    private final BrewsResolver brewsResolver;
+
     @Autowired
-    public CoffeeController(Coffees coffeesService, CoffeesCache coffeesCache, GraphQLClient graphQLClient) {
+    public CoffeeController(Coffees coffeesService, CoffeesCache coffeesCache, GraphQLClient graphQLClient,
+                            BrewsResolver brewsResolver) {
         this.coffeesService = coffeesService;
         this.coffeesCache = coffeesCache;
         this.graphQLClient = graphQLClient;
+        this.brewsResolver = brewsResolver;
+    }
+
+    @Operation(summary = "Put local storage brews into Coffees Cache",
+            description = "Returns a list of Coffee Graphics & Recipes.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Successfully cached coffee brew details.")
+    })
+    @PutMapping(value = {"/coffees"}, produces= MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<CoffeeDomain>> putCoffeesIntoMemoryStorage() {
+        List<CoffeeDomain> cachedResults = coffeesCache.get();
+        if (cachedResults != null && !cachedResults.isEmpty()) {
+            return ResponseEntity.ok(cachedResults);
+        } else {
+            coffeesCache.tearDown();
+            List<Map<String, Object>> brews = brewsResolver.getBrews();
+            List<CoffeeDomain> coffeeDomains = mapBrewsToCoffeesList(brews);
+            coffeesCache.put(coffeeDomains);
+            return ResponseEntity.ok(coffeeDomains);
+        }
     }
 
     @Operation(summary = "Get Hot/Iced Coffee Details by REST API call",
@@ -99,5 +125,27 @@ public class CoffeeController extends AbstractLogger {
             debug("Returning cached brews, cachedResults={}", cachedResults);
             return ResponseEntity.ok(cachedResults);
         }
+    }
+
+    private List<CoffeeDomain> mapBrewsToCoffeesList(List<Map<String, Object>> brews) {
+        List<CoffeeDomain> coffees = new ArrayList<>();
+        for (Map<String, Object> d : brews) {
+            if (d != null) {
+                CoffeeDomain coffee = CoffeeDomain.builder()
+                        .title(parseValue(d, "title"))
+                        .description(parseValue(d, "description"))
+                        .ingredients(List.of(parseValue(d, "ingredients").split(", ")))
+                        .image(parseValue(d, "image"))
+                        .id(Integer.parseInt(parseValue(d, "id")))
+                        .build();
+                coffees.add(coffee);
+                info("Completed mapping of Brew item, coffee={}", coffee);
+            }
+        }
+        return coffees;
+    }
+
+    private String parseValue(Map<String, Object> d, String key) {
+        return d.get(key) == null ? null : d.get(key).toString();
     }
 }

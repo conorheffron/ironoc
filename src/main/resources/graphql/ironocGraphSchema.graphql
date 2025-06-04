@@ -9,8 +9,18 @@ type DonateItem {
     phone: String!
 }
 
+type Brew {
+    title: String!
+    description: String
+    ingredients: [String!]!
+    image: String!
+    id: Int!
+}
+
 type Query {
+    brews: [Brew]!
     donateItems: [DonateItem]!
     donateItemsByCountAndOffset(count: Int, offset: Int): [DonateItem]!
     charityOptionByFounded(founded: Int): DonateItem!
+    charityOptionByDonateLink(link: String): DonateItem!
 }
