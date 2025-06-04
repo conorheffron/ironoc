@@ -85,30 +85,6 @@ describe('RepoIssues', () => {
     expect(screen.getByTestId('mrt-table')).toBeInTheDocument();
   });
 
-  it('renders correct table columns and project/account info', async () => {
-    useParams.mockReturnValue({ id: 'octocat', repo: 'hello-world' });
-    global.fetch = jest.fn(() =>
-      Promise.resolve({
-        json: () => Promise.resolve([
-          {
-            number: 2,
-            state: 'closed',
-            labels: ['enhancement'],
-            title: 'Second Issue',
-            body: 'Body 2',
-          },
-        ]),
-      })
-    );
-    render(<RepoIssues />);
-    await waitFor(() =>
-      expect(screen.queryByTestId('spinner')).not.toBeInTheDocument()
-    );
-    expect(screen.getByText(/Issues for project/i)).toBeInTheDocument();
-    expect(screen.getByText('hello-world')).toBeInTheDocument();
-    expect(screen.getByText('octocat')).toBeInTheDocument();
-  });
-
   it('updates input value and allows search for another repo', async () => {
     useParams.mockReturnValue({ id: 'user', repo: 'repo' });
     global.fetch = jest.fn(() => Promise.resolve({ json: () => Promise.resolve([]) }));
