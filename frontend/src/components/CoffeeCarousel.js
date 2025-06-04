@@ -5,7 +5,6 @@ import '.././App.css';
 // Helper function to validate URLs
 function isValidUrl(url) {
     try {
-        // Only allow http(s) protocols for hyperlinks
         const parsed = new URL(url);
         return parsed.protocol === "http:" || parsed.protocol === "https:";
     } catch (e) {
@@ -17,12 +16,12 @@ class CoffeeCarousel extends Component {
     render() {
         const { items } = this.props;
 
-        // Filter out items without a valid URL hyperlink
-        const itemsWithValidUrl = items.filter(item => isValidUrl(item.url));
+        // Only include items with a valid http/https URL
+        const validItems = items.filter(item => isValidUrl(item.image));
 
         return (
             <Carousel className="App-header">
-                {itemsWithValidUrl.map((item, index) => (
+                {validItems.map((item, index) => (
                     <Carousel.Item key={index}>
                         <img src={item.image} alt={item.title} />
                         <Carousel.Caption>

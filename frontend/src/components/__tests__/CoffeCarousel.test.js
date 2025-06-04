@@ -40,12 +40,12 @@ describe('CoffeeCarousel', () => {
   test('does not render ingredients if item.ingredients is null or an empty array', () => {
       const mockItems = [
           {
-              image: 'image1.jpg',
+              image: 'http://image1.jpg',
               title: 'Coffee with no ingredients',
               ingredients: [],
           },
           {
-              image: 'image2.jpg',
+              image: 'https://image2.jpg',
               title: 'Coffee with null ingredients',
               ingredients: null,
           },
