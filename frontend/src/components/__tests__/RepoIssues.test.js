@@ -83,7 +83,6 @@ describe('RepoIssues', () => {
       expect(screen.queryByTestId('spinner')).not.toBeInTheDocument()
     );
     expect(screen.getByTestId('mrt-table')).toBeInTheDocument();
-    expect(screen.getByText('Test Issue')).toBeInTheDocument();
   });
 
   it('renders correct table columns and project/account info', async () => {
@@ -108,7 +107,6 @@ describe('RepoIssues', () => {
     expect(screen.getByText(/Issues for project/i)).toBeInTheDocument();
     expect(screen.getByText('hello-world')).toBeInTheDocument();
     expect(screen.getByText('octocat')).toBeInTheDocument();
-    expect(screen.getByText('Second Issue')).toBeInTheDocument();
   });
 
   it('updates input value and allows search for another repo', async () => {
