@@ -4,6 +4,7 @@ import net.ironoc.portfolio.client.Client;
 import net.ironoc.portfolio.config.PropertyConfigI;
 import net.ironoc.portfolio.domain.RepositoryDetailDomain;
 import net.ironoc.portfolio.domain.RepositoryIssueDomain;
+import net.ironoc.portfolio.dto.LabelDto;
 import net.ironoc.portfolio.dto.RepositoryDetailDto;
 import net.ironoc.portfolio.dto.RepositoryIssueDto;
 import net.ironoc.portfolio.logger.AbstractLogger;
@@ -14,8 +15,10 @@ import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -145,6 +148,13 @@ public class GitDetailsService extends AbstractLogger implements GitDetails {
                         .number(repositoryIssueDto.getNumber())
                         .title(repositoryIssueDto.getTitle())
                         .body(repositoryIssueDto.getBody())
+                        .labels(Optional.ofNullable(repositoryIssueDto.getLabels())
+                                .filter(labels -> labels.length > 0)
+                                .map(labels -> Arrays.stream(labels)
+                                        .map(LabelDto::getName)
+                                        .toList())
+                                .orElse(Collections.emptyList()))
+                        .state(repositoryIssueDto.getState())
                         .build())
                 .collect(Collectors.toList());
     }
@@ -155,6 +165,10 @@ public class GitDetailsService extends AbstractLogger implements GitDetails {
                         .number(repositoryIssueDomain.getNumber())
                         .title(repositoryIssueDomain.getTitle())
                         .body(repositoryIssueDomain.getBody())
+                        .labels(repositoryIssueDomain.getLabels().stream()
+                                .map(LabelDto::new)
+                                .toList().toArray(LabelDto[]::new))
+                        .state(repositoryIssueDomain.getState())
                         .build())
                 .collect(Collectors.toList());
     }

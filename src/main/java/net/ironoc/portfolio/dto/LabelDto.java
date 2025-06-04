@@ -13,20 +13,12 @@ import lombok.NoArgsConstructor;
 @Getter
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class RepositoryIssueDto {
+public class LabelDto {
 
-    private String number;
-
-    private String title;
-
-    private String body;
-
-    private String state;
-
-    private LabelDto[] labels;
+    private String name;
 
     @Override
     public String toString() {
-        return "number: '" + this.number + "'";
+        return "name: '" + this.name + "'";
     }
 }

@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.util.List;
+
 @Builder
 @AllArgsConstructor
 @Getter
@@ -21,4 +23,12 @@ public class RepositoryIssueDomain {
     @Schema(name= "body", description = "Issue Content & Description.",
             example = "The app crashes when I visit the Repo Details View", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     private String body;
+
+    @Schema(name= "state", description = "Issue State.",
+            example = "Open / Closed etc.", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    private String state;
+
+    @Schema(name= "labels", description = "Issue Labels / Tags.",
+            example = "bug, java, ui etc.", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    private List<String> labels;
 }
