@@ -127,7 +127,7 @@ public class CoffeeController extends AbstractLogger {
         }
     }
 
-    private List<CoffeeDomain> mapBrewsToCoffeesList(List<Map<String, Object>> brews) {
+    List<CoffeeDomain> mapBrewsToCoffeesList(List<Map<String, Object>> brews) {
         List<CoffeeDomain> coffees = new ArrayList<>();
         for (Map<String, Object> d : brews) {
             if (d != null) {
