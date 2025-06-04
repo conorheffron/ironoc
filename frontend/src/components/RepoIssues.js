@@ -3,7 +3,12 @@ import { Container, InputGroup, Form, Button } from 'react-bootstrap';
 import AppNavbar from '../AppNavbar';
 import LoadingSpinner from '../LoadingSpinner';
 import { useParams, useNavigate } from 'react-router';
-import { MaterialReactTable, useMaterialReactTable } from 'material-react-table';
+import {
+  MaterialReactTable,
+  useMaterialReactTable,
+  type MRT_ColumnDef,
+} from 'material-react-table';
+import { darken, lighten, useTheme } from '@mui/material';
 
 const RepoIssues = () => {
     const params = useParams();
@@ -42,7 +47,7 @@ const RepoIssues = () => {
 
     const projectLink = `/projects/${id}/`;
 
-    const issueTags = ['enhancement', 'bug', 'java', 'javascript', 'release', 'ui', 'frontend', 'infra', 'dependencies']
+    const issueTags = ['enhancement', 'bug', 'java', 'javascript', 'release', 'ui', 'frontend', 'infra', 'dependencies', 'python-code']
 
     // MaterialReactTable columns
     const columns = useMemo(() => [
@@ -86,12 +91,50 @@ const RepoIssues = () => {
         },
     ], [id, repo]);
 
+    const theme = useTheme();
+
+    //light or dark green
+    const baseBackgroundColor =
+    theme.palette.mode === 'dark'
+      ? 'rgba(3, 44, 43, 1)'
+      : 'rgba(244, 255, 233, 1)';
+
     const table = useMaterialReactTable({
         columns,
         data: repoIssueList,
         enableFacetedValues: true,
         enableStickyHeader: true,
         initialState: { showColumnFilters: true },
+        muiTablePaperProps: {
+            elevation: 0,
+            sx: {
+              borderRadius: '0',
+            },
+          },
+          muiTableBodyProps: {
+            sx: (theme) => ({
+              '& tr:nth-of-type(odd):not([data-selected="true"]):not([data-pinned="true"]) > td':
+                {
+                  backgroundColor: darken(baseBackgroundColor, 0.1),
+                },
+              '& tr:nth-of-type(odd):not([data-selected="true"]):not([data-pinned="true"]):hover > td':
+                {
+                  backgroundColor: darken(baseBackgroundColor, 0.2),
+                },
+              '& tr:nth-of-type(even):not([data-selected="true"]):not([data-pinned="true"]) > td':
+                {
+                  backgroundColor: lighten(baseBackgroundColor, 0.1),
+                },
+              '& tr:nth-of-type(even):not([data-selected="true"]):not([data-pinned="true"]):hover > td':
+                {
+                  backgroundColor: darken(baseBackgroundColor, 0.2),
+                },
+            }),
+          },
+          mrtTheme: (theme) => ({
+            baseBackgroundColor: baseBackgroundColor,
+            draggingBorderColor: theme.palette.secondary.main,
+          }),
     });
 
     if (isLoading) {
