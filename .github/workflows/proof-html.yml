@@ -1,4 +1,6 @@
 name: Proof HTML
+permissions:
+  contents: read
 on:
   push:
   workflow_dispatch:
