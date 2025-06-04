@@ -90,7 +90,12 @@ describe('Footer Component', () => {
   test('initial state is set correctly', () => {
     const { container } = render(<Footer />);
     const footerText = container.querySelector('.ft');
-    expect(footerText).toHaveTextContent('© 2025 by Conor Heffron |');
+    expect(footerText).toHaveTextContent('© 2025 by Conor Heffron | 
+                <a
+                  href="https://github.com/conorheffron/ironoc"
+                >
+                  2.2.0
+                </a>');
   });
 
   test('fetches and displays the version', async () => {
