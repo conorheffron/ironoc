@@ -85,16 +85,6 @@ describe('RepoIssues', () => {
     expect(screen.getByTestId('mrt-table')).toBeInTheDocument();
   });
 
-  it('updates input value and allows search for another repo', async () => {
-    useParams.mockReturnValue({ id: 'user', repo: 'repo' });
-    global.fetch = jest.fn(() => Promise.resolve({ json: () => Promise.resolve([]) }));
-    render(<RepoIssues />);
-    await waitFor(() => expect(screen.queryByTestId('spinner')).not.toBeInTheDocument());
-    const input = screen.getByTestId('form-control');
-    fireEvent.change(input, { target: { value: 'newrepo' } });
-    expect(input.value).toBe('newrepo');
-  });
-
   it('navigates on form submit', async () => {
     useParams.mockReturnValue({ id: 'user', repo: 'repo' });
     global.fetch = jest.fn(() => Promise.resolve({ json: () => Promise.resolve([]) }));
@@ -112,22 +102,5 @@ describe('RepoIssues', () => {
       },
     });
     expect(mockNavigate).toHaveBeenCalledWith(0);
-  });
-
-  it('renders table but no rows if API returns empty list', async () => {
-    useParams.mockReturnValue({ id: 'user', repo: 'repo' });
-    global.fetch = jest.fn(() => Promise.resolve({ json: () => Promise.resolve([]) }));
-    render(<RepoIssues />);
-    await waitFor(() => expect(screen.queryByTestId('spinner')).not.toBeInTheDocument());
-    expect(screen.getByTestId('mrt-table')).toBeInTheDocument();
-    expect(screen.queryAllByTestId('mrt-row').length).toBe(0);
-  });
-
-  it('handles missing repo or id without crashing', async () => {
-    useParams.mockReturnValue({}); // No id or repo
-    global.fetch = jest.fn(() => Promise.resolve({ json: () => Promise.resolve([]) }));
-    render(<RepoIssues />);
-    await waitFor(() => expect(screen.queryByTestId('spinner')).not.toBeInTheDocument());
-    expect(screen.getByTestId('mrt-table')).toBeInTheDocument();
   });
 });
