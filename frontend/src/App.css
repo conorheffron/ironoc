@@ -98,6 +98,10 @@ p a {
     color: yellow;
 }
 
+footer p a {
+    color: blue;
+}
+
 .carousel-caption h3, h5 {
     background-color:yellow;
     width: 50%;
