@@ -91,13 +91,13 @@ describe('Footer Component', () => {
     const { container } = render(<Footer />);
     const footerText = container.querySelector('.ft');
     expect(footerText).toHaveTextContent('© 2025 by Conor Heffron |');
-    expect(footerText).toHaveTextContent('2.2.0');
   });
 
   test('fetches and displays the version', async () => {
     render(<Footer />);
     await waitFor(() => expect(fetch).toHaveBeenCalledTimes(1));
     await waitFor(() => expect(screen.getByText('© 2025 by Conor Heffron |')).toBeInTheDocument());
+    await waitFor(() => expect(screen.getByText('2.2.0')).toBeInTheDocument());
   });
 
   test('handles fetch error', async () => {
