@@ -98,7 +98,9 @@ describe('Footer Component', () => {
   test('fetches and displays the version', async () => {
     render(<Footer />);
     await waitFor(() => expect(fetch).toHaveBeenCalledTimes(1));
-    await waitFor(() => expect(screen.getByText('© 2025 by Conor Heffron | 2.2.0')).toBeInTheDocument());
+    await waitFor(() => expect(screen.getByText('© 2025 by Conor Heffron | ')).toBeInTheDocument());
+    await waitFor(() => expect(footerText).toHaveTextContent('2.2.0');
+    await waitFor(() => expect(footerText).toHaveTextContent('https://github.com/conorheffron/ironoc');
   });
 
   test('handles fetch error', async () => {
