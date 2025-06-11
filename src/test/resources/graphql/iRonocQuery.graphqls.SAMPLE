@@ -1,0 +1,63 @@
+query brews {
+  brews {
+    description
+    id
+    image
+    ingredients
+    title
+  }
+}
+
+query donateItems {
+  donateItems {
+    donate
+    link
+    img
+    alt
+    name
+    overview
+    founded
+    phone
+  }
+}
+
+query charityOptionByFounded1 {
+  charityOptionByFounded(founded: 1931) {
+    donate
+    link
+    img
+    alt
+    name
+    overview
+    founded
+    phone
+  }
+}
+
+query charityOptionByFounded2 {
+  charityOptionByFounded(founded: 1872) {
+    donate
+    link
+    img
+    alt
+    name
+    overview
+    founded
+    phone
+  }
+}
+
+query charityOptionByDonateLink {
+  charityOptionByDonateLink(
+    link: "https://www.jackandjill.ie/professionals/ways-to-donate/"
+  ) {
+    donate
+    founded
+    link
+    img
+    alt
+    name
+    overview
+    phone
+  }
+}
