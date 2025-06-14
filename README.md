@@ -1,10 +1,16 @@
+[![Maven Package](https://github.com/conorheffron/ironoc/actions/workflows/maven-publish.yml/badge.svg)](https://github.com/conorheffron/ironoc/actions/workflows/maven-publish.yml)
+
+[![Deploy to Amazon ECS](https://github.com/conorheffron/ironoc/actions/workflows/aws.yml/badge.svg)](https://github.com/conorheffron/ironoc/actions/workflows/aws.yml)
+
 [![Java CI with Maven](https://github.com/conorheffron/ironoc/actions/workflows/maven.yml/badge.svg)](https://github.com/conorheffron/ironoc/actions/workflows/maven.yml)
+
+[![Node.js Package](https://github.com/conorheffron/ironoc/actions/workflows/npm-publish-packages.yml/badge.svg)](https://github.com/conorheffron/ironoc/actions/workflows/npm-publish-packages.yml)
+
+[![Node.js CI](https://github.com/conorheffron/ironoc/actions/workflows/node.js.yml/badge.svg)](https://github.com/conorheffron/ironoc/actions/workflows/node.js.yml)
 
 ![Proof HTML](https://github.com/conorheffron/ironoc/actions/workflows/proof-html.yml/badge.svg)
 
 ![Auto Assign](https://github.com/conorheffron/ironoc/actions/workflows/auto-assign.yml/badge.svg)
-
-[![Deploy to Amazon ECS](https://github.com/conorheffron/ironoc/actions/workflows/aws.yml/badge.svg)](https://github.com/conorheffron/ironoc/actions/workflows/aws.yml)
 
 ### Docker Image Repositories
 - [ironoc Docker Hub Repository](https://hub.docker.com/repository/docker/conorheffron/ironoc/general)
