@@ -24,3 +24,16 @@ type Query {
     charityOptionByFounded(founded: Int): DonateItem!
     charityOptionByDonateLink(link: String): DonateItem!
 }
+
+type Mutation {
+    addCharityOption(
+        donate: String!
+        link: String!
+        img: String!
+        alt: String!
+        name: String!
+        overview: String!
+        founded: Int!
+        phone: String!
+    ): DonateItem!
+}

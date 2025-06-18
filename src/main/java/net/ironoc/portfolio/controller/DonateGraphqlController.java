@@ -5,6 +5,7 @@ import net.ironoc.portfolio.graph.DonateItemsResolver;
 import net.ironoc.portfolio.logger.AbstractLogger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.graphql.data.method.annotation.Argument;
+import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.graphql.data.method.annotation.SchemaMapping;
 import org.springframework.stereotype.Controller;
@@ -70,6 +71,35 @@ public class DonateGraphqlController extends AbstractLogger {
                 .filter(donateArg::equals);
         info("Leaving method charityOptions, donateOptional={}", donateOptional);
         return donateOptional.toList();
+    }
+
+    @MutationMapping
+    public Donate addCharityOption(
+            @Argument String alt,
+            @Argument String name,
+            @Argument String link,
+            @Argument String donate,
+            @Argument String img,
+            @Argument String overview,
+            @Argument Integer founded,
+            @Argument String phone
+    ) {
+        Donate newDonate = Donate.builder()
+                .alt(alt)
+                .name(name)
+                .link(link)
+                .donate(donate)
+                .img(img)
+                .overview(overview)
+                .founded(founded)
+                .phone(phone)
+                .build();
+
+        // Add to resolver or data source
+        donateItemsResolver.addDonateItem(newDonate);
+
+        info("Added new charity option: {}", newDonate);
+        return newDonate;
     }
 
     private List<Donate> mapDonateItemsToCharityOptions(List<Map<String, Object>> donateItems) {
