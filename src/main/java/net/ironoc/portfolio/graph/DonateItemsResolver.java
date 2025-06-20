@@ -9,22 +9,31 @@ import net.ironoc.portfolio.logger.AbstractLogger;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 @Component
 public class DonateItemsResolver extends AbstractLogger implements GraphQLQueryResolver {
 
     protected static final String DONATE_ITEMS_JSON_FILE = "json/donate-items.json";
+    protected static final String CHARITIES_LIST_FILE = "graphql/charities.txt";
 
     // In-memory list to store donate items as POJOs
     protected final List<Donate> donateItems = new ArrayList<>();
 
+    // In-memory set to store allowed charity names
+    protected final Set<String> allowedCharityNames = new HashSet<>();
+
     @PostConstruct
     public void loadDonateItems() {
         ObjectMapper objectMapper = new ObjectMapper();
+        loadAllowedCharityNames();
         try {
             List<Map<String, Object>> loadedList = objectMapper.readValue(
                     new ClassPathResource(DONATE_ITEMS_JSON_FILE).getInputStream(),
@@ -36,6 +45,26 @@ public class DonateItemsResolver extends AbstractLogger implements GraphQLQueryR
             }
         } catch (IOException e) {
             error("Failed to load Donate items JSON", e);
+        }
+    }
+
+    /**
+     * Loads the allowed charity names from the text file into memory.
+     */
+    private void loadAllowedCharityNames() {
+        allowedCharityNames.clear();
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(
+                new ClassPathResource(CHARITIES_LIST_FILE).getInputStream()))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String trimmed = line.trim();
+                if (!trimmed.isEmpty()) {
+                    allowedCharityNames.add(trimmed);
+                }
+            }
+            info("Loaded allowed charity names: {}", allowedCharityNames);
+        } catch (IOException e) {
+            error("Failed to load charities.txt", e);
         }
     }
 
@@ -53,9 +82,14 @@ public class DonateItemsResolver extends AbstractLogger implements GraphQLQueryR
 
     /**
      * Add a new charity option (donate item) to the in-memory list, if all fields are valid.
+     * Only allows items whose name matches an entry in charities.txt.
      * @param donate the Donate item to add
      */
     public void addDonateItem(Donate donate) {
+        if (!isInAllowedCharities(donate.getName())) {
+            info("Attempted to add DonateItem with name not in allowed charities list: {}", donate);
+            return;
+        }
         if (isValidDonate(donate)) {
             donateItems.add(donate);
             info("Added new DonateItem to memory: {}", donate);
@@ -76,6 +110,13 @@ public class DonateItemsResolver extends AbstractLogger implements GraphQLQueryR
                 && isAlphanumericOrSpace(donate.getOverview())
                 && isValidYear(donate.getFounded())
                 && isValidPhoneOrEmail(donate.getPhone());
+    }
+
+    /**
+     * Checks if the given name exists in the allowed charities list.
+     */
+    private boolean isInAllowedCharities(String name) {
+        return name != null && allowedCharityNames.contains(name.trim());
     }
 
     // Accept only alphanumeric and space (and basic punctuation for overview)
