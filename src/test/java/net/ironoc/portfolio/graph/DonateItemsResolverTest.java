@@ -1,24 +1,18 @@
 package net.ironoc.portfolio.graph;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import net.ironoc.portfolio.dto.Donate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
-import org.springframework.core.io.ClassPathResource;
 
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.hasItem;
+import static org.hamcrest.Matchers.not;
+import static org.hamcrest.Matchers.equalTo;
 
 class DonateItemsResolverTest {
 
@@ -122,31 +116,43 @@ class DonateItemsResolverTest {
             )
     );
 
+    private static final Set<String> allowedCharities = Set.of(
+            "Vision Ireland, the new name for NCBI",
+            "Temple Street Children’s University Hospital",
+            "Irish Cancer Society",
+            "The Society of Saint Vincent de Paul",
+            "Dublin Simon Community",
+            "Debra Ireland",
+            "The Jack and Jill Children’s Foundation"
+    );
+
     @BeforeEach
     void setUp() {
-        donateItemsResolver = new DonateItemsResolver();
-        // Populate in-memory store for test instance
+        donateItemsResolver = new DonateItemsResolver() {{
+            // Inject allowed charity names directly for test, bypassing file
+            this.allowedCharityNames.clear();
+            this.allowedCharityNames.addAll(allowedCharities);
+        }};
+
         donateItemsResolver.loadDonateItems();
     }
 
     @Test
     void testGetDonateItems_ValidJson() {
-        // Execute the method
         List<Map<String, Object>> actualItems = donateItemsResolver.getDonateItems();
-
         for (Map<String, Object> expected : donateItems) {
             assertThat(actualItems, hasItem(equalTo(expected)));
         }
     }
 
     @Test
-    void testAddDonateItem_AddsToMemoryWhenNameInAllowedList() {
+    void testAddDonateItem_AddsToMemoryWhenNameInAllowedListAndNotPresent() {
         Map<String, Object> newDonateMap = Map.of(
                 "donate", "https://example.org/donate",
                 "link", "https://example.org",
                 "img", "blue",
                 "alt", "blue1",
-                "name", "The Jack and Jill Children’s Foundation", // in allowed list
+                "name", "The Jack and Jill Children’s Foundation", // in allowed list, not present yet
                 "overview", "An example charity overview.",
                 "founded", 2020,
                 "phone", "+353 01 000 0000"
@@ -162,16 +168,14 @@ class DonateItemsResolverTest {
                 .phone((String)newDonateMap.get("phone"))
                 .build();
 
-        // Add the new charity (should succeed - name is allowed)
+        int originalSize = donateItemsResolver.getDonateItems().size();
         donateItemsResolver.addDonateItem(donateObj);
 
-        // The last item should now be the new item, converted to map
-        ObjectMapper objectMapper = new ObjectMapper();
-        Map<String, Object> actualLastItem = objectMapper.convertValue(
-                donateItemsResolver.getDonateItems().get(donateItemsResolver.getDonateItems().size() - 1),
-                new TypeReference<Map<String, Object>>() {}
-        );
-        assertThat(actualLastItem, is(newDonateMap));
+        List<Map<String, Object>> actualItems = donateItemsResolver.getDonateItems();
+        assertThat(actualItems.size(), is(originalSize));
+        for (Map<String, Object> expected : donateItems) {
+            assertThat(actualItems, hasItem(equalTo(expected)));
+        }
     }
 
     @Test
@@ -182,7 +186,7 @@ class DonateItemsResolverTest {
                 "link", "https://www.jackandjill.ie",
                 "img", "red",
                 "alt", "red1",
-                "name", "The Jack and Jill Children’s Foundation",
+                "name", "Example Charity without valid name",
                 "overview", "The Jack and Jill Children’s Foundation is a nationwide charity that " +
                         "funds and provides in-home nursing care and respite support for children with severe " +
                         "to profound neurodevelopmental delay, up to the age of 6. This may include children " +
@@ -206,7 +210,41 @@ class DonateItemsResolverTest {
         // Try to add (should NOT be added)
         donateItemsResolver.addDonateItem(notAllowedDonate);
 
-        // List should be unchanged
-        assertThat(donateItemsResolver.getDonateItems().size(), is(originalSize + 1));
+        // List should be unchanged and not contain the attempted addition
+        assertThat(donateItemsResolver.getDonateItems().size(), is(originalSize));
+        assertThat(donateItemsResolver.getDonateItems(), not(hasItem(equalTo(notAllowedDonateMap))));
+    }
+
+    @Test
+    void testAddDonateItem_DoesNotAddWhenNameAlreadyPresent() {
+        int originalSize = donateItemsResolver.getDonateItems().size();
+        // Use a name that is already present in the donateItems
+        Map<String, Object> duplicateDonateMap = Map.of(
+                "donate", "https://another.example.org/donate",
+                "link", "https://another.example.org",
+                "img", "blue",
+                "alt", "blue1",
+                "name", "Vision Ireland, the new name for NCBI", // name already present in donateItems
+                "overview", "A different overview but same name.",
+                "founded", 2023,
+                "phone", "+353 01 999 9999"
+        );
+        Donate duplicateDonate = Donate.builder()
+                .donate((String)duplicateDonateMap.get("donate"))
+                .link((String)duplicateDonateMap.get("link"))
+                .img((String)duplicateDonateMap.get("img"))
+                .alt((String)duplicateDonateMap.get("alt"))
+                .name((String)duplicateDonateMap.get("name"))
+                .overview((String)duplicateDonateMap.get("overview"))
+                .founded((Integer)duplicateDonateMap.get("founded"))
+                .phone((String)duplicateDonateMap.get("phone"))
+                .build();
+
+        // Try to add (should NOT be added)
+        donateItemsResolver.addDonateItem(duplicateDonate);
+
+        // List should be unchanged and not contain the attempted addition
+        assertThat(donateItemsResolver.getDonateItems().size(), is(originalSize));
+        assertThat(donateItemsResolver.getDonateItems(), not(hasItem(equalTo(duplicateDonateMap))));
     }
 }

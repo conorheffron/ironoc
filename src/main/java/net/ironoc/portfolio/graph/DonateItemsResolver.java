@@ -82,12 +82,18 @@ public class DonateItemsResolver extends AbstractLogger implements GraphQLQueryR
 
     /**
      * Add a new charity option (donate item) to the in-memory list, if all fields are valid.
-     * Only allows items whose name matches an entry in charities.txt.
+     * Only allows items whose name matches an entry in charities.txt,
+     * and only if that name is not already present in the memory.
      * @param donate the Donate item to add
      */
     public void addDonateItem(Donate donate) {
-        if (!isInAllowedCharities(donate.getName())) {
+        String charityName = donate.getName();
+        if (!isInAllowedCharities(charityName)) {
             info("Attempted to add DonateItem with name not in allowed charities list: {}", donate);
+            return;
+        }
+        if (isAlreadyPresent(charityName)) {
+            info("Attempted to add DonateItem with name already present in donateItems: {}", donate);
             return;
         }
         if (isValidDonate(donate)) {
@@ -96,6 +102,20 @@ public class DonateItemsResolver extends AbstractLogger implements GraphQLQueryR
         } else {
             info("Attempted to add invalid DonateItem: {}", donate);
         }
+    }
+
+    /**
+     * Checks if a DonateItem with the given name already exists in the donateItems list.
+     */
+    private boolean isAlreadyPresent(String name) {
+        if (name == null) return false;
+        String trimmedName = name.trim();
+        for (Donate donate : donateItems) {
+            if (trimmedName.equals(donate.getName() != null ? donate.getName().trim() : null)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
