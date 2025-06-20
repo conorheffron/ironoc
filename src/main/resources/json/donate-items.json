@@ -1,15 +1,5 @@
 [
   {
-    "donate": "https://www.jackandjill.ie/professionals/ways-to-donate/",
-    "link": "https://www.jackandjill.ie",
-    "img": "red",
-    "alt": "red1",
-    "name": "The Jack and Jill Children’s Foundation",
-    "overview": "The Jack and Jill Children’s Foundation is a nationwide charity that funds and provides in-home nursing care and respite support for children with severe to profound neurodevelopmental delay, up to the age of 6. This may include children with brain injury, genetic diagnosis, cerebral palsy and undiagnosed conditions. Another key part of our service is end-of-life care for all children up to the age of 6, irrespective of diagnosis.",
-    "founded": 1997,
-    "phone": "+353 (045) 894 538"
-  },
-  {
     "donate": "https://vi.ie/supporting-us/donate-now/",
     "link": "https://linktr.ee/vision_ireland",
     "img": "red",
@@ -68,5 +58,15 @@
     "overview": "We are dedicated to transforming the lives of people living with Epidermolysis Bullosa (EB), caring for someone with EB, or bereaved by EB, through care, research and advocacy. EB is an incurable genetic condition that affects the body's largest organ; the skin. People living with EB are missing the essential proteins that bind the skin's layers together, so any minor friction, movement or trauma causes it to break, tear, and blister. It is as fragile as a butterfly wing. That's why we're here. To be a positive force for all those living with EB and all whose lives have been impacted by EB.",
     "founded": 1988,
     "phone": "+353 (0)1 4126924"
+  },
+  {
+    "donate": "https://www.jackandjill.ie/professionals/ways-to-donate/",
+    "link": "https://www.jackandjill.ie",
+    "img": "red",
+    "alt": "red1",
+    "name": "The Jack and Jill Children’s Foundation",
+    "overview": "The Jack and Jill Children’s Foundation is a nationwide charity that funds and provides in-home nursing care and respite support for children with severe to profound neurodevelopmental delay, up to the age of 6. This may include children with brain injury, genetic diagnosis, cerebral palsy and undiagnosed conditions. Another key part of our service is end-of-life care for all children up to the age of 6, irrespective of diagnosis.",
+    "founded": 1997,
+    "phone": "+353 (045) 894 538"
   }
 ]

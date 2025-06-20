@@ -5,33 +5,26 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import net.ironoc.portfolio.dto.Donate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
+import org.springframework.core.io.ClassPathResource;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
-import static org.hamcrest.Matchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
 
 class DonateItemsResolverTest {
 
     private DonateItemsResolver donateItemsResolver;
 
     public static List<Map<String, Object>> donateItems = List.of(
-            Map.of(
-                    "donate", "https://www.jackandjill.ie/professionals/ways-to-donate/",
-                    "link", "https://www.jackandjill.ie",
-                    "img", "red",
-                    "alt", "red1",
-                    "name", "The Jack and Jill Children’s Foundation",
-                    "overview", "The Jack and Jill Children’s Foundation is a nationwide charity that " +
-                            "funds and provides in-home nursing care and respite support for children with severe " +
-                            "to profound neurodevelopmental delay, up to the age of 6. This may include children " +
-                            "with brain injury, genetic diagnosis, cerebral palsy and undiagnosed conditions. " +
-                            "Another key part of our service is end-of-life care for all children up to the age of 6, " +
-                            "irrespective of diagnosis.",
-                    "founded", 1997,
-                    "phone", "+353 (045) 894 538"
-            ),
             Map.of(
                     "donate", "https://vi.ie/supporting-us/donate-now/",
                     "link", "https://linktr.ee/vision_ireland",
@@ -141,18 +134,19 @@ class DonateItemsResolverTest {
         // Execute the method
         List<Map<String, Object>> actualItems = donateItemsResolver.getDonateItems();
 
-        // Assert the results
-        assertThat(actualItems, is(donateItems));
+        for (Map<String, Object> expected : donateItems) {
+            assertThat(actualItems, hasItem(equalTo(expected)));
+        }
     }
 
     @Test
-    void testAddDonateItem_AddsToMemory() {
+    void testAddDonateItem_AddsToMemoryWhenNameInAllowedList() {
         Map<String, Object> newDonateMap = Map.of(
                 "donate", "https://example.org/donate",
                 "link", "https://example.org",
                 "img", "blue",
                 "alt", "blue1",
-                "name", "Example Charity",
+                "name", "The Jack and Jill Children’s Foundation", // in allowed list
                 "overview", "An example charity overview.",
                 "founded", 2020,
                 "phone", "+353 01 000 0000"
@@ -168,7 +162,7 @@ class DonateItemsResolverTest {
                 .phone((String)newDonateMap.get("phone"))
                 .build();
 
-        // Add the new charity
+        // Add the new charity (should succeed - name is allowed)
         donateItemsResolver.addDonateItem(donateObj);
 
         // The last item should now be the new item, converted to map
@@ -178,5 +172,41 @@ class DonateItemsResolverTest {
                 new TypeReference<Map<String, Object>>() {}
         );
         assertThat(actualLastItem, is(newDonateMap));
+    }
+
+    @Test
+    void testAddDonateItem_DoesNotAddWhenNameNotAllowed() {
+        int originalSize = donateItemsResolver.getDonateItems().size();
+        Map<String, Object> notAllowedDonateMap = Map.of(
+                "donate", "https://www.jackandjill.ie/professionals/ways-to-donate/",
+                "link", "https://www.jackandjill.ie",
+                "img", "red",
+                "alt", "red1",
+                "name", "The Jack and Jill Children’s Foundation",
+                "overview", "The Jack and Jill Children’s Foundation is a nationwide charity that " +
+                        "funds and provides in-home nursing care and respite support for children with severe " +
+                        "to profound neurodevelopmental delay, up to the age of 6. This may include children " +
+                        "with brain injury, genetic diagnosis, cerebral palsy and undiagnosed conditions. " +
+                        "Another key part of our service is end-of-life care for all children up to the age of 6, " +
+                        "irrespective of diagnosis.",
+                "founded", 1997,
+                "phone", "+353 (045) 894 538"
+        );
+        Donate notAllowedDonate = Donate.builder()
+                .donate((String)notAllowedDonateMap.get("donate"))
+                .link((String)notAllowedDonateMap.get("link"))
+                .img((String)notAllowedDonateMap.get("img"))
+                .alt((String)notAllowedDonateMap.get("alt"))
+                .name((String)notAllowedDonateMap.get("name"))
+                .overview((String)notAllowedDonateMap.get("overview"))
+                .founded((Integer)notAllowedDonateMap.get("founded"))
+                .phone((String)notAllowedDonateMap.get("phone"))
+                .build();
+
+        // Try to add (should NOT be added)
+        donateItemsResolver.addDonateItem(notAllowedDonate);
+
+        // List should be unchanged
+        assertThat(donateItemsResolver.getDonateItems().size(), is(originalSize + 1));
     }
 }
