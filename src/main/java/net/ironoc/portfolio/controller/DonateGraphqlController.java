@@ -75,14 +75,14 @@ public class DonateGraphqlController extends AbstractLogger {
 
     @MutationMapping
     public Donate addCharityOption(
-            @Argument String alt,
-            @Argument String name,
-            @Argument String link,
-            @Argument String donate,
-            @Argument String img,
-            @Argument String overview,
-            @Argument Integer founded,
-            @Argument String phone
+            @Argument("alt") String alt,
+            @Argument("name") String name,
+            @Argument("link") String link,
+            @Argument("donate") String donate,
+            @Argument("img") String img,
+            @Argument("overview") String overview,
+            @Argument("founded") Integer founded,
+            @Argument("phone") String phone
     ) {
         Donate newDonate = Donate.builder()
                 .alt(alt)
