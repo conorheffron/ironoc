@@ -1,6 +1,6 @@
 {
   "name": "@conorheffron/ironoc-frontend",
-  "version": "7.4.5",
+  "version": "7.4.6",
   "private": false,
   "dependencies": {
     "@apollo/client": "^3.13.8",
