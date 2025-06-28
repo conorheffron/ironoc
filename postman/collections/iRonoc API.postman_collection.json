@@ -1,0 +1,244 @@
+{
+	"info": {
+		"_postman_id": "9a656704-20fc-42da-bf5b-e6fc38843f3e",
+		"name": "iRonoc API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "277886"
+	},
+	"item": [
+		{
+			"name": "GET APP Version",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}api/application/version",
+					"host": [
+						"{{base_url}}api"
+					],
+					"path": [
+						"application",
+						"version"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET GitHub Issues for iRonoc",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}api/get-repo-issue/conorheffron/ironoc/",
+					"host": [
+						"{{base_url}}api"
+					],
+					"path": [
+						"get-repo-issue",
+						"conorheffron",
+						"ironoc",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET GitHub Repositories for user conorheffron",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}api/get-repo-detail?username=conorheffron",
+					"host": [
+						"{{base_url}}api"
+					],
+					"path": [
+						"get-repo-detail"
+					],
+					"query": [
+						{
+							"key": "username",
+							"value": "conorheffron"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET Coffees REST",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}api/coffees",
+					"host": [
+						"{{base_url}}api"
+					],
+					"path": [
+						"coffees"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET Coffees GraphQL",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}api/coffees",
+					"host": [
+						"{{base_url}}api"
+					],
+					"path": [
+						"coffees"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET Portfolio Items",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}api/portfolio-items",
+					"host": [
+						"{{base_url}}api"
+					],
+					"path": [
+						"portfolio-items"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET Donate Items",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}api/donate-items",
+					"host": [
+						"{{base_url}}api"
+					],
+					"path": [
+						"donate-items"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET Donate Items",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "query charityOptionsGet {\n    donateItems {\n        donate\n        link\n        img\n        alt\n        name\n        overview\n        founded\n        phone\n    }\n}\n",
+						"variables": ""
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}graphql",
+					"host": [
+						"{{base_url}}graphql"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "MUTATION addCharityOption UNICEF",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "mutation MyMutation {\n  addCharityOption(donate: \"https://www.unicef.ie/donate\",\n    link: \"https://www.unicef.ie/\",\n    img: \"red\",\n    alt: \"red2\",\n    name: \"UNICEF\",\n    overview: \"For Every Child, UNICEF works in some of the world’s toughest places, to reach the world’s most disadvantaged children. To save their lives. To defend their rights. To help them fulfil their potential. In over 190 countries and territories, we work for every child, everywhere, every day, to build a better world for everyone. Before, during and after humanitarian emergencies, UNICEF is on the ground, bringing lifesaving help and hope to children and families. And we never give up.\",\n    founded: 1946,\n    phone: \"01 878 3000\") {\n    alt\n    donate\n    founded\n    img\n    link\n    name\n    overview\n    phone\n  }\n}",
+						"variables": ""
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}graphql",
+					"host": [
+						"{{base_url}}graphql"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "MUTATION addCharityOption Irish Red Cross",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "mutation MyMutation {\n  addCharityOption(\n        donate: \"https://donate.redcross.ie/b/my-donation\",\n        link: \"https://www.redcross.ie/\",\n        img: \"red\",\n        alt: \"red12\",\n        name: \"Red Cross\",\n        overview: \"The Irish Red Cross has been dedicated to serving people in need whether they are here in Ireland or caught up in humanitarian crises in countries and regions throughout the globe. Today the Irish Red Cross maintains an active network of over 3,000 volunteers at 73 branches based in large and small communities throughout the Republic of Ireland. We are also a committed member of the global Red Cross Red Crescent Movement is a global humanitarian network of 80 million people that helps those facing disaster, conflict, and health and social problems. The Movement consists of the International Committee of the Red Cross, the International Federation of Red Cross and Red Crescent Societies, and the 191 National Red Cross and Red Crescent Societies.\",\n        founded: 1939,\n        phone: \"+353 (0)1-642-4600\"\n      ) {\n    alt\n    donate\n    founded\n    img\n    link\n    name\n    overview\n    phone\n  }\n}",
+						"variables": ""
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}graphql",
+					"host": [
+						"{{base_url}}graphql"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "MUTATION addCharityOption Doctors without Borders",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "mutation MyMutation {\n  addCharityOption(\n        donate: \"https://www.msf.ie/founding?form=General-Donate\",\n        link: \"https://www.msf.ie/\",\n        img: \"red\",\n        alt: \"red14\",\n        name: \"Doctors Without Borders\",\n        overview: \"Amid the Parisian upheavals of May 1968, a group of young doctors decided to go and help victims of wars and major disasters. This new brand of humanitarianism would reinvent the concept of emergency aid. They were to become Médecins Sans Frontières, or Doctors Without Borders MSF.\",\n        founded: 1968,\n        phone: \"+353 (0)1 660 3337\"\n      ) {\n    alt\n    donate\n    founded\n    img\n    link\n    name\n    overview\n    phone\n  }\n}",
+						"variables": ""
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}graphql",
+					"host": [
+						"{{base_url}}graphql"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "MUTATION addCharityOption Save the Children",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "mutation MyMutation {\n  addCharityOption(donate: \"https://www.savethechildren.net/checkout/your-donation-can-save-childs-life-organic-donate-now-save-lives-sr\",\n        link: \"https://www.savethechildren.net/\",\n        img: \"red\",\n        alt: \"red15\",\n        name: \"Save the Children\",\n        overview: \"WE CREATE LASTING, POSITIVE CHANGE FOR AND WITH CHILDREN. Save the Children is the world’s first and leading independent children’s organisation transforming lives and the future we share. We’re proud to work with children, their communities, and our partners worldwide, discovering new solutions to help ensure that the world's most vulnerable children survive, learn and are protected. Every year, we reach tens of millions of children in more than 110 countries through our life-changing work.\",\n        founded: 1919,\n        phone: \"+44 (0)20 7012 6400\") {\n    alt\n    donate\n    founded\n    img\n    link\n    name\n    overview\n    phone\n  }\n}",
+						"variables": ""
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}graphql",
+					"host": [
+						"{{base_url}}graphql"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
