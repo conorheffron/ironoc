@@ -289,6 +289,10 @@
 		},
 		{
 			"name": "MUTATION addCharityOption with Vars",
+			"id": "277886-7536324c-610b-477c-b269-0595dfa61680",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
 			"request": {
 				"method": "POST",
 				"header": [],
