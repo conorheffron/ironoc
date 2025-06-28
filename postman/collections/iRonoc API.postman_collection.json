@@ -286,6 +286,27 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "MUTATION addCharityOption with Vars",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "mutation AddCharityOption(\n  $donate: String!,\n  $link: String!,\n  $img: String!,\n  $alt: String!,\n  $name: String!,\n  $overview: String!,\n  $founded: Int!,\n  $phone: String!\n) {\n  addCharityOption(\n    donate: $donate,\n    link: $link,\n    img: $img,\n    alt: $alt,\n    name: $name,\n    overview: $overview,\n    founded: $founded,\n    phone: $phone\n  ) {\n    alt\n    donate\n    founded\n    img\n    link\n    name\n    overview\n    phone\n  }\n}",
+						"variables": "{\n    \"donate\": \"https://www.unicef.ie/donate\",\n    \"link\": \"https://www.unicef.ie/\",\n    \"img\": \"red\",\n    \"alt\": \"red2\",\n    \"name\": \"UNICEF\",\n    \"overview\": \"For Every Child, UNICEF works in some of the world’s toughest places, to reach the world’s most disadvantaged children. To save their lives. To defend their rights. To help them fulfil their potential. In over 190 countries and territories, we work for every child, everywhere, every day, to build a better world for everyone. Before, during and after humanitarian emergencies, UNICEF is on the ground, bringing lifesaving help and hope to children and families. And we never give up.\",\n    \"founded\": 1946,\n    \"phone\": \"01 878 3000\"\n}"
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}graphql",
+					"host": [
+						"{{base_url}}graphql"
+					]
+				}
+			},
+			"response": []
 		}
 	]
 }
