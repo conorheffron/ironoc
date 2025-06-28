@@ -1,13 +1,16 @@
 {
 	"info": {
-		"_postman_id": "9a656704-20fc-42da-bf5b-e6fc38843f3e",
+		"_postman_id": "277886-9a656704-20fc-42da-bf5b-e6fc38843f3e",
 		"name": "iRonoc API",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "277886"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
 			"name": "GET APP Version",
+			"id": "277886-990a358b-2ff3-451f-b182-a26b84239ce8",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
 			"request": {
 				"method": "GET",
 				"header": [],
@@ -26,6 +29,10 @@
 		},
 		{
 			"name": "GET GitHub Issues for iRonoc",
+			"id": "277886-b8d51a14-ab36-49d7-be9b-f93b1aa0e20a",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
 			"request": {
 				"method": "GET",
 				"header": [],
@@ -46,6 +53,10 @@
 		},
 		{
 			"name": "GET GitHub Repositories for user conorheffron",
+			"id": "277886-296baaf0-cad0-47c4-9def-7854d62130c1",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
 			"request": {
 				"method": "GET",
 				"header": [],
@@ -69,6 +80,10 @@
 		},
 		{
 			"name": "GET Coffees REST",
+			"id": "277886-5708a421-ff0c-41a1-9943-9200e75035f9",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
 			"request": {
 				"method": "GET",
 				"header": [],
@@ -86,6 +101,10 @@
 		},
 		{
 			"name": "GET Coffees GraphQL",
+			"id": "277886-df5936a8-5c9a-42de-b0a6-8f3355be0f39",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
 			"request": {
 				"method": "GET",
 				"header": [],
@@ -103,6 +122,10 @@
 		},
 		{
 			"name": "GET Portfolio Items",
+			"id": "277886-cd14aae0-0bae-4ada-b6d8-084d2fca2d73",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
 			"request": {
 				"method": "GET",
 				"header": [],
@@ -120,6 +143,10 @@
 		},
 		{
 			"name": "GET Donate Items",
+			"id": "277886-dc45e685-9ec7-4cb5-b7a6-06c2148d3541",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
 			"request": {
 				"method": "GET",
 				"header": [],
@@ -137,6 +164,10 @@
 		},
 		{
 			"name": "GET Donate Items",
+			"id": "277886-a10299b0-e1f2-4227-8930-6aedeb9d0a27",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -158,6 +189,10 @@
 		},
 		{
 			"name": "MUTATION addCharityOption UNICEF",
+			"id": "277886-27489027-bbfd-43b1-857e-071ecab54ac4",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -179,6 +214,10 @@
 		},
 		{
 			"name": "MUTATION addCharityOption Irish Red Cross",
+			"id": "277886-de25260e-288d-4b4b-b77d-fbd98e70025a",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -200,6 +239,10 @@
 		},
 		{
 			"name": "MUTATION addCharityOption Doctors without Borders",
+			"id": "277886-7a1dc479-c0e4-4a76-bbd2-1d534551753f",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -221,6 +264,10 @@
 		},
 		{
 			"name": "MUTATION addCharityOption Save the Children",
+			"id": "277886-d13ae2a3-1d5b-4742-bc24-066a2af377ab",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
 			"request": {
 				"method": "POST",
 				"header": [],
