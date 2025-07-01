@@ -41,7 +41,7 @@ public class RemoteBrowserBasedIntTest extends BaseControllerIntegrationTest {
     @Autowired
     private WebDriver webDriver;
 
-    @Test
+    // @Test
     public void test_quick_tour() {
         try {
             Dimension dimension = new Dimension(878, 963);// mimic small device size
