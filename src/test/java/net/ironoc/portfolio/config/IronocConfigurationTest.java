@@ -1,6 +1,9 @@
 package net.ironoc.portfolio.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.info.License;
 import net.ironoc.portfolio.resolver.PushStateResourceResolver;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -9,6 +12,7 @@ import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.boot.info.BuildProperties;
 import org.springframework.boot.web.server.WebServerFactoryCustomizer;
 import org.springframework.boot.web.servlet.server.ConfigurableServletWebServerFactory;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
@@ -23,6 +27,8 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.CALLS_REAL_METHODS;
 import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
@@ -45,6 +51,9 @@ public class IronocConfigurationTest {
 
     @Mock
     private ResourceChainRegistration resourceChainRegistrationMock;
+
+    @Mock
+    private BuildProperties buildPropertiesMock;
 
     @Test
     public void test_addResourceHandlers_success() {
@@ -105,5 +114,29 @@ public class IronocConfigurationTest {
 
         // then
         assertThat(result, is(notNullValue()));
+    }
+
+    @Test
+    void ironocOpenAPI_shouldReturnConfiguredOpenAPIBean() {
+        // Arrange
+        when(buildPropertiesMock.getVersion()).thenReturn("1.2.3");
+
+        IronocConfiguration config = mock(IronocConfiguration.class, CALLS_REAL_METHODS);
+
+        // Act
+        OpenAPI openAPI = config.ironocOpenAPI(buildPropertiesMock);
+
+        // Assert
+        assertThat(openAPI, is(notNullValue()));
+
+        Info info = openAPI.getInfo();
+        assertThat(info, is(notNullValue()));
+        assertThat(info.getTitle(), is("iRonoc API"));
+        assertThat(info.getVersion(), is("v1.2.3"));
+
+        License license = info.getLicense();
+        assertThat(license, is(notNullValue()));
+        assertThat(license.getName(), is("GPL-3.0 license"));
+        assertThat(license.getUrl(), is("https://ironoc.net"));
     }
 }
