@@ -1,7 +1,7 @@
 import React from 'react';
 import { Container } from 'reactstrap';
-import '../App.css';
-import AppNavbar from '../AppNavbar';
+import '.././App.css';
+import AppNavbar from '.././AppNavbar';
 
 function NotFound({ 
   title = "404 - Page Not Found", 
