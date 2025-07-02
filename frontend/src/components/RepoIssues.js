@@ -155,7 +155,7 @@ const RepoIssues = () => {
     return (
       <div className="App">
         <AppNavbar />
-        <Container>
+        <Container fluid={true}>
           <br />
           <br />
           <br />
@@ -170,7 +170,7 @@ const RepoIssues = () => {
       <AppNavbar />
       <br />
       <br />
-      <Container fluid>
+      <Container fluid={true}>
         <br />
         <InputGroup className="mb-3">
           <Form.Control
