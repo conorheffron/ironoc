@@ -14,7 +14,7 @@ const issueTags = [
   'enhancement',
   'bug',
   'java',
-  'java-be'
+  'java-be',
   'javascript',
   'release',
   'ui',
