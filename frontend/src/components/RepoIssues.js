@@ -12,15 +12,16 @@ import { darken, lighten, useTheme } from '@mui/material';
 
 const issueTags = [
   'enhancement',
-  'python',
   'bug',
   'java',
+  'java-be'
   'javascript',
   'release',
   'ui',
   'frontend',
   'infra',
   'dependencies',
+  'python',
   'python-code',
 ];
 
