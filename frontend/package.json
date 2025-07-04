@@ -1,7 +1,8 @@
 {
   "name": "@conorheffron/ironoc-frontend",
-  "version": "7.5.3",
-  "private": false,
+  "version": "7.5.4",
+  "private": true,
+  "license": "UNLICENSED",
   "dependencies": {
     "@apollo/client": "^3.13.8",
     "@fontsource/montserrat": "^5.1.1",
