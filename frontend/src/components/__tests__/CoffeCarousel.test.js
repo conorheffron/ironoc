@@ -49,6 +49,7 @@ describe('CoffeeCarousel', () => {
               title: 'Coffee with null ingredients',
               ingredients: null,
           },
+          null
       ];
 
       render(<CoffeeCarousel items={mockItems} />);
