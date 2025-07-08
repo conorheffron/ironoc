@@ -15,10 +15,10 @@ function isValidUrl(url) {
 class CoffeeCarousel extends Component {
     render() {
         const { items } = this.props;
-
-        // Only include items with a valid http/https URL
-        const validItems = items.filter(item => isValidUrl(item.image));
-
+        // Only include items that are not null/undefined and have a valid http/https URL
+        const validItems = (items || []).filter(
+            item => item && isValidUrl(item.image)
+        );
         return (
             <Carousel className="App-header">
                 {validItems.map((item, index) => (
