@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Container } from 'reactstrap';
 import '.././App.css';
 import AppNavbar from '.././AppNavbar';
-import logo from '.././img/robot-logo.png';
 
 class Home extends Component {
     constructor(props) {
@@ -11,9 +10,6 @@ class Home extends Component {
             className = 'App',
             headerClassName = 'App-header',
             introId = 'my-intro',
-            logoClassName = 'App-logo',
-            logoAlt = 'iRonoc',
-            logoSrc = logo,
             welcomeMessage = 'Welcome to my personal portfolio site.'
         } = props;
 
@@ -21,15 +17,12 @@ class Home extends Component {
             className,
             headerClassName,
             introId,
-            logoClassName,
-            logoAlt,
-            logoSrc,
             welcomeMessage
         };
     }
 
     render() {
-        const { className, headerClassName, introId, logoClassName, logoAlt, logoSrc, welcomeMessage } = this.state;
+        const { className, headerClassName, introId, welcomeMessage } = this.state;
 
         return (
             <div className={className}>
@@ -37,7 +30,6 @@ class Home extends Component {
                 <Container>
                     <header className={headerClassName}>
                         <br /><br />
-                        <a href="/"><img src={logoSrc} className={logoClassName} alt={logoAlt} /></a>
                         <p id={introId}>
                             {welcomeMessage}<br /><br />
                             Please use the navigation bar to view different features such as <a href="/donate">donate</a>&nbsp;
