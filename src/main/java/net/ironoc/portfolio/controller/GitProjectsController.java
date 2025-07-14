@@ -15,9 +15,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 @RestController
@@ -116,10 +120,22 @@ public class GitProjectsController extends AbstractLogger {
 				request.getHeader("host"),
 				request.getRequestURI(),
 				request.getHeader("user-agent"));
+
 		List<RepositoryDetailDto> repositories = gitDetailsService.getRepoDetails(userId, false);
-		info("The repository details for user={} are: {}", userId, repositories);
-		return ResponseEntity.status(HttpStatus.OK)
-				.body(gitDetailsService.mapRepositoriesToResponse(repositories));
+
+		// For each repository, get its issue count
+		List<RepositoryDetailDomain> domains = gitDetailsService.mapRepositoriesToResponse(repositories);
+
+		// Assuming RepositoryDetailDomain has a field 'issueCount' (add if not present)
+		for (RepositoryDetailDomain domain : domains) {
+			List<RepositoryIssueDto> issues = gitDetailsService.getIssues(userId, domain.getName(), false);
+			domain.setIssueCount(issues != null ? issues.size() : 0);
+		}
+
+		// Sort projects descending by issue count
+		domains.sort(Comparator.comparingInt(RepositoryDetailDomain::getIssueCount).reversed());
+
+		return ResponseEntity.ok(domains);
 	}
 
 	private List<String> sanitizeValues(String... values) {
