@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 
 @RestController
 @RequestMapping("/api")
@@ -30,6 +31,9 @@ public class GitProjectsController extends AbstractLogger {
 
 	@Autowired
 	private final GitDetailsService gitDetailsService;
+
+	// Cache for issue counts: key is "username/repo"
+	private final ConcurrentHashMap<String, Integer> issueCountCache = new ConcurrentHashMap<>();
 
 	public GitProjectsController(GitDetailsService gitDetailsService) {
 		this.gitDetailsService = gitDetailsService;
@@ -43,8 +47,8 @@ public class GitProjectsController extends AbstractLogger {
 	})
 	@GetMapping(value = {"/get-repo-detail/{username}/"}, produces= MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<RepositoryDetailDomain>> getReposByUsernamePathVar(HttpServletRequest request,
-															  @PathVariable(value = "username") String username) {
-		return getReposByUsername(request, username);
+																				  @PathVariable(value = "username") String username) {
+		return getReposSortedAndWithIssueCount(request, username);
 	}
 
 	@Operation(summary = "Get repository details by GitHub username",
@@ -55,8 +59,8 @@ public class GitProjectsController extends AbstractLogger {
 	})
 	@GetMapping(value = {"/get-repo-detail"}, produces= MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<RepositoryDetailDomain>> getReposByUsernameReqParam(HttpServletRequest request,
-															  @RequestParam(value = "username") String username) {
-		return getReposByUsername(request, username);
+																				   @RequestParam(value = "username") String username) {
+		return getReposSortedAndWithIssueCount(request, username);
 	}
 
 	@Operation(summary = "Get project issues by GitHub username & repository (project name).",
@@ -67,14 +71,54 @@ public class GitProjectsController extends AbstractLogger {
 	})
 	@GetMapping(value = {"/get-repo-issue/{username}/{repository}/"}, produces= MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<RepositoryIssueDomain>> getIssuesByUsernameAndRepoPathVars(HttpServletRequest request,
-																				  @PathVariable(value = "username") String username,
-																				  @PathVariable(value = "repository") String repository) {
+																						  @PathVariable(value = "username") String username,
+																						  @PathVariable(value = "repository") String repository) {
 		return getIssuesByUsernameAndRepo(request, username, repository);
 	}
 
+	private ResponseEntity<List<RepositoryDetailDomain>> getReposSortedAndWithIssueCount(HttpServletRequest request, String username) {
+		// username validation (must contain only letters, numbers and/or dash chars)
+		String userId;
+		if (StringUtils.isBlank(username)) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Collections.emptyList());
+		} else if (!StringUtils.isAlphanumericSpace(sanitizeValue(username)
+				.replaceAll("-", " "))) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Collections.emptyList());
+		} else {
+			userId = sanitizeValue(username);
+		}
+
+		info("Github get repositories by username={} for request, host={}, uri={}, user-agent={}",
+				userId,
+				request.getHeader("host"),
+				request.getRequestURI(),
+				request.getHeader("user-agent"));
+		List<RepositoryDetailDto> repositories = gitDetailsService.getRepoDetails(userId, false);
+		info("The repository details for user={} are: {}", userId, repositories);
+
+		List<RepositoryDetailDomain> domains = gitDetailsService.mapRepositoriesToResponse(repositories);
+
+		// Only for username 'conorheffron', fetch issue counts and sort
+		if ("conorheffron".equalsIgnoreCase(userId)) {
+			for (RepositoryDetailDomain domain : domains) {
+				String cacheKey = userId + "/" + domain.getName();
+				Integer cachedCount = issueCountCache.get(cacheKey);
+				if (cachedCount == null) {
+					List<RepositoryIssueDto> issues = gitDetailsService.getIssues(userId, domain.getName(), false);
+					cachedCount = issues != null ? issues.size() : 0;
+					issueCountCache.put(cacheKey, cachedCount);
+				}
+				domain.setIssueCount(cachedCount);
+			}
+			domains.sort(Comparator.comparingInt(RepositoryDetailDomain::getIssueCount).reversed());
+		}
+
+		return ResponseEntity.ok(domains);
+	}
+
 	private ResponseEntity<List<RepositoryIssueDomain>> getIssuesByUsernameAndRepo(HttpServletRequest request,
-																			 String username,
-																			 String repository) {
+																				   String username,
+																				   String repository) {
 		// user & repo name validation (must contain only letters, numbers and/or dash chars)
 		String userId;
 		String repo;
@@ -100,42 +144,6 @@ public class GitProjectsController extends AbstractLogger {
 		info("The repository issues for user={} and repo={} are: {}", userId, repo, repositoryIssueDtos);
 		return ResponseEntity.status(HttpStatus.OK)
 				.body(gitDetailsService.mapIssuesToResponse(repositoryIssueDtos));
-	}
-
-	private ResponseEntity<List<RepositoryDetailDomain>> getReposByUsername(HttpServletRequest request,
-																			String username) {
-		// username validation (must contain only letters, numbers and/or dash chars)
-		String userId;
-		if (StringUtils.isBlank(username)) {
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Collections.emptyList());
-		} else if (!StringUtils.isAlphanumericSpace(sanitizeValue(username)
-				.replaceAll("-", " "))) {
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Collections.emptyList());
-		} else {
-			userId = sanitizeValue(username);
-		}
-
-		info("Github get repositories by username={} for request, host={}, uri={}, user-agent={}",
-				userId,
-				request.getHeader("host"),
-				request.getRequestURI(),
-				request.getHeader("user-agent"));
-
-		List<RepositoryDetailDto> repositories = gitDetailsService.getRepoDetails(userId, false);
-
-		// For each repository, get its issue count
-		List<RepositoryDetailDomain> domains = gitDetailsService.mapRepositoriesToResponse(repositories);
-
-		// Assuming RepositoryDetailDomain has a field 'issueCount' (add if not present)
-		for (RepositoryDetailDomain domain : domains) {
-			List<RepositoryIssueDto> issues = gitDetailsService.getIssues(userId, domain.getName(), false);
-			domain.setIssueCount(issues != null ? issues.size() : 0);
-		}
-
-		// Sort projects descending by issue count
-		domains.sort(Comparator.comparingInt(RepositoryDetailDomain::getIssueCount).reversed());
-
-		return ResponseEntity.ok(domains);
 	}
 
 	private List<String> sanitizeValues(String... values) {
