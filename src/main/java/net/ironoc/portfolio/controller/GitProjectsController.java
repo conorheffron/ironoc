@@ -32,6 +32,8 @@ public class GitProjectsController extends AbstractLogger {
 	@Autowired
 	private final GitDetailsService gitDetailsService;
 
+	protected static final String IRONOC_GIT_USER = "conorheffron";
+
 	// Cache for issue counts: key is "username/repo"
 	private final ConcurrentHashMap<String, Integer> issueCountCache = new ConcurrentHashMap<>();
 
@@ -99,7 +101,7 @@ public class GitProjectsController extends AbstractLogger {
 		List<RepositoryDetailDomain> domains = gitDetailsService.mapRepositoriesToResponse(repositories);
 
 		// Only for username 'conorheffron', fetch issue counts and sort
-		if ("conorheffron".equalsIgnoreCase(userId)) {
+		if (IRONOC_GIT_USER.equalsIgnoreCase(userId)) {
 			for (RepositoryDetailDomain domain : domains) {
 				String cacheKey = userId + "/" + domain.getName();
 				Integer cachedCount = issueCountCache.get(cacheKey);
