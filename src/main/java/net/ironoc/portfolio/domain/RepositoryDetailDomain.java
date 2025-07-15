@@ -5,11 +5,13 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
+@Setter
 public class RepositoryDetailDomain {
 
     @Schema(name= "name", description = "Name of GitHub Repository.", example = "ironoc-db",
@@ -35,4 +37,7 @@ public class RepositoryDetailDomain {
     @Schema(name = "topics", description = "Labels or topics associated with the GitHub repository project.",
             example = "[aws, jdk21, maven, personal, portfolio, spring-boot-3]", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
     private String topics;
+
+    @Schema(name= "issueCount", description = "Number of associated issues.", example = "3")
+    private int issueCount;
 }

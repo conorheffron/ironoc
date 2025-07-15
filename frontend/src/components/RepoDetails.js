@@ -71,7 +71,8 @@ class RepoDetails extends Component {
             );
         }
 
-        const repoList = repoDetailList.map(repo => (
+        const sortedRepos = repoDetailList.sort((a, b) => b.issueCount - a.issueCount);
+        const repoList = sortedRepos.map(repo => (
             <tr key={repo.name}>
                 <td className="table-info">
                     <a href={repo.repoUrl} target="_blank" rel="noreferrer">{repo.fullName}</a>

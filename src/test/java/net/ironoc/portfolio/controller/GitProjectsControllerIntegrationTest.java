@@ -62,17 +62,26 @@ public class GitProjectsControllerIntegrationTest extends BaseControllerIntegrat
     @InjectMocks
     private GitProjectsController gitProjectsController;// controller under test
 
-    private static final String JSON_RESPONSE = "[{\"name\":\"bio-cell-red-edge\"," +
+    private static final String JSON_RESPONSE = "[" +
+            "{" +
+            "\"name\":\"bio-cell-red-edge\"," +
             "\"fullName\":\"conorheffron/bio-cell-red-edge\"," +
             "\"description\":\"Edge Detection of Biological Cell (Image Processing Script)\"," +
             "\"appHome\":\"https://conorheffron.github.io/bio-cell-red-edge/\"," +
             "\"repoUrl\":\"https://github.com/conorheffron/bio-cell-red-edge\"," +
-            "\"topics\":\"[biology, computer-vision, image-processing, scikitlearn-machine-learning]\"}," +
-            "{\"name\":\"booking-sys\",\"fullName\":\"conorheffron/booking-sys\"," +
+            "\"topics\":\"[biology, computer-vision, image-processing, scikitlearn-machine-learning]\"," +
+            "\"issueCount\":0" +
+            "}," +
+            "{" +
+            "\"name\":\"booking-sys\"," +
+            "\"fullName\":\"conorheffron/booking-sys\"," +
             "\"description\":\"Sample Reservations & Bookings Viewer System\"," +
             "\"appHome\":\"https://booking-sys-ebgefrdmh3afbhee.northeurope-01.azurewebsites.net/book/\"," +
-            "\"repoUrl\":\"https://github.com/conorheffron/booking-sys\",\"topics\":\"\"" +
-            "}]";
+            "\"repoUrl\":\"https://github.com/conorheffron/booking-sys\"," +
+            "\"topics\":\"\"," +
+            "\"issueCount\":0" +
+            "}" +
+            "]";
     private static final String ISSUES_JSON_RESPONSE = "[{\"number\":\"62\"," +
             "\"title\":\"Re-write frontend with React <POC>\"," +
             "\"body\":\"Use React or Angular framework & JavaScript " +
