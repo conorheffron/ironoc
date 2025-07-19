@@ -25,6 +25,7 @@ const issueTags = [
   'dependencies',
   'python',
   'python-code',
+  'question'
 ];
 
 const RepoIssues = () => {
