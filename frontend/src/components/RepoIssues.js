@@ -18,11 +18,15 @@ const issueTags = [
   'javascript',
   'release',
   'ui',
+  'ui-frontend',
   'frontend',
+  'ci-infra',
   'infra',
   'dependencies',
   'python',
   'python-code',
+  'question',
+  'sql-scripts'
 ];
 
 const RepoIssues = () => {
