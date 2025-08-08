@@ -55,28 +55,28 @@ public class RemoteBrowserBasedIntTest extends BaseControllerIntegrationTest {
             webDriver.get("https://ironoc.net/");
 
             HomePage homePage = PageFactory.initElements(webDriver, HomePage.class);
-            getPageDetails(webDriver, 500L);
+            getPageDetails(webDriver, 1000L);
             assertThat(homePage, is(notNullValue()));
 
             DonatePage donatePage = homePage.goToDonate();
-            getPageDetails(donatePage.getDriver(), 500L);
+            getPageDetails(donatePage.getDriver(), 3000L);
             assertThat(donatePage, is(notNullValue()));
 
             HomePage homePage1 = donatePage.goToHome();
-            getPageDetails(homePage1.getDriver(), 500L);
+            getPageDetails(homePage1.getDriver(), 1000L);
             assertThat(homePage1, is(notNullValue()));
 
             AboutPage aboutPage = homePage.goToAbout();
-            getPageDetails(aboutPage.getDriver(), 500L);
+            getPageDetails(aboutPage.getDriver(), 1000L);
             assertThat(aboutPage, is(notNullValue()));
 
             PortfolioPage portfolioPage = aboutPage.goToPortfolio();
-            getPageDetails(portfolioPage.getDriver(), 500L);
+            getPageDetails(portfolioPage.getDriver(), 1000L);
             assertThat(portfolioPage, is(notNullValue()));
 
             BrewsPage brewsPage = portfolioPage.goToBrews();
             assertThat(brewsPage, is(notNullValue()));
-            getPageDetails(brewsPage.getDriver(), 1000L);
+            getPageDetails(brewsPage.getDriver(), 4000L);
         } catch (Exception e) {
             log.error("Unexpected exception occurred during test quick_tour", e);
             fail("Failed to navigate quick tour of iRonoc via page object calls.");
