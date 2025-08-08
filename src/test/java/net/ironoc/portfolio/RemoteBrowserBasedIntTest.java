@@ -1,5 +1,6 @@
 package net.ironoc.portfolio;
 
+import io.swagger.v3.oas.models.OpenAPI;
 import lombok.extern.slf4j.Slf4j;
 import net.ironoc.portfolio.controller.BaseControllerIntegrationTest;
 import net.ironoc.portfolio.controller.VersionController;
@@ -38,10 +39,13 @@ public class RemoteBrowserBasedIntTest extends BaseControllerIntegrationTest {
     @MockitoBean
     private VersionController versionControllerMock;
 
+    @MockitoBean
+    private OpenAPI ironocOpenAPI;
+
     @Autowired
     private WebDriver webDriver;
 
-    // @Test
+    @Test
     public void test_quick_tour() {
         try {
             Dimension dimension = new Dimension(878, 963);// mimic small device size
@@ -55,7 +59,7 @@ public class RemoteBrowserBasedIntTest extends BaseControllerIntegrationTest {
             assertThat(homePage, is(notNullValue()));
 
             DonatePage donatePage = homePage.goToDonate();
-            getPageDetails(donatePage.getDriver(), 1000L);
+            getPageDetails(donatePage.getDriver(), 3000L);
             assertThat(donatePage, is(notNullValue()));
 
             HomePage homePage1 = donatePage.goToHome();
