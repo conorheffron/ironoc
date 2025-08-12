@@ -45,7 +45,7 @@ public class RemoteBrowserBasedIntTest extends BaseControllerIntegrationTest {
     @Autowired
     private WebDriver webDriver;
 
-    // @Test
+    @Test
     public void test_quick_tour() {
         try {
             Dimension dimension = new Dimension(878, 963);// mimic small device size
@@ -59,7 +59,7 @@ public class RemoteBrowserBasedIntTest extends BaseControllerIntegrationTest {
             assertThat(homePage, is(notNullValue()));
 
             DonatePage donatePage = homePage.goToDonate();
-            getPageDetails(donatePage.getDriver(), 3000L);
+            getPageDetails(donatePage.getDriver(), 1000L);
             assertThat(donatePage, is(notNullValue()));
 
             HomePage homePage1 = donatePage.goToHome();
