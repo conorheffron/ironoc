@@ -11,7 +11,7 @@ public class HomePage {
 
     protected WebDriver driver;
 
-    @FindBy(linkText = "Charity Options")
+    @FindBy(css = ".App .dropdown:nth-child(5) > .dropdown-toggle")
     private WebElement charityOptions;
 
     @FindBy(linkText = "Donate")
