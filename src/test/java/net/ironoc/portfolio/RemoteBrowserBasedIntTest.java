@@ -98,7 +98,7 @@ public class RemoteBrowserBasedIntTest extends BaseControllerIntegrationTest {
 
         synchronized (driver) {
             try {
-                driver.wait(Duration.ofSeconds(2));
+                driver.wait(Duration.ofSeconds(2).toMillis());
             } catch (InterruptedException e) {
                 log.error("Unexpected exception occurred during test quick_tour", e);
                 fail("Failed to navigate quick tour of iRonoc verifying page details.");
