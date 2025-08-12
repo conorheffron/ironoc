@@ -56,28 +56,28 @@ public class RemoteBrowserBasedIntTest extends BaseControllerIntegrationTest {
             webDriver.get("https://ironoc.net/");
 
             HomePage homePage = PageFactory.initElements(webDriver, HomePage.class);
-            getPageDetails(webDriver);
+            getPageDetails(webDriver, 2);
             assertThat(homePage, is(notNullValue()));
 
             DonatePage donatePage = homePage.goToDonate();
-            getPageDetails(donatePage.getDriver());
+            getPageDetails(donatePage.getDriver(), 1);
             assertThat(donatePage, is(notNullValue()));
 
             HomePage homePage1 = donatePage.goToHome();
-            getPageDetails(homePage1.getDriver());
+            getPageDetails(homePage1.getDriver(), 1);
             assertThat(homePage1, is(notNullValue()));
 
             AboutPage aboutPage = homePage.goToAbout();
-            getPageDetails(aboutPage.getDriver());
+            getPageDetails(aboutPage.getDriver(), 1);
             assertThat(aboutPage, is(notNullValue()));
 
             PortfolioPage portfolioPage = aboutPage.goToPortfolio();
-            getPageDetails(portfolioPage.getDriver());
+            getPageDetails(portfolioPage.getDriver(), 1);
             assertThat(portfolioPage, is(notNullValue()));
 
             BrewsPage brewsPage = portfolioPage.goToBrews();
             assertThat(brewsPage, is(notNullValue()));
-            getPageDetails(brewsPage.getDriver());
+            getPageDetails(brewsPage.getDriver(), 2);
         } catch (Exception e) {
             log.error("Unexpected exception occurred during test quick_tour", e);
             fail("Failed to navigate quick tour of iRonoc via page object calls.");
@@ -87,7 +87,7 @@ public class RemoteBrowserBasedIntTest extends BaseControllerIntegrationTest {
         }
     }
 
-    private void getPageDetails(WebDriver driver) {
+    private void getPageDetails(WebDriver driver, int waitInSeconds) {
         String title = driver.getTitle();
         assertThat(title, containsString("iRonoc React App"));
         assertThat(title, containsString("| Conor Heffron"));
@@ -98,7 +98,7 @@ public class RemoteBrowserBasedIntTest extends BaseControllerIntegrationTest {
 
         synchronized (driver) {
             try {
-                driver.wait(Duration.ofSeconds(2).toMillis());
+                driver.wait(Duration.ofSeconds(waitInSeconds).toMillis());
             } catch (InterruptedException e) {
                 log.error("Unexpected exception occurred during test quick_tour", e);
                 fail("Failed to navigate quick tour of iRonoc verifying page details.");
