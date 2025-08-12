@@ -19,6 +19,7 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.web.context.WebApplicationContext;
+import java.time.Duration;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.blankOrNullString;
@@ -55,28 +56,28 @@ public class RemoteBrowserBasedIntTest extends BaseControllerIntegrationTest {
             webDriver.get("https://ironoc.net/");
 
             HomePage homePage = PageFactory.initElements(webDriver, HomePage.class);
-            getPageDetails(webDriver, 1000L);
+            getPageDetails(webDriver);
             assertThat(homePage, is(notNullValue()));
 
             DonatePage donatePage = homePage.goToDonate();
-            getPageDetails(donatePage.getDriver(), 1000L);
+            getPageDetails(donatePage.getDriver());
             assertThat(donatePage, is(notNullValue()));
 
             HomePage homePage1 = donatePage.goToHome();
-            getPageDetails(homePage1.getDriver(), 1000L);
+            getPageDetails(homePage1.getDriver());
             assertThat(homePage1, is(notNullValue()));
 
             AboutPage aboutPage = homePage.goToAbout();
-            getPageDetails(aboutPage.getDriver(), 1000L);
+            getPageDetails(aboutPage.getDriver());
             assertThat(aboutPage, is(notNullValue()));
 
             PortfolioPage portfolioPage = aboutPage.goToPortfolio();
-            getPageDetails(portfolioPage.getDriver(), 1000L);
+            getPageDetails(portfolioPage.getDriver());
             assertThat(portfolioPage, is(notNullValue()));
 
             BrewsPage brewsPage = portfolioPage.goToBrews();
             assertThat(brewsPage, is(notNullValue()));
-            getPageDetails(brewsPage.getDriver(), 4000L);
+            getPageDetails(brewsPage.getDriver());
         } catch (Exception e) {
             log.error("Unexpected exception occurred during test quick_tour", e);
             fail("Failed to navigate quick tour of iRonoc via page object calls.");
@@ -86,7 +87,7 @@ public class RemoteBrowserBasedIntTest extends BaseControllerIntegrationTest {
         }
     }
 
-    private void getPageDetails(WebDriver driver, Long millis) {
+    private void getPageDetails(WebDriver driver) {
         String title = driver.getTitle();
         assertThat(title, containsString("iRonoc React App"));
         assertThat(title, containsString("| Conor Heffron"));
@@ -97,7 +98,7 @@ public class RemoteBrowserBasedIntTest extends BaseControllerIntegrationTest {
 
         synchronized (driver) {
             try {
-                driver.wait(millis);
+                driver.wait(Duration.ofSeconds(2));
             } catch (InterruptedException e) {
                 log.error("Unexpected exception occurred during test quick_tour", e);
                 fail("Failed to navigate quick tour of iRonoc verifying page details.");
