@@ -11,7 +11,7 @@
     "@fontsource/montserrat": "^5.1.1",
     "@fontsource/open-sans": "^5.1.1",
     "@graphiql/plugin-explorer": "^5.0.0",
-    "@graphiql/react": "^0.35.4",
+    "@graphiql/react": "^0.37.1",
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.8.2",
     "bootstrap": "5.1",
