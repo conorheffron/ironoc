@@ -18,7 +18,7 @@ The ironoc UI built with react for personal portfolio website.
 ```shell
 cd frontend
 
-npm install 
+npm install [--force or --legacy-peer-deps]
 
 npm run build 
 

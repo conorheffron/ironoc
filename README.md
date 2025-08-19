@@ -65,7 +65,10 @@ mvn clean package -U
 ```shell
 cd frontend
 
+npm install [--force or --legacy-peer-deps]
+
 npm run build
+
 rpm run start
 
 npm run test
