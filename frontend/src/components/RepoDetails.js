@@ -82,6 +82,7 @@ class RepoDetails extends Component {
                     <a href={repo.appHome} target="_blank" rel="noreferrer">{repo.name}</a>
                 </td>
                 <td>{repo.topics}</td>
+                <td>{repo.issueCount}</td>
                 <td>
                     <ButtonGroup>
                         <Button size="sm" color="secondary" tag={Link} to={`/issues/${gitUser}/${repo.name}`}>List Issues</Button>
@@ -111,9 +112,10 @@ class RepoDetails extends Component {
                         <thead>
                             <tr className="table-primary">
                                 <th width="10%">Repository</th>
-                                <th width="50%">Description</th>
+                                <th width="40%">Description</th>
                                 <th width="10%">App URL</th>
                                 <th width="15%">Topics</th>
+                                <th width="10%">Issues Count</th>
                                 <th width="5%">Actions</th>
                             </tr>
                         </thead>
