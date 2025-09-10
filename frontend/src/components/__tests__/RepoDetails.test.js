@@ -94,12 +94,14 @@ describe('RepoDetails Component', () => {
         const descriptionHeader = screen.getByRole('columnheader', { name: /Description/i });
         const appUrlHeader = screen.getByRole('columnheader', { name: /App URL/i });
         const topicsHeader = screen.getByRole('columnheader', { name: /Topics/i });
+        const issuesCount = screen.getByRole('columnheader', { name: /Issues Count/i });
         const actionsHeader = screen.getByRole('columnheader', { name: /Actions/i });
 
         expect(repositoryHeader).toBeInTheDocument();
         expect(descriptionHeader).toBeInTheDocument();
         expect(appUrlHeader).toBeInTheDocument();
         expect(topicsHeader).toBeInTheDocument();
+        expect(issuesCount).toBeInTheDocument();
         expect(actionsHeader).toBeInTheDocument();
     });
 
