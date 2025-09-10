@@ -111,10 +111,10 @@ class RepoDetails extends Component {
                     <Table striped hover bordered>
                         <thead>
                             <tr className="table-primary">
-                                <th width="10%">Repository</th>
-                                <th width="40%">Description</th>
-                                <th width="10%">App URL</th>
-                                <th width="15%">Topics</th>
+                                <th width="9%">Repository</th>
+                                <th width="15%">Description</th>
+                                <th width="6%">App URL</th>
+                                <th width="35%">Topics</th>
                                 <th width="10%">Issues Count</th>
                                 <th width="5%">Actions</th>
                             </tr>
