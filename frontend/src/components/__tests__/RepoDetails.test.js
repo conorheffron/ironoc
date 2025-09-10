@@ -3,39 +3,30 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
 import RepoDetails from '../RepoDetails';
 
+let mockNavigate = jest.fn();
+let mockParams = { id: 'conorheffron' };
+
 jest.mock('react-router', () => ({
     ...jest.requireActual('react-router'),
-    useParams: jest.fn(),
-    useNavigate: jest.fn(),
+    useParams: () => mockParams,
+    useNavigate: () => mockNavigate,
 }));
 
 describe('RepoDetails Component', () => {
-    const mockNavigate = jest.fn();
-    const mockParams = { id: 'testUser' };
-
     beforeEach(() => {
-        require('react-router').useNavigate.mockReturnValue(mockNavigate);
-        require('react-router').useParams.mockReturnValue(mockParams);
-
+        mockNavigate = jest.fn();
+        // Default to conorheffron, can be changed per test
+        mockParams = { id: 'conorheffron' };
         global.fetch = jest.fn(() =>
             Promise.resolve({
-                json: () =>
-                    Promise.resolve([
-                        {
-                            name: 'testRepo',
-                            repoUrl: 'https://github.com/testRepo',
-                            fullName: 'testUser/testRepo',
-                            description: 'Test repository description',
-                            appHome: 'https://example.com',
-                            topics: 'topic1, topic2',
-                        },
-                    ]),
+                json: () => Promise.resolve([]),
             })
         );
     });
 
     afterEach(() => {
         jest.clearAllMocks();
+        delete global.fetch;
     });
 
     test('renders loading spinner initially', () => {
@@ -44,86 +35,169 @@ describe('RepoDetails Component', () => {
                 <RepoDetails />
             </MemoryRouter>
         );
-
         expect(screen.getByText(/loading/i)).toBeInTheDocument();
     });
 
-    test('fetches and displays repo details', async () => {
+    test('fetches and displays repo details isConor=True', async () => {
+        global.fetch = jest.fn(() =>
+            Promise.resolve({
+                json: () =>
+                    Promise.resolve([
+                        {
+                            name: 'ironoc',
+                            repoUrl: 'https://github.com/conorheffron/ironoc',
+                            fullName: 'conorheffron/ironoc',
+                            description: 'Ironoc framework',
+                            appHome: 'https://ironoc.com',
+                            topics: 'nodejs, serverless',
+                            issueCount: 37,
+                        },
+                    ]),
+            })
+        );
         render(
             <MemoryRouter>
                 <RepoDetails />
             </MemoryRouter>
         );
-
         await waitFor(() => expect(fetch).toHaveBeenCalledTimes(1));
+        expect(screen.getByText('conorheffron/ironoc')).toBeInTheDocument();
+        expect(screen.getByText('Ironoc framework')).toBeInTheDocument();
+        expect(screen.getByText('nodejs, serverless')).toBeInTheDocument();
 
-        expect(screen.getByText('testUser/testRepo')).toBeInTheDocument();
-        expect(screen.getByText('Test repository description')).toBeInTheDocument();
-        expect(screen.getByText('topic1, topic2')).toBeInTheDocument();
+        expect(screen.queryByRole('columnheader', { name: /Issues Count/i })).toBeInTheDocument();
+        expect(screen.getByText('37')).toBeInTheDocument();
     });
 
-
     test('handles input change', async () => {
+        global.fetch = jest.fn(() =>
+            Promise.resolve({
+                json: () =>
+                    Promise.resolve([
+                        {
+                            name: 'ironoc-db',
+                            repoUrl: 'https://github.com/conorheffron/ironoc-db',
+                            fullName: 'conorheffron/ironoc-db',
+                            description: 'Ironoc database',
+                            appHome: 'https://ironocdb.com',
+                            topics: 'database, nodejs',
+                            issueCount: 1,
+                        },
+                    ]),
+            })
+        );
         render(
             <MemoryRouter>
                 <RepoDetails />
             </MemoryRouter>
         );
-
-        // Wait for the loading spinner to disappear
         await waitFor(() => expect(screen.queryByText(/loading/i)).not.toBeInTheDocument());
 
         const input = screen.getByPlaceholderText(/Enter GitHub User ID/i);
         fireEvent.change(input, { target: { value: 'newUser' } });
-
         expect(input.value).toBe('newUser');
     });
 
-    test('displays table headers correctly', async () => {
+    test('displays table headers correctly for ronocdev when isConor=false and hasRepoWithIssues=true', async () => {
+        mockParams = { id: 'ronocdev' };
+        global.fetch = jest.fn(() =>
+            Promise.resolve({
+                json: () =>
+                    Promise.resolve([
+                        {
+                            name: 'ronoc-packages',
+                            repoUrl: 'https://github.com/ronocdev/ronoc-packages',
+                            fullName: 'ronocdev/ronoc-packages',
+                            description: 'Ronoc NPM packages',
+                            appHome: 'https://ronoc.dev',
+                            topics: 'npm, packages',
+                            issueCount: 146,
+                        },
+                    ]),
+            })
+        );
         render(
             <MemoryRouter>
                 <RepoDetails />
             </MemoryRouter>
         );
-
-        // Wait for the loading spinner to disappear
         await waitFor(() => expect(screen.queryByText(/loading/i)).not.toBeInTheDocument());
 
-        // Assert that table headers are displayed correctly using roles
-        const repositoryHeader = screen.getByRole('columnheader', { name: /Repository/i });
-        const descriptionHeader = screen.getByRole('columnheader', { name: /Description/i });
-        const appUrlHeader = screen.getByRole('columnheader', { name: /App URL/i });
-        const topicsHeader = screen.getByRole('columnheader', { name: /Topics/i });
-        const issuesCount = screen.getByRole('columnheader', { name: /Issues Count/i });
-        const actionsHeader = screen.getByRole('columnheader', { name: /Actions/i });
+        expect(screen.getByRole('columnheader', { name: /Repository/i })).toBeInTheDocument();
+        expect(screen.getByRole('columnheader', { name: /Description/i })).toBeInTheDocument();
+        expect(screen.getByRole('columnheader', { name: /App URL/i })).toBeInTheDocument();
+        expect(screen.getByRole('columnheader', { name: /Topics/i })).toBeInTheDocument();
+        expect(screen.getByRole('columnheader', { name: /Actions/i })).toBeInTheDocument();
 
-        expect(repositoryHeader).toBeInTheDocument();
-        expect(descriptionHeader).toBeInTheDocument();
-        expect(appUrlHeader).toBeInTheDocument();
-        expect(topicsHeader).toBeInTheDocument();
-        expect(issuesCount).toBeInTheDocument();
-        expect(actionsHeader).toBeInTheDocument();
+        expect(screen.getByText('ronocdev/ronoc-packages')).toBeInTheDocument();
+        expect(screen.getByText('Ronoc NPM packages')).toBeInTheDocument();
+        expect(screen.getByText('npm, packages')).toBeInTheDocument();
+
+        expect(screen.queryByRole('columnheader', { name: /Issues Count/i })).not.toBeInTheDocument();
+        expect(screen.queryByText('146')).not.toBeInTheDocument();
     });
 
-    test('navigates on form submission', async () => { // Make the function async
+    test('displays table headers correctly for elastictester when isConor=false and hasRepoWithIssues=false', async () => {
+        mockParams = { id: 'elastictester' };
+        global.fetch = jest.fn(() =>
+            Promise.resolve({
+                json: () =>
+                    Promise.resolve([
+                        {
+                            name: 'elastic-tester',
+                            repoUrl: 'https://github.com/elastictester/elastic-tester',
+                            fullName: 'elastictester/elastic-tester',
+                            description: 'Elastic search tester',
+                            appHome: 'https://elastictester.io',
+                            topics: 'elastic, test',
+                        },
+                    ]),
+            })
+        );
         render(
             <MemoryRouter>
                 <RepoDetails />
             </MemoryRouter>
         );
+        await waitFor(() => expect(screen.queryByText(/loading/i)).not.toBeInTheDocument());
+        await waitFor(() => expect(fetch).toHaveBeenCalledTimes(1));
+        expect(screen.getByRole('columnheader', { name: /Repository/i })).toBeInTheDocument();
+        expect(screen.getByRole('columnheader', { name: /Description/i })).toBeInTheDocument();
+        expect(screen.getByRole('columnheader', { name: /App URL/i })).toBeInTheDocument();
+        expect(screen.getByRole('columnheader', { name: /Topics/i })).toBeInTheDocument();
+        expect(screen.queryByRole('columnheader', { name: /Actions/i })).toBeInTheDocument();
 
-        // Wait for the loading spinner to disappear
+        expect(screen.queryByRole('columnheader', { name: /Issues Count/i })).not.toBeInTheDocument();
+    });
+
+    test('navigates on form submission', async () => {
+        global.fetch = jest.fn(() =>
+            Promise.resolve({
+                json: () =>
+                    Promise.resolve([
+                        {
+                            name: 'ironoc-db',
+                            repoUrl: 'https://github.com/conorheffron/ironoc-db',
+                            fullName: 'conorheffron/ironoc-db',
+                            description: 'Ironoc database',
+                            appHome: 'https://ironocdb.com',
+                            topics: 'database, nodejs',
+                            issueCount: 1,
+                        },
+                    ]),
+            })
+        );
+        render(
+            <MemoryRouter>
+                <RepoDetails />
+            </MemoryRouter>
+        );
         await waitFor(() => expect(screen.queryByText(/loading/i)).not.toBeInTheDocument());
 
-        // Use getByRole to target the input field and button
         const input = screen.getByRole('textbox', { name: /Enter GitHub User ID/i });
         const button = screen.getByRole('button', { name: /Search Projects/i });
-
-        // Simulate user input and form submission
         fireEvent.change(input, { target: { value: 'newUser' } });
         fireEvent.click(button);
-
-        // Assert that navigation was triggered with the correct arguments
         expect(mockNavigate).toHaveBeenCalledWith('/projects/newUser', {
             replace: true,
             state: { id: 'newUser' },
