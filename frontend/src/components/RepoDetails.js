@@ -72,6 +72,9 @@ class RepoDetails extends Component {
         }
 
         const sortedRepos = repoDetailList.sort((a, b) => b.issueCount - a.issueCount);
+        const hasRepoWithIssues = sortedRepos.some(repo => repo.issueCount > 0);
+        const isConor = gitUser === 'conorheffron';
+
         const repoList = sortedRepos.map(repo => (
             <tr key={repo.name}>
                 <td className="table-info">
@@ -82,6 +85,9 @@ class RepoDetails extends Component {
                     <a href={repo.appHome} target="_blank" rel="noreferrer">{repo.name}</a>
                 </td>
                 <td>{repo.topics}</td>
+                {isConor && hasRepoWithIssues && (
+                    <td>{repo.issueCount}</td>
+                )}
                 <td>
                     <ButtonGroup>
                         <Button size="sm" color="secondary" tag={Link} to={`/issues/${gitUser}/${repo.name}`}>List Issues</Button>
@@ -110,12 +116,25 @@ class RepoDetails extends Component {
                     <Table striped hover bordered>
                         <thead>
                             <tr className="table-primary">
-                                <th width="10%">Repository</th>
-                                <th width="50%">Description</th>
-                                <th width="10%">App URL</th>
-                                <th width="15%">Topics</th>
-                                <th width="5%">Actions</th>
-                            </tr>
+                                {isConor && hasRepoWithIssues ? (
+                                <>
+                                    <th width="9%">Repository</th>
+                                    <th width="15%">Description</th>
+                                    <th width="6%">App URL</th>
+                                    <th width="35%">Topics</th>
+                                    <th width="10%">Issues Count</th>
+                                    <th width="5%">Actions</th>
+                                </>
+                                ) : (
+                                <>
+                                    <th width="10%">Repository</th>
+                                    <th width="50%">Description</th>
+                                    <th width="10%">App URL</th>
+                                    <th width="15%">Topics</th>
+                                    <th width="5%">Actions</th>
+                                </>
+                                )}
+                           </tr>
                         </thead>
                         <tbody>{repoList}</tbody>
                     </Table>
