@@ -12,6 +12,12 @@
 
 ![Auto Assign](https://github.com/conorheffron/ironoc/actions/workflows/auto-assign.yml/badge.svg)
 
+### Sonar
+
+[![SonarQube](https://github.com/conorheffron/ironoc/actions/workflows/sonar.yml/badge.svg)](https://github.com/conorheffron/ironoc/actions/workflows/sonar.yml)
+
+[Sonar Overall Summary](https://sonarcloud.io/summary/overall?id=conorheffron_ironoc&branch=main)
+
 ### Docker Image Repositories
 - [ironoc Docker Hub Repository](https://hub.docker.com/repository/docker/conorheffron/ironoc/general)
 - [ironoc GitHub Docker Container Registry](https://github.com/conorheffron/ironoc/pkgs/container/ironoc)

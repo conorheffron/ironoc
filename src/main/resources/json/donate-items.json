@@ -68,5 +68,55 @@
     "overview": "The Jack and Jill Children’s Foundation is a nationwide charity that funds and provides in-home nursing care and respite support for children with severe to profound neurodevelopmental delay, up to the age of 6. This may include children with brain injury, genetic diagnosis, cerebral palsy and undiagnosed conditions. Another key part of our service is end-of-life care for all children up to the age of 6, irrespective of diagnosis.",
     "founded": 1997,
     "phone": "+353 (045) 894 538"
+  },
+  {
+    "donate": "https://makeawish.ie/?form=donate",
+    "link": "https://makeawish.ie/",
+    "img": "red",
+    "alt": "red16",
+    "name": "Make-A-Wish Ireland",
+    "overview": "Make-A-Wish Ireland has one simple aim to grant the wishes of children with critical medical conditions, to bring hope, strength and happiness.",
+    "founded": 1992,
+    "phone": "+353 (0)1 205 2007"
+  },
+  {
+    "donate": "https://www.unicef.ie/donate",
+    "link": "https://www.unicef.ie/",
+    "img": "red",
+    "alt": "red2",
+    "name": "UNICEF",
+    "overview": "For Every Child, UNICEF works in some of the world’s toughest places, to reach the world’s most disadvantaged children. To save their lives. To defend their rights. To help them fulfil their potential. In over 190 countries and territories, we work for every child, everywhere, every day, to build a better world for everyone. Before, during and after humanitarian emergencies, UNICEF is on the ground, bringing lifesaving help and hope to children and families. And we never give up.",
+    "founded": 1946,
+    "phone": "01 878 3000"
+  },
+  {
+    "donate": "https://donate.redcross.ie/b/my-donation",
+    "link": "https://www.redcross.ie/",
+    "img": "red",
+    "alt": "red12",
+    "name": "Red Cross",
+    "overview": "The Irish Red Cross has been dedicated to serving people in need whether they are here in Ireland or caught up in humanitarian crises in countries and regions throughout the globe. Today the Irish Red Cross maintains an active network of over 3,000 volunteers at 73 branches based in large and small communities throughout the Republic of Ireland. We are also a committed member of the global Red Cross Red Crescent Movement is a global humanitarian network of 80 million people that helps those facing disaster, conflict, and health and social problems. The Movement consists of the International Committee of the Red Cross, the International Federation of Red Cross and Red Crescent Societies, and the 191 National Red Cross and Red Crescent Societies.",
+    "founded": 1939,
+    "phone": "+353 (0)1-642-4600"
+  },
+  {
+    "donate": "https://www.msf.ie/founding?form=General-Donate",
+    "link": "https://www.msf.ie/",
+    "img": "red",
+    "alt": "red14",
+    "name": "Doctors Without Borders",
+    "overview": "Amid the Parisian upheavals of May 1968, a group of young doctors decided to go and help victims of wars and major disasters. This new brand of humanitarianism would reinvent the concept of emergency aid. They were to become Médecins Sans Frontières, or Doctors Without Borders MSF.",
+    "founded": 1968,
+    "phone": "+353 (0)1 660 3337"
+  },
+  {
+    "donate": "https://www.savethechildren.net/checkout/your-donation-can-save-childs-life-organic-donate-now-save-lives-sr",
+    "link": "https://www.savethechildren.net/",
+    "img": "red",
+    "alt": "red15",
+    "name": "Save the Children",
+    "overview": "WE CREATE LASTING, POSITIVE CHANGE FOR AND WITH CHILDREN. Save the Children is the world’s first and leading independent children’s organisation transforming lives and the future we share. We’re proud to work with children, their communities, and our partners worldwide, discovering new solutions to help ensure that the world's most vulnerable children survive, learn and are protected. Every year, we reach tens of millions of children in more than 110 countries through our life-changing work.",
+    "founded": 1919,
+    "phone": "+44 (0)20 7012 6400"
   }
 ]
