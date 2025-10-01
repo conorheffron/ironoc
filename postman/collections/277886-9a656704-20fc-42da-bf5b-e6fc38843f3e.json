@@ -1,0 +1,616 @@
+{
+	"info": {
+		"_postman_id": "277886-9a656704-20fc-42da-bf5b-e6fc38843f3e",
+		"name": "iRonoc API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "GET APP Version",
+			"id": "277886-990a358b-2ff3-451f-b182-a26b84239ce8",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}api/application/version",
+					"host": [
+						"{{base_url}}api"
+					],
+					"path": [
+						"application",
+						"version"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET GitHub Issues for iRonoc",
+			"id": "277886-b8d51a14-ab36-49d7-be9b-f93b1aa0e20a",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}api/get-repo-issue/conorheffron/ironoc/",
+					"host": [
+						"{{base_url}}api"
+					],
+					"path": [
+						"get-repo-issue",
+						"conorheffron",
+						"ironoc",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET GitHub Repositories for user conorheffron",
+			"id": "277886-296baaf0-cad0-47c4-9def-7854d62130c1",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}api/get-repo-detail?username=conorheffron",
+					"host": [
+						"{{base_url}}api"
+					],
+					"path": [
+						"get-repo-detail"
+					],
+					"query": [
+						{
+							"key": "username",
+							"value": "conorheffron"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET Coffees REST",
+			"id": "277886-5708a421-ff0c-41a1-9943-9200e75035f9",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}api/coffees",
+					"host": [
+						"{{base_url}}api"
+					],
+					"path": [
+						"coffees"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET Coffees GraphQL",
+			"id": "277886-df5936a8-5c9a-42de-b0a6-8f3355be0f39",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}api/coffees-graph-ql",
+					"host": [
+						"{{base_url}}api"
+					],
+					"path": [
+						"coffees-graph-ql"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET Portfolio Items",
+			"id": "277886-cd14aae0-0bae-4ada-b6d8-084d2fca2d73",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}api/portfolio-items",
+					"host": [
+						"{{base_url}}api"
+					],
+					"path": [
+						"portfolio-items"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET Donate Items",
+			"id": "277886-dc45e685-9ec7-4cb5-b7a6-06c2148d3541",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}api/donate-items",
+					"host": [
+						"{{base_url}}api"
+					],
+					"path": [
+						"donate-items"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET Donate Items",
+			"id": "277886-a10299b0-e1f2-4227-8930-6aedeb9d0a27",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "query charityOptionsGet {\n    donateItems {\n        donate\n        link\n        img\n        alt\n        name\n        overview\n        founded\n        phone\n    }\n}\n",
+						"variables": ""
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}graphql",
+					"host": [
+						"{{base_url}}graphql"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "MUTATION addCharityOption UNICEF",
+			"id": "277886-27489027-bbfd-43b1-857e-071ecab54ac4",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "mutation MyMutation {\n  addCharityOption(donate: \"https://www.unicef.ie/donate\",\n    link: \"https://www.unicef.ie/\",\n    img: \"red\",\n    alt: \"red2\",\n    name: \"UNICEF\",\n    overview: \"For Every Child, UNICEF works in some of the world’s toughest places, to reach the world’s most disadvantaged children. To save their lives. To defend their rights. To help them fulfil their potential. In over 190 countries and territories, we work for every child, everywhere, every day, to build a better world for everyone. Before, during and after humanitarian emergencies, UNICEF is on the ground, bringing lifesaving help and hope to children and families. And we never give up.\",\n    founded: 1946,\n    phone: \"01 878 3000\") {\n    alt\n    donate\n    founded\n    img\n    link\n    name\n    overview\n    phone\n  }\n}",
+						"variables": ""
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}graphql",
+					"host": [
+						"{{base_url}}graphql"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "MUTATION addCharityOption Irish Red Cross",
+			"id": "277886-de25260e-288d-4b4b-b77d-fbd98e70025a",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "mutation MyMutation {\n  addCharityOption(\n        donate: \"https://donate.redcross.ie/b/my-donation\",\n        link: \"https://www.redcross.ie/\",\n        img: \"red\",\n        alt: \"red12\",\n        name: \"Red Cross\",\n        overview: \"The Irish Red Cross has been dedicated to serving people in need whether they are here in Ireland or caught up in humanitarian crises in countries and regions throughout the globe. Today the Irish Red Cross maintains an active network of over 3,000 volunteers at 73 branches based in large and small communities throughout the Republic of Ireland. We are also a committed member of the global Red Cross Red Crescent Movement is a global humanitarian network of 80 million people that helps those facing disaster, conflict, and health and social problems. The Movement consists of the International Committee of the Red Cross, the International Federation of Red Cross and Red Crescent Societies, and the 191 National Red Cross and Red Crescent Societies.\",\n        founded: 1939,\n        phone: \"+353 (0)1-642-4600\"\n      ) {\n    alt\n    donate\n    founded\n    img\n    link\n    name\n    overview\n    phone\n  }\n}",
+						"variables": ""
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}graphql",
+					"host": [
+						"{{base_url}}graphql"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "MUTATION addCharityOption Doctors without Borders",
+			"id": "277886-7a1dc479-c0e4-4a76-bbd2-1d534551753f",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "mutation MyMutation {\n  addCharityOption(\n        donate: \"https://www.msf.ie/founding?form=General-Donate\",\n        link: \"https://www.msf.ie/\",\n        img: \"red\",\n        alt: \"red14\",\n        name: \"Doctors Without Borders\",\n        overview: \"Amid the Parisian upheavals of May 1968, a group of young doctors decided to go and help victims of wars and major disasters. This new brand of humanitarianism would reinvent the concept of emergency aid. They were to become Médecins Sans Frontières, or Doctors Without Borders MSF.\",\n        founded: 1968,\n        phone: \"+353 (0)1 660 3337\"\n      ) {\n    alt\n    donate\n    founded\n    img\n    link\n    name\n    overview\n    phone\n  }\n}",
+						"variables": ""
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}graphql",
+					"host": [
+						"{{base_url}}graphql"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "MUTATION addCharityOption Save the Children",
+			"id": "277886-d13ae2a3-1d5b-4742-bc24-066a2af377ab",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "mutation MyMutation {\n  addCharityOption(donate: \"https://www.savethechildren.net/checkout/your-donation-can-save-childs-life-organic-donate-now-save-lives-sr\",\n        link: \"https://www.savethechildren.net/\",\n        img: \"red\",\n        alt: \"red15\",\n        name: \"Save the Children\",\n        overview: \"WE CREATE LASTING, POSITIVE CHANGE FOR AND WITH CHILDREN. Save the Children is the world’s first and leading independent children’s organisation transforming lives and the future we share. We’re proud to work with children, their communities, and our partners worldwide, discovering new solutions to help ensure that the world's most vulnerable children survive, learn and are protected. Every year, we reach tens of millions of children in more than 110 countries through our life-changing work.\",\n        founded: 1919,\n        phone: \"+44 (0)20 7012 6400\") {\n    alt\n    donate\n    founded\n    img\n    link\n    name\n    overview\n    phone\n  }\n}",
+						"variables": ""
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}graphql",
+					"host": [
+						"{{base_url}}graphql"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "MUTATION addCharityOption with Vars",
+			"id": "277886-7536324c-610b-477c-b269-0595dfa61680",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "mutation AddCharityOption(\n  $donate: String!,\n  $link: String!,\n  $img: String!,\n  $alt: String!,\n  $name: String!,\n  $overview: String!,\n  $founded: Int!,\n  $phone: String!\n) {\n  addCharityOption(\n    donate: $donate,\n    link: $link,\n    img: $img,\n    alt: $alt,\n    name: $name,\n    overview: $overview,\n    founded: $founded,\n    phone: $phone\n  ) {\n    alt\n    donate\n    founded\n    img\n    link\n    name\n    overview\n    phone\n  }\n}",
+						"variables": "{\n    \"donate\": \"https://www.unicef.ie/donate\",\n    \"link\": \"https://www.unicef.ie/\",\n    \"img\": \"red\",\n    \"alt\": \"red2\",\n    \"name\": \"UNICEF\",\n    \"overview\": \"For Every Child, UNICEF works in some of the world’s toughest places, to reach the world’s most disadvantaged children. To save their lives. To defend their rights. To help them fulfil their potential. In over 190 countries and territories, we work for every child, everywhere, every day, to build a better world for everyone. Before, during and after humanitarian emergencies, UNICEF is on the ground, bringing lifesaving help and hope to children and families. And we never give up.\",\n    \"founded\": 1946,\n    \"phone\": \"01 878 3000\"\n}"
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}graphql",
+					"host": [
+						"{{base_url}}graphql"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "MUTATION addCharityOption Make-A-Wish Ireland with Vars",
+			"id": "277886-7b49c58c-bc71-4bca-8e74-8c29c1930615",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "mutation AddCharityOption(\n  $donate: String!,\n  $link: String!,\n  $img: String!,\n  $alt: String!,\n  $name: String!,\n  $overview: String!,\n  $founded: Int!,\n  $phone: String!\n) {\n  addCharityOption(\n    donate: $donate,\n    link: $link,\n    img: $img,\n    alt: $alt,\n    name: $name,\n    overview: $overview,\n    founded: $founded,\n    phone: $phone\n  ) {\n    alt\n    donate\n    founded\n    img\n    link\n    name\n    overview\n    phone\n  }\n}",
+						"variables": "{\n    \"donate\": \"https://makeawish.ie/?form=donate\",\n    \"link\": \"https://makeawish.ie/\",\n    \"img\": \"red\",\n    \"alt\": \"red16\",\n    \"name\": \"Make-A-Wish Ireland\",\n    \"overview\": \"Make-A-Wish Ireland has one simple aim to grant the wishes of children with critical medical conditions, to bring hope, strength and happiness.\",\n    \"founded\": 1992,\n    \"phone\": \"+353 (0)1 205 2007\"\n}"
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}graphql",
+					"host": [
+						"{{base_url}}graphql"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "MUTATION addCharityOption Fealicain with Vars",
+			"id": "277886-bd203c1e-92a6-4699-87b0-721bdde08e92",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "mutation AddCharityOption(\n  $donate: String!,\n  $link: String!,\n  $img: String!,\n  $alt: String!,\n  $name: String!,\n  $overview: String!,\n  $founded: Int!,\n  $phone: String!\n) {\n  addCharityOption(\n    donate: $donate,\n    link: $link,\n    img: $img,\n    alt: $alt,\n    name: $name,\n    overview: $overview,\n    founded: $founded,\n    phone: $phone\n  ) {\n    alt\n    donate\n    founded\n    img\n    link\n    name\n    overview\n    phone\n  }\n}",
+						"variables": "{\n    \"donate\": \"https://feileacain.ie/donate\",\n    \"link\": \"https://feileacain.ie/\",\n    \"img\": \"red\",\n    \"alt\": \"red18\",\n    \"name\": \"Féileacáin\",\n    \"overview\": \"Féileacáin, the Stillbirth and Neonatal Death Support, was registered as a charity in 2010.  Féileacáin was formed by a group of bereaved parents to offer support to anyone affected by the death of a baby around the time of birth, and the organization is now the national charity supporting families affected by perinatal loss. Féileacáin is a not-for-profit organization and receives no funding from central government, relying instead on the support of our community and the families who avail of our services.\",\n    \"founded\": 2009,\n    \"phone\": \"(085) 249 6464\"\n}"
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}graphql",
+					"host": [
+						"{{base_url}}graphql"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "MUTATION addCharityOption Dog's Trust with Vars",
+			"id": "277886-1129ebc5-27f4-498b-86c2-337f0a980aa4",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "mutation AddCharityOption(\n  $donate: String!,\n  $link: String!,\n  $img: String!,\n  $alt: String!,\n  $name: String!,\n  $overview: String!,\n  $founded: Int!,\n  $phone: String!\n) {\n  addCharityOption(\n    donate: $donate,\n    link: $link,\n    img: $img,\n    alt: $alt,\n    name: $name,\n    overview: $overview,\n    founded: $founded,\n    phone: $phone\n  ) {\n    alt\n    donate\n    founded\n    img\n    link\n    name\n    overview\n    phone\n  }\n}",
+						"variables": "{\n    \"donate\": \"https://www.dogstrust.ie/support-us/donation\",\n    \"link\": \"https://www.dogstrust.ie/\",\n    \"img\": \"red\",\n    \"alt\": \"red19\",\n    \"name\": \"Dog's Trust Ireland\",\n    \"overview\": \"We believe all dogs deserve to live life to the full. We’ve been working for a better future for dogs and the people who love them. When a dog is in distress, we care for them. When a dog needs a home, we find them a loving family. When an owner needs a helping paw or they just can’t cope, we’re ready to step in. For every dog, for every owner, we’re by their side through thick and thin, throughout their lives. The bond they have is special to us. It changes lives, making each day happier and more complete. It’s why we believe A dog is for life. Discover who we are, what we do, and how we’ll never stop fighting to make tomorrow’s world a better place for all dogs.\",\n    \"founded\": 2005,\n    \"phone\": \"01 8791000\"\n}"
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}graphql",
+					"host": [
+						"{{base_url}}graphql"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "MUTATION addCharityOption Marie Keating Foundation with Vars",
+			"id": "277886-ab2091d7-f548-4bb4-8acd-5de86abc4fdb",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "mutation AddCharityOption(\n  $donate: String!,\n  $link: String!,\n  $img: String!,\n  $alt: String!,\n  $name: String!,\n  $overview: String!,\n  $founded: Int!,\n  $phone: String!\n) {\n  addCharityOption(\n    donate: $donate,\n    link: $link,\n    img: $img,\n    alt: $alt,\n    name: $name,\n    overview: $overview,\n    founded: $founded,\n    phone: $phone\n  ) {\n    alt\n    donate\n    founded\n    img\n    link\n    name\n    overview\n    phone\n  }\n}",
+						"variables": "{\n    \"donate\": \"https://mariekeating.ie/donate/\",\n    \"link\": \"https://mariekeating.ie/home/\",\n    \"img\": \"red\",\n    \"alt\": \"red20\",\n    \"name\": \"Marie Keating Foundation\",\n    \"overview\": \"The Marie Keating Foundation is an ever-growing family of people that care. Just like our supporters, we care about compassion. We care about dignity. We care about humanity. We care about people. We care passionately about giving people the information and support they need, from raising awareness about early detection to the moment of diagnosis and beyond. We believe that a community of people who care and work together can change things for the better and build a world free from the fear of cancer.\",\n    \"founded\": 2001,\n    \"phone\": \"01 628 3726\"\n}"
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}graphql",
+					"host": [
+						"{{base_url}}graphql"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "MUTATION addCharityOption The Irish Heart Foundation with Vars",
+			"id": "277886-23a6d3b7-e738-4e95-b9ad-58ead33a6aa3",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "mutation AddCharityOption(\n  $donate: String!,\n  $link: String!,\n  $img: String!,\n  $alt: String!,\n  $name: String!,\n  $overview: String!,\n  $founded: Int!,\n  $phone: String!\n) {\n  addCharityOption(\n    donate: $donate,\n    link: $link,\n    img: $img,\n    alt: $alt,\n    name: $name,\n    overview: $overview,\n    founded: $founded,\n    phone: $phone\n  ) {\n    alt\n    donate\n    founded\n    img\n    link\n    name\n    overview\n    phone\n  }\n}",
+						"variables": "{\n    \"donate\": \"https://irishheart.ie/ways-to-give/\",\n    \"link\": \"https://irishheart.ie/\",\n    \"img\": \"red\",\n    \"alt\": \"red21\",\n    \"name\": \"The Irish Heart Foundation\",\n    \"overview\": \"Every hour, someone in Ireland suffers from a stroke. Every day, hundreds of people in Ireland are diagnosed with cardiovascular disease. Lives are often cut tragically short and many are left disabled. Each year almost 9,000 people die from heart disease and stroke, one of the country’s biggest killers. It doesn’t have to be this way, and our vision is for a future where no hearts are broken by preventable heart disease and stroke. This is why the Irish Heart Foundation was formed as the national stroke and heart charity, we work every day to save lives and heal hearts. Our mission is to eliminate preventable death and disability from heart disease and stroke and to support and care for those living with these life-changing conditions.\",\n    \"founded\": 1966,\n    \"phone\": \"+353 1 6685001\"\n}"
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}graphql",
+					"host": [
+						"{{base_url}}graphql"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "MUTATION addCharityOption Ronald McDonald House Charities with Vars",
+			"id": "277886-83a70709-d3b7-4b1a-91c9-9726e3a1ee20",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "mutation AddCharityOption(\n  $donate: String!,\n  $link: String!,\n  $img: String!,\n  $alt: String!,\n  $name: String!,\n  $overview: String!,\n  $founded: Int!,\n  $phone: String!\n) {\n  addCharityOption(\n    donate: $donate,\n    link: $link,\n    img: $img,\n    alt: $alt,\n    name: $name,\n    overview: $overview,\n    founded: $founded,\n    phone: $phone\n  ) {\n    alt\n    donate\n    founded\n    img\n    link\n    name\n    overview\n    phone\n  }\n}",
+						"variables": "{\n    \"donate\": \"https://www.rmhc.ie/donate-make-a-payment\",\n    \"link\": \"https://www.rmhc.ie/\",\n    \"img\": \"red\",\n    \"alt\": \"red22\",\n    \"name\": \"Ronald McDonald House Charities\",\n    \"overview\": \"Keeping families close, is what matters most. The mission of Ronald McDonald House Charities Ireland is to provide a Ronald McDonald House to support families whose children are seriously ill in hospital. The Ronald McDonald House provides accommodation and a caring and supportive environment for families whose children are seriously ill and are hospitalised or undergoing medical treatment at Children’s Health Ireland, Crumlin.\",\n    \"founded\": 1974,\n    \"phone\": \"(01) 456 0435\"\n}"
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}graphql",
+					"host": [
+						"{{base_url}}graphql"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "MUTATION addCharityOption My Lovely Horse Animal Rescue with Vars",
+			"id": "277886-1d41e181-e7e8-4dea-b883-540a1dddb6e5",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "mutation AddCharityOption(\n  $donate: String!,\n  $link: String!,\n  $img: String!,\n  $alt: String!,\n  $name: String!,\n  $overview: String!,\n  $founded: Int!,\n  $phone: String!\n) {\n  addCharityOption(\n    donate: $donate,\n    link: $link,\n    img: $img,\n    alt: $alt,\n    name: $name,\n    overview: $overview,\n    founded: $founded,\n    phone: $phone\n  ) {\n    alt\n    donate\n    founded\n    img\n    link\n    name\n    overview\n    phone\n  }\n}",
+						"variables": "{\n    \"donate\": \"https://donate.mylovelyhorserescue.com/one-off/\",\n    \"link\": \"https://www.mylovelyhorserescue.com/\",\n    \"img\": \"red\",\n    \"alt\": \"red23\",\n    \"name\": \"My Lovely Horse Animal Rescue\",\n    \"overview\": \"My Lovely Horse Animal Rescue is an animal welfare organisation that rescues, rehabilitate and rehomes unwanted, neglected and abused animals with the aim of giving them a life worth living.\",\n    \"founded\": 2011,\n    \"phone\": \"+353 1 607 2379\"\n}"
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}graphql",
+					"host": [
+						"{{base_url}}graphql"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "MUTATION addCharityOption Oesophageal Cancer Fund with Vars",
+			"id": "277886-660da120-61c3-4547-bce7-4cca4b1111cc",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "mutation AddCharityOption(\n  $donate: String!,\n  $link: String!,\n  $img: String!,\n  $alt: String!,\n  $name: String!,\n  $overview: String!,\n  $founded: Int!,\n  $phone: String!\n) {\n  addCharityOption(\n    donate: $donate,\n    link: $link,\n    img: $img,\n    alt: $alt,\n    name: $name,\n    overview: $overview,\n    founded: $founded,\n    phone: $phone\n  ) {\n    alt\n    donate\n    founded\n    img\n    link\n    name\n    overview\n    phone\n  }\n}",
+						"variables": "{\n    \"donate\": \"https://ocf.ie/make-a-donation/\",\n    \"link\": \"https://ocf.ie/\",\n    \"img\": \"red\",\n    \"alt\": \"red24\",\n    \"name\": \"Oesophageal Cancer Fund\",\n    \"overview\": \"The Oesophageal Cancer Fund (OCF) is the national charity for oesophageal cancer in Ireland, dedicated to providing support, raising awareness, and funding research for this disease. The OCF aims to ensure that everyone affected by oesophageal cancer receives the earliest and best support and treatment possible. The organization is composed of volunteers, medical professionals, researchers, patients, and survivors, all working together to help those impacted by this challenging condition.\",\n    \"founded\": 2001,\n    \"phone\": \"+353 86 069 7328\"\n}"
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}graphql",
+					"host": [
+						"{{base_url}}graphql"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "MUTATION addCharityOption Sightsavers with Vars",
+			"id": "277886-264b6fe4-d031-4a29-81f9-173b21328452",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "mutation AddCharityOption(\n  $donate: String!,\n  $link: String!,\n  $img: String!,\n  $alt: String!,\n  $name: String!,\n  $overview: String!,\n  $founded: Int!,\n  $phone: String!\n) {\n  addCharityOption(\n    donate: $donate,\n    link: $link,\n    img: $img,\n    alt: $alt,\n    name: $name,\n    overview: $overview,\n    founded: $founded,\n    phone: $phone\n  ) {\n    alt\n    donate\n    founded\n    img\n    link\n    name\n    overview\n    phone\n  }\n}",
+						"variables": "{\n    \"donate\": \"https://www.sightsavers.ie/donate\",\n    \"link\": \"https://www.sightsavers.ie/\",\n    \"img\": \"red\",\n    \"alt\": \"red25\",\n    \"name\": \"Sightsavers\",\n    \"overview\": \"Sightsavers Ireland is an international organization dedicated to eliminating avoidable blindness and promoting equality for people with disabilities. They work in over 30 countries in Africa and Asia, training health workers, providing eye operations, and improving women's health. The Irish team is based in Dublin, focusing on fundraising, communications, and public engagement. Their vision is a world where no one is blind from avoidable causes, and where everyone can participate equally in society. For more information, you can visit their official website.\",\n    \"founded\": 1950,\n    \"phone\": \"01 663 7666\"\n}"
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}graphql",
+					"host": [
+						"{{base_url}}graphql"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "MUTATION addCharityOption Trócaire with Vars",
+			"id": "277886-4b4f1439-0510-48c5-a241-cf092fc5bc51",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "mutation AddCharityOption(\n  $donate: String!,\n  $link: String!,\n  $img: String!,\n  $alt: String!,\n  $name: String!,\n  $overview: String!,\n  $founded: Int!,\n  $phone: String!\n) {\n  addCharityOption(\n    donate: $donate,\n    link: $link,\n    img: $img,\n    alt: $alt,\n    name: $name,\n    overview: $overview,\n    founded: $founded,\n    phone: $phone\n  ) {\n    alt\n    donate\n    founded\n    img\n    link\n    name\n    overview\n    phone\n  }\n}",
+						"variables": "{\n    \"donate\": \"https://www.trocaire.org/donations/now/\",\n    \"link\": \"https://www.trocaire.org/\",\n    \"img\": \"red\",\n    \"alt\": \"red26\",\n    \"name\": \"Trócaire\",\n    \"overview\": \"Trócaire is the official overseas development agency of the Catholic Church in Ireland, to support the world's poorest and most oppressed people. It works with parishes and communities across Ireland to promote global justice and inspire action. Trócaire is also known as Caritas Ireland, reflecting its mission of mercy and support for those in need. For more information, you can visit their official website.\",\n    \"founded\": 1973,\n    \"phone\": \"01 629 3333\"\n}"
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}graphql",
+					"host": [
+						"{{base_url}}graphql"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "MUTATION addCharityOption Barnardos Ireland with Vars",
+			"id": "277886-9f26d8b6-1779-4680-b9c9-e22381e14f9d",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "mutation AddCharityOption(\n  $donate: String!,\n  $link: String!,\n  $img: String!,\n  $alt: String!,\n  $name: String!,\n  $overview: String!,\n  $founded: Int!,\n  $phone: String!\n) {\n  addCharityOption(\n    donate: $donate,\n    link: $link,\n    img: $img,\n    alt: $alt,\n    name: $name,\n    overview: $overview,\n    founded: $founded,\n    phone: $phone\n  ) {\n    alt\n    donate\n    founded\n    img\n    link\n    name\n    overview\n    phone\n  }\n}",
+						"variables": "{\n    \"donate\": \"https://www.barnardos.ie/donate/donation/index.html\",\n    \"link\": \"https://www.barnardos.ie/\",\n    \"img\": \"red\",\n    \"alt\": \"red27\",\n    \"name\": \"Barnardos Ireland\",\n    \"overview\": \"Barnardos is a leading children's charity in Ireland dedicated to supporting vulnerable children and families through various services and programs. Barnardos operates as a registered charity in the Republic of Ireland, focusing on protecting and supporting children and young people who are in need. The organization was founded by Dr. Thomas Barnardo, initially in London, but has since expanded its mission to Ireland. Today, Barnardos is committed to transforming the lives of vulnerable children affected by adverse childhood experiences.\",\n    \"founded\": 1866,\n    \"phone\": \"01 453 0355\"\n}"
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}graphql",
+					"host": [
+						"{{base_url}}graphql"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "MUTATION addCharityOption ALONE with Vars",
+			"id": "277886-2c77d2ec-7cbf-4642-ae35-d2b059da84a8",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "mutation AddCharityOption(\n  $donate: String!,\n  $link: String!,\n  $img: String!,\n  $alt: String!,\n  $name: String!,\n  $overview: String!,\n  $founded: Int!,\n  $phone: String!\n) {\n  addCharityOption(\n    donate: $donate,\n    link: $link,\n    img: $img,\n    alt: $alt,\n    name: $name,\n    overview: $overview,\n    founded: $founded,\n    phone: $phone\n  ) {\n    alt\n    donate\n    founded\n    img\n    link\n    name\n    overview\n    phone\n  }\n}",
+						"variables": "{\n    \"donate\": \"https://alone.ie/donate/\",\n    \"link\": \"https://alone.ie/\",\n    \"img\": \"red\",\n    \"alt\": \"red28\",\n    \"name\": \"ALONE\",\n    \"overview\": \"ALONE is a national charity organization in Ireland dedicated to empowering older people to age comfortably and securely in their own homes while remaining connected to their communities. They provide compassionate and confidential support for seniors dealing with issues such as anxiety, dementia, and loneliness. Their mission is to improve the physical, emotional, and mental well-being of older people, ensuring they can age happily and securely at home.\",\n    \"founded\": 1977,\n    \"phone\": \"0818 222 024\"\n}"
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}graphql",
+					"host": [
+						"{{base_url}}graphql"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
