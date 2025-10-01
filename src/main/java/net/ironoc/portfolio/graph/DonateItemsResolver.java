@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import graphql.kickstart.tools.GraphQLQueryResolver;
 import jakarta.annotation.PostConstruct;
 import net.ironoc.portfolio.dto.Donate;
+import net.ironoc.portfolio.dto.DonateItemOrder;
 import net.ironoc.portfolio.logger.AbstractLogger;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
@@ -13,6 +14,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -75,6 +77,41 @@ public class DonateItemsResolver extends AbstractLogger implements GraphQLQueryR
         ObjectMapper objectMapper = new ObjectMapper();
         List<Map<String, Object>> asMaps = new ArrayList<>();
         for (Donate donate : donateItems) {
+            asMaps.add(objectMapper.convertValue(donate, new TypeReference<>() {}));
+        }
+        return asMaps;
+    }
+
+    public List<Map<String, Object>> getDonateItemsByOrder(DonateItemOrder donateItemOrder) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        List<Map<String, Object>> asMaps = new ArrayList<>();
+
+        List<Donate> sortedItems = List.of();
+        // sort by year founded
+        if (donateItemOrder.getFounded() != null) {
+            sortedItems = switch (donateItemOrder.getFounded()) {
+                case ASC -> donateItems.stream()
+                        .sorted(Comparator.comparingInt(Donate::getFounded))
+                        .toList();
+                case DESC -> donateItems.stream()
+                        .sorted(Comparator.comparingInt(Donate::getFounded))
+                        .toList().reversed();
+            };
+        }
+
+        // sort by charity name (alphabetical order)
+        if (donateItemOrder.getName() != null) {
+            sortedItems = switch (donateItemOrder.getName()) {
+                case ASC -> donateItems.stream()
+                        .sorted(Comparator.comparing(Donate::getName))
+                        .toList();
+                case DESC -> donateItems.stream()
+                        .sorted(Comparator.comparing(Donate::getName))
+                        .toList().reversed();
+            };
+        }
+
+        for (Donate donate : sortedItems) {
             asMaps.add(objectMapper.convertValue(donate, new TypeReference<>() {}));
         }
         return asMaps;
