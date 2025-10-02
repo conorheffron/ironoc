@@ -1,6 +1,8 @@
 package net.ironoc.portfolio.controller;
 
 import net.ironoc.portfolio.dto.Donate;
+import net.ironoc.portfolio.dto.DonateItemOrder;
+import net.ironoc.portfolio.enums.SortingOrder;
 import net.ironoc.portfolio.graph.DonateItemsResolver;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,8 +21,10 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.hasEntry;
+import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
 class DonateGraphqlControllerTest {
@@ -47,13 +51,44 @@ class DonateGraphqlControllerTest {
         when(donateItemsResolver.getDonateItems()).thenReturn(mockDonateItems);
 
         // Act
-        Collection<Map<String, Object>> result = donateGraphqlController.donateItems();
+        Collection<Map<String, Object>> result = donateGraphqlController.donateItems(null);
 
         // Assert
         assertThat(result, is(notNullValue()));
         assertThat(result, hasSize(1));
         assertThat(result.iterator().next(), hasEntry("name", "Charity A"));
         verify(donateItemsResolver, times(1)).getDonateItems();
+    }
+
+    @Test
+    void test_getDonateItemsByOrder_founded_desc() {
+        // Arrange
+        List<Map<String, Object>> mockDonateItems = new ArrayList<>();
+        Map<String, Object> item = new HashMap<>();
+        item.put("name", "Charity A");
+        item.put("founded", 6);
+        mockDonateItems.add(item);
+        Map<String, Object> item2 = new HashMap<>();
+        item2.put("name", "Charity B");
+        item2.put("founded", 1);
+        mockDonateItems.add(item2);
+        Map<String, Object> item3 = new HashMap<>();
+        item3.put("name", "Charity C");
+        item3.put("founded", 3);
+        mockDonateItems.add(item3);
+        DonateItemOrder donateItemOrder = new DonateItemOrder();
+        donateItemOrder.setFounded(SortingOrder.DESC);
+        when(donateItemsResolver.getDonateItemsByOrder(donateItemOrder)).thenReturn(mockDonateItems);
+
+        // Act
+        Collection<Map<String, Object>> result = donateGraphqlController.donateItems(donateItemOrder);
+
+        // Assert
+        assertThat(result, is(notNullValue()));
+        assertThat(result, hasSize(3));
+        assertThat(result.iterator().next(), hasEntry("name", "Charity A"));
+        verify(donateItemsResolver, never()).getDonateItems();
+        verify(donateItemsResolver).getDonateItemsByOrder(any(DonateItemOrder.class));
     }
 
     @Test
@@ -81,6 +116,7 @@ class DonateGraphqlControllerTest {
         Donate donate = result.iterator().next();
         assertThat(donate.getName(), is("Charity B"));
         assertThat(donate.getFounded(), is(1999));
+        verify(donateItemsResolver, never()).getDonateItemsByOrder(any(DonateItemOrder.class));
         verify(donateItemsResolver, times(1)).getDonateItems();
     }
 
@@ -146,7 +182,7 @@ class DonateGraphqlControllerTest {
         // Assert
         assertThat(result, is(notNullValue()));
         assertThat(result, hasSize(1));
-        Donate donate = result.get(0);
+        Donate donate = result.getFirst();
         assertThat(donate.getName(), is("Charity E"));
         assertThat(donate.getFounded(), is(2010));
         verify(donateItemsResolver, times(1)).getDonateItems();

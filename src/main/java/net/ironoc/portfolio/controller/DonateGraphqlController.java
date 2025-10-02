@@ -1,6 +1,8 @@
 package net.ironoc.portfolio.controller;
 
+import lombok.extern.slf4j.Slf4j;
 import net.ironoc.portfolio.dto.Donate;
+import net.ironoc.portfolio.dto.DonateItemOrder;
 import net.ironoc.portfolio.graph.DonateItemsResolver;
 import net.ironoc.portfolio.logger.AbstractLogger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,7 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 @Controller
+@Slf4j
 public class DonateGraphqlController extends AbstractLogger {
 
     @Autowired
@@ -28,8 +31,12 @@ public class DonateGraphqlController extends AbstractLogger {
     }
 
     @QueryMapping
-    public Collection<Map<String, Object>> donateItems() {
-        return donateItemsResolver.getDonateItems();
+    public Collection<Map<String, Object>> donateItems(@Argument("orderBy") DonateItemOrder donateItemOrder) {
+        log.info("Entering donateItems with donateItemOrder={}", donateItemOrder);
+        if (donateItemOrder == null) {
+            return donateItemsResolver.getDonateItems();
+        }
+        return donateItemsResolver.getDonateItemsByOrder(donateItemOrder);
     }
 
     @SchemaMapping(typeName = "Query", field = "donateItemsSchemaMapping")

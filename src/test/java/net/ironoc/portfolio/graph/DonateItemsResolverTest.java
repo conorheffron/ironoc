@@ -1,6 +1,8 @@
 package net.ironoc.portfolio.graph;
 
 import net.ironoc.portfolio.dto.Donate;
+import net.ironoc.portfolio.dto.DonateItemOrder;
+import net.ironoc.portfolio.enums.SortingOrder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -140,6 +142,50 @@ class DonateItemsResolverTest {
     @Test
     void testGetDonateItems_ValidJson() {
         List<Map<String, Object>> actualItems = donateItemsResolver.getDonateItems();
+        for (Map<String, Object> expected : donateItems) {
+            assertThat(actualItems, hasItem(equalTo(expected)));
+        }
+    }
+
+    @Test
+    void test_getDonateItemsByOrder_ValidJson_founded_DESC() {
+        DonateItemOrder donateItemOrder = new DonateItemOrder(SortingOrder.DESC, null);
+        List<Map<String, Object>> actualItems = donateItemsResolver.getDonateItemsByOrder(donateItemOrder);
+        assertThat(actualItems.stream().findFirst().get().get("name"), is("The Jack and Jill Children’s Foundation"));
+        assertThat(actualItems.stream().skip(actualItems.size()-1).findFirst().get().get("name"), is("The Society of Saint Vincent de Paul"));
+        for (Map<String, Object> expected : donateItems) {
+            assertThat(actualItems, hasItem(equalTo(expected)));
+        }
+    }
+
+    @Test
+    void test_getDonateItemsByOrder_ValidJson_founded_ASC() {
+        DonateItemOrder donateItemOrder = new DonateItemOrder(SortingOrder.ASC, null);
+        List<Map<String, Object>> actualItems = donateItemsResolver.getDonateItemsByOrder(donateItemOrder);
+        assertThat(actualItems.stream().findFirst().get().get("name"), is("The Society of Saint Vincent de Paul"));
+        assertThat(actualItems.stream().skip(actualItems.size()-1).findFirst().get().get("name"), is("The Jack and Jill Children’s Foundation"));
+        for (Map<String, Object> expected : donateItems) {
+            assertThat(actualItems, hasItem(equalTo(expected)));
+        }
+    }
+
+    @Test
+    void test_getDonateItemsByOrder_ValidJson_charity_name_ASC() {
+        DonateItemOrder donateItemOrder = new DonateItemOrder(null, SortingOrder.ASC);
+        List<Map<String, Object>> actualItems = donateItemsResolver.getDonateItemsByOrder(donateItemOrder);
+        assertThat(actualItems.stream().findFirst().get().get("name"), is("Debra Ireland"));
+        assertThat(actualItems.stream().skip(actualItems.size()-1).findFirst().get().get("name"), is("Vision Ireland, the new name for NCBI"));
+        for (Map<String, Object> expected : donateItems) {
+            assertThat(actualItems, hasItem(equalTo(expected)));
+        }
+    }
+
+    @Test
+    void test_getDonateItemsByOrder_ValidJson_charity_name_DESC() {
+        DonateItemOrder donateItemOrder = new DonateItemOrder(null, SortingOrder.DESC);
+        List<Map<String, Object>> actualItems = donateItemsResolver.getDonateItemsByOrder(donateItemOrder);
+        assertThat(actualItems.stream().findFirst().get().get("name"), is("Vision Ireland, the new name for NCBI"));
+        assertThat(actualItems.stream().skip(actualItems.size()-1).findFirst().get().get("name"), is("Debra Ireland"));
         for (Map<String, Object> expected : donateItems) {
             assertThat(actualItems, hasItem(equalTo(expected)));
         }
