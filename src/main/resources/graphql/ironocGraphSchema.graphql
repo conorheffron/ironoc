@@ -9,6 +9,16 @@ type DonateItem {
     phone: String!
 }
 
+input DonateItemOrder {
+    name: SortingOrder
+    founded: SortingOrder
+}
+
+enum SortingOrder {
+    ASC
+    DESC
+}
+
 type Brew {
     title: String!
     description: String
@@ -19,7 +29,7 @@ type Brew {
 
 type Query {
     brews: [Brew]!
-    donateItems: [DonateItem]!
+    donateItems(orderBy: DonateItemOrder): [DonateItem]!
     donateItemsByCountAndOffset(count: Int, offset: Int): [DonateItem]!
     charityOptionByFounded(founded: Int): DonateItem!
     charityOptionByDonateLink(link: String): DonateItem!
