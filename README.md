@@ -16,6 +16,8 @@
 
 [![SonarQube](https://github.com/conorheffron/ironoc/actions/workflows/sonar.yml/badge.svg)](https://github.com/conorheffron/ironoc/actions/workflows/sonar.yml)
 
+[![Quality gate](https://sonarcloud.io/api/project_badges/quality_gate?project=conorheffron_ironoc)](https://sonarcloud.io/summary/new_code?id=conorheffron_ironoc)
+
 [Sonar Overall Summary](https://sonarcloud.io/summary/overall?id=conorheffron_ironoc&branch=main)
 
 ### Docker Image Repositories
