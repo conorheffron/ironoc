@@ -4,6 +4,7 @@ import net.ironoc.portfolio.dto.Donate;
 import net.ironoc.portfolio.dto.DonateItemOrder;
 import net.ironoc.portfolio.enums.SortingOrder;
 import net.ironoc.portfolio.graph.DonateItemsResolver;
+import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -63,19 +64,7 @@ class DonateGraphqlControllerTest {
     @Test
     void test_getDonateItemsByOrder_founded_desc() {
         // Arrange
-        List<Map<String, Object>> mockDonateItems = new ArrayList<>();
-        Map<String, Object> item = new HashMap<>();
-        item.put("name", "Charity A");
-        item.put("founded", 6);
-        mockDonateItems.add(item);
-        Map<String, Object> item2 = new HashMap<>();
-        item2.put("name", "Charity B");
-        item2.put("founded", 1);
-        mockDonateItems.add(item2);
-        Map<String, Object> item3 = new HashMap<>();
-        item3.put("name", "Charity C");
-        item3.put("founded", 3);
-        mockDonateItems.add(item3);
+        List<Map<String, Object>> mockDonateItems = getMockDonateItems();
         DonateItemOrder donateItemOrder = new DonateItemOrder();
         donateItemOrder.setFounded(SortingOrder.DESC);
         when(donateItemsResolver.getDonateItemsByOrder(donateItemOrder)).thenReturn(mockDonateItems);
@@ -162,6 +151,22 @@ class DonateGraphqlControllerTest {
     }
 
     @Test
+    void testCharityOptionByName() {
+        // Arrange
+        List<Map<String, Object>> mockDonateItems = getMockDonateItems();
+        when(donateItemsResolver.getDonateItems()).thenReturn(mockDonateItems);
+
+        // Act
+        Donate result = donateGraphqlController.charityOptionByName("Charity B");
+
+        // Assert
+        assertThat(result, is(notNullValue()));
+        assertThat(result.getName(), is("Charity B"));
+        assertThat(result.getFounded(), is(1));
+        verify(donateItemsResolver, times(1)).getDonateItems();
+    }
+
+    @Test
     void testCharityOptions() {
         // Arrange
         List<Map<String, Object>> mockDonateItems = new ArrayList<>();
@@ -186,5 +191,23 @@ class DonateGraphqlControllerTest {
         assertThat(donate.getName(), is("Charity E"));
         assertThat(donate.getFounded(), is(2010));
         verify(donateItemsResolver, times(1)).getDonateItems();
+    }
+
+    @NotNull
+    private static List<Map<String, Object>> getMockDonateItems() {
+        List<Map<String, Object>> mockDonateItems = new ArrayList<>();
+        Map<String, Object> item = new HashMap<>();
+        item.put("name", "Charity A");
+        item.put("founded", 6);
+        mockDonateItems.add(item);
+        Map<String, Object> item2 = new HashMap<>();
+        item2.put("name", "Charity B");
+        item2.put("founded", 1);
+        mockDonateItems.add(item2);
+        Map<String, Object> item3 = new HashMap<>();
+        item3.put("name", "Charity C");
+        item3.put("founded", 3);
+        mockDonateItems.add(item3);
+        return mockDonateItems;
     }
 }
