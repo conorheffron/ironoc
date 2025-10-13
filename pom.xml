@@ -196,7 +196,7 @@
 		<dependency>
 			<groupId>org.apache.tomcat.embed</groupId>
 			<artifactId>tomcat-embed-jasper</artifactId>
-			<version>11.0.11</version>
+			<version>11.0.12</version>
 		</dependency>
 		<!-- Unit/integration tests -->
 		<dependency>
