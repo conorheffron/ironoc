@@ -69,6 +69,18 @@ public class DonateGraphqlController extends AbstractLogger {
         return donateOptional.orElseGet(() -> Donate.builder().build());
     }
 
+    @QueryMapping
+    public Donate charityOptionByName(@Argument("name") String name) {
+        List<Map<String, Object>> donateItems = donateItemsResolver.getDonateItems();
+        List<Donate> charityOptions = mapDonateItemsToCharityOptions(donateItems);
+
+        Optional<Donate> donateOptional = charityOptions.stream()
+                .filter(donate -> name.equalsIgnoreCase(donate.getName()))
+                .findFirst();
+
+        return donateOptional.orElseGet(() -> Donate.builder().build());
+    }
+
     @SchemaMapping
     public List<Donate> charityOptions(Donate donateArg) {
         List<Map<String, Object>> donateItems = donateItemsResolver.getDonateItems();
