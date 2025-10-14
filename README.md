@@ -33,6 +33,17 @@ Personal website / portfolio  [https://www.ironoc.net/](https://www.ironoc.net/)
 ## Tech Stack
 Java 21 (LTS), Spring Boot 3.4, ReactJs 18, Maven 3.8 or later, HTML5+CSS, 
     Docker / Bash, AWS, minikube, & kubectl.
+##### Note: `iRonoc` is an active user of the `GitHub API` & `conorheffron` is a proud participant in the GitHub Developer Program.
+- The `iRonoc` PM tool is designed to streamline project management by automating project navigation & issue tracking. 
+- By leveraging the GitHub API, the aim is to enhance the developer experience and contribute to the vibrant GitHub ecosystem.
+- As part of the GitHub Developer Program, it is important to commit to adhering to best practices & continuously improving the 
+integration to provide value to users.
+
+<a href="https://docs.github.com/en/get-started/exploring-integrations/github-developer-program">
+    <div style="text-align:center">
+        <img src="./screen-grabs/github-mark.png"/>
+    </div>
+</a>
 
 ## See ironoc-frontend README [here](./frontend/README.md)
 
