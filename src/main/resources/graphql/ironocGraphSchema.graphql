@@ -33,6 +33,7 @@ type Query {
     donateItemsByCountAndOffset(count: Int, offset: Int): [DonateItem]!
     charityOptionByFounded(founded: Int): DonateItem!
     charityOptionByDonateLink(link: String): DonateItem!
+    charityOptionByName(name: String): DonateItem!
 }
 
 type Mutation {

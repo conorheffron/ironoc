@@ -23,11 +23,11 @@ import java.util.Set;
 @Component
 public class DonateItemsResolver extends AbstractLogger implements GraphQLQueryResolver {
 
-    protected static final String DONATE_ITEMS_JSON_FILE = "json/donate-items.json";
-    protected static final String CHARITIES_LIST_FILE = "graphql/charities.txt";
+    private static final String DONATE_ITEMS_JSON_FILE = "json/donate-items.json";
+    private static final String CHARITIES_LIST_FILE = "graphql/charities.txt";
 
     // In-memory list to store donate items as POJOs
-    protected final List<Donate> donateItems = new ArrayList<>();
+    private final List<Donate> donateItems = new ArrayList<>();
 
     // In-memory set to store allowed charity names
     protected final Set<String> allowedCharityNames = new HashSet<>();

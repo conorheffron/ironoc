@@ -5,7 +5,7 @@
 
 	<groupId>conorheffron</groupId>
 	<artifactId>ironoc</artifactId>
-	<version>7.7.5</version>
+	<version>7.7.6</version>
 	<packaging>war</packaging>
 
 	<distributionManagement>
@@ -196,7 +196,7 @@
 		<dependency>
 			<groupId>org.apache.tomcat.embed</groupId>
 			<artifactId>tomcat-embed-jasper</artifactId>
-			<version>11.0.11</version>
+			<version>11.0.12</version>
 		</dependency>
 		<!-- Unit/integration tests -->
 		<dependency>
@@ -269,7 +269,7 @@
 		<dependency>
 			<groupId>software.amazon.awssdk</groupId>
 			<artifactId>aws-sdk-java</artifactId>
-			<version>2.35.0</version>
+			<version>2.35.5</version>
 			<exclusions>
 				<exclusion>
 					<groupId>commons-logging</groupId>
@@ -385,7 +385,7 @@
 			<plugin>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
-				<version>0.8.13</version>
+				<version>0.8.14</version>
 				<executions>
                     <execution>
                         <id>prepare-agent</id>
