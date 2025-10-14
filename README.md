@@ -40,7 +40,7 @@ Java 21 (LTS), Spring Boot 3.4, ReactJs 18, Maven 3.8 or later, HTML5+CSS,
 integration to provide value to users.
 
 <a href="https://docs.github.com/en/get-started/exploring-integrations/github-developer-program">
-    <div style="text-align:center">
+    <div style="align:center">
         <img src="./screen-grabs/github-mark.png"/>
     </div>
 </a>
