@@ -31,7 +31,7 @@
 Personal website / portfolio  [https://www.ironoc.net/](https://www.ironoc.net/)
 
 ## Tech Stack
-Java 21 (LTS), Spring Boot 3.4, ReactJs 18, Maven 3.8 or later, HTML5+CSS, 
+Java 25 (LTS), Spring Boot 3.4, ReactJs 18, Maven 4, HTML5+CSS, 
     Docker / Bash, AWS, minikube, & kubectl.
 ##### Note: `iRonoc` is an active user of the `GitHub API` & `conorheffron` is a proud participant in the GitHub Developer Program.
 - The `iRonoc` PM tool is designed to streamline project management by automating project navigation & issue tracking. 
@@ -65,10 +65,10 @@ docker run -d --restart=always -p 8080:8080 conorheffron/ironoc
 ## Add localhost proxy to frontend config (do not commit - only for local runs).
 ![ui-config-screenshot](screen-grabs/local-ui-proxy.png)
 
-## Run after project checkout (JDK 21 & Maven 3.8 or later required)
+## Run after project checkout (JDK 25 & Maven 4 required)
 ### Build frontend & server side, along with Java Code Coverage report.
 ```shell
-mvn clean package -U
+./mvnw clean package -U
 ```
 
 #### View Java Code Coverage reports in Browser or Preview tab in IDE.
@@ -110,7 +110,7 @@ npm run test:coverage
 
 ### Run app
 ```shell
-mvn -DAWS_ACCESS_KEY_ID="<val1>" \
+./mvnw -DAWS_ACCESS_KEY_ID="<val1>" \
     -DAWS_REGION=<val2> \
     -DAWS_SECRET_ACCESS_KEY="<val3>" \
     -DAWS_SESSION_TOKEN="<val4>" \

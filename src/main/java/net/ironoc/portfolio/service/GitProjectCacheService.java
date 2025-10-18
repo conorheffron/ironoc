@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class GitProjectCacheService extends AbstractGitCache implements GitProjectCache {
+public final class GitProjectCacheService extends AbstractGitCache implements GitProjectCache {
 
     private final Map<String, List<RepositoryIssueDomain>> projectGitDetails;
 
