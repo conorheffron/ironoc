@@ -1,4 +1,4 @@
-FROM eclipse-temurin:21-jdk-alpine-3.21
+FROM eclipse-temurin:25-alpine-3.22
 
 COPY target/*.war app.war
 RUN sh -c 'touch /app.war'
