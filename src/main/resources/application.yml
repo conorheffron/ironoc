@@ -46,7 +46,13 @@ net:
               rabbitmq-tester,
               react-graphql-course,
               redis-tester,
-              ronoc-packages
+              ronoc-packages,
+              student-progress,
+              shopping-cart-go,
+              cart-dart,
+              shoppingcart-java,
+              shopping-cart-kotlin,
+              shoppingcart-scala
       config:
         ignore-paths: api,graphiql
         handle-extensions: "html,js,json,css,map,svg,eot,ttf,woff,png,jpg,jpeg,gif,ico"
