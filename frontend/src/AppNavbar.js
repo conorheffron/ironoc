@@ -40,10 +40,10 @@ class AppNavBar extends Component {
         return (
             <div>
                 <Navbar color={color} light={light} dark={dark} fixed={fixed} container={container} expand={expand} className={className}>
+                    <NavbarBrand href="/">
+                        <img alt="" src={logo} width="30" height="30" className="d-inline-block align-top"/>
+                    </NavbarBrand>
                     <Container>
-                        <NavbarBrand href="/">
-                            <img alt="" src={logo} width="30" height="30" className="d-inline-block align-top"/>
-                        </NavbarBrand>
                         <NavbarToggler onClick={this.toggleNavbar} /> {/* Toggle button */}
                         <Collapse isOpen={isOpen} navbar>
                             <Nav className="me-auto" navbar>

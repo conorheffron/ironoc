@@ -14,9 +14,15 @@ The ironoc UI built with react for personal portfolio website.
 
 ## Getting Started with iRonoc React App
 
+## Tech Stack
+ - ReactJs 19, Axios, Apollo Client, GraphQL, HTML5+CSS
+
 #### Quick start
 ```shell
 cd frontend
+
+rm -rf node_modules package-lock.json
+npm cache clean --force
 
 npm install [--force or --legacy-peer-deps]
 
