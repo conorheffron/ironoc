@@ -1,11 +1,11 @@
 package net.ironoc.portfolio.service;
 
+import module java.base;
+
 import net.ironoc.portfolio.domain.RepositoryDetailDomain;
 import net.ironoc.portfolio.domain.RepositoryIssueDomain;
 import net.ironoc.portfolio.dto.RepositoryDetailDto;
 import net.ironoc.portfolio.dto.RepositoryIssueDto;
-
-import java.util.List;
 
 public interface GitDetails {
 

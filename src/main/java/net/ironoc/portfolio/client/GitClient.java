@@ -1,5 +1,7 @@
 package net.ironoc.portfolio.client;
 
+import module java.base;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.CollectionType;
 import net.ironoc.portfolio.aws.SecretManager;
@@ -17,10 +19,6 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
 
 @Component
 @Slf4j

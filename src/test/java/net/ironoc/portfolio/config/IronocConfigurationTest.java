@@ -1,5 +1,7 @@
 package net.ironoc.portfolio.config;
 
+import module java.base;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
@@ -19,8 +21,6 @@ import org.springframework.web.servlet.config.annotation.DefaultServletHandlerCo
 import org.springframework.web.servlet.config.annotation.ResourceChainRegistration;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistration;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-
-import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
@@ -86,7 +86,7 @@ public class IronocConfigurationTest {
         verify(propertyConfigMock).getStaticConfResourceLoc();
 
         List<String> capturedResourceHandlers = resourceHandlerCaptors.getAllValues();
-        assertThat(capturedResourceHandlers.get(0), is("/**"));
+        assertThat(capturedResourceHandlers.getFirst(), is("/**"));
     }
 
     @Test

@@ -1,5 +1,7 @@
 package net.ironoc.portfolio.job;
 
+import module java.base;
+
 import net.ironoc.portfolio.config.PropertyConfigI;
 import net.ironoc.portfolio.dto.RepositoryIssueDto;
 import net.ironoc.portfolio.logger.AbstractLogger;
@@ -9,10 +11,6 @@ import net.ironoc.portfolio.dto.RepositoryDetailDto;
 import net.ironoc.portfolio.service.GitDetails;
 import jakarta.annotation.PreDestroy;
 import lombok.Getter;
-
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 @Getter
 public class GitDetailsRunnable extends AbstractLogger implements Runnable {

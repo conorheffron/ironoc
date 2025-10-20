@@ -1,9 +1,10 @@
 package net.ironoc.portfolio.client;
 
+import module java.base;
+
 import javax.net.ssl.HttpsURLConnection;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.List;
 
 public interface Client {
 

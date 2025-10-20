@@ -1,27 +1,25 @@
 package net.ironoc.portfolio.controller;
 
+import module java.base;
+
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import net.ironoc.portfolio.service.PortfolioItemsResolver;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api")
 public class PortfolioController {
 
-    @Autowired
     private final PortfolioItemsResolver portfolioItemsResolver;
 
-    public PortfolioController(PortfolioItemsResolver portfolioItemsResolver) {
+    public PortfolioController(@Autowired PortfolioItemsResolver portfolioItemsResolver) {
         this.portfolioItemsResolver = portfolioItemsResolver;
     }
 

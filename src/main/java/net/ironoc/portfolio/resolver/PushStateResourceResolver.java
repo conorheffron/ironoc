@@ -1,5 +1,7 @@
 package net.ironoc.portfolio.resolver;
 
+import module java.base;
+
 import org.springframework.lang.Nullable;
 import net.ironoc.portfolio.logger.AbstractLogger;
 import jakarta.servlet.http.HttpServletRequest;
@@ -8,10 +10,6 @@ import org.springframework.core.io.Resource;
 import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.resource.ResourceResolver;
 import org.springframework.web.servlet.resource.ResourceResolverChain;
-
-import java.io.IOException;
-import java.util.List;
-import java.util.Optional;
 
 public class PushStateResourceResolver extends AbstractLogger implements ResourceResolver {
 

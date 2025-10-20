@@ -1,12 +1,10 @@
 package net.ironoc.portfolio.service;
 
+import module java.base;
+
 import jakarta.annotation.PreDestroy;
 import net.ironoc.portfolio.domain.CoffeeDomain;
 import org.springframework.stereotype.Service;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 @Service
 public class CoffeeCacheService implements CoffeesCache {

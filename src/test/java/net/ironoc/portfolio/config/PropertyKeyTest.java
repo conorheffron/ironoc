@@ -9,13 +9,13 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
 @ExtendWith(MockitoExtension.class)
-public class PropertyKeyTest {
+class PropertyKeyTest {
 
     @InjectMocks
     private PropertyKey propertyKey;
 
     @Test
-    public void test_getGitApiEndpointIssues_success() {
+    void test_getGitApiEndpointIssues_success() {
         // when
         String result = propertyKey.getGitApiEndpointIssues();
 
@@ -24,7 +24,7 @@ public class PropertyKeyTest {
     }
 
     @Test
-    public void test_getGitApiEndpointRepos_success() {
+    void test_getGitApiEndpointRepos_success() {
         // when
         String result = propertyKey.getGitApiEndpointRepos();
 
@@ -33,7 +33,7 @@ public class PropertyKeyTest {
     }
 
     @Test
-    public void test_getGitFollowRedirects_success() {
+    void test_getGitFollowRedirects_success() {
         // when
         String result = propertyKey.getGitFollowRedirects();
 
@@ -42,7 +42,7 @@ public class PropertyKeyTest {
     }
 
     @Test
-    public void test_getGitTimeoutRead_success() {
+    void test_getGitTimeoutRead_success() {
         // when
         String result = propertyKey.getGitTimeoutRead();
 
@@ -51,7 +51,7 @@ public class PropertyKeyTest {
     }
 
     @Test
-    public void test_getGitTimeoutConnect_success() {
+    void test_getGitTimeoutConnect_success() {
         // when
         String result = propertyKey.getGitTimeoutConnect();
 
@@ -60,7 +60,7 @@ public class PropertyKeyTest {
     }
 
     @Test
-    public void test_getGitInstanceFollowRedirects_success() {
+    void test_getGitInstanceFollowRedirects_success() {
         // when
         String result = propertyKey.getGitInstanceFollowRedirects();
 
@@ -69,7 +69,7 @@ public class PropertyKeyTest {
     }
 
     @Test
-    public void test_getStaticConfIgnorePaths_success() {
+    void test_getStaticConfIgnorePaths_success() {
         // when
         String result = propertyKey.getStaticConfIgnorePaths();
 
@@ -78,7 +78,7 @@ public class PropertyKeyTest {
     }
 
     @Test
-    public void test_getStaticConfHandleExt_success() {
+    void test_getStaticConfHandleExt_success() {
         // when
         String result = propertyKey.getStaticConfHandleExt();
 
@@ -87,7 +87,7 @@ public class PropertyKeyTest {
     }
 
     @Test
-    public void test_getStaticConfResourceHandler_success() {
+    void test_getStaticConfResourceHandler_success() {
         // when
         String result = propertyKey.getStaticConfResourceHandler();
 
@@ -96,7 +96,7 @@ public class PropertyKeyTest {
     }
 
     @Test
-    public void test_getStaticConfResourceLoc_success() {
+    void test_getStaticConfResourceLoc_success() {
         // when
         String result = propertyKey.getStaticConfResourceLoc();
 
@@ -105,7 +105,7 @@ public class PropertyKeyTest {
     }
 
     @Test
-    public void test_getGitApiEndpointProjectsCache_success() {
+    void test_getGitApiEndpointProjectsCache_success() {
         // when
         String result = propertyKey.getGitApiEndpointProjectsCache();
 
@@ -114,7 +114,7 @@ public class PropertyKeyTest {
     }
 
     @Test
-    public void test_getGitApiEndpointUserIdsCache_success() {
+    void test_getGitApiEndpointUserIdsCache_success() {
         // when
         String result = propertyKey.getGitApiEndpointUserIdsCache();
 
@@ -123,7 +123,7 @@ public class PropertyKeyTest {
     }
 
     @Test
-    public void test_isCacheJobEnabled_success() {
+    void test_isCacheJobEnabled_success() {
         // when
         String result = propertyKey.isCacheJobEnabled();
 
@@ -132,7 +132,7 @@ public class PropertyKeyTest {
     }
 
     @Test
-    public void test_getBrewGraphEndpoint_success() {
+    void test_getBrewGraphEndpoint_success() {
         // when
         String result = propertyKey.getBrewGraphEndpoint();
 
@@ -141,7 +141,7 @@ public class PropertyKeyTest {
     }
 
     @Test
-    public void test_getBrewApiEndpointHot_success() {
+    void test_getBrewApiEndpointHot_success() {
         // when
         String result = propertyKey.getBrewApiEndpointHot();
 
@@ -150,7 +150,7 @@ public class PropertyKeyTest {
     }
 
     @Test
-    public void test_getBrewApiEndpointIce_success() {
+    void test_getBrewApiEndpointIce_success() {
         // when
         String result = propertyKey.getBrewApiEndpointIce();
 
@@ -159,7 +159,7 @@ public class PropertyKeyTest {
     }
 
     @Test
-    public void test_isBrewsCacheJobEnabled_success() {
+    void test_isBrewsCacheJobEnabled_success() {
         // when
         String result = propertyKey.isBrewCacheJobEnabled();
 

@@ -1,17 +1,13 @@
 package net.ironoc.portfolio.graph;
 
+import module java.base;
+
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.core.io.ClassPathResource;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Map;
-import java.util.Collections;
-import java.util.List;
 
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
@@ -37,7 +33,7 @@ class BrewsResolverTest {
         List<Map<String, Object>> brews = brewsResolver.getBrews();
         assertNotNull(brews, "Returned list should not be null");
         assertFalse(brews.isEmpty(), "Returned list should not be empty (expecting brews in test json)");
-        assertTrue(brews.get(0).containsKey("title"), "First element should contain the key 'title'");
+        assertTrue(brews.getFirst().containsKey("title"), "First element should contain the key 'title'");
     }
 
     @Test

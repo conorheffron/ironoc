@@ -32,7 +32,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 @Slf4j
 @ExtendWith(SpringExtension.class)
 @WebAppConfiguration()
-public class RemoteBrowserBasedIntTest extends BaseControllerIntegrationTest {
+class RemoteBrowserBasedIntTest extends BaseControllerIntegrationTest {
 
     @Autowired
     private WebApplicationContext webAppContext;
@@ -47,12 +47,12 @@ public class RemoteBrowserBasedIntTest extends BaseControllerIntegrationTest {
     private WebDriver webDriver;
 
     @Test
-    public void test_quick_tour() {
+    void test_quick_tour() {
         try {
             Dimension dimension = new Dimension(878, 963);// mimic small device size
             webDriver.manage().window().setSize(dimension);
             // Navigate to iRonoc
-//            webDriver.get("http://localhost:8080/");
+            // webDriver.get("http://localhost:8080/")
             webDriver.get("https://ironoc.net/");
 
             HomePage homePage = PageFactory.initElements(webDriver, HomePage.class);

@@ -1,5 +1,7 @@
 package net.ironoc.portfolio.service;
 
+import module java.base;
+
 import net.ironoc.portfolio.client.Client;
 import net.ironoc.portfolio.config.PropertyConfigI;
 import net.ironoc.portfolio.domain.RepositoryDetailDomain;
@@ -14,12 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.UriComponentsBuilder;
-
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class GitDetailsService extends AbstractLogger implements GitDetails {

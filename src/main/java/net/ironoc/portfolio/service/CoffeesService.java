@@ -1,5 +1,7 @@
 package net.ironoc.portfolio.service;
 
+import module java.base;
+
 import jakarta.annotation.PostConstruct;
 import net.ironoc.portfolio.config.PropertyConfigI;
 import net.ironoc.portfolio.domain.CoffeeDomain;
@@ -10,10 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 @Service
 public class CoffeesService extends AbstractLogger implements Coffees {

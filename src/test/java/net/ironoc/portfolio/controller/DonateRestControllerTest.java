@@ -1,5 +1,7 @@
 package net.ironoc.portfolio.controller;
 
+import module java.base;
+
 import net.ironoc.portfolio.graph.DonateItemsResolver;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -7,11 +9,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.ResponseEntity;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
@@ -50,11 +47,11 @@ class DonateRestControllerTest {
 
         // Assert
         assertThat(response, is(notNullValue()));
-        assertThat(response.getStatusCodeValue(), is(200));
+        assertThat(response.getStatusCode().value(), is(200));
         assertThat(response.getBody(), is(notNullValue()));
         assertThat(response.getBody(), hasSize(1));
-        assertThat(response.getBody().get(0), hasEntry("name", "Charity A"));
-        assertThat(response.getBody().get(0), hasEntry("founded", 2000));
+        assertThat(response.getBody().getFirst(), hasEntry("name", "Charity A"));
+        assertThat(response.getBody().getFirst(), hasEntry("founded", 2000));
         verify(donateItemsResolver, times(1)).getDonateItems();
     }
 }

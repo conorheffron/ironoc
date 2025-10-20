@@ -1,12 +1,9 @@
-package net.ironoc.portfolio.graph;
+package net.ironoc.portfolio.service;
 
-import net.ironoc.portfolio.service.PortfolioItemsResolver;
+import module java.base;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import java.io.IOException;
-import java.util.List;
-import java.util.Map;
 
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;

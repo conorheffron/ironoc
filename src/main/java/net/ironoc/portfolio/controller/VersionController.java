@@ -14,10 +14,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api")
 public class VersionController {
 
-    @Autowired
     private final BuildProperties buildProperties;
 
-    public VersionController(BuildProperties buildProperties) {
+    public VersionController(@Autowired BuildProperties buildProperties) {
         this.buildProperties = buildProperties;
     }
 

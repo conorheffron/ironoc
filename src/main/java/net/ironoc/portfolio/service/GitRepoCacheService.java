@@ -1,12 +1,10 @@
 package net.ironoc.portfolio.service;
 
+import module java.base;
+
 import net.ironoc.portfolio.domain.RepositoryDetailDomain;
 import jakarta.annotation.PreDestroy;
 import org.springframework.stereotype.Service;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 @Service
 public final class GitRepoCacheService extends AbstractGitCache implements GitRepoCache {

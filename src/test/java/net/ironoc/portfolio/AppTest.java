@@ -7,12 +7,12 @@ import org.springframework.boot.SpringApplication;
 import static org.mockito.Mockito.mockStatic;
 import static org.mockito.Mockito.times;
 
-public class AppTest {
+class AppTest {
     // mocks
-    private MockedStatic<SpringApplication> springApplicationMockedStatic = mockStatic(SpringApplication.class);
+    private final MockedStatic<SpringApplication> springApplicationMockedStatic = mockStatic(SpringApplication.class);
 
     @Test
-    public void test_run_success() throws Exception {
+    void test_run_success() {
         // given
         String[] args = { "test" };
 

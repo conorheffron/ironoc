@@ -1,5 +1,7 @@
 package net.ironoc.portfolio.controller;
 
+import module java.base;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import net.ironoc.portfolio.domain.CoffeeDomain;
 import net.ironoc.portfolio.graph.BrewsResolver;
@@ -13,13 +15,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.iterableWithSize;
@@ -161,7 +156,7 @@ public class CoffeeControllerTest {
 
         ResponseEntity<List<CoffeeDomain>> response = coffeeController.putCoffeesIntoMemoryStorage();
 
-        assertThat(response.getStatusCodeValue(), is(200));
+        assertThat(response.getStatusCode().value(), is(200));
         assertThat(response.getBody(), is(cachedList));
         verify(coffeesCache, never()).tearDown();
         verify(brewsResolver, never()).getBrews();
@@ -187,7 +182,7 @@ public class CoffeeControllerTest {
 
         ResponseEntity<List<CoffeeDomain>> response = controllerSpy.putCoffeesIntoMemoryStorage();
 
-        assertThat(response.getStatusCodeValue(), is(200));
+        assertThat(response.getStatusCode().value(), is(200));
         assertThat(response.getBody(), is(mappedList));
         verify(coffeesCache).tearDown();
         verify(brewsResolver).getBrews();
@@ -208,7 +203,7 @@ public class CoffeeControllerTest {
 
         ResponseEntity<List<CoffeeDomain>> response = controllerSpy.putCoffeesIntoMemoryStorage();
 
-        assertThat(response.getStatusCodeValue(), is(200));
+        assertThat(response.getStatusCode().value(), is(200));
         assertThat(response.getBody(), is(mappedList));
         verify(coffeesCache).tearDown();
         verify(brewsResolver).getBrews();
