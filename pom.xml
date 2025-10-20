@@ -31,7 +31,7 @@
 		<npm.version>11.6.2</npm.version>
 		<kotlin.version>1.6.0</kotlin.version>
 		<graphql.vers>14.0.0</graphql.vers>
-		<selenium.vers>4.36.0</selenium.vers>
+		<selenium.vers>4.37.0</selenium.vers>
 		<slf4j.vers>2.0.17</slf4j.vers>
         <sonar.organization>conorheffron</sonar.organization>
         <mockito.version>5.20.0</mockito.version>
