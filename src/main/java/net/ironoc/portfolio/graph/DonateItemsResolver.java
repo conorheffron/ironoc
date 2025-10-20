@@ -1,5 +1,7 @@
 package net.ironoc.portfolio.graph;
 
+import module java.base;
+
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import graphql.kickstart.tools.GraphQLQueryResolver;
@@ -9,16 +11,6 @@ import net.ironoc.portfolio.dto.DonateItemOrder;
 import net.ironoc.portfolio.logger.AbstractLogger;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 @Component
 public class DonateItemsResolver extends AbstractLogger implements GraphQLQueryResolver {

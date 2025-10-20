@@ -1,9 +1,9 @@
 package net.ironoc.portfolio.service;
 
+import module java.base;
+
 import net.ironoc.portfolio.domain.RepositoryDetailDomain;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public interface GitRepoCache {

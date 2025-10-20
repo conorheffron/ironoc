@@ -1,11 +1,8 @@
 package net.ironoc.portfolio.utils;
 
-import net.ironoc.portfolio.domain.CoffeeDomain;
+import module java.base;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import net.ironoc.portfolio.domain.CoffeeDomain;
 
 public class TestRequestResponseUtils {
     public static  List<CoffeeDomain> getSampleCoffeeDomainList() {

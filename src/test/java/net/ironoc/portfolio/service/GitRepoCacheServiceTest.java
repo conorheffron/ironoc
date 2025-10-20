@@ -1,18 +1,14 @@
 package net.ironoc.portfolio.service;
 
+import module java.base;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import net.ironoc.portfolio.domain.RepositoryDetailDomain;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
-
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;
@@ -64,6 +60,7 @@ public class GitRepoCacheServiceTest {
         assertThat(result2.getAppHome(),
                 is("https://booking-sys-ebgefrdmh3afbhee.northeurope-01.azurewebsites.net/book/"));
         assertThat(result2.getRepoUrl(), is("https://github.com/conorheffron/booking-sys"));
+        Assertions.assertNotNull(jsonInputStream);
         jsonInputStream.close();
         assertThat(results3, is(nullValue()));
         gitRepoCacheService.tearDown();

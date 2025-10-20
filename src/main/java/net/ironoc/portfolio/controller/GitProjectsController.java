@@ -1,5 +1,7 @@
 package net.ironoc.portfolio.controller;
 
+import module java.base;
+
 import net.ironoc.portfolio.domain.RepositoryDetailDomain;
 import net.ironoc.portfolio.domain.RepositoryIssueDomain;
 import net.ironoc.portfolio.dto.RepositoryDetailDto;
@@ -20,16 +22,11 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.concurrent.ConcurrentHashMap;
 
 @RestController
 @RequestMapping("/api")
 public class GitProjectsController extends AbstractLogger {
 
-	@Autowired
 	private final GitDetailsService gitDetailsService;
 
 	protected static final String IRONOC_GIT_USER = "conorheffron";
@@ -37,7 +34,7 @@ public class GitProjectsController extends AbstractLogger {
 	// Cache for issue counts: key is "username/repo"
 	private final ConcurrentHashMap<String, Integer> issueCountCache = new ConcurrentHashMap<>();
 
-	public GitProjectsController(GitDetailsService gitDetailsService) {
+	public GitProjectsController(@Autowired GitDetailsService gitDetailsService) {
 		this.gitDetailsService = gitDetailsService;
 	}
 

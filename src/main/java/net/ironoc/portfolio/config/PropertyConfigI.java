@@ -1,6 +1,6 @@
 package net.ironoc.portfolio.config;
 
-import java.util.List;
+import module java.base;
 
 public interface PropertyConfigI {
 

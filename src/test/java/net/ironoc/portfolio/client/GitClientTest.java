@@ -1,5 +1,7 @@
 package net.ironoc.portfolio.client;
 
+import module java.base;
+
 import net.ironoc.portfolio.aws.SecretManager;
 import net.ironoc.portfolio.config.PropertyConfigI;
 import net.ironoc.portfolio.dto.RepositoryDetailDto;
@@ -12,10 +14,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpMethod;
 
 import javax.net.ssl.HttpsURLConnection;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Collection;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
@@ -160,129 +158,130 @@ public class GitClientTest {
 
 
         // then
-        assertThat(result, is("[\n" +
-                "  {\n" +
-                "    \"id\": 737159069,\n" +
-                "    \"node_id\": \"R_kgDOK_AnnQ\",\n" +
-                "    \"name\": \"bio-cell-red-edge\",\n" +
-                "    \"full_name\": \"conorheffron/bio-cell-red-edge\",\n" +
-                "    \"private\": false,\n" +
-                "    \"owner\": {\n" +
-                "      \"login\": \"conorheffron\",\n" +
-                "      \"id\": 8218626,\n" +
-                "      \"node_id\": \"MDQ6VXNlcjgyMTg2MjY=\",\n" +
-                "      \"avatar_url\": \"https://avatars.githubusercontent.com/u/8218626?v=4\",\n" +
-                "      \"gravatar_id\": \"\",\n" +
-                "      \"url\": \"https://api.github.com/users/conorheffron\",\n" +
-                "      \"html_url\": \"https://github.com/conorheffron\",\n" +
-                "      \"followers_url\": \"https://api.github.com/users/conorheffron/followers\",\n" +
-                "      \"following_url\": \"https://api.github.com/users/conorheffron/following{/other_user}\",\n" +
-                "      \"gists_url\": \"https://api.github.com/users/conorheffron/gists{/gist_id}\",\n" +
-                "      \"starred_url\": \"https://api.github.com/users/conorheffron/starred{/owner}{/repo}\",\n" +
-                "      \"subscriptions_url\": \"https://api.github.com/users/conorheffron/subscriptions\",\n" +
-                "      \"organizations_url\": \"https://api.github.com/users/conorheffron/orgs\",\n" +
-                "      \"repos_url\": \"https://api.github.com/users/conorheffron/repos\",\n" +
-                "      \"events_url\": \"https://api.github.com/users/conorheffron/events{/privacy}\",\n" +
-                "      \"received_events_url\": \"https://api.github.com/users/conorheffron/received_events\",\n" +
-                "      \"type\": \"User\",\n" +
-                "      \"site_admin\": false\n" +
-                "    },\n" +
-                "    \"html_url\": \"https://github.com/conorheffron/bio-cell-red-edge\",\n" +
-                "    \"description\": \"Edge Detection of Biological Cell (Image Processing Script)\",\n" +
-                "    \"fork\": false,\n" +
-                "    \"url\": \"https://api.github.com/repos/conorheffron/bio-cell-red-edge\",\n" +
-                "    \"forks_url\": \"https://api.github.com/repos/conorheffron/bio-cell-red-edge/forks\",\n" +
-                "    \"keys_url\": \"https://api.github.com/repos/conorheffron/bio-cell-red-edge/keys{/key_id}\",\n" +
-                "    \"collaborators_url\": \"https://api.github.com/repos/conorheffron/bio-cell-red-edge/collaborators{/collaborator}\",\n" +
-                "    \"teams_url\": \"https://api.github.com/repos/conorheffron/bio-cell-red-edge/teams\",\n" +
-                "    \"hooks_url\": \"https://api.github.com/repos/conorheffron/bio-cell-red-edge/hooks\",\n" +
-                "    \"issue_events_url\": \"https://api.github.com/repos/conorheffron/bio-cell-red-edge/issues/events{/number}\",\n" +
-                "    \"events_url\": \"https://api.github.com/repos/conorheffron/bio-cell-red-edge/events\",\n" +
-                "    \"assignees_url\": \"https://api.github.com/repos/conorheffron/bio-cell-red-edge/assignees{/user}\",\n" +
-                "    \"branches_url\": \"https://api.github.com/repos/conorheffron/bio-cell-red-edge/branches{/branch}\",\n" +
-                "    \"tags_url\": \"https://api.github.com/repos/conorheffron/bio-cell-red-edge/tags\",\n" +
-                "    \"blobs_url\": \"https://api.github.com/repos/conorheffron/bio-cell-red-edge/git/blobs{/sha}\",\n" +
-                "    \"git_tags_url\": \"https://api.github.com/repos/conorheffron/bio-cell-red-edge/git/tags{/sha}\",\n" +
-                "    \"git_refs_url\": \"https://api.github.com/repos/conorheffron/bio-cell-red-edge/git/refs{/sha}\",\n" +
-                "    \"trees_url\": \"https://api.github.com/repos/conorheffron/bio-cell-red-edge/git/trees{/sha}\",\n" +
-                "    \"statuses_url\": \"https://api.github.com/repos/conorheffron/bio-cell-red-edge/statuses/{sha}\",\n" +
-                "    \"languages_url\": \"https://api.github.com/repos/conorheffron/bio-cell-red-edge/languages\",\n" +
-                "    \"stargazers_url\": \"https://api.github.com/repos/conorheffron/bio-cell-red-edge/stargazers\",\n" +
-                "    \"contributors_url\": \"https://api.github.com/repos/conorheffron/bio-cell-red-edge/contributors\",\n" +
-                "    \"subscribers_url\": \"https://api.github.com/repos/conorheffron/bio-cell-red-edge/subscribers\",\n" +
-                "    \"subscription_url\": \"https://api.github.com/repos/conorheffron/bio-cell-red-edge/subscription\",\n" +
-                "    \"commits_url\": \"https://api.github.com/repos/conorheffron/bio-cell-red-edge/commits{/sha}\",\n" +
-                "    \"git_commits_url\": \"https://api.github.com/repos/conorheffron/bio-cell-red-edge/git/commits{/sha}\",\n" +
-                "    \"comments_url\": \"https://api.github.com/repos/conorheffron/bio-cell-red-edge/comments{/number}\",\n" +
-                "    \"issue_comment_url\": \"https://api.github.com/repos/conorheffron/bio-cell-red-edge/issues/comments{/number}\",\n" +
-                "    \"contents_url\": \"https://api.github.com/repos/conorheffron/bio-cell-red-edge/contents/{+path}\",\n" +
-                "    \"compare_url\": \"https://api.github.com/repos/conorheffron/bio-cell-red-edge/compare/{base}...{head}\",\n" +
-                "    \"merges_url\": \"https://api.github.com/repos/conorheffron/bio-cell-red-edge/merges\",\n" +
-                "    \"archive_url\": \"https://api.github.com/repos/conorheffron/bio-cell-red-edge/{archive_format}{/ref}\",\n" +
-                "    \"downloads_url\": \"https://api.github.com/repos/conorheffron/bio-cell-red-edge/downloads\",\n" +
-                "    \"issues_url\": \"https://api.github.com/repos/conorheffron/bio-cell-red-edge/issues{/number}\",\n" +
-                "    \"pulls_url\": \"https://api.github.com/repos/conorheffron/bio-cell-red-edge/pulls{/number}\",\n" +
-                "    \"milestones_url\": \"https://api.github.com/repos/conorheffron/bio-cell-red-edge/milestones{/number}\",\n" +
-                "    \"notifications_url\": \"https://api.github.com/repos/conorheffron/bio-cell-red-edge/notifications{?since,all,participating}\",\n" +
-                "    \"labels_url\": \"https://api.github.com/repos/conorheffron/bio-cell-red-edge/labels{/name}\",\n" +
-                "    \"releases_url\": \"https://api.github.com/repos/conorheffron/bio-cell-red-edge/releases{/id}\",\n" +
-                "    \"deployments_url\": \"https://api.github.com/repos/conorheffron/bio-cell-red-edge/deployments\",\n" +
-                "    \"created_at\": \"2023-12-30T02:40:43Z\",\n" +
-                "    \"updated_at\": \"2024-07-25T23:06:48Z\",\n" +
-                "    \"pushed_at\": \"2024-07-25T23:10:52Z\",\n" +
-                "    \"git_url\": \"git://github.com/conorheffron/bio-cell-red-edge.git\",\n" +
-                "    \"ssh_url\": \"git@github.com:conorheffron/bio-cell-red-edge.git\",\n" +
-                "    \"clone_url\": \"https://github.com/conorheffron/bio-cell-red-edge.git\",\n" +
-                "    \"svn_url\": \"https://github.com/conorheffron/bio-cell-red-edge\",\n" +
-                "    \"homepage\": \"https://conorheffron.github.io/bio-cell-red-edge/\",\n" +
-                "    \"size\": 11698,\n" +
-                "    \"stargazers_count\": 1,\n" +
-                "    \"watchers_count\": 1,\n" +
-                "    \"language\": \"Python\",\n" +
-                "    \"has_issues\": true,\n" +
-                "    \"has_projects\": true,\n" +
-                "    \"has_downloads\": true,\n" +
-                "    \"has_wiki\": true,\n" +
-                "    \"has_pages\": true,\n" +
-                "    \"has_discussions\": false,\n" +
-                "    \"forks_count\": 0,\n" +
-                "    \"mirror_url\": null,\n" +
-                "    \"archived\": false,\n" +
-                "    \"disabled\": false,\n" +
-                "    \"open_issues_count\": 0,\n" +
-                "    \"license\": {\n" +
-                "      \"key\": \"gpl-3.0\",\n" +
-                "      \"name\": \"GNU General Public License v3.0\",\n" +
-                "      \"spdx_id\": \"GPL-3.0\",\n" +
-                "      \"url\": \"https://api.github.com/licenses/gpl-3.0\",\n" +
-                "      \"node_id\": \"MDc6TGljZW5zZTk=\"\n" +
-                "    },\n" +
-                "    \"allow_forking\": true,\n" +
-                "    \"is_template\": false,\n" +
-                "    \"web_commit_signoff_required\": false,\n" +
-                "    \"topics\": [\n" +
-                "      \"biology\",\n" +
-                "      \"computer-vision\",\n" +
-                "      \"image-processing\",\n" +
-                "      \"scikitlearn-machine-learning\"\n" +
-                "    ],\n" +
-                "    \"visibility\": \"public\",\n" +
-                "    \"forks\": 0,\n" +
-                "    \"open_issues\": 0,\n" +
-                "    \"watchers\": 1,\n" +
-                "    \"default_branch\": \"main\"\n" +
-                "  },\n" +
-                "  {\n" +
-                "    \"id\": 850363843,\n" +
-                "    \"node_id\": \"R_kgDOMq-Fww\",\n" +
-                "    \"name\": \"booking-sys\",\n" +
-                "    \"full_name\": \"conorheffron/booking-sys\",\n" +
-                "    \"private\": true,\n" +
-                "    \"html_url\": \"https://github.com/conorheffron/booking-sys\",\n" +
-                "    \"description\": \"Sample Reservations & Bookings Viewer System\",\n" +
-                "    \"homepage\": \"https://booking-sys-ebgefrdmh3afbhee.northeurope-01.azurewebsites.net/book/\"\n" +
-                "  }\n" +
-                "]"));
+        assertThat(result, is("""
+                [
+                  {
+                    "id": 737159069,
+                    "node_id": "R_kgDOK_AnnQ",
+                    "name": "bio-cell-red-edge",
+                    "full_name": "conorheffron/bio-cell-red-edge",
+                    "private": false,
+                    "owner": {
+                      "login": "conorheffron",
+                      "id": 8218626,
+                      "node_id": "MDQ6VXNlcjgyMTg2MjY=",
+                      "avatar_url": "https://avatars.githubusercontent.com/u/8218626?v=4",
+                      "gravatar_id": "",
+                      "url": "https://api.github.com/users/conorheffron",
+                      "html_url": "https://github.com/conorheffron",
+                      "followers_url": "https://api.github.com/users/conorheffron/followers",
+                      "following_url": "https://api.github.com/users/conorheffron/following{/other_user}",
+                      "gists_url": "https://api.github.com/users/conorheffron/gists{/gist_id}",
+                      "starred_url": "https://api.github.com/users/conorheffron/starred{/owner}{/repo}",
+                      "subscriptions_url": "https://api.github.com/users/conorheffron/subscriptions",
+                      "organizations_url": "https://api.github.com/users/conorheffron/orgs",
+                      "repos_url": "https://api.github.com/users/conorheffron/repos",
+                      "events_url": "https://api.github.com/users/conorheffron/events{/privacy}",
+                      "received_events_url": "https://api.github.com/users/conorheffron/received_events",
+                      "type": "User",
+                      "site_admin": false
+                    },
+                    "html_url": "https://github.com/conorheffron/bio-cell-red-edge",
+                    "description": "Edge Detection of Biological Cell (Image Processing Script)",
+                    "fork": false,
+                    "url": "https://api.github.com/repos/conorheffron/bio-cell-red-edge",
+                    "forks_url": "https://api.github.com/repos/conorheffron/bio-cell-red-edge/forks",
+                    "keys_url": "https://api.github.com/repos/conorheffron/bio-cell-red-edge/keys{/key_id}",
+                    "collaborators_url": "https://api.github.com/repos/conorheffron/bio-cell-red-edge/collaborators{/collaborator}",
+                    "teams_url": "https://api.github.com/repos/conorheffron/bio-cell-red-edge/teams",
+                    "hooks_url": "https://api.github.com/repos/conorheffron/bio-cell-red-edge/hooks",
+                    "issue_events_url": "https://api.github.com/repos/conorheffron/bio-cell-red-edge/issues/events{/number}",
+                    "events_url": "https://api.github.com/repos/conorheffron/bio-cell-red-edge/events",
+                    "assignees_url": "https://api.github.com/repos/conorheffron/bio-cell-red-edge/assignees{/user}",
+                    "branches_url": "https://api.github.com/repos/conorheffron/bio-cell-red-edge/branches{/branch}",
+                    "tags_url": "https://api.github.com/repos/conorheffron/bio-cell-red-edge/tags",
+                    "blobs_url": "https://api.github.com/repos/conorheffron/bio-cell-red-edge/git/blobs{/sha}",
+                    "git_tags_url": "https://api.github.com/repos/conorheffron/bio-cell-red-edge/git/tags{/sha}",
+                    "git_refs_url": "https://api.github.com/repos/conorheffron/bio-cell-red-edge/git/refs{/sha}",
+                    "trees_url": "https://api.github.com/repos/conorheffron/bio-cell-red-edge/git/trees{/sha}",
+                    "statuses_url": "https://api.github.com/repos/conorheffron/bio-cell-red-edge/statuses/{sha}",
+                    "languages_url": "https://api.github.com/repos/conorheffron/bio-cell-red-edge/languages",
+                    "stargazers_url": "https://api.github.com/repos/conorheffron/bio-cell-red-edge/stargazers",
+                    "contributors_url": "https://api.github.com/repos/conorheffron/bio-cell-red-edge/contributors",
+                    "subscribers_url": "https://api.github.com/repos/conorheffron/bio-cell-red-edge/subscribers",
+                    "subscription_url": "https://api.github.com/repos/conorheffron/bio-cell-red-edge/subscription",
+                    "commits_url": "https://api.github.com/repos/conorheffron/bio-cell-red-edge/commits{/sha}",
+                    "git_commits_url": "https://api.github.com/repos/conorheffron/bio-cell-red-edge/git/commits{/sha}",
+                    "comments_url": "https://api.github.com/repos/conorheffron/bio-cell-red-edge/comments{/number}",
+                    "issue_comment_url": "https://api.github.com/repos/conorheffron/bio-cell-red-edge/issues/comments{/number}",
+                    "contents_url": "https://api.github.com/repos/conorheffron/bio-cell-red-edge/contents/{+path}",
+                    "compare_url": "https://api.github.com/repos/conorheffron/bio-cell-red-edge/compare/{base}...{head}",
+                    "merges_url": "https://api.github.com/repos/conorheffron/bio-cell-red-edge/merges",
+                    "archive_url": "https://api.github.com/repos/conorheffron/bio-cell-red-edge/{archive_format}{/ref}",
+                    "downloads_url": "https://api.github.com/repos/conorheffron/bio-cell-red-edge/downloads",
+                    "issues_url": "https://api.github.com/repos/conorheffron/bio-cell-red-edge/issues{/number}",
+                    "pulls_url": "https://api.github.com/repos/conorheffron/bio-cell-red-edge/pulls{/number}",
+                    "milestones_url": "https://api.github.com/repos/conorheffron/bio-cell-red-edge/milestones{/number}",
+                    "notifications_url": "https://api.github.com/repos/conorheffron/bio-cell-red-edge/notifications{?since,all,participating}",
+                    "labels_url": "https://api.github.com/repos/conorheffron/bio-cell-red-edge/labels{/name}",
+                    "releases_url": "https://api.github.com/repos/conorheffron/bio-cell-red-edge/releases{/id}",
+                    "deployments_url": "https://api.github.com/repos/conorheffron/bio-cell-red-edge/deployments",
+                    "created_at": "2023-12-30T02:40:43Z",
+                    "updated_at": "2024-07-25T23:06:48Z",
+                    "pushed_at": "2024-07-25T23:10:52Z",
+                    "git_url": "git://github.com/conorheffron/bio-cell-red-edge.git",
+                    "ssh_url": "git@github.com:conorheffron/bio-cell-red-edge.git",
+                    "clone_url": "https://github.com/conorheffron/bio-cell-red-edge.git",
+                    "svn_url": "https://github.com/conorheffron/bio-cell-red-edge",
+                    "homepage": "https://conorheffron.github.io/bio-cell-red-edge/",
+                    "size": 11698,
+                    "stargazers_count": 1,
+                    "watchers_count": 1,
+                    "language": "Python",
+                    "has_issues": true,
+                    "has_projects": true,
+                    "has_downloads": true,
+                    "has_wiki": true,
+                    "has_pages": true,
+                    "has_discussions": false,
+                    "forks_count": 0,
+                    "mirror_url": null,
+                    "archived": false,
+                    "disabled": false,
+                    "open_issues_count": 0,
+                    "license": {
+                      "key": "gpl-3.0",
+                      "name": "GNU General Public License v3.0",
+                      "spdx_id": "GPL-3.0",
+                      "url": "https://api.github.com/licenses/gpl-3.0",
+                      "node_id": "MDc6TGljZW5zZTk="
+                    },
+                    "allow_forking": true,
+                    "is_template": false,
+                    "web_commit_signoff_required": false,
+                    "topics": [
+                      "biology",
+                      "computer-vision",
+                      "image-processing",
+                      "scikitlearn-machine-learning"
+                    ],
+                    "visibility": "public",
+                    "forks": 0,
+                    "open_issues": 0,
+                    "watchers": 1,
+                    "default_branch": "main"
+                  },
+                  {
+                    "id": 850363843,
+                    "node_id": "R_kgDOMq-Fww",
+                    "name": "booking-sys",
+                    "full_name": "conorheffron/booking-sys",
+                    "private": true,
+                    "html_url": "https://github.com/conorheffron/booking-sys",
+                    "description": "Sample Reservations & Bookings Viewer System",
+                    "homepage": "https://booking-sys-ebgefrdmh3afbhee.northeurope-01.azurewebsites.net/book/"
+                  }
+                ]"""));
         assertThat(jsonInputStream, is(notNullValue()));
         jsonInputStream.close();
     }

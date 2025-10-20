@@ -1,5 +1,7 @@
 package net.ironoc.portfolio.service;
 
+import module java.base;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import net.ironoc.portfolio.config.PropertyConfigI;
@@ -15,14 +17,6 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 @Service
 public class GraphQLClientService extends AbstractLogger implements GraphQLClient {

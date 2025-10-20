@@ -1,9 +1,8 @@
 package net.ironoc.portfolio.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
+import module java.base;
 
-import java.util.List;
-import java.util.Map;
+import com.fasterxml.jackson.core.JsonProcessingException;
 
 public interface GraphQLClient {
     Map<String, Object> fetchCoffeeDetails() throws JsonProcessingException;

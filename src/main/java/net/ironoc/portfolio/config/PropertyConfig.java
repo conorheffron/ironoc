@@ -1,11 +1,10 @@
 package net.ironoc.portfolio.config;
 
+import module java.base;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
-
-import java.util.Arrays;
-import java.util.List;
 
 @Component
 public class PropertyConfig implements PropertyConfigI {

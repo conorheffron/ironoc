@@ -1,6 +1,6 @@
 package net.ironoc.portfolio.service;
 
-import java.util.Map;
+import module java.base;
 
 public abstract sealed class AbstractGitCache permits GitProjectCacheService, GitRepoCacheService {
 

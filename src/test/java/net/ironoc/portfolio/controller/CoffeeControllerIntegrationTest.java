@@ -1,5 +1,7 @@
 package net.ironoc.portfolio.controller;
 
+import module java.base;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import net.ironoc.portfolio.domain.CoffeeDomain;
@@ -18,12 +20,6 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
-
-import java.io.File;
-import java.io.InputStream;
-import java.util.Map;
-import java.util.List;
-import java.util.Arrays;
 
 import static net.ironoc.portfolio.utils.TestRequestResponseUtils.getSampleCoffeeDomainList;
 import static net.ironoc.portfolio.utils.TestRequestResponseUtils.getSampleResponse;

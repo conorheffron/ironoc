@@ -1,8 +1,8 @@
 package net.ironoc.portfolio.service;
 
-import net.ironoc.portfolio.domain.CoffeeDomain;
+import module java.base;
 
-import java.util.List;
+import net.ironoc.portfolio.domain.CoffeeDomain;
 
 public interface CoffeesCache {
     void put(List<CoffeeDomain> repositoryIssueDomains);

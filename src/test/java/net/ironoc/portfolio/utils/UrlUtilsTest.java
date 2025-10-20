@@ -9,13 +9,13 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
 @ExtendWith(MockitoExtension.class)
-public class UrlUtilsTest {
+class UrlUtilsTest {
 
     @InjectMocks
     private UrlUtils urlUtils;
 
     @Test
-    public void test_isValidURL_false() {
+    void test_isValidURL_false() {
         // when
         boolean result = urlUtils.isValidURL("test_url");
 
@@ -24,7 +24,7 @@ public class UrlUtilsTest {
     }
 
     @Test
-    public void test_isValidURL_true() {
+    void test_isValidURL_true() {
         // when
         boolean result = urlUtils.isValidURL("https://api.github.com/users/conorheffron/repos");
 

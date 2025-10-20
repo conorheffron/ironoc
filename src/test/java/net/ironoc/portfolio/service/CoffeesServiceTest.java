@@ -1,5 +1,7 @@
 package net.ironoc.portfolio.service;
 
+import module java.base;
+
 import net.ironoc.portfolio.config.PropertyConfigI;
 import net.ironoc.portfolio.domain.CoffeeDomain;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,10 +13,6 @@ import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
-
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -166,7 +164,7 @@ public class CoffeesServiceTest {
     @Test
     void testGetBody_non2xxStatus() {
         String endpoint = "coffee-endpoint";
-        List<CoffeeDomain> body = Arrays.asList(new CoffeeDomain());
+        List<CoffeeDomain> body = List.of(new CoffeeDomain());
         ResponseEntity<Object> response = new ResponseEntity<>(body, HttpStatus.INTERNAL_SERVER_ERROR);
 
         when(restTemplateMock.getForEntity(endpoint, Object.class)).thenReturn(response);

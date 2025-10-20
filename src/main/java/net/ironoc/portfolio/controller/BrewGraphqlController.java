@@ -1,5 +1,7 @@
 package net.ironoc.portfolio.controller;
 
+import module java.base;
+
 import net.ironoc.portfolio.dto.Brew;
 import net.ironoc.portfolio.graph.BrewsResolver;
 import net.ironoc.portfolio.logger.AbstractLogger;
@@ -7,11 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.graphql.data.method.annotation.SchemaMapping;
 import org.springframework.stereotype.Controller;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
 
 @Controller
 public class BrewGraphqlController extends AbstractLogger {

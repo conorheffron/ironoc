@@ -10,13 +10,13 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 
 @ExtendWith(MockitoExtension.class)
-public class AwsSecretManagerTest {
+class AwsSecretManagerTest {
 
     @InjectMocks
     private AwsSecretManager awsSecretManager;
 
     @Test
-    public void test_getGitSecret_success() {
+    void test_getGitSecret_success() {
         // when
         String result = awsSecretManager.getGitSecret();
 

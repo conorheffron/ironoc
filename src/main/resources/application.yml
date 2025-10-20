@@ -2,7 +2,7 @@ net:
   ironoc:
     portfolio:
       brew:
-        job-enable: true
+        job-enable: false
         cron-job: "0 0 2 */3 * ?"
         api:
           endpoint:

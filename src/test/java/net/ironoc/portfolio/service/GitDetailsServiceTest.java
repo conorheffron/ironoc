@@ -1,5 +1,7 @@
 package net.ironoc.portfolio.service;
 
+import module java.base;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.CollectionType;
 import net.ironoc.portfolio.client.Client;
@@ -9,19 +11,12 @@ import net.ironoc.portfolio.domain.RepositoryIssueDomain;
 import net.ironoc.portfolio.dto.RepositoryDetailDto;
 import net.ironoc.portfolio.dto.RepositoryIssueDto;
 import net.ironoc.portfolio.utils.UrlUtils;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
 
 import static net.ironoc.portfolio.service.GitDetailsService.IRONOC_GIT_USER;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -324,6 +319,7 @@ public class GitDetailsServiceTest {
         assertThat(result.get().getTopics(), is("[]"));
         assertThat(result.get().getAppHome(), is(emptyString()));
         assertThat(result.get().getRepoUrl(), is(emptyString()));
+        Assertions.assertNotNull(jsonInputStream);
         jsonInputStream.close();
     }
 
@@ -349,6 +345,7 @@ public class GitDetailsServiceTest {
         assertThat(result2.getTitle(), is("Setup LB, Support SSL"));
         assertThat(result2.getBody(), is("- [x] 1. Setup LB\r\n- [ ] 2. " +
                 "Support SSL\r\n- [ ] 3. Setup domain, map to AWS LB"));
+        Assertions.assertNotNull(jsonInputStream);
         jsonInputStream.close();
     }
 

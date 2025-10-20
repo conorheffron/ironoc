@@ -1,5 +1,7 @@
 package net.ironoc.portfolio.service;
 
+import module java.base;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import net.ironoc.portfolio.config.PropertyConfigI;
 import org.junit.jupiter.api.Test;
@@ -10,10 +12,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.web.client.RestTemplate;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;

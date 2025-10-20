@@ -1,14 +1,12 @@
 package net.ironoc.portfolio.graph;
 
+import module java.base;
+
 import net.ironoc.portfolio.dto.Donate;
 import net.ironoc.portfolio.dto.DonateItemOrder;
 import net.ironoc.portfolio.enums.SortingOrder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
@@ -47,10 +45,14 @@ class DonateItemsResolverTest {
                             "Emergency Department (ED) every year. A staff of 85 Consultants& over 950 other full-time " +
                             "& part-time HSCPs (Health & Social Care Professionals) % other staff deliver care & services.",
                     "founded", 1872,
-                    "phone", "<br/><b>Temple Street:</b> +353 01 878 4200,\n                        " +
-                            "<b>Tallaght:</b> +353 01 693 7500,<br />\n                        " +
-                            "<b>Crumlin:</b> +353 01 409 6100,\n                        <b>Connolly:" +
-                            "</b> +353 01 640 7500"
+                    "phone", """
+                            <br/><b>Temple Street:</b> +353 01 878 4200,
+                                                    \
+                            <b>Tallaght:</b> +353 01 693 7500,<br />
+                                                    \
+                            <b>Crumlin:</b> +353 01 409 6100,
+                                                    <b>Connolly:\
+                            </b> +353 01 640 7500"""
             ),
             Map.of(
                     "donate", "https://donors.cancer.ie/page/FUNDZAZBHHS",

@@ -1,15 +1,12 @@
 package net.ironoc.portfolio.service;
 
+import module java.base;
+
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import net.ironoc.portfolio.logger.AbstractLogger;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
-
-import java.io.IOException;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
 
 @Component
 public class PortfolioItemsResolver extends AbstractLogger {

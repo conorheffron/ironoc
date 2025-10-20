@@ -90,7 +90,11 @@
     font-family: "Open Sans";
 }
 
-.carousel-caption h3, h5 {
+.carousel-caption h3 {
+    color: navy;
+}
+
+.carousel-caption h5 {
     color: navy;
 }
 
