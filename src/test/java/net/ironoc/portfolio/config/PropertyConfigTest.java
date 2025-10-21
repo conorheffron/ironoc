@@ -5,6 +5,8 @@ import module java.base;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -226,11 +228,12 @@ public class PropertyConfigTest {
         assertThat(result, is(List.of(TEST_PROPS)));
     }
 
-    @Test
-    public void test_isCacheJobEnabled_success() {
+    @ParameterizedTest
+    @ValueSource(booleans = {true, false})
+    public void test_isCacheJobEnabled_success(boolean input) {
         // given
         when(propertyKeyMock.isCacheJobEnabled()).thenReturn(Properties.IS_GITHUB_JOB_ENABLED.getKey());
-        when(environmentMock.getRequiredProperty(Properties.IS_GITHUB_JOB_ENABLED.getKey())).thenReturn(Boolean.TRUE.toString());
+        when(environmentMock.getRequiredProperty(Properties.IS_GITHUB_JOB_ENABLED.getKey())).thenReturn(String.valueOf(input));
 
         // when
         boolean result = propertyConfig.isCacheJobEnabled();
@@ -239,7 +242,7 @@ public class PropertyConfigTest {
         verify(propertyKeyMock).isCacheJobEnabled();
         verify(environmentMock).getRequiredProperty(Properties.IS_GITHUB_JOB_ENABLED.getKey());
 
-        assertThat(result, is(true));
+        assertThat(result, is(input));
     }
 
     @Test
@@ -290,11 +293,12 @@ public class PropertyConfigTest {
         assertThat(result, is(TEST_PROP_VAL));
     }
 
-    @Test
-    public void test_isBrewsCacheJobEnabled_success() {
+    @ParameterizedTest
+    @ValueSource(booleans = {true, false})
+    public void test_isBrewsCacheJobEnabled_success(boolean input) {
         // given
         when(propertyKeyMock.isBrewCacheJobEnabled()).thenReturn(Properties.IS_BREWS_JOB_ENABLED.getKey());
-        when(environmentMock.getRequiredProperty(Properties.IS_BREWS_JOB_ENABLED.getKey())).thenReturn(Boolean.TRUE.toString());
+        when(environmentMock.getRequiredProperty(Properties.IS_BREWS_JOB_ENABLED.getKey())).thenReturn(String.valueOf(input));
 
         // when
         boolean result = propertyConfig.isBrewsCacheJobEnabled();
@@ -303,6 +307,6 @@ public class PropertyConfigTest {
         verify(propertyKeyMock).isBrewCacheJobEnabled();
         verify(environmentMock).getRequiredProperty(Properties.IS_BREWS_JOB_ENABLED.getKey());
 
-        assertThat(result, is(true));
+        assertThat(result, is(input));
     }
 }
