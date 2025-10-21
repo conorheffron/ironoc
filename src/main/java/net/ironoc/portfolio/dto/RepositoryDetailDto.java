@@ -1,5 +1,7 @@
 package net.ironoc.portfolio.dto;
 
+import module java.base;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
@@ -8,8 +10,6 @@ import lombok.Builder;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.Getter;
-
-import java.util.List;
 
 @Builder
 @AllArgsConstructor

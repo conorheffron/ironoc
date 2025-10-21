@@ -1,5 +1,7 @@
 package net.ironoc.portfolio;
 
+import module java.base;
+
 import io.swagger.v3.oas.models.OpenAPI;
 import lombok.extern.slf4j.Slf4j;
 import net.ironoc.portfolio.controller.BaseControllerIntegrationTest;
@@ -19,7 +21,6 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.web.context.WebApplicationContext;
-import java.time.Duration;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.blankOrNullString;

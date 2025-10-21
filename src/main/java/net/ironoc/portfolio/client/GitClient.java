@@ -13,13 +13,6 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
-import javax.net.ssl.HttpsURLConnection;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.nio.charset.StandardCharsets;
-
 @Component
 @Slf4j
 public class GitClient extends AbstractLogger implements Client {
