@@ -170,7 +170,7 @@ const RepoIssues = () => {
   }
 
   return (
-    <div>
+    <div className="App">
       <AppNavbar />
       <br />
       <br />

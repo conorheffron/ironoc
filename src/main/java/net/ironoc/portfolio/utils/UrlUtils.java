@@ -1,10 +1,9 @@
 package net.ironoc.portfolio.utils;
 
+import module java.base;
+
 import net.ironoc.portfolio.logger.AbstractLogger;
 import org.springframework.stereotype.Component;
-
-import java.net.URI;
-import java.net.URL;
 
 @Component
 public class UrlUtils extends AbstractLogger {
