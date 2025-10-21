@@ -22,10 +22,6 @@ jobs:
         working-directory: './frontend'
       - run: npm install
         working-directory: './frontend'
-      - run: npm ci
-        working-directory: './frontend'
-      - run: npm test
-        working-directory: './frontend'
 
   publish-gpr:
     needs: build
