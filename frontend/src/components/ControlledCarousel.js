@@ -53,7 +53,7 @@ class ControlledCarousel extends Component {
             };
 
         return (
-            <div>
+            <div className="App">
                 <AppNavbar />
                 <Container>
                     <Carousel className="App-header">

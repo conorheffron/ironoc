@@ -40,12 +40,12 @@ class AppNavBar extends Component {
         return (
             <div>
                 <Navbar color={color} light={light} dark={dark} fixed={fixed} container={container} expand={expand} className={className}>
-                    <NavbarBrand href="/">
-                        <img alt="" src={logo} width="30" height="30" className="d-inline-block align-top"/>
-                    </NavbarBrand>
                     <Container>
                         <NavbarToggler onClick={this.toggleNavbar} /> {/* Toggle button */}
                         <Collapse isOpen={isOpen} navbar>
+                            <NavbarBrand href="/">
+                                <img alt="" src={logo} width="30" height="30" className="d-inline-block align-top"/>
+                            </NavbarBrand>
                             <Nav className="me-auto" navbar>
                                 <UncontrolledDropdown inNavbar nav>
                                     <DropdownToggle caret nav>iRonoc</DropdownToggle>

@@ -97,8 +97,10 @@ class RepoDetails extends Component {
         ));
 
         return (
-            <div>
-                <AppNavbar /><br /><br />
+            <div className="App">
+                <AppNavbar />
+                <br />
+                <br />
                 <Container fluid>
                     <br />
                     <InputGroup className="mb-3">
