@@ -11,7 +11,10 @@ public class DonatePage {
 
     protected WebDriver driver;
 
-    @FindBy(xpath = "//div[2]/div/div/nav/div/a/img")
+    @FindBy(css = ".App .navbar-toggler-icon")
+    private WebElement hamburgerIcon;
+
+    @FindBy(xpath = "//div[2]/div/div/nav/div/div/div/a/img")
     private WebElement home;
 
     public DonatePage(WebDriver driver) {
@@ -19,6 +22,7 @@ public class DonatePage {
     }
 
     public HomePage goToHome() {
+        hamburgerIcon.click();
         home.click();
         return PageFactory.initElements(driver, HomePage.class);
     }
