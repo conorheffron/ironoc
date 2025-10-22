@@ -45,8 +45,11 @@ class Home extends Component {
                             <br /><br />
                             The ironoc API is documented with &nbsp;<a href="/swagger-ui-ironoc.html" target="_blank" rel="noopener noreferrer">Open API</a>
                             &nbsp; & sample GET requests that return raw JSON responses are available for demonstration
-                            purposes only i.e. &nbsp;<a href="/api/get-repo-issue/conorheffron/ironoc/" target="_blank" rel="noopener noreferrer">Issues JSON Sample</a>.
-                        </p>
+                            purposes only i.e. &nbsp;<a href="/api/get-repo-issue/conorheffron/ironoc/" target="_blank" rel="noopener noreferrer">Issues JSON Sample</a>
+                            <br /><br />
+                             If you like what you see, please sponsor my open source work at
+                             <iframe src="https://github.com/sponsors/conorheffron/card" title="Sponsor conorheffron" height="130" width="500" ></iframe>
+                            </p>
                     </header>
                 </Container>
             </div>
