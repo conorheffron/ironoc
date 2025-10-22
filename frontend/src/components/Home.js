@@ -38,6 +38,12 @@ class Home extends Component {
                             rel="noopener noreferrer">link tree</a>, a <a href="/portfolio">carousel</a>&nbsp;that scrolls
                             through highlighted projects & the GitHub project manager (PM) tool which is built against the iRonoc API.
                             <br /><br />
+                            If you like what you see, please sponsor my open source work.
+                            <br /><br />
+                            <iframe src="https://github.com/sponsors/conorheffron/card" title="Sponsor conorheffron"
+                            height="180" width="300" >
+                            </iframe>
+                            <br /><br />
                             The GitHub PM tool allows you to view & navigate the backlog of issues & bugs for a given project
                             repository for the corresponding user or organisation account. There is an option to search by user ID
                             or to drill down to a specific repository name via search or 'List Issues' icon in the 'Actions' column
@@ -46,9 +52,6 @@ class Home extends Component {
                             The ironoc API is documented with &nbsp;<a href="/swagger-ui-ironoc.html" target="_blank" rel="noopener noreferrer">Open API</a>
                             &nbsp; & sample GET requests that return raw JSON responses are available for demonstration
                             purposes only i.e. &nbsp;<a href="/api/get-repo-issue/conorheffron/ironoc/" target="_blank" rel="noopener noreferrer">Issues JSON Sample</a>
-                            <br /><br />
-                             If you like what you see, please sponsor my open source work at
-                             <iframe src="https://github.com/sponsors/conorheffron/card" title="Sponsor conorheffron" height="130" width="500" ></iframe>
                             </p>
                     </header>
                 </Container>
