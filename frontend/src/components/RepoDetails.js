@@ -91,6 +91,8 @@ class RepoDetails extends Component {
                 <td>
                     <ButtonGroup>
                         <Button size="sm" color="secondary" tag={Link} to={`/issues/${gitUser}/${repo.name}`}>List Issues</Button>
+                        <Button size="sm" color="secondary" tag={Link}
+                            to={`https://github.com/${gitUser}/${repo.name}/issues/new/choose`}>Create Issue</Button>
                     </ButtonGroup>
                 </td>
             </tr>
