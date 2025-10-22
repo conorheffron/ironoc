@@ -89,9 +89,11 @@ class RepoDetails extends Component {
                     <td>{repo.issueCount}</td>
                 )}
                 <td>
-                    <ButtonGroup>
-                        <Button size="sm" color="secondary" tag={Link} to={`/issues/${gitUser}/${repo.name}`}>List Issues</Button>
-                        <Button size="sm" color="secondary" tag={Link}
+                    <ButtonGroup vertical>
+                        <Button size="sm" color="secondary"
+                        tag={Link} to={`/issues/${gitUser}/${repo.name}`}>List Issues</Button>
+                        <br />
+                        <Button size="sm" color="secondary" tag={Link} target="_blank" rel="noreferrer"
                             to={`https://github.com/${gitUser}/${repo.name}/issues/new/choose`}>Create Issue</Button>
                     </ButtonGroup>
                 </td>
@@ -125,8 +127,8 @@ class RepoDetails extends Component {
                                     <th width="9%">Repository</th>
                                     <th width="15%">Description</th>
                                     <th width="6%">App URL</th>
-                                    <th width="35%">Topics</th>
-                                    <th width="10%">Issues Count</th>
+                                    <th width="45%">Topics</th>
+                                    <th width="5%">Issues Count</th>
                                     <th width="5%">Actions</th>
                                 </>
                                 ) : (
