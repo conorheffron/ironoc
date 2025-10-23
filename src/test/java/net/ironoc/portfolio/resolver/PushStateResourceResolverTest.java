@@ -41,29 +41,6 @@ public class PushStateResourceResolverTest {
     List<String> ignorePaths = List.of("api");
     List<String> handledExtensions = List.of("html", "js");
     private static final String TEST_URL = "ironoc.net/about";
-    private static final String INDEX_HTML_CONTENT =
-            "<!doctype html>" +
-            "<html lang=\"en\">" +
-            "<head>" +
-                "<meta charset=\"utf-8\"/>" +
-                "<link rel=\"icon\" href=\"/favicon.ico\"/><meta name=\"viewport\" " +
-                "content=\"width=device-width,initial-scale=1\"/><meta name=\"theme-color\" " +
-                "content=\"#000000\"/>" +
-                "<meta name=\"Personal Portfolio for Conor Heffron\" " +
-                "content=\"Web Application Development | Software Engineering | Data Engineering | Cloud Deployments " +
-                "| DevOps\"/><link rel=\"apple-touch-icon\" href=\"/robot-logo.png\"/>" +
-                "<link rel=\"manifest\" " +
-                "href=\"/manifest.json\"/>" +
-                "<title>iRonoc React App | Portfolio | Software Engineer | DevOps " +
-                "| Data Analytics | Conor Heffron</title><script defer=\"defer\" src=\"/static/js/main.6f0b1ec4.js\">" +
-                "</script><link href=\"/static/css/main.903d2f06.css\" rel=\"stylesheet\">" +
-            "</head>" +
-            "<body>" +
-                "<noscript>You need to enable JavaScript to run this app.</noscript>" +
-                "<div id=\"root\">" +
-                "</div>" +
-            "</body>" +
-            "</html>";
 
     @BeforeEach
     public void setUp() {
