@@ -343,8 +343,8 @@
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>3.5.4</version>
 				<configuration>
-					<jvm>"-Xmx2048m"</jvm>
                     <argLine>@{argLine} -javaagent:${settings.localRepository}/org/mockito/mockito-core/${mockito.version}/mockito-core-${mockito.version}.jar</argLine>
+					<jvm>-Xmx2048m</jvm>
                 </configuration>
 			</plugin>
 			<plugin>
