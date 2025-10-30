@@ -1,3 +1,7 @@
+# ironoc
+
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+
 [![Maven Package](https://github.com/conorheffron/ironoc/actions/workflows/maven-publish.yml/badge.svg)](https://github.com/conorheffron/ironoc/actions/workflows/maven-publish.yml)
 
 [![Deploy to Amazon ECS](https://github.com/conorheffron/ironoc/actions/workflows/aws.yml/badge.svg)](https://github.com/conorheffron/ironoc/actions/workflows/aws.yml)
