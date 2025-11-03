@@ -14,6 +14,11 @@ The ironoc UI built with react for personal portfolio website.
 
 ## Getting Started with iRonoc React App
 
+## Prerequisites
+
+- [Node.js](https://nodejs.org/) (v24 (LTS) recommended)
+- [npm](https://www.npmjs.com/) (comes with Node.js 11.6.2)
+
 ## Tech Stack
  - ReactJs 19, Axios, Apollo Client, GraphQL, HTML5+CSS
 
