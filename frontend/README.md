@@ -9,15 +9,15 @@ The ironoc UI built with react for personal portfolio website.
 - [GitHub Repository](https://github.com/conorheffron/ironoc)
 - [Frontend Source Code](https://github.com/conorheffron/ironoc/tree/main/frontend)
 - See project README.md [here](https://github.com/conorheffron/ironoc/blob/main/README.md)
-- See npmjs package details here [https://www.npmjs.com/package/@conorheffron/ironoc-frontend](https://www.npmjs.com/package/@conorheffron/ironoc-frontend)
-- See GitHub package details here [https://github.com/conorheffron/ironoc/pkgs/npm/ironoc-frontend](https://github.com/conorheffron/ironoc/pkgs/npm/ironoc-frontend)
+- See `npmjs package` details here [https://www.npmjs.com/package/@conorheffron/ironoc-frontend](https://www.npmjs.com/package/@conorheffron/ironoc-frontend)
+- See `GitHub package` details here [https://github.com/conorheffron/ironoc/pkgs/npm/ironoc-frontend](https://github.com/conorheffron/ironoc/pkgs/npm/ironoc-frontend)
 
 ## Getting Started with iRonoc React App
 
 ## Prerequisites
 
-- [Node.js](https://nodejs.org/) (v24 (LTS) recommended)
-- [npm](https://www.npmjs.com/) (comes with Node.js 11.6.2)
+- [Node.js](https://nodejs.org/) (`v24` (LTS) recommended)
+- [npm](https://www.npmjs.com/) (comes with Node.js `11.6.2`)
 
 ## Tech Stack
  - ReactJs 19, Axios, Apollo Client, GraphQL, HTML5+CSS
