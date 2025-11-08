@@ -59,11 +59,11 @@ docker run -d --restart=always -p 8080:8080 conorheffron/ironoc
 ## AWS CLI to pull required svc / user account credentials.
 ### Configure account, verify details & then generate ID/Keys/Tokens.
 ```shell
-% aws configure
+aws configure
 
-% aws iam get-user
+aws iam get-user
 
-% aws sts get-session-token
+aws sts get-session-token
 ```
 
 ## Add localhost proxy to frontend config (do not commit - only for local runs).
