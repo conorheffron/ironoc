@@ -688,7 +688,7 @@
 			"response": []
 		},
 		{
-			"name": "MUTATION addCharityOption ALONE with Vars Copy",
+			"name": "MUTATION addCharityOption CHI at Tallaght with Vars",
 			"id": "277886-6edd752f-7190-4589-bfe5-4c56660840af",
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true
