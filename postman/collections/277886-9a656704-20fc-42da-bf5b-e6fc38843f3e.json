@@ -638,7 +638,7 @@
 			"response": []
 		},
 		{
-			"name": "MUTATION addCharityOption CHI at St James’s with Vars Copy",
+			"name": "MUTATION addCharityOption CHI at St James’s with Vars",
 			"id": "277886-0e0a667b-a910-4735-9fb7-9c3a65897a5d",
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true
