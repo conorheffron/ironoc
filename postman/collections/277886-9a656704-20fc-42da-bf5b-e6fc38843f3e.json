@@ -713,7 +713,7 @@
 			"response": []
 		},
 		{
-			"name": "MUTATION addCharityOption ALONE with Vars Copy",
+			"name": "MUTATION addCharityOption CHI at Connolly with Vars",
 			"id": "277886-3429dbaa-44e8-4863-9490-6f8f4c578b55",
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true
