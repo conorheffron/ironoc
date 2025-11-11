@@ -208,5 +208,25 @@
     "overview": "The Marie Keating Foundation is an ever-growing family of people that care. Just like our supporters, we care about compassion. We care about dignity. We care about humanity. We care about people. We care passionately about giving people the information and support they need, from raising awareness about early detection to the moment of diagnosis and beyond. We believe that a community of people who care and work together can change things for the better and build a world free from the fear of cancer.",
     "founded": 2001,
     "phone": "01 628 3726"
+  },
+  {
+    "donate": "https://www.dogstrust.ie/support-us/donation",
+    "link": "https://www.dogstrust.ie/",
+    "img": "red",
+    "alt": "red19",
+    "name": "Dog's Trust Ireland",
+    "overview": "We believe all dogs deserve to live life to the full. We’ve been working for a better future for dogs and the people who love them. When a dog is in distress, we care for them. When a dog needs a home, we find them a loving family. When an owner needs a helping paw or they just can’t cope, we’re ready to step in. For every dog, for every owner, we’re by their side through thick and thin, throughout their lives. The bond they have is special to us. It changes lives, making each day happier and more complete. It’s why we believe A dog is for life. Discover who we are, what we do, and how we’ll never stop fighting to make tomorrow’s world a better place for all dogs.",
+    "founded": 2005,
+    "phone": "01 8791000"
+  },
+  {
+    "donate": "https://feileacain.ie/donate",
+    "link": "https://feileacain.ie/",
+    "img": "red",
+    "alt": "red18",
+    "name": "Féileacáin",
+    "overview": "Féileacáin, the Stillbirth and Neonatal Death Support, was registered as a charity in 2010.  Féileacáin was formed by a group of bereaved parents to offer support to anyone affected by the death of a baby around the time of birth, and the organization is now the national charity supporting families affected by perinatal loss. Féileacáin is a not-for-profit organization and receives no funding from central government, relying instead on the support of our community and the families who avail of our services.",
+    "founded": 2009,
+    "phone": "(085) 249 6464"
   }
 ]
