@@ -611,6 +611,56 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "MUTATION addCharityOption ALONE with Vars Copy",
+			"id": "277886-6edd752f-7190-4589-bfe5-4c56660840af",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "mutation AddCharityOption(\n  $donate: String!,\n  $link: String!,\n  $img: String!,\n  $alt: String!,\n  $name: String!,\n  $overview: String!,\n  $founded: Int!,\n  $phone: String!\n) {\n  addCharityOption(\n    donate: $donate,\n    link: $link,\n    img: $img,\n    alt: $alt,\n    name: $name,\n    overview: $overview,\n    founded: $founded,\n    phone: $phone\n  ) {\n    alt\n    donate\n    founded\n    img\n    link\n    name\n    overview\n    phone\n  }\n}",
+						"variables": "{\n    \"donate\": \"https://alone.ie/donate/\",\n    \"link\": \"https://alone.ie/\",\n    \"img\": \"red\",\n    \"alt\": \"red28\",\n    \"name\": \"ALONE\",\n    \"overview\": \"ALONE is a national charity organization in Ireland dedicated to empowering older people to age comfortably and securely in their own homes while remaining connected to their communities. They provide compassionate and confidential support for seniors dealing with issues such as anxiety, dementia, and loneliness. Their mission is to improve the physical, emotional, and mental well-being of older people, ensuring they can age happily and securely at home.\",\n    \"founded\": 1977,\n    \"phone\": \"0818 222 024\"\n}"
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}graphql",
+					"host": [
+						"{{base_url}}graphql"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "MUTATION addCharityOption ALONE with Vars Copy",
+			"id": "277886-3429dbaa-44e8-4863-9490-6f8f4c578b55",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "mutation AddCharityOption(\n  $donate: String!,\n  $link: String!,\n  $img: String!,\n  $alt: String!,\n  $name: String!,\n  $overview: String!,\n  $founded: Int!,\n  $phone: String!\n) {\n  addCharityOption(\n    donate: $donate,\n    link: $link,\n    img: $img,\n    alt: $alt,\n    name: $name,\n    overview: $overview,\n    founded: $founded,\n    phone: $phone\n  ) {\n    alt\n    donate\n    founded\n    img\n    link\n    name\n    overview\n    phone\n  }\n}",
+						"variables": "{\n    \"donate\": \"https://alone.ie/donate/\",\n    \"link\": \"https://alone.ie/\",\n    \"img\": \"red\",\n    \"alt\": \"red28\",\n    \"name\": \"ALONE\",\n    \"overview\": \"ALONE is a national charity organization in Ireland dedicated to empowering older people to age comfortably and securely in their own homes while remaining connected to their communities. They provide compassionate and confidential support for seniors dealing with issues such as anxiety, dementia, and loneliness. Their mission is to improve the physical, emotional, and mental well-being of older people, ensuring they can age happily and securely at home.\",\n    \"founded\": 1977,\n    \"phone\": \"0818 222 024\"\n}"
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}graphql",
+					"host": [
+						"{{base_url}}graphql"
+					]
+				}
+			},
+			"response": []
 		}
 	]
 }
