@@ -763,7 +763,7 @@
 			"response": []
 		},
 		{
-			"name": "MUTATION addCharityOption ALONE with Vars Copy 3",
+			"name": "MUTATION addCharityOption CHI at Crumlin with Vars",
 			"id": "277886-4b2a5569-317f-4047-b7ca-75c17fd5eae8",
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true
