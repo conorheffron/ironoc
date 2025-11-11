@@ -638,7 +638,7 @@
 			"response": []
 		},
 		{
-			"name": "MUTATION addCharityOption ALONE with Vars Copy",
+			"name": "MUTATION addCharityOption CHI at St James’s with Vars Copy",
 			"id": "277886-0e0a667b-a910-4735-9fb7-9c3a65897a5d",
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true
@@ -663,7 +663,7 @@
 			"response": []
 		},
 		{
-			"name": "MUTATION addCharityOption CHI at Blanchardstown with Vars Copy",
+			"name": "MUTATION addCharityOption CHI at Blanchardstown with Vars",
 			"id": "277886-a5bd26c1-c81a-4988-b701-773b56965627",
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true
