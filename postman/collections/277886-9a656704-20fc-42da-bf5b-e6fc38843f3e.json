@@ -738,7 +738,7 @@
 			"response": []
 		},
 		{
-			"name": "MUTATION addCharityOption ALONE with Vars Copy 2",
+			"name": "MUTATION addCharityOption CHI at Temple Street with Vars",
 			"id": "277886-abd03472-5f35-4422-a40c-0df5c7c0253e",
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true
