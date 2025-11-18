@@ -11,7 +11,7 @@ net:
         graph:
           endpoint: https://api.sampleapis.com/coffee/graphql
       github:
-        job-enable: true
+        job-enable: false
         cron-job: "0 1 1 */3 * ?"
         timeout:
           connect: 100000
