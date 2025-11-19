@@ -11,7 +11,7 @@ net:
         graph:
           endpoint: https://api.sampleapis.com/coffee/graphql
       github:
-        job-enable: true
+        job-enable: false
         cron-job: "0 1 1 */3 * ?"
         timeout:
           connect: 100000
@@ -26,15 +26,27 @@ net:
             projects-cache: >
               bio-cell-red-edge,
               booking-sys,
+              cart-dart,
               cbio-skin-canc,
+              conorheffron,
+              elastic-tester,
               fun-with-r,
               gene-expr,
+              in-mem-cache-sys,
               global-max-sim-matrix,
-              graphql-box,ironoc,ironoc-db,
+              graphql-box,
+              go-graph,
+              go-world,
+              hl7-hapi-fhir-obs-api,
+              kafka-consumer-check,
+              kafka-producer-check,
+              ironoc,
+              ironoc-db,
               ironoc-msg,
               ironoc-pytest,
               ironoc-rustt,
               ironoc-spark,
+              mcp-charity,
               mern-essential-training,
               mern-sandbox,
               nba-stats,
@@ -42,17 +54,22 @@ net:
               normalise-fetalh,
               normalise-spotify,
               nyc-school-scores,
+              py-flask-graph,
               python-sandbox,
               rabbitmq-tester,
               react-graphql-course,
               redis-tester,
               ronoc-packages,
+              rules-engine,
+              sb-kafka-listener,
+              simple-calculator,
               student-progress,
+              shopping-cart-test-data,
               shopping-cart-go,
-              cart-dart,
               shoppingcart-java,
               shopping-cart-kotlin,
-              shoppingcart-scala
+              shoppingcart-scala,
+              student-progress
       config:
         ignore-paths: api,graphiql
         handle-extensions: "html,js,json,css,map,svg,eot,ttf,woff,png,jpg,jpeg,gif,ico"
