@@ -7,7 +7,7 @@ import net.ironoc.portfolio.config.PropertyConfigI;
 import net.ironoc.portfolio.domain.CoffeeDomain;
 import net.ironoc.portfolio.logger.AbstractLogger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.boot.restclient.RestTemplateBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;

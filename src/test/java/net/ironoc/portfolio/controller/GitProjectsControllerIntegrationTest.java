@@ -62,35 +62,44 @@ public class GitProjectsControllerIntegrationTest extends BaseControllerIntegrat
 
     private static final String JSON_RESPONSE = "[" +
             "{" +
-            "\"name\":\"bio-cell-red-edge\"," +
-            "\"fullName\":\"conorheffron/bio-cell-red-edge\"," +
-            "\"description\":\"Edge Detection of Biological Cell (Image Processing Script)\"," +
             "\"appHome\":\"https://conorheffron.github.io/bio-cell-red-edge/\"," +
+            "\"description\":\"Edge Detection of Biological Cell (Image Processing Script)\"," +
+            "\"fullName\":\"conorheffron/bio-cell-red-edge\"," +
+            "\"issueCount\":0," +
+            "\"name\":\"bio-cell-red-edge\"," +
             "\"repoUrl\":\"https://github.com/conorheffron/bio-cell-red-edge\"," +
-            "\"topics\":\"[biology, computer-vision, image-processing, scikitlearn-machine-learning]\"," +
-            "\"issueCount\":0" +
+            "\"topics\":\"[biology, computer-vision, image-processing, scikitlearn-machine-learning]\"" +
             "}," +
             "{" +
-            "\"name\":\"booking-sys\"," +
-            "\"fullName\":\"conorheffron/booking-sys\"," +
-            "\"description\":\"Sample Reservations & Bookings Viewer System\"," +
             "\"appHome\":\"https://booking-sys-ebgefrdmh3afbhee.northeurope-01.azurewebsites.net/book/\"," +
+            "\"description\":\"Sample Reservations & Bookings Viewer System\"," +
+            "\"fullName\":\"conorheffron/booking-sys\"," +
+            "\"issueCount\":0," +
+            "\"name\":\"booking-sys\"," +
             "\"repoUrl\":\"https://github.com/conorheffron/booking-sys\"," +
-            "\"topics\":\"\"," +
-            "\"issueCount\":0" +
+            "\"topics\":\"\"" +
             "}" +
             "]";
-    private static final String ISSUES_JSON_RESPONSE = "[{\"number\":\"62\"," +
-            "\"title\":\"Re-write frontend with React <POC>\"," +
+    private static final String ISSUES_JSON_RESPONSE = "[" +
+            "{" +
             "\"body\":\"Use React or Angular framework & JavaScript " +
-            "or TypeScript as implementation language? \\r\\n- Research & select best option.\",\"state\":null,\"labels\":[]}," +
-            "{\"number\":\"57\"," +
-            "\"title\":\"Setup LB, Support SSL\"," +
-            "\"body\":\"- [x] 1. Setup LB\\r\\n" +
+            "or TypeScript as implementation language? \\r\\n- Research & select best option.\"," +
+            "\"labels\":[]," +
+            "\"number\":\"62\"," +
+            "\"state\":null," +
+            "\"title\":\"Re-write frontend with React <POC>\"" +
+            "}," +
+            "{" +
+            "\"body\":\"" +
+            "- [x] 1. Setup LB\\r\\n" +
             "- [ ] 2. Support SSL\\r\\n" +
-            "- [ ] 3. Setup domain, map to AWS LB\",\"state\":null,\"labels\":[]}" +
+            "- [ ] 3. Setup domain, map to AWS LB\"," +
+            "\"labels\":[]," +
+            "\"number\":\"57\"," +
+            "\"state\":null," +
+            "\"title\":\"Setup LB, Support SSL\"" +
+            "}" +
             "]";
-
     @BeforeEach
     public void setup() {
         mockMvc = MockMvcBuilders.webAppContextSetup(webAppContext).build();
