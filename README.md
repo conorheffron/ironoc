@@ -35,7 +35,7 @@
 Personal website / portfolio  [https://www.ironoc.net/](https://www.ironoc.net/)
 
 ## Tech Stack
- - Java 25 (LTS), Spring Boot 3, ReactJs 19, Maven 4, HTML5+CSS, Docker / Bash, AWS, minikube, & kubectl.
+ - Java 25 (LTS), Spring Boot 4, ReactJs 19, Maven 4, HTML5+CSS, Docker / Bash, AWS, minikube, & kubectl.
 
 ##### Note: `iRonoc` is an active user of the `GitHub API` & `conorheffron` is a proud participant in the GitHub Developer Program.
 - The `iRonoc` PM tool is designed to streamline project management by automating project navigation & issue tracking. 
