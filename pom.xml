@@ -5,7 +5,7 @@
 
 	<groupId>conorheffron</groupId>
 	<artifactId>ironoc</artifactId>
-	<version>9.0.1</version>
+	<version>9.0.2</version>
 	<packaging>war</packaging>
 
 	<distributionManagement>
@@ -32,7 +32,7 @@
 		<kotlin.version>1.6.0</kotlin.version>
 		<graphql.vers>14.0.0</graphql.vers>
 		<selenium.vers>4.38.0</selenium.vers>
-		<slf4j.vers>2.20.0</slf4j.vers>
+		<slf4j.vers>2.25.2</slf4j.vers>
         <sonar.organization>conorheffron</sonar.organization>
         <mockito.version>5.20.0</mockito.version>
 	</properties>
@@ -126,7 +126,7 @@
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-webflux</artifactId>
-			<version>6.2.12</version>
+			<version>7.0.1</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
@@ -337,7 +337,7 @@
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
-			<version>3.19.0</version>
+			<version>3.20.0</version>
 		</dependency>
 		<!-- swagger -->
 		<dependency>
@@ -348,13 +348,13 @@
 		<dependency>
 			<groupId>io.swagger.core.v3</groupId>
 			<artifactId>swagger-annotations</artifactId>
-			<version>2.2.40</version>
+			<version>2.2.41</version>
 		</dependency>
 		<!-- AWS-->
 		<dependency>
             <groupId>software.amazon.awssdk</groupId>
             <artifactId>secretsmanager</artifactId>
-			<version>2.38.2</version>
+			<version>2.39.6</version>
 			<exclusions>
 				<exclusion>
 					<groupId>commons-logging</groupId>
