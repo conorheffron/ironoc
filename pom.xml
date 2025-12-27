@@ -5,7 +5,7 @@
 
 	<groupId>conorheffron</groupId>
 	<artifactId>ironoc</artifactId>
-	<version>9.0.4</version>
+	<version>9.0.5</version>
 	<packaging>war</packaging>
 
 	<distributionManagement>
@@ -25,8 +25,8 @@
 		<maven.compiler.target>25</maven.compiler.target>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<spring.version>4.0.0</spring.version>
-		<frontend-maven-plugin.version>1.15.4</frontend-maven-plugin.version>
+		<spring.version>4.0.1</spring.version>
+		<frontend-maven-plugin.version>2.0.0</frontend-maven-plugin.version>
 		<node.version>v24.12.0</node.version>
 		<npm.version>11.6.2</npm.version>
 		<kotlin.version>1.6.0</kotlin.version>
@@ -164,7 +164,7 @@
         <dependency>
             <groupId>org.springframework.graphql</groupId>
             <artifactId>spring-graphql</artifactId>
-            <version>2.0.0</version>
+            <version>2.0.1</version>
         </dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -293,7 +293,7 @@
         <dependency>
             <groupId>net.bytebuddy</groupId>
             <artifactId>byte-buddy</artifactId>
-            <version>1.18.2</version>
+            <version>1.18.3</version>
             <scope>test</scope>
         </dependency>
 		<!-- Selenium-->
@@ -354,7 +354,7 @@
 		<dependency>
             <groupId>software.amazon.awssdk</groupId>
             <artifactId>secretsmanager</artifactId>
-			<version>2.40.8</version>
+			<version>2.40.13</version>
 			<exclusions>
 				<exclusion>
 					<groupId>commons-logging</groupId>
