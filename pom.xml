@@ -5,7 +5,7 @@
 
 	<groupId>conorheffron</groupId>
 	<artifactId>ironoc</artifactId>
-	<version>9.0.6</version>
+	<version>9.0.7</version>
 	<packaging>war</packaging>
 
 	<distributionManagement>
@@ -263,13 +263,13 @@
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
-            <version>6.0.1</version>
+            <version>6.0.2</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.junit.platform</groupId>
             <artifactId>junit-platform-launcher</artifactId>
-            <version>6.0.1</version>
+            <version>6.0.2</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -354,7 +354,7 @@
 		<dependency>
             <groupId>software.amazon.awssdk</groupId>
             <artifactId>secretsmanager</artifactId>
-			<version>2.41.1</version>
+			<version>2.41.5</version>
 			<exclusions>
 				<exclusion>
 					<groupId>commons-logging</groupId>
