@@ -51,6 +51,164 @@ integration to provide value to users.
 
 ## See ironoc-frontend README [here](./frontend/README.md)
 
+## Backend Project Structure
+```shell
+src
+├── main
+│   ├── java
+│   │   └── net
+│   │       └── ironoc
+│   │           └── portfolio
+│   │               ├── App.java
+│   │               ├── aws
+│   │               │   ├── AwsSecretManager.java
+│   │               │   └── SecretManager.java
+│   │               ├── client
+│   │               │   ├── Client.java
+│   │               │   └── GitClient.java
+│   │               ├── config
+│   │               │   ├── GraphiQlConfiguration.java
+│   │               │   ├── IronocConfiguration.java
+│   │               │   ├── Properties.java
+│   │               │   ├── PropertyConfig.java
+│   │               │   ├── PropertyConfigI.java
+│   │               │   ├── PropertyKey.java
+│   │               │   └── PropertyKeyI.java
+│   │               ├── controller
+│   │               │   ├── BrewGraphqlController.java
+│   │               │   ├── CoffeeController.java
+│   │               │   ├── DonateGraphqlController.java
+│   │               │   ├── DonateRestController.java
+│   │               │   ├── GitProjectsController.java
+│   │               │   ├── PortfolioController.java
+│   │               │   └── VersionController.java
+│   │               ├── domain
+│   │               │   ├── CoffeeDomain.java
+│   │               │   ├── IngredientsDeserializer.java
+│   │               │   ├── RepositoryDetailDomain.java
+│   │               │   └── RepositoryIssueDomain.java
+│   │               ├── dto
+│   │               │   ├── Brew.java
+│   │               │   ├── Donate.java
+│   │               │   ├── DonateItemOrder.java
+│   │               │   ├── LabelDto.java
+│   │               │   ├── OwnerDto.java
+│   │               │   ├── RepositoryDetailDto.java
+│   │               │   └── RepositoryIssueDto.java
+│   │               ├── enums
+│   │               │   └── SortingOrder.java
+│   │               ├── exception
+│   │               │   └── IronocJsonException.java
+│   │               ├── graph
+│   │               │   ├── BrewsResolver.java
+│   │               │   └── DonateItemsResolver.java
+│   │               ├── job
+│   │               │   ├── GitDetailsJob.java
+│   │               │   └── GitDetailsRunnable.java
+│   │               ├── logger
+│   │               │   ├── AbstractLogger.java
+│   │               │   └── LoggerI.java
+│   │               ├── resolver
+│   │               │   └── PushStateResourceResolver.java
+│   │               ├── service
+│   │               │   ├── AbstractGitCache.java
+│   │               │   ├── CoffeeCacheService.java
+│   │               │   ├── Coffees.java
+│   │               │   ├── CoffeesCache.java
+│   │               │   ├── CoffeesService.java
+│   │               │   ├── GitDetails.java
+│   │               │   ├── GitDetailsService.java
+│   │               │   ├── GitProjectCache.java
+│   │               │   ├── GitProjectCacheService.java
+│   │               │   ├── GitRepoCache.java
+│   │               │   ├── GitRepoCacheService.java
+│   │               │   ├── GraphQLClient.java
+│   │               │   ├── GraphQLClientService.java
+│   │               │   └── PortfolioItemsResolver.java
+│   │               └── utils
+│   │                   └── UrlUtils.java
+│   └── resources
+│       ├── application.yml
+│       ├── graphiql
+│       │   └── index.html
+│       ├── graphql
+│       │   ├── charities.txt
+│       │   ├── coffeesQuery.graphqls
+│       │   └── ironocGraphSchema.graphql
+│       ├── json
+│       │   ├── brews.json
+│       │   ├── donate-items.json
+│       │   └── portfolio-items.json
+│       └── static
+│           ├── ironoc-banner.txt
+│           └── swagger-ui
+└── test
+    ├── java
+    │   └── net
+    │       └── ironoc
+    │           └── portfolio
+    │               ├── AppTest.java
+    │               ├── RemoteBrowserBasedIntTest.java
+    │               ├── SeleniumConfig.java
+    │               ├── aws
+    │               │   └── AwsSecretManagerTest.java
+    │               ├── client
+    │               │   └── GitClientTest.java
+    │               ├── config
+    │               │   ├── IronocConfigurationTest.java
+    │               │   ├── PropertyConfigTest.java
+    │               │   ├── PropertyKeyTest.java
+    │               │   └── TestIronocConfiguration.java
+    │               ├── controller
+    │               │   ├── BaseControllerIntegrationTest.java
+    │               │   ├── BrewGraphqlControllerTest.java
+    │               │   ├── CoffeeControllerIntegrationTest.java
+    │               │   ├── CoffeeControllerTest.java
+    │               │   ├── DonateGraphqlControllerTest.java
+    │               │   ├── DonateRestControllerTest.java
+    │               │   ├── GitProjectsControllerIntegrationTest.java
+    │               │   ├── GitProjectsControllerTest.java
+    │               │   ├── PortfolioControllerTest.java
+    │               │   └── VersionControllerTest.java
+    │               ├── graph
+    │               │   ├── BrewsResolverTest.java
+    │               │   └── DonateItemsResolverTest.java
+    │               ├── job
+    │               │   ├── GitDetailsJobTest.java
+    │               │   └── GitDetailsRunnableTest.java
+    │               ├── resolver
+    │               │   └── PushStateResourceResolverTest.java
+    │               ├── service
+    │               │   ├── CoffeesServiceTest.java
+    │               │   ├── GitDetailsServiceTest.java
+    │               │   ├── GitRepoCacheServiceTest.java
+    │               │   ├── GraphQLClientServiceTest.java
+    │               │   └── PortfolioItemsResolverTest.java
+    │               ├── utils
+    │               │   ├── TestRequestResponseUtils.java
+    │               │   └── UrlUtilsTest.java
+    │               └── web
+    │                   └── page
+    │                       ├── AboutPage.java
+    │                       ├── BrewsPage.java
+    │                       ├── DonatePage.java
+    │                       ├── HomePage.java
+    │                       └── PortfolioPage.java
+    └── resources
+        ├── graphql
+        │   ├── charities.txt
+        │   ├── iRonocQuery.graphqls.SAMPLE
+        │   └── query.graphql
+        └── json
+            ├── donate-items.json
+            ├── test_coffees_expected_response.json
+            ├── test_coffees_input_response.json
+            ├── test_issues_response.json
+            ├── test_parse_null_response.json
+            ├── test_repo_detail_response.json
+            └── test_response.json
+```
+
 ## Run without cloning project:
 ```
 docker run -d --restart=always -p 8080:8080 conorheffron/ironoc
