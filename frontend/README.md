@@ -22,6 +22,56 @@ The ironoc UI built with react for personal portfolio website.
 ## Tech Stack
  - ReactJs 19, Axios, Apollo Client, GraphQL, HTML5+CSS
 
+## Frontend Project Structure
+```shell
+frontend
+├── README.md
+├── package-lock.json
+├── package.json
+├── public
+│   ├── favicon.ico
+│   ├── index.html
+│   ├── manifest.json
+│   ├── robot-logo.png
+│   └── robots.txt
+└── src
+    ├── App.css
+    ├── App.js
+    ├── App.test.js
+    ├── AppNavbar.js
+    ├── Footer.js
+    ├── LoadingSpinner.js
+    ├── components
+    │   ├── About.js
+    │   ├── CoffeeCarousel.js
+    │   ├── CoffeeHome.js
+    │   ├── ControlledCarousel.js
+    │   ├── Donate.js
+    │   ├── Home.js
+    │   ├── NotFound.js
+    │   ├── RepoDetails.js
+    │   ├── RepoIssues.js
+    │   └── __tests__
+    │       ├── About.test.js
+    │       ├── CoffeCarousel.test.js
+    │       ├── CoffeeHome.test.js
+    │       ├── ControlledCarousel.test.js
+    │       ├── Donate.test.js
+    │       ├── Home.test.js
+    │       ├── NotFound.test.js
+    │       ├── RepoDetails.test.js
+    │       └── RepoIssues.test.js
+    ├── img
+    │   ├── darkblue-bg.png
+    │   ├── red-bg.png
+    │   ├── robot-logo.png
+    │   └── teal-bg.png
+    ├── index.css
+    ├── index.js
+    ├── reportWebVitals.js
+    └── setupTests.js
+```
+
 #### Quick start
 ```shell
 cd frontend
