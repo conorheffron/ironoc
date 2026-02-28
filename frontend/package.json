@@ -1,6 +1,6 @@
 {
   "name": "@conorheffron/ironoc-frontend",
-  "version": "9.1.0",
+  "version": "9.1.1",
   "private": false,
   "license": "GPL-3.0-or-later",
   "dependencies": {
