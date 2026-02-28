@@ -27,8 +27,8 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<spring.version>4.0.3</spring.version>
 		<frontend-maven-plugin.version>2.0.0</frontend-maven-plugin.version>
-		<node.version>v24.13.1</node.version>
-		<npm.version>11.8.0</npm.version>
+		<node.version>v24.14.0</node.version>
+		<npm.version>11.9.0</npm.version>
 		<kotlin.version>1.6.0</kotlin.version>
 		<graphql.vers>14.0.0</graphql.vers>
 		<selenium.vers>4.41.0</selenium.vers>
