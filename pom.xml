@@ -32,7 +32,8 @@
 		<kotlin.version>1.6.0</kotlin.version>
 		<graphql.vers>14.0.0</graphql.vers>
 		<selenium.vers>4.41.0</selenium.vers>
-		<slf4j.vers>2.25.4</slf4j.vers>
+		<log4j.vers>2.25.4</log4j.vers>
+		<slf4j.vers>${log4j.vers}</slf4j.vers>
         <sonar.organization>conorheffron</sonar.organization>
         <mockito.version>5.22.0</mockito.version>
 	</properties>
