@@ -66,16 +66,16 @@ describe('AppNavBar', () => {
     expect(homeLink.closest('a')).toHaveAttribute('href', '/');
   });
 
-  test('toggles collapsed navbar state when toggler is clicked', () => {
+  test('toggles collapsed navbar state when toggler is clicked', async () => {
     const { container } = render(<AppNavBar />);
     const toggler = container.querySelector('.navbar-toggler');
     const collapse = container.querySelector('.navbar-collapse');
 
     expect(collapse).not.toHaveClass('show');
     fireEvent.click(toggler);
-    expect(collapse).toHaveClass('show');
+    await waitFor(() => expect(collapse).toHaveClass('show'));
     fireEvent.click(toggler);
-    expect(collapse).not.toHaveClass('show');
+    await waitFor(() => expect(collapse).not.toHaveClass('show'));
   });
 });
 

@@ -1,42 +1,60 @@
-import { waitFor } from '@testing-library/react';
-import reportWebVitals from './reportWebVitals';
-import { getCLS, getFID, getFCP, getLCP, getTTFB } from 'web-vitals';
-
-jest.mock('web-vitals', () => ({
-  getCLS: jest.fn(),
-  getFID: jest.fn(),
-  getFCP: jest.fn(),
-  getLCP: jest.fn(),
-  getTTFB: jest.fn(),
-}));
-
 describe('reportWebVitals', () => {
-  beforeEach(() => {
-    jest.clearAllMocks();
-  });
-
   test('does nothing when callback is not provided', async () => {
-    reportWebVitals();
-    await Promise.resolve();
+    const getCLSMock = jest.fn();
+    const getFIDMock = jest.fn();
+    const getFCPMock = jest.fn();
+    const getLCPMock = jest.fn();
+    const getTTFBMock = jest.fn();
 
-    expect(getCLS).not.toHaveBeenCalled();
-    expect(getFID).not.toHaveBeenCalled();
-    expect(getFCP).not.toHaveBeenCalled();
-    expect(getLCP).not.toHaveBeenCalled();
-    expect(getTTFB).not.toHaveBeenCalled();
+    jest.resetModules();
+    jest.isolateModules(() => {
+      jest.doMock('web-vitals', () => ({
+        getCLS: getCLSMock,
+        getFID: getFIDMock,
+        getFCP: getFCPMock,
+        getLCP: getLCPMock,
+        getTTFB: getTTFBMock,
+      }));
+
+      const reportWebVitals = require('./reportWebVitals').default;
+      reportWebVitals();
+    });
+    await new Promise(resolve => setTimeout(resolve, 0));
+
+    expect(getCLSMock).not.toHaveBeenCalled();
+    expect(getFIDMock).not.toHaveBeenCalled();
+    expect(getFCPMock).not.toHaveBeenCalled();
+    expect(getLCPMock).not.toHaveBeenCalled();
+    expect(getTTFBMock).not.toHaveBeenCalled();
   });
 
   test('forwards callback to web-vitals metrics', async () => {
-    const onPerfEntry = jest.fn();
+    const getCLSMock = jest.fn();
+    const getFIDMock = jest.fn();
+    const getFCPMock = jest.fn();
+    const getLCPMock = jest.fn();
+    const getTTFBMock = jest.fn();
+    const onPerfEntry = function onPerfEntry() {};
 
-    reportWebVitals(onPerfEntry);
+    jest.resetModules();
+    jest.isolateModules(() => {
+      jest.doMock('web-vitals', () => ({
+        getCLS: getCLSMock,
+        getFID: getFIDMock,
+        getFCP: getFCPMock,
+        getLCP: getLCPMock,
+        getTTFB: getTTFBMock,
+      }));
 
-    await waitFor(() => {
-      expect(getCLS).toHaveBeenCalledWith(onPerfEntry);
-      expect(getFID).toHaveBeenCalledWith(onPerfEntry);
-      expect(getFCP).toHaveBeenCalledWith(onPerfEntry);
-      expect(getLCP).toHaveBeenCalledWith(onPerfEntry);
-      expect(getTTFB).toHaveBeenCalledWith(onPerfEntry);
+      const reportWebVitals = require('./reportWebVitals').default;
+      reportWebVitals(onPerfEntry);
     });
+    await new Promise(resolve => setTimeout(resolve, 0));
+
+    expect(getCLSMock).toHaveBeenCalledWith(onPerfEntry);
+    expect(getFIDMock).toHaveBeenCalledWith(onPerfEntry);
+    expect(getFCPMock).toHaveBeenCalledWith(onPerfEntry);
+    expect(getLCPMock).toHaveBeenCalledWith(onPerfEntry);
+    expect(getTTFBMock).toHaveBeenCalledWith(onPerfEntry);
   });
 });
