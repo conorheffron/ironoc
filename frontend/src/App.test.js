@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen, waitFor, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import Home from './components/Home';
 import App from './App';
@@ -65,6 +65,18 @@ describe('AppNavBar', () => {
     expect(homeLink).toBeInTheDocument();
     expect(homeLink.closest('a')).toHaveAttribute('href', '/');
   });
+
+  test('toggles collapsed navbar state when toggler is clicked', () => {
+    const { container } = render(<AppNavBar />);
+    const toggler = container.querySelector('.navbar-toggler');
+    const collapse = container.querySelector('.navbar-collapse');
+
+    expect(collapse).not.toHaveClass('show');
+    fireEvent.click(toggler);
+    expect(collapse).toHaveClass('show');
+    fireEvent.click(toggler);
+    expect(collapse).not.toHaveClass('show');
+  });
 });
 
 describe('Footer Component', () => {
@@ -108,5 +120,20 @@ describe('Footer Component', () => {
     render(<Footer />);
     await waitFor(() => expect(fetch).toHaveBeenCalledTimes(1));
     await waitFor(() => expect(screen.getByText('© 2025 by Conor Heffron |')).toBeInTheDocument());
+  });
+
+  test('handles non-ok fetch responses', async () => {
+    const textMock = jest.fn(() => Promise.resolve('unexpected-version'));
+    fetch.mockImplementationOnce(() =>
+      Promise.resolve({
+        ok: false,
+        text: textMock,
+      })
+    );
+
+    render(<Footer />);
+    await waitFor(() => expect(fetch).toHaveBeenCalledTimes(1));
+    expect(textMock).not.toHaveBeenCalled();
+    expect(screen.queryByText('unexpected-version')).not.toBeInTheDocument();
   });
 });
