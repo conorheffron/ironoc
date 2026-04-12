@@ -3,10 +3,6 @@ const mockCreateRoot = jest.fn(() => ({
   render: mockRender,
 }));
 
-jest.mock('react-dom/client', () => ({
-  createRoot: mockCreateRoot,
-}));
-
 const elementContainsClassName = (node, className) => {
   if (!node) {
     return false;
@@ -34,13 +30,20 @@ const elementContainsClassName = (node, className) => {
 describe('index entrypoint', () => {
   beforeEach(() => {
     jest.resetModules();
-    mockCreateRoot.mockClear();
-    mockRender.mockClear();
+    mockCreateRoot.mockReset();
+    mockCreateRoot.mockImplementation(() => ({ render: mockRender }));
+    mockRender.mockReset();
     document.body.innerHTML = '<div id="root"></div>';
   });
 
   test('renders application wrapper into root element', () => {
     jest.isolateModules(() => {
+      jest.doMock('react-dom/client', () => ({
+        createRoot: mockCreateRoot,
+      }));
+      jest.doMock('./App', () => () => null);
+      jest.doMock('./AppNavbar', () => () => null);
+      jest.doMock('./Footer', () => () => null);
       require('./index');
     });
 
