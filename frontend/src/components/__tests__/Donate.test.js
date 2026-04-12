@@ -57,7 +57,7 @@ const errorMocks = [
 describe('Donate Component', () => {
     it('renders loading spinner initially', () => {
         render(
-            <MockedProvider mocks={mocks} addTypename={true}>
+            <MockedProvider mocks={mocks}>
                 <Donate />
             </MockedProvider>
         );
@@ -68,7 +68,7 @@ describe('Donate Component', () => {
 
     it('renders error message when GraphQL query fails', async () => {
         render(
-            <MockedProvider mocks={errorMocks} addTypename={true}>
+            <MockedProvider mocks={errorMocks}>
                 <Donate />
             </MockedProvider>
         );
@@ -81,7 +81,7 @@ describe('Donate Component', () => {
 
     it('renders donate items after successful fetch', async () => {
         render(
-            <MockedProvider mocks={mocks} addTypename={true}>
+            <MockedProvider mocks={mocks}>
                 <Donate />
             </MockedProvider>
         );
