@@ -133,7 +133,9 @@ describe('Footer Component', () => {
 
     render(<Footer />);
     await waitFor(() => expect(fetch).toHaveBeenCalledTimes(1));
-    expect(textMock).not.toHaveBeenCalled();
-    expect(screen.queryByText('unexpected-version')).not.toBeInTheDocument();
+    await waitFor(() => {
+      expect(textMock).not.toHaveBeenCalled();
+      expect(screen.queryByText('unexpected-version')).not.toBeInTheDocument();
+    });
   });
 });
