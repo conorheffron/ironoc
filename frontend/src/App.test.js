@@ -71,6 +71,8 @@ describe('AppNavBar', () => {
     const toggler = container.querySelector('.navbar-toggler');
     const collapse = container.querySelector('.navbar-collapse');
 
+    expect(toggler).toBeInTheDocument();
+    expect(collapse).toBeInTheDocument();
     expect(collapse).not.toHaveClass('show');
     fireEvent.click(toggler);
     await waitFor(() => expect(collapse).toHaveClass('show'));
