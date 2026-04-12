@@ -34,6 +34,7 @@
 		<selenium.vers>4.41.0</selenium.vers>
 		<log4j.vers>2.25.4</log4j.vers>
 		<slf4j.vers>${log4j.vers}</slf4j.vers>
+		<lombok.version>1.18.44</lombok.version>
         <sonar.organization>conorheffron</sonar.organization>
         <mockito.version>5.23.0</mockito.version>
 	</properties>
@@ -326,7 +327,7 @@
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
-			<version>1.18.44</version>
+			<version>${lombok.version}</version>
 			<scope>provided</scope>
 		</dependency>
 		<!-- apache -->
@@ -376,7 +377,7 @@
                         <path>
                             <groupId>org.projectlombok</groupId>
                             <artifactId>lombok</artifactId>
-                            <version>1.18.44</version>
+                            <version>${lombok.version}</version>
                         </path>
                     </annotationProcessorPaths>
                     <source>25</source>
