@@ -26,6 +26,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<spring.version>4.0.5</spring.version>
+		<spring.framework.version>7.0.6</spring.framework.version>
 		<frontend-maven-plugin.version>2.0.0</frontend-maven-plugin.version>
 		<node.version>v24.14.1</node.version>
 		<npm.version>11.11.0</npm.version>
@@ -54,7 +55,7 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-beans</artifactId>
-            <version>7.0.5</version>
+            <version>${spring.framework.version}</version>
         </dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -127,7 +128,7 @@
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-webflux</artifactId>
-			<version>7.0.6</version>
+			<version>${spring.framework.version}</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
