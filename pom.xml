@@ -32,7 +32,7 @@
 		<npm.version>11.11.0</npm.version>
 		<kotlin.version>1.6.0</kotlin.version>
 		<graphql.vers>14.0.0</graphql.vers>
-		<selenium.vers>4.41.0</selenium.vers>
+		<selenium.vers>4.43.0</selenium.vers>
 		<log4j.vers>2.25.4</log4j.vers>
 		<slf4j.vers>${log4j.vers}</slf4j.vers>
 		<lombok.version>1.18.44</lombok.version>
