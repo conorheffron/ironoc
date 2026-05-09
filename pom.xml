@@ -5,7 +5,7 @@
 
 	<groupId>conorheffron</groupId>
 	<artifactId>ironoc</artifactId>
-	<version>9.1.4</version>
+	<version>9.1.5</version>
 	<packaging>war</packaging>
 
 	<distributionManagement>
@@ -26,11 +26,11 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<spring.version>4.0.6</spring.version>
-		<spring.framework.version>7.0.6</spring.framework.version>
+		<spring.framework.version>7.0.7</spring.framework.version>
 		<spring.webflux.version>7.0.7</spring.webflux.version>
 		<frontend-maven-plugin.version>2.0.0</frontend-maven-plugin.version>
-		<node.version>v24.14.1</node.version>
-		<npm.version>11.11.0</npm.version>
+		<node.version>v24.15.0</node.version>
+		<npm.version>11.12.1</npm.version>
 		<kotlin.version>1.6.0</kotlin.version>
 		<graphql.vers>14.0.0</graphql.vers>
 		<selenium.vers>4.43.0</selenium.vers>
