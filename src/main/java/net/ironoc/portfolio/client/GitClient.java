@@ -51,7 +51,7 @@ public class GitClient extends AbstractLogger implements Client {
     @Override
     public <T> List<T> callGitHubApi(String uri, Class<T> type, String httpMethod, Object... uriVariables) {
         URI validatedApiUri = null;
-        List<T> dtos = Collections.emptyList();
+        List<T> dtos = new ArrayList<>();
         try {
             validatedApiUri = getValidatedApiUri(uri, uriVariables);
             if (validatedApiUri == null) {
@@ -73,7 +73,7 @@ public class GitClient extends AbstractLogger implements Client {
                 info("Link.Header: {}", linkHeader);
             }
             if (StringUtils.isBlank(response.getBody())) {
-                error("Failed to create connection");
+                error("Received blank response body from GitHub API");
                 return Collections.emptyList();
             }
             dtos = readJsonResponse(response.getBody(), type);
