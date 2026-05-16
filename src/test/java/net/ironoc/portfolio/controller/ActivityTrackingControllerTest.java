@@ -1,7 +1,5 @@
 package net.ironoc.portfolio.controller;
 
-import module java.base;
-
 import jakarta.servlet.http.HttpServletRequest;
 import net.ironoc.portfolio.dto.ClickOutActivity;
 import net.ironoc.portfolio.service.ActivityTrackingService;
