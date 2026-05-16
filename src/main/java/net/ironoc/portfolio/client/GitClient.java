@@ -17,6 +17,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
 @Component
 @Slf4j
@@ -52,10 +53,8 @@ public class GitClient extends AbstractLogger implements Client {
         info("Triggering GET request: url={}", apiUri);
         List<T> dtos = Collections.emptyList();
         try {
-            URL urlBase = new URL(uri);
-            String base = urlBase.getProtocol() + "://" + urlBase.getHost();
-            if (!urlUtils.isValidURL(apiUri) || !apiUri.startsWith(base)) {
-                log.error("The url is not valid for GIT client connection, url={}", apiUri);
+            URI validatedApiUri = getValidatedApiUri(apiUri, uri);
+            if (validatedApiUri == null) {
                 return Collections.emptyList();
             }
             HttpHeaders headers = new HttpHeaders();
@@ -67,7 +66,7 @@ public class GitClient extends AbstractLogger implements Client {
             }
             HttpEntity<Void> entity = new HttpEntity<>(headers);
             ResponseEntity<String> response = restTemplate.exchange(
-                    apiUri, HttpMethod.valueOf(httpMethod), entity, String.class);
+                    validatedApiUri, HttpMethod.valueOf(httpMethod), entity, String.class);
             List<String> linkHeader = response.getHeaders().get("Link");
             if (linkHeader != null && !linkHeader.isEmpty()) {
                 info("Link.Header: {}", linkHeader);
@@ -81,6 +80,25 @@ public class GitClient extends AbstractLogger implements Client {
             error("Unexpected error occurred while retrieving data.", ex);
         }
         return dtos;
+    }
+
+    private URI getValidatedApiUri(String apiUri, String uri) throws Exception {
+        if (!urlUtils.isValidURL(apiUri)) {
+            log.error("The url is not valid for GIT client connection, url={}", apiUri);
+            return null;
+        }
+        URI baseUri = UriComponentsBuilder.fromUriString(uri).build(false).toUri();
+        URI targetUri = UriComponentsBuilder.fromUriString(apiUri).build(false).toUri();
+        if (!StringUtils.equalsIgnoreCase("https", targetUri.getScheme())
+                || !StringUtils.equalsIgnoreCase(baseUri.getScheme(), targetUri.getScheme())
+                || !StringUtils.equalsIgnoreCase(baseUri.getHost(), targetUri.getHost())
+                || baseUri.getPort() != targetUri.getPort()
+                || StringUtils.isNotBlank(targetUri.getUserInfo())
+                || targetUri.getFragment() != null) {
+            log.error("The url is not valid for GIT client connection, url={}", apiUri);
+            return null;
+        }
+        return targetUri;
     }
 
     private <T> List<T> readJsonResponse(String jsonResponse, Class<T> type) throws Exception {

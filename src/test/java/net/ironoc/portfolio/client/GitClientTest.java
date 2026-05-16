@@ -78,7 +78,7 @@ public class GitClientTest {
         headers.add("Link", "<https://api.github.com?page=2>; rel=\"next\"");
         when(urlUtilsMock.isValidURL(TEST_URL)).thenReturn(true);
         when(secretManagerMock.getGitSecret()).thenReturn("Bearer test_fake_token");
-        when(restTemplateMock.exchange(eq(TEST_URL), eq(HttpMethod.GET), any(HttpEntity.class), eq(String.class)))
+        when(restTemplateMock.exchange(eq(URI.create(TEST_URL)), eq(HttpMethod.GET), any(HttpEntity.class), eq(String.class)))
                 .thenReturn(new ResponseEntity<>(responseBody, headers, HttpStatusCode.valueOf(200)));
 
         // when
@@ -87,7 +87,7 @@ public class GitClientTest {
 
         // then
         ArgumentCaptor<HttpEntity<Void>> requestCaptor = ArgumentCaptor.forClass(HttpEntity.class);
-        verify(restTemplateMock).exchange(eq(TEST_URL), eq(HttpMethod.GET), requestCaptor.capture(), eq(String.class));
+        verify(restTemplateMock).exchange(eq(URI.create(TEST_URL)), eq(HttpMethod.GET), requestCaptor.capture(), eq(String.class));
         verify(urlUtilsMock).isValidURL(TEST_URL);
         verify(secretManagerMock).getGitSecret();
         assertThat(result, is(notNullValue()));
@@ -107,7 +107,7 @@ public class GitClientTest {
         // then
         verify(urlUtilsMock).isValidURL(TEST_URL);
         verify(secretManagerMock, never()).getGitSecret();
-        verify(restTemplateMock, never()).exchange(eq(TEST_URL), eq(HttpMethod.GET), any(HttpEntity.class), eq(String.class));
+        verify(restTemplateMock, never()).exchange(eq(URI.create(TEST_URL)), eq(HttpMethod.GET), any(HttpEntity.class), eq(String.class));
         assertThat(result, is(emptyIterable()));
     }
 
@@ -115,7 +115,7 @@ public class GitClientTest {
     public void test_callGitHubApi_blank_response_body_fail() {
         // given
         when(urlUtilsMock.isValidURL(TEST_URL)).thenReturn(true);
-        when(restTemplateMock.exchange(eq(TEST_URL), eq(HttpMethod.GET), any(HttpEntity.class), eq(String.class)))
+        when(restTemplateMock.exchange(eq(URI.create(TEST_URL)), eq(HttpMethod.GET), any(HttpEntity.class), eq(String.class)))
                 .thenReturn(new ResponseEntity<>("", new HttpHeaders(), HttpStatusCode.valueOf(200)));
 
         // when
