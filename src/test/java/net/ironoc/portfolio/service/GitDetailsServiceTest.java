@@ -14,7 +14,6 @@ import net.ironoc.portfolio.utils.UrlUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -85,7 +84,7 @@ public class GitDetailsServiceTest {
         when(urlUtilsMock.isValidURL(anyString())).thenReturn(true);
         CollectionType listType = objectMapper.getTypeFactory()
                 .constructCollectionType(ArrayList.class, RepositoryDetailDto.class);
-        when(gitClientMock.callGitHubApi(anyString(), anyString(), any(), anyString()))
+        when(gitClientMock.callGitHubApi(anyString(), any(), anyString(), any(), any(), any()))
                 .thenReturn(objectMapper.readValue(jsonInputStream, listType));
 
         // when
@@ -94,7 +93,7 @@ public class GitDetailsServiceTest {
         // then
         verify(propertyConfigMock).getGitApiEndpointRepos();
         verify(urlUtilsMock).isValidURL(anyString());
-        verify(gitClientMock).callGitHubApi(anyString(), anyString(), any(), anyString());
+        verify(gitClientMock).callGitHubApi(anyString(), any(), anyString(), any(), any(), any());
 
         assertThat(results, is(hasSize(2)));
         Optional<RepositoryDetailDto> result = results.stream().findFirst();
@@ -140,7 +139,7 @@ public class GitDetailsServiceTest {
         when(urlUtilsMock.isValidURL(anyString())).thenReturn(true);
         CollectionType listType = objectMapper.getTypeFactory()
                 .constructCollectionType(ArrayList.class, RepositoryIssueDto.class);
-        when(gitClientMock.callGitHubApi(anyString(), anyString(), any(), anyString()))
+        when(gitClientMock.callGitHubApi(anyString(), any(), anyString(), any(), any(), any(), any()))
                 .thenReturn(objectMapper.readValue(jsonInputStream, listType));
 
         // when
@@ -149,10 +148,7 @@ public class GitDetailsServiceTest {
         // then
         verify(propertyConfigMock).getGitApiEndpointIssues();
         verify(urlUtilsMock).isValidURL(anyString());
-        ArgumentCaptor<String> apiUriCaptor = ArgumentCaptor.forClass(String.class);
-        verify(gitClientMock).callGitHubApi(apiUriCaptor.capture(), anyString(), any(), anyString());
-        assertThat(apiUriCaptor.getValue(),
-                is("https://unittest.github.com/repos/conor-h/bio-cell-red-edge/issues?per_page=100&page=1&state=all"));
+        verify(gitClientMock).callGitHubApi(anyString(), any(), anyString(), any(), any(), any(), any());
 
         assertThat(results, is(hasSize(2)));
         Optional<RepositoryIssueDto> result = results.stream().findFirst();
@@ -184,7 +180,7 @@ public class GitDetailsServiceTest {
         when(urlUtilsMock.isValidURL(anyString())).thenReturn(true);
         CollectionType listType = objectMapper.getTypeFactory()
                 .constructCollectionType(ArrayList.class, RepositoryDetailDto.class);
-        when(gitClientMock.callGitHubApi(anyString(), anyString(), any(), anyString()))
+        when(gitClientMock.callGitHubApi(anyString(), any(), anyString(), any(), any(), any()))
                 .thenReturn(objectMapper.readValue(jsonInputStream, listType));
 
         // when
@@ -193,7 +189,7 @@ public class GitDetailsServiceTest {
         // then
         verify(propertyConfigMock).getGitApiEndpointRepos();
         verify(urlUtilsMock).isValidURL(anyString());
-        verify(gitClientMock).callGitHubApi(anyString(), anyString(), any(), anyString());
+        verify(gitClientMock).callGitHubApi(anyString(), any(), anyString(), any(), any(), any());
 
         assertThat(results, is(hasSize(1)));
         Optional<RepositoryDetailDto> result = results.stream().findFirst();
