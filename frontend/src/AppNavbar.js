@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import "bootstrap/dist/css/bootstrap.min.css";
 import {Navbar, NavbarText, Container, Collapse, NavbarBrand, NavbarToggler, Nav, UncontrolledDropdown, DropdownToggle, DropdownItem, DropdownMenu } from "reactstrap";
 import logo from './img/robot-logo.png';
+import { trackClickOut } from './utils/activityTracker';
 import "@fontsource/montserrat/700.css";
 import "@fontsource/open-sans/400-italic.css";
 
@@ -32,6 +33,10 @@ class AppNavBar extends Component {
 
     toggleNavbar = () => {
         this.setState({ isOpen: !this.state.isOpen });
+    };
+
+    handleGitHubClick = (target) => {
+        trackClickOut('github', target);
     };
 
     render() {
@@ -76,12 +81,12 @@ class AppNavBar extends Component {
                                 <UncontrolledDropdown inNavbar nav>
                                     <DropdownToggle caret nav>GitHub Projects</DropdownToggle>
                                     <DropdownMenu end>
-                                        <DropdownItem target="_blank" href="https://github.com/conorheffron/ironoc">iRonoc</DropdownItem>
+                                        <DropdownItem target="_blank" href="https://github.com/conorheffron/ironoc" onClick={() => this.handleGitHubClick('https://github.com/conorheffron/ironoc')}>iRonoc</DropdownItem>
                                         <DropdownItem divider />
-                                        <DropdownItem target="_blank" href="https://github.com/conorheffron/ironoc-db">iRonoc-DB</DropdownItem>
-                                        <DropdownItem target="_blank" href="https://github.com/conorheffron/booking-sys">Booking System Sample</DropdownItem>
-                                        <DropdownItem target="_blank" href="https://github.com/conorheffron/nba-stats">NBA Stats Analysis</DropdownItem>
-                                        <DropdownItem target="_blank" href="https://github.com/conorheffron/ironoc-pytest">PyTest GitHub Client Package</DropdownItem>
+                                        <DropdownItem target="_blank" href="https://github.com/conorheffron/ironoc-db" onClick={() => this.handleGitHubClick('https://github.com/conorheffron/ironoc-db')}>iRonoc-DB</DropdownItem>
+                                        <DropdownItem target="_blank" href="https://github.com/conorheffron/booking-sys" onClick={() => this.handleGitHubClick('https://github.com/conorheffron/booking-sys')}>Booking System Sample</DropdownItem>
+                                        <DropdownItem target="_blank" href="https://github.com/conorheffron/nba-stats" onClick={() => this.handleGitHubClick('https://github.com/conorheffron/nba-stats')}>NBA Stats Analysis</DropdownItem>
+                                        <DropdownItem target="_blank" href="https://github.com/conorheffron/ironoc-pytest" onClick={() => this.handleGitHubClick('https://github.com/conorheffron/ironoc-pytest')}>PyTest GitHub Client Package</DropdownItem>
                                     </DropdownMenu>
                                 </UncontrolledDropdown>
                                 <UncontrolledDropdown inNavbar nav>
