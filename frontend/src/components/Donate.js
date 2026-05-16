@@ -8,6 +8,7 @@ import AppNavbar from '../AppNavbar';
 import red from '../img/red-bg.png';
 import { Container } from 'reactstrap';
 import LoadingSpinner from '.././LoadingSpinner';
+import { trackClickOut } from '../utils/activityTracker';
 
 // Define the GraphQL query to fetch donate items
 export const GET_DONATE_ITEMS = gql`
@@ -85,7 +86,7 @@ class Donate extends Component {
                     <Carousel className="App-header">
                         {donateItems.map((item, index) => (
                             <Carousel.Item key={index} interval={500}>
-                                <a href={item.donate} target="_blank" rel="noreferrer">
+                                <a href={item.donate} target="_blank" rel="noreferrer" onClick={() => trackClickOut('charity', item.donate)}>
                                     <img className="d-block w-100" src={red} alt={item.alt} />
                                     <Carousel.Caption>
                                         <h1>
@@ -95,7 +96,10 @@ class Donate extends Component {
                                             <b>Contact & Help by Phone: </b><span dangerouslySetInnerHTML={{ __html: item.phone }} />
                                         </h8><br />
                                         <h7>
-                                            <b>Home page: </b><a href={item.link} target="_blank" rel="noreferrer">{item.link}</a>
+                                            <b>Home page: </b><a href={item.link} target="_blank" rel="noreferrer" onClick={(event) => {
+                                                event.stopPropagation();
+                                                trackClickOut('charity', item.link);
+                                            }}>{item.link}</a>
                                         </h7><br /><br />
                                         <h11 className="overview-text">
                                             <b>Overview:</b> Founded in {item.founded}, {item.overview}
