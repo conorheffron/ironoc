@@ -49,14 +49,15 @@ public class GitClient extends AbstractLogger implements Client {
     }
 
     @Override
-    public <T> List<T> callGitHubApi(String apiUri, String uri, Class<T> type, String httpMethod) {
-        info("Triggering GET request: url={}", apiUri);
+    public <T> List<T> callGitHubApi(String uri, Class<T> type, String httpMethod, Object... uriVariables) {
+        URI validatedApiUri = null;
         List<T> dtos = Collections.emptyList();
         try {
-            URI validatedApiUri = getValidatedApiUri(apiUri, uri);
+            validatedApiUri = getValidatedApiUri(uri, uriVariables);
             if (validatedApiUri == null) {
                 return Collections.emptyList();
             }
+            info("Triggering GET request: url={}", validatedApiUri);
             HttpHeaders headers = new HttpHeaders();
             String token = secretManager.getGitSecret();
             if (StringUtils.isBlank(token)) {
@@ -72,7 +73,7 @@ public class GitClient extends AbstractLogger implements Client {
                 info("Link.Header: {}", linkHeader);
             }
             if (StringUtils.isBlank(response.getBody())) {
-                error("Failed to created connection");
+                error("Failed to create connection");
                 return Collections.emptyList();
             }
             dtos = readJsonResponse(response.getBody(), type);
@@ -82,20 +83,23 @@ public class GitClient extends AbstractLogger implements Client {
         return dtos;
     }
 
-    private URI getValidatedApiUri(String apiUri, String uri) throws Exception {
-        if (!urlUtils.isValidURL(apiUri)) {
-            log.error("The url is not valid for GIT client connection, url={}", apiUri);
+    private URI getValidatedApiUri(String uri, Object... uriVariables) throws Exception {
+        URI targetUri = UriComponentsBuilder.fromUriString(uri)
+                .buildAndExpand(uriVariables)
+                .encode()
+                .toUri();
+        if (!urlUtils.isValidURL(targetUri.toString())) {
+            log.error("The url is not valid for GIT client connection, url={}", targetUri);
             return null;
         }
         URI baseUri = UriComponentsBuilder.fromUriString(uri).build(false).toUri();
-        URI targetUri = UriComponentsBuilder.fromUriString(apiUri).build(false).toUri();
         if (!StringUtils.equalsIgnoreCase("https", targetUri.getScheme())
                 || !StringUtils.equalsIgnoreCase(baseUri.getScheme(), targetUri.getScheme())
                 || !StringUtils.equalsIgnoreCase(baseUri.getHost(), targetUri.getHost())
                 || baseUri.getPort() != targetUri.getPort()
                 || StringUtils.isNotBlank(targetUri.getUserInfo())
                 || targetUri.getFragment() != null) {
-            log.error("The url is not valid for GIT client connection, url={}", apiUri);
+            log.error("The url is not valid for GIT client connection, url={}", targetUri);
             return null;
         }
         return targetUri;

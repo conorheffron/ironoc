@@ -22,7 +22,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.emptyIterable;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
@@ -83,7 +82,7 @@ public class GitClientTest {
 
         // when
         List<RepositoryDetailDto> result = gitClient
-                .callGitHubApi(TEST_URL, TEST_URL, RepositoryDetailDto.class, HttpMethod.GET.name());
+                .callGitHubApi(TEST_URL, RepositoryDetailDto.class, HttpMethod.GET.name());
 
         // then
         ArgumentCaptor<HttpEntity<Void>> requestCaptor = ArgumentCaptor.forClass(HttpEntity.class);
@@ -102,7 +101,7 @@ public class GitClientTest {
 
         // when
         Collection<RepositoryDetailDto> result = gitClient
-                .callGitHubApi(TEST_URL, TEST_URL, RepositoryDetailDto.class, HttpMethod.GET.name());
+                .callGitHubApi(TEST_URL, RepositoryDetailDto.class, HttpMethod.GET.name());
 
         // then
         verify(urlUtilsMock).isValidURL(TEST_URL);
@@ -120,9 +119,9 @@ public class GitClientTest {
 
         // when
         List<RepositoryDetailDto> result = gitClient
-                .callGitHubApi(TEST_URL, TEST_URL, RepositoryDetailDto.class, HttpMethod.GET.name());
+                .callGitHubApi(TEST_URL, RepositoryDetailDto.class, HttpMethod.GET.name());
 
         // then
-        assertThat(result, is(empty()));
+        assertThat(result, is(emptyIterable()));
     }
 }

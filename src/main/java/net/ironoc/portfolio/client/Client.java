@@ -4,5 +4,5 @@ import module java.base;
 
 public interface Client {
 
-    <T> List<T> callGitHubApi(String apiUri, String uri, Class<T> type, String httpMethod);
+    <T> List<T> callGitHubApi(String uri, Class<T> type, String httpMethod, Object... uriVariables);
 }

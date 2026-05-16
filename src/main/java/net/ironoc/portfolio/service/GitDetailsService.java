@@ -15,7 +15,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
-import org.springframework.web.util.UriComponentsBuilder;
 
 @Service
 public class GitDetailsService extends AbstractLogger implements GitDetails {
@@ -59,20 +58,12 @@ public class GitDetailsService extends AbstractLogger implements GitDetails {
         String uri = propertyConfig.getGitApiEndpointRepos();
         Integer page = 1;
         Integer per_page = 100;
-        String apiUri = "";
-        try {
-            apiUri = UriComponentsBuilder.fromUriString(uri)
-                    .buildAndExpand(username, per_page, page)
-                    .toUriString();
-        } catch (IllegalArgumentException e) {
-            error("Illegal argument passed for uri value: {}", uri);
-        }
-        if (StringUtils.isBlank(apiUri) | StringUtils.isBlank(uri)
-                | !urlUtils.isValidURL(apiUri)) {
-            warn("URL is not valid: url={}", apiUri);
+        if (StringUtils.isBlank(uri) | !urlUtils.isValidURL(uri)) {
+            warn("URL is not valid: url={}", uri);
             return Collections.emptyList();
         }
-        return gitClient.callGitHubApi(apiUri, uri, RepositoryDetailDto.class, HttpMethod.GET.name());
+        return gitClient.callGitHubApi(uri, RepositoryDetailDto.class, HttpMethod.GET.name(),
+                username, per_page, page);
     }
 
     @Override
@@ -121,20 +112,12 @@ public class GitDetailsService extends AbstractLogger implements GitDetails {
         String uri = propertyConfig.getGitApiEndpointIssues();
         Integer page = 1;
         Integer per_page = 100;
-        String apiUri = "";
-        try {
-            apiUri = UriComponentsBuilder.fromUriString(uri)
-                .buildAndExpand(userId, repo, per_page, page)
-                .toUriString();
-        } catch (IllegalArgumentException e) {
-            error("Illegal argument passed for uri value: {}", uri);
-        }
-        if (StringUtils.isBlank(apiUri) | StringUtils.isBlank(uri)
-                | !urlUtils.isValidURL(apiUri)) {
-            warn("URL is not valid: url={}", apiUri);
+        if (StringUtils.isBlank(uri) | !urlUtils.isValidURL(uri)) {
+            warn("URL is not valid: url={}", uri);
             return Collections.emptyList();
         }
-        return gitClient.callGitHubApi(apiUri, uri, RepositoryIssueDto.class, HttpMethod.GET.name());
+        return gitClient.callGitHubApi(uri, RepositoryIssueDto.class, HttpMethod.GET.name(),
+                userId, repo, per_page, page);
     }
 
     @Override
