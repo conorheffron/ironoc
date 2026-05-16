@@ -6,7 +6,6 @@ import { useParams, useNavigate } from 'react-router';
 import {
   MaterialReactTable,
   useMaterialReactTable,
-  type MRT_ColumnDef,
 } from 'material-react-table';
 import { darken, lighten, useTheme } from '@mui/material';
 
@@ -126,7 +125,13 @@ const RepoIssues = () => {
     data: repoIssueList,
     enableFacetedValues: true,
     enableStickyHeader: true,
-    initialState: { showColumnFilters: true },
+    initialState: {
+      showColumnFilters: true,
+      columnVisibility: {
+        state: false,
+        body: false,
+      },
+    },
     muiTablePaperProps: {
       elevation: 0,
       sx: {

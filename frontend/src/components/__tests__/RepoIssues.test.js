@@ -1,6 +1,7 @@
 import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import RepoIssues from '../RepoIssues';
+import { useMaterialReactTable } from 'material-react-table';
 
 // Mock react-router
 jest.mock('react-router', () => ({
@@ -10,7 +11,7 @@ jest.mock('react-router', () => ({
 
 // Mock react-bootstrap
 jest.mock('react-bootstrap', () => ({
-  Container: ({ children, ...props }) => <div data-testid="container" {...props}>{children}</div>,
+  Container: ({ children, fluid, ...props }) => <div data-testid="container" {...props}>{children}</div>,
   InputGroup: ({ children, ...props }) => <div data-testid="input-group" {...props}>{children}</div>,
   Form: {
     Control: ({ ...props }) => <input data-testid="form-control" {...props} />,
@@ -50,14 +51,23 @@ import { useParams, useNavigate } from 'react-router';
 
 describe('RepoIssues', () => {
   const mockNavigate = jest.fn();
+  const mockIssuesResponse = [];
 
   beforeEach(() => {
     jest.clearAllMocks();
     useNavigate.mockReturnValue(mockNavigate);
+    global.fetch = jest.fn(() =>
+      Promise.resolve({
+        json: () => Promise.resolve(mockIssuesResponse),
+      })
+    );
+    window.fetch = global.fetch;
   });
 
   it('shows loading spinner and navbar initially', () => {
     useParams.mockReturnValue({ id: 'user', repo: 'repo' });
+    global.fetch = jest.fn(() => new Promise(() => {}));
+    window.fetch = global.fetch;
     render(<RepoIssues />);
     expect(screen.getByTestId('navbar')).toBeInTheDocument();
     expect(screen.getByTestId('spinner')).toBeInTheDocument();
@@ -78,6 +88,7 @@ describe('RepoIssues', () => {
         ]),
       })
     );
+    window.fetch = global.fetch;
     render(<RepoIssues />);
     await waitFor(() =>
       expect(screen.queryByTestId('spinner')).not.toBeInTheDocument()
@@ -85,9 +96,30 @@ describe('RepoIssues', () => {
     expect(screen.getByTestId('mrt-table')).toBeInTheDocument();
   });
 
+  it('hides state and description columns by default', async () => {
+    useParams.mockReturnValue({ id: 'user', repo: 'repo' });
+    render(<RepoIssues />);
+    await waitFor(() =>
+      expect(screen.queryByTestId('spinner')).not.toBeInTheDocument()
+    );
+
+    expect(useMaterialReactTable).toHaveBeenCalledWith(
+      expect.objectContaining({
+        initialState: expect.objectContaining({
+          showColumnFilters: true,
+          columnVisibility: {
+            state: false,
+            body: false,
+          },
+        }),
+      })
+    );
+  });
+
   it('navigates on form submit', async () => {
     useParams.mockReturnValue({ id: 'user', repo: 'repo' });
     global.fetch = jest.fn(() => Promise.resolve({ json: () => Promise.resolve([]) }));
+    window.fetch = global.fetch;
     render(<RepoIssues />);
     await waitFor(() => expect(screen.queryByTestId('spinner')).not.toBeInTheDocument());
     const input = screen.getByTestId('form-control');
