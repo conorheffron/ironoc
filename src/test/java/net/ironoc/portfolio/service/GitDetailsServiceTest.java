@@ -14,6 +14,7 @@ import net.ironoc.portfolio.utils.UrlUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -52,6 +53,7 @@ public class GitDetailsServiceTest {
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     private static final String TEST_URI = "https://unittest.github.com/users/{username}/repos";
+    private static final String TEST_ISSUES_URI = "https://unittest.github.com/repos/{username}/{repo}/issues?per_page={per_page}&page={page}&state=all";
 
     @Test
     public void test_get_repos_success() throws IOException {
@@ -133,7 +135,7 @@ public class GitDetailsServiceTest {
                 .body(testBody)
                 .build();
 
-        when(propertyConfigMock.getGitApiEndpointIssues()).thenReturn(TEST_URI);
+        when(propertyConfigMock.getGitApiEndpointIssues()).thenReturn(TEST_ISSUES_URI);
         when(urlUtilsMock.isValidURL(anyString())).thenReturn(true);
         when(urlUtilsMock.isValidURL(anyString())).thenReturn(true);
         CollectionType listType = objectMapper.getTypeFactory()
@@ -147,7 +149,10 @@ public class GitDetailsServiceTest {
         // then
         verify(propertyConfigMock).getGitApiEndpointIssues();
         verify(urlUtilsMock).isValidURL(anyString());
-        verify(gitClientMock).callGitHubApi(anyString(), anyString(), any(), anyString());
+        ArgumentCaptor<String> apiUriCaptor = ArgumentCaptor.forClass(String.class);
+        verify(gitClientMock).callGitHubApi(apiUriCaptor.capture(), anyString(), any(), anyString());
+        assertThat(apiUriCaptor.getValue(),
+                is("https://unittest.github.com/repos/conor-h/bio-cell-red-edge/issues?per_page=100&page=1&state=all"));
 
         assertThat(results, is(hasSize(2)));
         Optional<RepositoryIssueDto> result = results.stream().findFirst();
