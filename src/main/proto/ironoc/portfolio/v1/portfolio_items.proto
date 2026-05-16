@@ -3,17 +3,21 @@ syntax = "proto3";
 package ironoc.portfolio.v1;
 
 option java_multiple_files = true;
-option java_outer_classname = "PortfolioProjectsProto";
+option java_outer_classname = "PortfolioItemsProto";
 option java_package = "net.ironoc.portfolio.contract.v1";
 
-service PortfolioProjectCatalog {
+service PortfolioItemsService {
   rpc ListPortfolioItems(ListPortfolioItemsRequest) returns (ListPortfolioItemsResponse);
 }
 
-message ListPortfolioItemsRequest {}
+message ListPortfolioItemsRequest {
+  int32 page_size = 1;
+  string page_token = 2;
+}
 
 message ListPortfolioItemsResponse {
   repeated PortfolioItem items = 1;
+  string next_page_token = 2;
 }
 
 message PortfolioItem {

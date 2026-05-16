@@ -218,7 +218,7 @@ docker run -d --restart=always -p 8080:8080 conorheffron/ironoc
 
 To support a new use case where `iRonoc` owns an interface but the implementation lives in a separate module or repository, a shared protobuf contract now lives at:
 
-`/home/runner/work/ironoc/ironoc/src/main/proto/ironoc/portfolio/v1/portfolio_projects.proto`
+`src/main/proto/ironoc/portfolio/v1/portfolio_items.proto`
 
 The contract mirrors the existing `/api/portfolio-items` payload and can be generated into another Java module or external project with `protoc`:
 
@@ -226,16 +226,16 @@ The contract mirrors the existing `/api/portfolio-items` payload and can be gene
 protoc \
   --proto_path=src/main/proto \
   --java_out=/path/to/generated-sources \
-  src/main/proto/ironoc/portfolio/v1/portfolio_projects.proto
+  src/main/proto/ironoc/portfolio/v1/portfolio_items.proto
 ```
 
 This keeps the service interface defined in `ironoc` while allowing a separate implementation to:
 
 - generate the shared Java types from the proto contract
-- implement `PortfolioProjectCatalog`
+- implement `PortfolioItemsService`
 - evolve new functionality without coupling it to the main web application module
 
-The initial spike is intentionally contract-only, so existing REST and GraphQL behaviour remains unchanged while a follow-on module can implement the gRPC server or client.
+The initial spike is intentionally contract-only, so existing REST and GraphQL behaviour remains unchanged while a follow-on module can implement the gRPC server or client. The request and response messages already include basic pagination fields so future consumers can extend the interface without replacing the contract.
 
 ## AWS CLI to pull required svc / user account credentials.
 ### Configure account, verify details & then generate ID/Keys/Tokens.
