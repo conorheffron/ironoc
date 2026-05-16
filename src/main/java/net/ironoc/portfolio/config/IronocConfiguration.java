@@ -15,6 +15,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
@@ -30,9 +31,13 @@ public class IronocConfiguration implements WebMvcConfigurer {
 
     private final PropertyConfigI propertyConfig;
 
+    private final RequestRateLimitingInterceptor requestRateLimitingInterceptor;
+
     @Autowired
-    public IronocConfiguration(PropertyConfigI propertyConfig) {
+    public IronocConfiguration(PropertyConfigI propertyConfig,
+                               RequestRateLimitingInterceptor requestRateLimitingInterceptor) {
         this.propertyConfig = propertyConfig;
+        this.requestRateLimitingInterceptor = requestRateLimitingInterceptor;
     }
 
     @Override
@@ -63,6 +68,12 @@ public class IronocConfiguration implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/api/**").allowedMethods(HttpMethod.GET.name());
+    }
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(requestRateLimitingInterceptor)
+                .addPathPatterns("/api/**", "/graphql");
     }
 
     @Bean
