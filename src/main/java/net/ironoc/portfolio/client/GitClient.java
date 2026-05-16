@@ -131,7 +131,8 @@ public class GitClient extends AbstractLogger implements Client {
             log.error("The url is not valid for GIT client connection, url={}", url);
             return null;
         }
-        URL apiUrlEndpoint = new URL(url);
+        URL apiUrlEndpoint = new URL(urlBase.getProtocol(), urlBase.getHost(),
+                targetPort, urlToValidate.getFile());
         HttpsURLConnection conn = (HttpsURLConnection) apiUrlEndpoint.openConnection();
         String token = secretManager.getGitSecret();
         if (StringUtils.isBlank(token)) {

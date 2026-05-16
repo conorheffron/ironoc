@@ -32,6 +32,8 @@ public class GitDetailsService extends AbstractLogger implements GitDetails {
     private final UrlUtils urlUtils;
 
     protected static final String IRONOC_GIT_USER = "conorheffron";
+    private static final int DEFAULT_ISSUES_PAGE = 1;
+    private static final int DEFAULT_ISSUES_PER_PAGE = 1;
 
     @Autowired
     public GitDetailsService(PropertyConfigI propertyConfig,
@@ -144,7 +146,7 @@ public class GitDetailsService extends AbstractLogger implements GitDetails {
         String apiUri = "";
         try {
             apiUri = UriComponentsBuilder.fromUriString(uri)
-                    .buildAndExpand(userId, repo, 1, 1)
+                    .buildAndExpand(userId, repo, DEFAULT_ISSUES_PER_PAGE, DEFAULT_ISSUES_PAGE)
                     .toUriString();
         } catch (IllegalArgumentException e) {
             error("Illegal argument passed for uri value: {}", uri);
