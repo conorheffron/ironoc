@@ -10,7 +10,7 @@ import org.openqa.selenium.support.PageFactory;
 public class PortfolioPage {
     protected WebDriver driver;
 
-    @FindBy(linkText = "iRonoc")
+    @FindBy(css = ".navbar-nav .nav-item:first-child .dropdown-toggle")
     private WebElement iRonoc;
 
     @FindBy(linkText = "Brews")
