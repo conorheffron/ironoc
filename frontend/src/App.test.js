@@ -9,6 +9,11 @@ import AppNavBar from './AppNavbar';
 import About from './components/About';
 import Footer from './Footer';
 import { Router, useLocation, MemoryRouter } from 'react-router';
+import { trackClickOut } from './utils/activityTracker';
+
+jest.mock('./utils/activityTracker', () => ({
+  trackClickOut: jest.fn(),
+}));
 
 describe('AppNavBar', () => {
   test('renders AppNavBar component correctly', () => {
@@ -78,6 +83,13 @@ describe('AppNavBar', () => {
     await waitFor(() => expect(collapse).toHaveClass('show'));
     fireEvent.click(toggler);
     await waitFor(() => expect(collapse).not.toHaveClass('show'));
+  });
+
+  test('tracks click-outs for GitHub project links', () => {
+    render(<AppNavBar />);
+    const githubProjectLink = screen.getByText('iRonoc-DB');
+    fireEvent.click(githubProjectLink);
+    expect(trackClickOut).toHaveBeenCalledWith('github', 'https://github.com/conorheffron/ironoc-db');
   });
 });
 
