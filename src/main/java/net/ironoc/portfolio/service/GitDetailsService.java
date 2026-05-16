@@ -58,7 +58,7 @@ public class GitDetailsService extends AbstractLogger implements GitDetails {
         String uri = propertyConfig.getGitApiEndpointRepos();
         Integer page = 1;
         Integer per_page = 100;
-        if (StringUtils.isBlank(uri) | !urlUtils.isValidURL(uri)) {
+        if (StringUtils.isBlank(uri) || !urlUtils.isValidURL(uri)) {
             warn("URL is not valid: url={}", uri);
             return Collections.emptyList();
         }
@@ -112,7 +112,7 @@ public class GitDetailsService extends AbstractLogger implements GitDetails {
         String uri = propertyConfig.getGitApiEndpointIssues();
         Integer page = 1;
         Integer per_page = 100;
-        if (StringUtils.isBlank(uri) | !urlUtils.isValidURL(uri)) {
+        if (StringUtils.isBlank(uri) || !urlUtils.isValidURL(uri)) {
             warn("URL is not valid: url={}", uri);
             return Collections.emptyList();
         }
