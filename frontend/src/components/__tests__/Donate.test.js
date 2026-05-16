@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
-import { MockedProvider } from '@apollo/client/testing';
+import { MockedProvider } from '@apollo/client/testing/react';
 import Donate, { GET_DONATE_ITEMS } from '../Donate';
 import '@testing-library/jest-dom';
 
