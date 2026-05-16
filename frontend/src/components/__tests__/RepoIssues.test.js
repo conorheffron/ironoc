@@ -11,7 +11,11 @@ jest.mock('react-router', () => ({
 
 // Mock react-bootstrap
 jest.mock('react-bootstrap', () => ({
-  Container: ({ children, fluid, ...props }) => <div data-testid="container" {...props}>{children}</div>,
+  Container: ({ children, fluid, ...props }) => (
+    <div data-testid="container" data-fluid={fluid ? 'true' : undefined} {...props}>
+      {children}
+    </div>
+  ),
   InputGroup: ({ children, ...props }) => <div data-testid="input-group" {...props}>{children}</div>,
   Form: {
     Control: ({ ...props }) => <input data-testid="form-control" {...props} />,

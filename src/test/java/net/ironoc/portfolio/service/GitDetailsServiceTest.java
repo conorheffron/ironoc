@@ -149,7 +149,6 @@ public class GitDetailsServiceTest {
         // then
         verify(propertyConfigMock).getGitApiEndpointIssues();
         verify(urlUtilsMock).isValidURL(anyString());
-        verify(gitClientMock).callGitHubApi(anyString(), anyString(), any(), anyString());
         ArgumentCaptor<String> apiUriCaptor = ArgumentCaptor.forClass(String.class);
         verify(gitClientMock).callGitHubApi(apiUriCaptor.capture(), anyString(), any(), anyString());
         assertThat(apiUriCaptor.getValue(),
