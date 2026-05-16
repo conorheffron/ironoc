@@ -71,7 +71,7 @@ public class RequestRateLimitingInterceptor implements HandlerInterceptor {
 
     private enum RequestLimitProfile {
         GET(HttpMethod.GET.name(), GET_REQUEST_LIMIT),
-        WRITE(HttpMethod.POST.name(), WRITE_REQUEST_LIMIT),
+        POST(HttpMethod.POST.name(), WRITE_REQUEST_LIMIT),
         PUT(HttpMethod.PUT.name(), WRITE_REQUEST_LIMIT);
 
         private final String methodName;
