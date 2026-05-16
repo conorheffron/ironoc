@@ -46,7 +46,7 @@ public class GitClient extends AbstractLogger implements Client {
         try {
             HttpsURLConnection conn = this.createConn(apiUri, uri, httpMethod);
             if (conn == null) {
-                error("Failed to created connection");
+                error("Failed to create connection");
                 return Collections.emptyList();
             }
             inputStream = this.readInputStream(conn);
@@ -79,7 +79,7 @@ public class GitClient extends AbstractLogger implements Client {
         try {
             HttpsURLConnection conn = this.createConn(apiUri, uri, HttpMethod.POST.name());
             if (conn == null) {
-                error("Failed to created connection");
+                error("Failed to create connection");
                 return null;
             }
             conn.setRequestProperty("Accept", "application/vnd.github+json");
@@ -121,8 +121,13 @@ public class GitClient extends AbstractLogger implements Client {
     @Override
     public HttpsURLConnection createConn(String url, String baseUrl, String httpMethod) throws IOException {
         URL urlBase = new URL(baseUrl);
-        String base = urlBase.getProtocol() + "://" + urlBase.getHost();
-        if (!urlUtils.isValidURL(url) || !url.startsWith(base)) {
+        URL urlToValidate = new URL(url);
+        int basePort = urlBase.getPort() == -1 ? urlBase.getDefaultPort() : urlBase.getPort();
+        int targetPort = urlToValidate.getPort() == -1 ? urlToValidate.getDefaultPort() : urlToValidate.getPort();
+        boolean isMatchingHost = StringUtils.equalsIgnoreCase(urlToValidate.getProtocol(), urlBase.getProtocol())
+                && StringUtils.equalsIgnoreCase(urlToValidate.getHost(), urlBase.getHost())
+                && basePort == targetPort;
+        if (!urlUtils.isValidURL(url) || !isMatchingHost) {
             log.error("The url is not valid for GIT client connection, url={}", url);
             return null;
         }
