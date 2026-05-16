@@ -52,6 +52,7 @@ public class GitDetailsServiceTest {
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     private static final String TEST_URI = "https://unittest.github.com/users/{username}/repos";
+    private static final String TEST_ISSUES_URI = "https://unittest.github.com/repos/{username}/{repo}/issues?per_page={per_page}&page={page}&state=all";
 
     @Test
     public void test_get_repos_success() throws IOException {
@@ -133,7 +134,7 @@ public class GitDetailsServiceTest {
                 .body(testBody)
                 .build();
 
-        when(propertyConfigMock.getGitApiEndpointIssues()).thenReturn(TEST_URI);
+        when(propertyConfigMock.getGitApiEndpointIssues()).thenReturn(TEST_ISSUES_URI);
         when(urlUtilsMock.isValidURL(anyString())).thenReturn(true);
         when(urlUtilsMock.isValidURL(anyString())).thenReturn(true);
         CollectionType listType = objectMapper.getTypeFactory()
