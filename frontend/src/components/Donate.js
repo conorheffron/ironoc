@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { gql } from '@apollo/client';
-import { withApollo } from '@apollo/client/react/hoc'; // HOC for injecting Apollo Client
+import { useQuery } from '@apollo/client/react';
 import Carousel from 'react-bootstrap/Carousel';
 import 'bootstrap/dist/css/bootstrap.css';
 import '../App.css';
@@ -26,94 +26,67 @@ export const GET_DONATE_ITEMS = gql`
     }
 `;
 
-class Donate extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            donateItems: [],
-            loading: true,
-            error: null,
-        };
-    }
+function Donate() {
+    const { loading, error, data } = useQuery(GET_DONATE_ITEMS);
+    const donateItems = data?.donateItems || [];
 
-    async componentDidMount() {
-        const { client } = this.props; // Injected Apollo Client
-        try {
-            const { data } = await client.query({
-                query: GET_DONATE_ITEMS,
-            });
-            this.setState({ donateItems: data.donateItems, loading: false });
-        } catch (error) {
-            this.setState({ donateItems: [], error: error.message, loading: false });
-        }
-    }
-
-    render() {
-        const { donateItems, loading, error } = this.state;
-
-        if (loading) {
-            return (
-                <div className="App">
-                    <AppNavbar />
-                    <Container>
-                        <br />
-                        <br />
-                        <br />
-                        <LoadingSpinner />
-                    </Container>
-                </div>
-            );
-        }
-
-        if (error) {
-            return (
-                <div className="App">
-                    <AppNavbar />
-                    <Container>
-                        <br />
-                        <br />
-                        <br />
-                        <p>Error loading data: {error}</p>
-                    </Container>
-                </div>
-            );
-        }
-
+    if (loading) {
         return (
             <div className="App">
                 <AppNavbar />
                 <Container>
-                    <Carousel className="App-header">
-                        {donateItems.map((item, index) => (
-                            <Carousel.Item key={index} interval={500}>
-                                <a href={item.donate} target="_blank" rel="noreferrer" onClick={() => trackClickOut('charity', item.donate)}>
-                                    <img className="d-block w-100" src={red} alt={item.alt} />
-                                    <Carousel.Caption>
-                                        <h1>
-                                            <u>{item.name}</u>
-                                        </h1><br />
-                                        <h8>
-                                            <b>Contact & Help by Phone: </b><span dangerouslySetInnerHTML={{ __html: item.phone }} />
-                                        </h8><br />
-                                        <h7>
-                                            <b>Home page: </b><a href={item.link} target="_blank" rel="noreferrer" onClick={(event) => {
-                                                event.stopPropagation();
-                                                trackClickOut('charity', item.link);
-                                            }}>{item.link}</a>
-                                        </h7><br /><br />
-                                        <h11 className="overview-text">
-                                            <b>Overview:</b> Founded in {item.founded}, {item.overview}
-                                        </h11>
-                                    </Carousel.Caption>
-                                </a>
-                            </Carousel.Item>
-                        ))}
-                    </Carousel>
+                    <div className="mt-5">
+                        <LoadingSpinner />
+                    </div>
                 </Container>
             </div>
         );
     }
+
+    if (error) {
+        return (
+            <div className="App">
+                <AppNavbar />
+                <Container>
+                    <p className="mt-5">Error loading data: {error.message}</p>
+                </Container>
+            </div>
+        );
+    }
+
+    return (
+        <div className="App">
+            <AppNavbar />
+            <Container>
+                <Carousel className="App-header">
+                    {donateItems.map((item, index) => (
+                        <Carousel.Item key={index} interval={500}>
+                            <a href={item.donate} target="_blank" rel="noreferrer" onClick={() => trackClickOut('charity', item.donate)}>
+                                <img className="d-block w-100" src={red} alt={item.alt} />
+                                <Carousel.Caption>
+                                    <h1 className="mb-3">
+                                        <span style={{ textDecoration: 'underline' }}>{item.name}</span>
+                                    </h1>
+                                    <p>
+                                        <b>Contact & Help by Phone: </b><span dangerouslySetInnerHTML={{ __html: item.phone }} />
+                                    </p>
+                                    <p>
+                                        <b>Home page: </b><a href={item.link} target="_blank" rel="noreferrer" onClick={(event) => {
+                                            event.stopPropagation();
+                                            trackClickOut('charity', item.link);
+                                        }}>{item.link}</a>
+                                    </p>
+                                    <p className="overview-text">
+                                        <b>Overview:</b> Founded in {item.founded}, {item.overview}
+                                    </p>
+                                </Carousel.Caption>
+                            </a>
+                        </Carousel.Item>
+                    ))}
+                </Carousel>
+            </Container>
+        </div>
+    );
 }
 
-// Wrap the component with Apollo Client
-export default withApollo(Donate);
+export default Donate;

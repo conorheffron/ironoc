@@ -18,6 +18,8 @@ import org.springframework.boot.info.BuildProperties;
 import org.springframework.boot.web.server.WebServerFactoryCustomizer;
 import org.springframework.boot.web.server.servlet.ConfigurableServletWebServerFactory;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistration;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceChainRegistration;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistration;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -54,6 +56,15 @@ public class IronocConfigurationTest {
 
     @Mock
     private BuildProperties buildPropertiesMock;
+
+    @Mock
+    private RequestRateLimitingInterceptor requestRateLimitingInterceptorMock;
+
+    @Mock
+    private InterceptorRegistry interceptorRegistryMock;
+
+    @Mock
+    private InterceptorRegistration interceptorRegistrationMock;
 
     @Test
     public void test_addResourceHandlers_success() {
@@ -114,6 +125,17 @@ public class IronocConfigurationTest {
 
         // then
         assertThat(result, is(notNullValue()));
+    }
+
+    @Test
+    void test_addInterceptors_success() {
+        when(interceptorRegistryMock.addInterceptor(requestRateLimitingInterceptorMock))
+                .thenReturn(interceptorRegistrationMock);
+
+        ironocConfiguration.addInterceptors(interceptorRegistryMock);
+
+        verify(interceptorRegistryMock).addInterceptor(requestRateLimitingInterceptorMock);
+        verify(interceptorRegistrationMock).addPathPatterns("/api/**", "/graphql");
     }
 
     @Test
