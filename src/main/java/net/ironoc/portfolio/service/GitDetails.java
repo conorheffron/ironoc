@@ -5,6 +5,7 @@ import module java.base;
 import net.ironoc.portfolio.domain.RepositoryDetailDomain;
 import net.ironoc.portfolio.domain.RepositoryIssueDomain;
 import net.ironoc.portfolio.dto.RepositoryDetailDto;
+import net.ironoc.portfolio.dto.RepositoryIssueCreateDto;
 import net.ironoc.portfolio.dto.RepositoryIssueDto;
 
 public interface GitDetails {
@@ -18,6 +19,8 @@ public interface GitDetails {
             List<RepositoryDetailDomain> repositoryDetailDomains);
 
     List<RepositoryIssueDto> getIssues(String userId, String repo, boolean isJob);
+
+    RepositoryIssueDto createIssue(String userId, String repo, RepositoryIssueCreateDto requestBody);
 
     List<RepositoryIssueDomain> mapIssuesToResponse(List<RepositoryIssueDto> repositoryIssueDtos);
 }

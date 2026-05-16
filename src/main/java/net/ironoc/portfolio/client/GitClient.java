@@ -6,11 +6,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.CollectionType;
 import net.ironoc.portfolio.aws.SecretManager;
 import net.ironoc.portfolio.config.PropertyConfigI;
+import net.ironoc.portfolio.dto.RepositoryIssueCreateDto;
+import net.ironoc.portfolio.dto.RepositoryIssueDto;
 import net.ironoc.portfolio.logger.AbstractLogger;
 import net.ironoc.portfolio.utils.UrlUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -69,6 +72,42 @@ public class GitClient extends AbstractLogger implements Client {
         return dtos;
     }
 
+    @Override
+    public RepositoryIssueDto createGitHubIssue(String apiUri, String uri, RepositoryIssueCreateDto requestBody) {
+        info("Triggering POST request: url={}", apiUri);
+        InputStream inputStream = null;
+        try {
+            HttpsURLConnection conn = this.createConn(apiUri, uri, HttpMethod.POST.name());
+            if (conn == null) {
+                error("Failed to created connection");
+                return null;
+            }
+            conn.setRequestProperty("Accept", "application/vnd.github+json");
+            conn.setRequestProperty("X-GitHub-Api-Version", "2022-11-28");
+            conn.setRequestProperty("Content-Type", "application/json");
+            conn.setDoOutput(true);
+            try (OutputStream outputStream = conn.getOutputStream()) {
+                outputStream.write(objectMapper.writeValueAsBytes(requestBody));
+                outputStream.flush();
+            }
+            inputStream = this.readInputStream(conn);
+            return objectMapper.readValue(this.convertInputStreamToString(inputStream), RepositoryIssueDto.class);
+        } catch (Exception ex) {
+            error("Unexpected error occurred while creating issue.", ex);
+        } finally {
+            try {
+                if (inputStream != null) {
+                    this.closeConn(inputStream);
+                } else {
+                    warn("Input stream already closed.");
+                }
+            } catch (IOException ex) {
+                error("Unexpected error occurred while closing input stream.", ex);
+            }
+        }
+        return null;
+    }
+
     private <T> List<T> readJsonResponse(InputStream inputStream, Class<T> type) throws Exception {
         List<T> items;
         String jsonResponse = convertInputStreamToString(inputStream);
@@ -93,7 +132,7 @@ public class GitClient extends AbstractLogger implements Client {
         if (StringUtils.isBlank(token)) {
             log.warn("GIT token not set, the lower request rate will apply");
         } else {
-            conn.setRequestProperty("Authorization", token);
+            conn.setRequestProperty("Authorization", this.buildAuthorizationHeader(token));
         }
         conn.setRequestMethod(httpMethod);
         HttpURLConnection.setFollowRedirects(propertyConfig.getGitFollowRedirects());
@@ -115,5 +154,12 @@ public class GitClient extends AbstractLogger implements Client {
 
     protected String convertInputStreamToString(InputStream inputStream) throws Exception {
         return IOUtils.toString(inputStream, StandardCharsets.UTF_8);
+    }
+
+    protected String buildAuthorizationHeader(String token) {
+        String trimmedToken = StringUtils.trimToEmpty(token);
+        return StringUtils.startsWithIgnoreCase(trimmedToken, "Bearer ")
+                ? trimmedToken
+                : "Bearer " + trimmedToken;
     }
 }
