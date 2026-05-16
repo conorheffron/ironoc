@@ -92,11 +92,18 @@ public class GitClient extends AbstractLogger implements Client {
             log.error("The url is not valid for GIT client connection, url={}", targetUri);
             return null;
         }
-        URI baseUri = UriComponentsBuilder.fromUriString(uri).build(false).toUri();
+
+        String allowedBaseUrl = propertyConfig.getGitApiEndpointIssues();
+        if (StringUtils.isBlank(allowedBaseUrl) || !urlUtils.isValidURL(allowedBaseUrl)) {
+            log.error("The configured allowlist base URL is invalid, url={}", allowedBaseUrl);
+            return null;
+        }
+
+        URI allowedBaseUri = UriComponentsBuilder.fromUriString(allowedBaseUrl).build(false).toUri();
         if (!StringUtils.equalsIgnoreCase("https", targetUri.getScheme())
-                || !StringUtils.equalsIgnoreCase(baseUri.getScheme(), targetUri.getScheme())
-                || !StringUtils.equalsIgnoreCase(baseUri.getHost(), targetUri.getHost())
-                || baseUri.getPort() != targetUri.getPort()
+                || !StringUtils.equalsIgnoreCase("https", allowedBaseUri.getScheme())
+                || !StringUtils.equalsIgnoreCase(allowedBaseUri.getHost(), targetUri.getHost())
+                || allowedBaseUri.getPort() != targetUri.getPort()
                 || StringUtils.isNotBlank(targetUri.getUserInfo())
                 || targetUri.getFragment() != null) {
             log.error("The url is not valid for GIT client connection, url={}", targetUri);
