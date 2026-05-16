@@ -34,10 +34,9 @@ function Donate() {
             <div className="App">
                 <AppNavbar />
                 <Container>
-                    <br />
-                    <br />
-                    <br />
-                    <LoadingSpinner />
+                    <div className="mt-5">
+                        <LoadingSpinner />
+                    </div>
                 </Container>
             </div>
         );
@@ -48,10 +47,7 @@ function Donate() {
             <div className="App">
                 <AppNavbar />
                 <Container>
-                    <br />
-                    <br />
-                    <br />
-                    <p>Error loading data: {error.message}</p>
+                    <p className="mt-5">Error loading data: {error.message}</p>
                 </Container>
             </div>
         );
@@ -67,18 +63,18 @@ function Donate() {
                             <a href={item.donate} target="_blank" rel="noreferrer">
                                 <img className="d-block w-100" src={red} alt={item.alt} />
                                 <Carousel.Caption>
-                                    <h1>
-                                        <u>{item.name}</u>
-                                    </h1><br />
-                                    <h8>
+                                    <h1 className="mb-3">
+                                        <span style={{ textDecoration: 'underline' }}>{item.name}</span>
+                                    </h1>
+                                    <p>
                                         <b>Contact & Help by Phone: </b><span dangerouslySetInnerHTML={{ __html: item.phone }} />
-                                    </h8><br />
-                                    <h7>
+                                    </p>
+                                    <p>
                                         <b>Home page: </b><a href={item.link} target="_blank" rel="noreferrer">{item.link}</a>
-                                    </h7><br /><br />
-                                    <h11 className="overview-text">
+                                    </p>
+                                    <p className="overview-text">
                                         <b>Overview:</b> Founded in {item.founded}, {item.overview}
-                                    </h11>
+                                    </p>
                                 </Carousel.Caption>
                             </a>
                         </Carousel.Item>
