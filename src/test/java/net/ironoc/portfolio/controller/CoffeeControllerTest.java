@@ -19,6 +19,7 @@ import org.springframework.http.ResponseEntity;
 
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.iterableWithSize;
+import static org.hamcrest.Matchers.containsString;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyMap;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -129,7 +130,7 @@ public class CoffeeControllerTest {
     public void test_getCoffeeDetailsGraphQl_withoutCache() throws JsonProcessingException {
         // given
         when(coffeesCache.get()).thenReturn(Collections.emptyList());
-        when(graphQLClient.fetchCoffeeDetails()).thenReturn(getSampleResponse(true));
+        when(graphQLClient.fetchCoffeeDetails()).thenReturn(getSampleResponse(false));
         when(graphQLClient.getAllHotCoffees(any())).thenReturn(
                 (List<Map<String, Object>>) getSampleResponse(false).get("allHots"));
         when(graphQLClient.getAllIcedCoffees(any())).thenReturn(
@@ -148,6 +149,22 @@ public class CoffeeControllerTest {
 
         assertThat(response.getStatusCode(), is(HttpStatus.OK));
         assertThat(response.getBody(), iterableWithSize(2));
+    }
+
+    @Test
+    void test_getCoffeeDetailsGraphQl_rethrowsCustomException_whenCoffeePayloadIsInvalid() throws JsonProcessingException {
+        Map<String, Object> response = getSampleResponse(true);
+        when(coffeesCache.get()).thenReturn(Collections.emptyList());
+        when(graphQLClient.fetchCoffeeDetails()).thenReturn(response);
+        when(graphQLClient.getAllHotCoffees(any())).thenReturn((List<Map<String, Object>>) response.get("allHots"));
+        when(graphQLClient.getAllIcedCoffees(any())).thenReturn((List<Map<String, Object>>) response.get("allIceds"));
+
+        IronocJsonException exception = assertThrows(
+                IronocJsonException.class,
+                () -> coffeeController.getCoffeeDetailsGraphQl()
+        );
+
+        assertThat(exception.getMessage(), containsString("Failed to map GraphQL coffee payload:"));
     }
 
     @Test

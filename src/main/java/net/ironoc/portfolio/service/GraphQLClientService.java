@@ -56,7 +56,7 @@ public class GraphQLClientService extends AbstractLogger implements GraphQLClien
             try {
                 return objectMapper.readValue(response.getBody(), Map.class);
             } catch (JsonProcessingException e) {
-                throw new IronocJsonException("Unexpected exception occurred parsing GraphQL response", e);
+                throw new IronocJsonException("Failed to parse GraphQL response: " + e.getOriginalMessage(), e);
             }
         } else {
             return new HashMap<>();

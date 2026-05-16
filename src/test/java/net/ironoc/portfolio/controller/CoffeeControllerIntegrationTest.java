@@ -188,7 +188,7 @@ public class CoffeeControllerIntegrationTest extends BaseControllerIntegrationTe
         mockMvc.perform(get("/api/coffees-graph-ql")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isInternalServerError())
-                .andExpect(jsonPath("$.title").value("Unexpected processing error"))
+                .andExpect(jsonPath("$.title").value("JSON processing failed"))
                 .andExpect(jsonPath("$.detail").value("Unexpected exception occurred loading GraphQL query"))
                 .andExpect(jsonPath("$.path").value("/api/coffees-graph-ql"));
 

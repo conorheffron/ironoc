@@ -15,7 +15,7 @@ public class IronocExceptionHandler {
                 HttpStatus.INTERNAL_SERVER_ERROR,
                 exception.getMessage()
         );
-        problemDetail.setTitle("Unexpected processing error");
+        problemDetail.setTitle("JSON processing failed");
         problemDetail.setProperty("path", request.getRequestURI());
         return problemDetail;
     }

@@ -106,7 +106,10 @@ public class CoffeeController extends AbstractLogger {
                         coffeeDomains.add(coffeeDomain);
                     } catch (IllegalArgumentException e) {
                         error("Error occurred mapping coffee domain object", e);
-                        throw new IronocJsonException("Error occurred mapping coffee domain object", e);
+                        throw new IronocJsonException(
+                                "Failed to map GraphQL coffee payload: " + e.getMessage(),
+                                e
+                        );
                     }
                 }
 
@@ -115,11 +118,10 @@ public class CoffeeController extends AbstractLogger {
                 coffeesCache.put(coffeeDomains);
 
                 return ResponseEntity.ok(coffeeDomains);
+            } catch (IronocJsonException e) {
+                throw e;
             } catch (Exception e) {
                 error("Unexpected exception occurred loading GraphQL query, msg={}", e.getMessage());
-                if (e instanceof IronocJsonException ironocJsonException) {
-                    throw ironocJsonException;
-                }
                 throw new IronocJsonException("Unexpected exception occurred loading GraphQL query", e);
             }
         } else {
