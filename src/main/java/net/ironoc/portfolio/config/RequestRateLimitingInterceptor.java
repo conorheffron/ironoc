@@ -58,12 +58,10 @@ public class RequestRateLimitingInterceptor implements HandlerInterceptor {
 
     private Bucket resolveBucket(HttpServletRequest request, RequestLimitProfile requestLimitProfile) {
         String bucketKey = requestLimitProfile.methodName() + ":" + request.getRemoteAddr();
-        synchronized (buckets) {
-            return buckets.computeIfAbsent(bucketKey, unused -> Bucket.builder()
-                    .addLimit(Bandwidth.classic(requestLimitProfile.limit(),
-                            Refill.greedy(requestLimitProfile.limit(), Duration.ofMinutes(1))))
-                    .build());
-        }
+        return buckets.computeIfAbsent(bucketKey, unused -> Bucket.builder()
+                .addLimit(Bandwidth.classic(requestLimitProfile.limit(),
+                        Refill.greedy(requestLimitProfile.limit(), Duration.ofMinutes(1))))
+                .build());
     }
 
     private long calculateRetryAfterSeconds(ConsumptionProbe probe) {
