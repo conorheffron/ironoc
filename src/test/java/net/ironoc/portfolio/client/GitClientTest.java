@@ -285,4 +285,22 @@ public class GitClientTest {
         assertThat(jsonInputStream, is(notNullValue()));
         jsonInputStream.close();
     }
+
+    @Test
+    public void test_buildAuthorizationHeader_without_prefix_success() {
+        // when
+        String result = gitClient.buildAuthorizationHeader("test_token");
+
+        // then
+        assertThat(result, is("Bearer test_token"));
+    }
+
+    @Test
+    public void test_buildAuthorizationHeader_with_prefix_success() {
+        // when
+        String result = gitClient.buildAuthorizationHeader("Bearer test_token");
+
+        // then
+        assertThat(result, is("Bearer test_token"));
+    }
 }

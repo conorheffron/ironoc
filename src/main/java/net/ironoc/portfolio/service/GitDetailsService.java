@@ -8,6 +8,7 @@ import net.ironoc.portfolio.domain.RepositoryDetailDomain;
 import net.ironoc.portfolio.domain.RepositoryIssueDomain;
 import net.ironoc.portfolio.dto.LabelDto;
 import net.ironoc.portfolio.dto.RepositoryDetailDto;
+import net.ironoc.portfolio.dto.RepositoryIssueCreateDto;
 import net.ironoc.portfolio.dto.RepositoryIssueDto;
 import net.ironoc.portfolio.logger.AbstractLogger;
 import net.ironoc.portfolio.utils.UrlUtils;
@@ -31,6 +32,8 @@ public class GitDetailsService extends AbstractLogger implements GitDetails {
     private final UrlUtils urlUtils;
 
     protected static final String IRONOC_GIT_USER = "conorheffron";
+    private static final int DEFAULT_ISSUES_PAGE = 1;
+    private static final int DEFAULT_ISSUES_PER_PAGE = 1;
 
     @Autowired
     public GitDetailsService(PropertyConfigI propertyConfig,
@@ -135,6 +138,25 @@ public class GitDetailsService extends AbstractLogger implements GitDetails {
             return Collections.emptyList();
         }
         return gitClient.callGitHubApi(apiUri, uri, RepositoryIssueDto.class, HttpMethod.GET.name());
+    }
+
+    @Override
+    public RepositoryIssueDto createIssue(String userId, String repo, RepositoryIssueCreateDto requestBody) {
+        String uri = propertyConfig.getGitApiEndpointIssues();
+        String apiUri = "";
+        try {
+            apiUri = UriComponentsBuilder.fromUriString(uri)
+                    .buildAndExpand(userId, repo, DEFAULT_ISSUES_PER_PAGE, DEFAULT_ISSUES_PAGE)
+                    .toUriString();
+        } catch (IllegalArgumentException e) {
+            error("Illegal argument passed for uri value: {}", uri);
+        }
+        if (StringUtils.isBlank(apiUri) || StringUtils.isBlank(uri)
+                || !urlUtils.isValidURL(apiUri)) {
+            warn("URL is not valid: url={}", apiUri);
+            return null;
+        }
+        return gitClient.createGitHubIssue(apiUri, uri, requestBody);
     }
 
     @Override
