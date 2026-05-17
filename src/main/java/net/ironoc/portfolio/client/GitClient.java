@@ -49,7 +49,7 @@ public class GitClient extends AbstractLogger implements Client {
     }
 
     @Override
-    public <T> List<T> callGitHubApi(String uri, Class<T> type, String httpMethod, Object... uriVariables) {
+    public <T> List<T> callGitHubApi(String uri, Class<T> type, String httpMethod, Map<String, Object> uriVariables) {
         URI validatedApiUri = null;
         List<T> dtos = new ArrayList<>();
         try {
@@ -83,7 +83,7 @@ public class GitClient extends AbstractLogger implements Client {
         return dtos;
     }
 
-    private URI getValidatedApiUri(String uri, Object... uriVariables) throws Exception {
+    private URI getValidatedApiUri(String uri, Map<String, Object> uriVariables) {
         URI targetUri = UriComponentsBuilder.fromUriString(uri)
                 .buildAndExpand(uriVariables)
                 .encode()
@@ -93,17 +93,7 @@ public class GitClient extends AbstractLogger implements Client {
             return null;
         }
 
-        String allowedBaseUrl = propertyConfig.getGitApiEndpointIssues();
-        if (StringUtils.isBlank(allowedBaseUrl) || !urlUtils.isValidURL(allowedBaseUrl)) {
-            log.error("The configured allowlist base URL is invalid, url={}", allowedBaseUrl);
-            return null;
-        }
-
-        URI allowedBaseUri = UriComponentsBuilder.fromUriString(allowedBaseUrl).build(false).toUri();
         if (!StringUtils.equalsIgnoreCase("https", targetUri.getScheme())
-                || !StringUtils.equalsIgnoreCase("https", allowedBaseUri.getScheme())
-                || !StringUtils.equalsIgnoreCase(allowedBaseUri.getHost(), targetUri.getHost())
-                || allowedBaseUri.getPort() != targetUri.getPort()
                 || StringUtils.isNotBlank(targetUri.getUserInfo())
                 || targetUri.getFragment() != null) {
             log.error("The url is not valid for GIT client connection, url={}", targetUri);

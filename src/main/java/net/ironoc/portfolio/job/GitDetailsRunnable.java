@@ -63,6 +63,12 @@ public class GitDetailsRunnable extends AbstractLogger implements Runnable {
 
                 for(String project : getProjects()) {
                     List<RepositoryIssueDto> issuesDtos = gitDetails.getIssues(userId, project, true);
+                    try { // TODO temp fix for rate limiting for reads
+                        Thread.sleep(1000); // 1000 milliseconds = 1 second
+                    } catch (InterruptedException e) {
+                        Thread.currentThread().interrupt(); // Restore interrupt status
+                        // Handle interruption if needed
+                    }
                     info("Running GIT details job for userIds={}, project={}, issuesDtos={}", userId,
                             project, issuesDtos);
                     if (issuesDtos != null && !issuesDtos.isEmpty()) {

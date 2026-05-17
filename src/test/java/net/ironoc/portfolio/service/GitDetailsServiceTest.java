@@ -26,10 +26,9 @@ import static org.hamcrest.Matchers.emptyIterable;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.nullValue;
-import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.verify;
-import static org.mockito.ArgumentMatchers.any;
 
 @ExtendWith(MockitoExtension.class)
 public class GitDetailsServiceTest {
@@ -84,7 +83,7 @@ public class GitDetailsServiceTest {
         when(urlUtilsMock.isValidURL(anyString())).thenReturn(true);
         CollectionType listType = objectMapper.getTypeFactory()
                 .constructCollectionType(ArrayList.class, RepositoryDetailDto.class);
-        when(gitClientMock.callGitHubApi(anyString(), any(), anyString(), any(), any(), any()))
+        when(gitClientMock.callGitHubApi(anyString(), any(), anyString(), anyMap()))
                 .thenReturn(objectMapper.readValue(jsonInputStream, listType));
 
         // when
@@ -93,7 +92,7 @@ public class GitDetailsServiceTest {
         // then
         verify(propertyConfigMock).getGitApiEndpointRepos();
         verify(urlUtilsMock).isValidURL(anyString());
-        verify(gitClientMock).callGitHubApi(anyString(), any(), anyString(), any(), any(), any());
+        verify(gitClientMock).callGitHubApi(anyString(), any(), anyString(), anyMap());
 
         assertThat(results, is(hasSize(2)));
         Optional<RepositoryDetailDto> result = results.stream().findFirst();
@@ -139,7 +138,7 @@ public class GitDetailsServiceTest {
         when(urlUtilsMock.isValidURL(anyString())).thenReturn(true);
         CollectionType listType = objectMapper.getTypeFactory()
                 .constructCollectionType(ArrayList.class, RepositoryIssueDto.class);
-        when(gitClientMock.callGitHubApi(anyString(), any(), anyString(), any(), any(), any(), any()))
+        when(gitClientMock.callGitHubApi(anyString(), any(), anyString(), anyMap()))
                 .thenReturn(objectMapper.readValue(jsonInputStream, listType));
 
         // when
@@ -148,7 +147,7 @@ public class GitDetailsServiceTest {
         // then
         verify(propertyConfigMock).getGitApiEndpointIssues();
         verify(urlUtilsMock).isValidURL(anyString());
-        verify(gitClientMock).callGitHubApi(anyString(), any(), anyString(), any(), any(), any(), any());
+        verify(gitClientMock).callGitHubApi(anyString(), any(), anyString(), anyMap());
 
         assertThat(results, is(hasSize(2)));
         Optional<RepositoryIssueDto> result = results.stream().findFirst();
@@ -180,7 +179,7 @@ public class GitDetailsServiceTest {
         when(urlUtilsMock.isValidURL(anyString())).thenReturn(true);
         CollectionType listType = objectMapper.getTypeFactory()
                 .constructCollectionType(ArrayList.class, RepositoryDetailDto.class);
-        when(gitClientMock.callGitHubApi(anyString(), any(), anyString(), any(), any(), any()))
+        when(gitClientMock.callGitHubApi(anyString(), any(), anyString(), anyMap()))
                 .thenReturn(objectMapper.readValue(jsonInputStream, listType));
 
         // when
@@ -189,7 +188,7 @@ public class GitDetailsServiceTest {
         // then
         verify(propertyConfigMock).getGitApiEndpointRepos();
         verify(urlUtilsMock).isValidURL(anyString());
-        verify(gitClientMock).callGitHubApi(anyString(), any(), anyString(), any(), any(), any());
+        verify(gitClientMock).callGitHubApi(anyString(), any(), anyString(), anyMap());
 
         assertThat(results, is(hasSize(1)));
         Optional<RepositoryDetailDto> result = results.stream().findFirst();

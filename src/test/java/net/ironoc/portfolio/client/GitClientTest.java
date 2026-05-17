@@ -32,7 +32,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class GitClientTest {
+class GitClientTest {
 
     private GitClient gitClient;
 
@@ -65,7 +65,7 @@ public class GitClientTest {
     }
 
     @Test
-    public void test_callGitHubApi_success_with_token() {
+    void test_callGitHubApi_success_with_token() {
         // given
         String responseBody = """
                 [{
@@ -76,34 +76,31 @@ public class GitClientTest {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Link", "<https://api.github.com?page=2>; rel=\"next\"");
         when(urlUtilsMock.isValidURL(TEST_URL)).thenReturn(true);
-        when(urlUtilsMock.isValidURL("https://unittest.github.com")).thenReturn(true);
-        when(propertyConfigMock.getGitApiEndpointIssues()).thenReturn("https://unittest.github.com");
         when(secretManagerMock.getGitSecret()).thenReturn("Bearer test_fake_token");
         when(restTemplateMock.exchange(eq(URI.create(TEST_URL)), eq(HttpMethod.GET), any(HttpEntity.class), eq(String.class)))
                 .thenReturn(new ResponseEntity<>(responseBody, headers, HttpStatusCode.valueOf(200)));
 
         // when
         List<RepositoryDetailDto> result = gitClient
-                .callGitHubApi(TEST_URL, RepositoryDetailDto.class, HttpMethod.GET.name());
+                .callGitHubApi(TEST_URL, RepositoryDetailDto.class, HttpMethod.GET.name(), Collections.emptyMap());
 
         // then
         ArgumentCaptor<HttpEntity<Void>> requestCaptor = ArgumentCaptor.forClass(HttpEntity.class);
         verify(restTemplateMock).exchange(eq(URI.create(TEST_URL)), eq(HttpMethod.GET), requestCaptor.capture(), eq(String.class));
-        verify(urlUtilsMock).isValidURL(TEST_URL);
         verify(secretManagerMock).getGitSecret();
         assertThat(result, is(notNullValue()));
-        assertThat(result.get(0).getName(), is("ironoc"));
+        assertThat(result.getFirst().getName(), is("ironoc"));
         assertThat(requestCaptor.getValue().getHeaders().getFirst("Authorization"), is("Bearer test_fake_token"));
     }
 
     @Test
-    public void test_callGitHubApi_invalid_url_fail() {
+    void test_callGitHubApi_invalid_url_fail() {
         // given
         when(urlUtilsMock.isValidURL(TEST_URL)).thenReturn(false);
 
         // when
         Collection<RepositoryDetailDto> result = gitClient
-                .callGitHubApi(TEST_URL, RepositoryDetailDto.class, HttpMethod.GET.name());
+                .callGitHubApi(TEST_URL, RepositoryDetailDto.class, HttpMethod.GET.name(), Collections.emptyMap());
 
         // then
         verify(urlUtilsMock).isValidURL(TEST_URL);
@@ -113,17 +110,15 @@ public class GitClientTest {
     }
 
     @Test
-    public void test_callGitHubApi_blank_response_body_fail() {
+    void test_callGitHubApi_blank_response_body_fail() {
         // given
         when(urlUtilsMock.isValidURL(TEST_URL)).thenReturn(true);
-        when(urlUtilsMock.isValidURL("https://unittest.github.com")).thenReturn(true);
-        when(propertyConfigMock.getGitApiEndpointIssues()).thenReturn("https://unittest.github.com");
         when(restTemplateMock.exchange(eq(URI.create(TEST_URL)), eq(HttpMethod.GET), any(HttpEntity.class), eq(String.class)))
                 .thenReturn(new ResponseEntity<>("", new HttpHeaders(), HttpStatusCode.valueOf(200)));
 
         // when
         List<RepositoryDetailDto> result = gitClient
-                .callGitHubApi(TEST_URL, RepositoryDetailDto.class, HttpMethod.GET.name());
+                .callGitHubApi(TEST_URL, RepositoryDetailDto.class, HttpMethod.GET.name(), Collections.emptyMap());
 
         // then
         assertThat(result, is(emptyIterable()));
