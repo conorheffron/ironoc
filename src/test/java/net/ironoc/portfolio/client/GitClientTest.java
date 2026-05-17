@@ -76,6 +76,8 @@ public class GitClientTest {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Link", "<https://api.github.com?page=2>; rel=\"next\"");
         when(urlUtilsMock.isValidURL(TEST_URL)).thenReturn(true);
+        when(urlUtilsMock.isValidURL("https://unittest.github.com")).thenReturn(true);
+        when(propertyConfigMock.getGitApiEndpointIssues()).thenReturn("https://unittest.github.com");
         when(secretManagerMock.getGitSecret()).thenReturn("Bearer test_fake_token");
         when(restTemplateMock.exchange(eq(URI.create(TEST_URL)), eq(HttpMethod.GET), any(HttpEntity.class), eq(String.class)))
                 .thenReturn(new ResponseEntity<>(responseBody, headers, HttpStatusCode.valueOf(200)));
@@ -114,6 +116,8 @@ public class GitClientTest {
     public void test_callGitHubApi_blank_response_body_fail() {
         // given
         when(urlUtilsMock.isValidURL(TEST_URL)).thenReturn(true);
+        when(urlUtilsMock.isValidURL("https://unittest.github.com")).thenReturn(true);
+        when(propertyConfigMock.getGitApiEndpointIssues()).thenReturn("https://unittest.github.com");
         when(restTemplateMock.exchange(eq(URI.create(TEST_URL)), eq(HttpMethod.GET), any(HttpEntity.class), eq(String.class)))
                 .thenReturn(new ResponseEntity<>("", new HttpHeaders(), HttpStatusCode.valueOf(200)));
 
