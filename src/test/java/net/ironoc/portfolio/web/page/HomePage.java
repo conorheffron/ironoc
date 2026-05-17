@@ -17,7 +17,7 @@ public class HomePage {
     @FindBy(linkText = "Donate")
     private WebElement donate;
 
-    @FindBy(css = ".navbar-nav .nav-item:first-child .dropdown-toggle")
+    @FindBy(linkText = "iRonoc")
     private WebElement iRonoc;
 
     @FindBy(linkText = "About")

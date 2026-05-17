@@ -11,7 +11,7 @@ public class AboutPage {
 
     protected WebDriver driver;
 
-    @FindBy(css = ".navbar-nav .nav-item:first-child .dropdown-toggle")
+    @FindBy(linkText = "iRonoc")
     private WebElement iRonoc;
 
     @FindBy(linkText = "Portfolio")
