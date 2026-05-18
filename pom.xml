@@ -5,7 +5,7 @@
 
 	<groupId>conorheffron</groupId>
 	<artifactId>ironoc</artifactId>
-	<version>9.1.5</version>
+	<version>9.1.6</version>
 	<packaging>war</packaging>
 
 	<distributionManagement>
@@ -34,9 +34,9 @@
 		<kotlin.version>1.6.0</kotlin.version>
 		<graphql.vers>14.0.0</graphql.vers>
 		<selenium.vers>4.43.0</selenium.vers>
-		<log4j.vers>2.25.4</log4j.vers>
-		<slf4j.vers>2.26.0</slf4j.vers>
-		<lombok.version>1.18.44</lombok.version>
+		<log4j.vers>2.26.0</log4j.vers>
+		<slf4j.vers>${log4j.vers}</slf4j.vers>
+		<lombok.version>1.18.46</lombok.version>
         <sonar.organization>conorheffron</sonar.organization>
         <mockito.version>5.23.0</mockito.version>
 	</properties>
