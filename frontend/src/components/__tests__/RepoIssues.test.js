@@ -100,7 +100,7 @@ describe('RepoIssues', () => {
     expect(screen.getByTestId('mrt-table')).toBeInTheDocument();
   });
 
-  it('hides state and description columns by default', async () => {
+  it('defaults to open issues while hiding state and description columns', async () => {
     useParams.mockReturnValue({ id: 'user', repo: 'repo' });
     render(<RepoIssues />);
     await waitFor(() =>
@@ -111,6 +111,7 @@ describe('RepoIssues', () => {
       expect.objectContaining({
         initialState: expect.objectContaining({
           showColumnFilters: true,
+          columnFilters: [{ id: 'state', value: ['open'] }],
           columnVisibility: {
             state: false,
             body: false,
