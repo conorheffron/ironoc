@@ -25,9 +25,9 @@ class CoffeeCarousel extends Component {
                     <Carousel.Item key={index}>
                         <img src={item.image} alt={item.title} />
                         <Carousel.Caption>
-                            <h3>{item.title}</h3>
+                            <h3 className="coffee-carousel-label">{item.title}</h3>
                             {item.ingredients && item.ingredients.length > 0 && (
-                                <h5>
+                                <h5 className="coffee-carousel-label">
                                     <b>Ingredients:</b>{' '}
                                     {Array.isArray(item.ingredients)
                                         ? item.ingredients.join(', ')
