@@ -91,10 +91,11 @@ src
 │   │               │   ├── PortfolioController.java
 │   │               │   └── VersionController.java
 │   │               ├── domain
-│   │               │   ├── CoffeeDomain.java
-│   │               │   ├── IngredientsDeserializer.java
-│   │               │   ├── RepositoryDetailDomain.java
-│   │               │   └── RepositoryIssueDomain.java
+│   │               │   ├── CharityOption.java
+│   │               │   ├── CoffeeDomain.java
+│   │               │   ├── IngredientsDeserializer.java
+│   │               │   ├── RepositoryDetailDomain.java
+│   │               │   └── RepositoryIssueDomain.java
 │   │               ├── dto
 │   │               │   ├── Brew.java
 │   │               │   ├── Donate.java
@@ -118,7 +119,9 @@ src
 │   │               │   └── LoggerI.java
 │   │               ├── resolver
 │   │               │   └── PushStateResourceResolver.java
-│   │               ├── service
+│   │               ├── repository
+│   │               │   └── CharityOptionRepository.java
+│   │               ├── service
 │   │               │   ├── AbstractGitCache.java
 │   │               │   ├── CoffeeCacheService.java
 │   │               │   ├── Coffees.java
