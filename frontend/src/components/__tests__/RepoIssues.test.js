@@ -1,7 +1,9 @@
 import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import RepoIssues from '../RepoIssues';
-import { useMaterialReactTable } from 'material-react-table';
+
+// Track useMaterialReactTable call opts for assertions (must start with 'mock' for Jest hoisting)
+const mockUseMRTOpts = [];
 
 // Mock react-router
 jest.mock('react-router', () => ({
@@ -27,16 +29,31 @@ jest.mock('react-bootstrap', () => ({
 jest.mock('../../AppNavbar', () => () => <div data-testid="navbar">Navbar</div>);
 jest.mock('../../LoadingSpinner', () => () => <div data-testid="spinner">Loading...</div>);
 
-// Mock MaterialReactTable and useMaterialReactTable
+// Mock MaterialReactTable and useMaterialReactTable.
+// useMaterialReactTable is a plain function (not jest.fn) so React 19 concurrent mode
+// commits re-renders correctly. Calls are tracked via mockUseMRTOpts for assertions.
+// columnFilters from initialState are applied to table.data so MaterialReactTable
+// only receives the filtered rows, allowing DOM-level assertions on visibility.
 jest.mock('material-react-table', () => ({
   MaterialReactTable: ({ table }) => (
     <div data-testid="mrt-table">
-      {table && table.data && table.data.map((issue, idx) => (
+      {(table?.data ?? []).map((issue, idx) => (
         <div key={idx} data-testid="mrt-row">{issue.title}</div>
       ))}
     </div>
   ),
-  useMaterialReactTable: jest.fn((opts) => opts),
+  useMaterialReactTable: (opts) => {
+    mockUseMRTOpts.push(opts);
+    const filters = opts?.initialState?.columnFilters ?? [];
+    let data = opts?.data ?? [];
+    filters.forEach((filter) => {
+      data = data.filter((row) => {
+        const val = row[filter.id];
+        return Array.isArray(filter.value) ? filter.value.includes(val) : val === filter.value;
+      });
+    });
+    return { ...opts, data };
+  },
 }));
 
 // Mock @mui/material theme functions
@@ -58,6 +75,7 @@ describe('RepoIssues', () => {
   const mockIssuesResponse = [];
 
   beforeEach(() => {
+    mockUseMRTOpts.length = 0;
     jest.clearAllMocks();
     useNavigate.mockReturnValue(mockNavigate);
     global.fetch = jest.fn(() =>
@@ -98,6 +116,7 @@ describe('RepoIssues', () => {
       expect(screen.queryByTestId('spinner')).not.toBeInTheDocument()
     );
     expect(screen.getByTestId('mrt-table')).toBeInTheDocument();
+    expect(screen.getByText('Test Issue')).toBeInTheDocument();
   });
 
   it('defaults to open issues while hiding state and description columns', async () => {
@@ -107,7 +126,7 @@ describe('RepoIssues', () => {
       expect(screen.queryByTestId('spinner')).not.toBeInTheDocument()
     );
 
-    expect(useMaterialReactTable).toHaveBeenCalledWith(
+    expect(mockUseMRTOpts).toContainEqual(
       expect.objectContaining({
         initialState: expect.objectContaining({
           showColumnFilters: true,
@@ -119,6 +138,24 @@ describe('RepoIssues', () => {
         }),
       })
     );
+  });
+
+  it('renders open issues and excludes closed issues by default', async () => {
+    useParams.mockReturnValue({ id: 'user', repo: 'repo' });
+    global.fetch = jest.fn(() =>
+      Promise.resolve({
+        json: () => Promise.resolve([
+          { number: 1, state: 'open', labels: [], title: 'Open Issue', body: '' },
+          { number: 2, state: 'closed', labels: [], title: 'Closed Issue', body: '' },
+        ]),
+      })
+    );
+    window.fetch = global.fetch;
+    render(<RepoIssues />);
+    await waitFor(() =>
+      expect(screen.getByText('Open Issue')).toBeInTheDocument()
+    );
+    expect(screen.queryByText('Closed Issue')).not.toBeInTheDocument();
   });
 
   it('navigates on form submit', async () => {
