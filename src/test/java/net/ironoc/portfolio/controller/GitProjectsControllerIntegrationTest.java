@@ -86,7 +86,7 @@ public class GitProjectsControllerIntegrationTest extends BaseControllerIntegrat
             "or TypeScript as implementation language? \\r\\n- Research & select best option.\"," +
             "\"labels\":[]," +
             "\"number\":\"62\"," +
-            "\"state\":null," +
+            "\"state\":\"closed\"," +
             "\"title\":\"Re-write frontend with React <POC>\"" +
             "}," +
             "{" +
@@ -96,7 +96,7 @@ public class GitProjectsControllerIntegrationTest extends BaseControllerIntegrat
             "- [ ] 3. Setup domain, map to AWS LB\"," +
             "\"labels\":[]," +
             "\"number\":\"57\"," +
-            "\"state\":null," +
+            "\"state\":\"closed\"," +
             "\"title\":\"Setup LB, Support SSL\"" +
             "}" +
             "]";
