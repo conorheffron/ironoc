@@ -90,12 +90,42 @@
     font-family: "Open Sans";
 }
 
+.carousel-caption h1 {
+    font-size: clamp(0.9rem, 3vw, 1.5rem);
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+.carousel-caption h2 {
+    font-size: clamp(0.8rem, 2.5vw, 1.25rem);
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
 .carousel-caption h3 {
     color: navy;
+    font-size: clamp(0.85rem, 2.5vw, 1.1rem);
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+.carousel-caption h4 {
+    font-size: clamp(0.75rem, 2vw, 1rem);
+    word-wrap: break-word;
+    overflow-wrap: break-word;
 }
 
 .carousel-caption h5 {
     color: navy;
+    font-size: clamp(0.75rem, 2vw, 1rem);
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+.carousel-caption p {
+    font-size: clamp(0.7rem, 1.8vw, 1rem);
+    word-wrap: break-word;
+    overflow-wrap: break-word;
 }
 
 p a {
@@ -106,7 +136,7 @@ footer p a {
     color: blue;
 }
 
-.carousel-caption h3, h5 {
+.carousel-caption h3, .carousel-caption h5 {
     background-color:yellow;
     width: 50%;
     height: auto;
@@ -120,13 +150,68 @@ footer p a {
 }
 
 .overview-text {
-    display: block;
-    font-size: 1rem; /* Adjust the base font-size as needed */
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    font-size: clamp(0.7rem, 1.8vw, 1rem);
     line-height: 1.5;
     white-space: normal;
     word-wrap: break-word;
     overflow-wrap: break-word;
-    max-height: 200px; /* Set a max height to avoid overflow */
     overflow: hidden;
-    text-overflow: ellipsis; /* Add ellipsis for text overflow */
+    text-overflow: ellipsis;
+}
+
+@media (max-width: 768px) {
+    .carousel-caption {
+        padding: 8px;
+    }
+
+    .carousel-caption h1 {
+        font-size: clamp(0.8rem, 2.5vw, 1.1rem);
+    }
+
+    .carousel-caption h2 {
+        font-size: clamp(0.7rem, 2vw, 0.95rem);
+    }
+
+    .carousel-caption h4 {
+        font-size: clamp(0.65rem, 1.8vw, 0.875rem);
+    }
+
+    .carousel-caption p {
+        font-size: clamp(0.65rem, 1.8vw, 0.875rem);
+    }
+
+    .overview-text {
+        -webkit-line-clamp: 2;
+        font-size: clamp(0.65rem, 1.8vw, 0.875rem);
+    }
+}
+
+@media (max-width: 576px) {
+    .carousel-caption {
+        padding: 4px;
+    }
+
+    .carousel-caption h1 {
+        font-size: 0.875rem;
+    }
+
+    .carousel-caption h2 {
+        display: none;
+    }
+
+    .carousel-caption h4 {
+        display: none;
+    }
+
+    .carousel-caption p {
+        font-size: 0.7rem;
+    }
+
+    .overview-text {
+        -webkit-line-clamp: 1;
+        font-size: 0.7rem;
+    }
 }

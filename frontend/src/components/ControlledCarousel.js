@@ -62,11 +62,11 @@ class ControlledCarousel extends Component {
                                 <a href={item.link} target="_blank" rel="noreferrer">
                                     <img className="d-block w-100" src={handleColor(item.img)} alt={item.alt} />
                                     <Carousel.Caption>
-                                        <h1><u>{item.title}</u></h1>
-                                        <h2>{item.description}</h2>
+                                        <h1 className="carousel-caption-title"><u>{item.title}</u></h1>
+                                        <h2 className="carousel-caption-description">{item.description}</h2>
                                         <br /><br />
-                                        <h4><b>Tech Stack:</b></h4>
-                                        <h4>{item.techStack}</h4>
+                                        <h4 className="carousel-caption-tech"><b>Tech Stack:</b></h4>
+                                        <h4 className="carousel-caption-tech">{item.techStack}</h4>
                                     </Carousel.Caption>
                                 </a>
                             </Carousel.Item>
