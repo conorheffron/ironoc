@@ -6,9 +6,12 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import graphql.kickstart.tools.GraphQLQueryResolver;
 import jakarta.annotation.PostConstruct;
+import net.ironoc.portfolio.domain.CharityOption;
 import net.ironoc.portfolio.dto.Donate;
 import net.ironoc.portfolio.dto.DonateItemOrder;
 import net.ironoc.portfolio.logger.AbstractLogger;
+import net.ironoc.portfolio.repository.CharityOptionRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 
@@ -18,11 +21,15 @@ public class DonateItemsResolver extends AbstractLogger implements GraphQLQueryR
     private static final String DONATE_ITEMS_JSON_FILE = "json/donate-items.json";
     private static final String CHARITIES_LIST_FILE = "graphql/charities.txt";
 
-    // In-memory list to store donate items as POJOs
-    private final List<Donate> donateItems = new ArrayList<>();
+    private final CharityOptionRepository charityOptionRepository;
 
     // In-memory set to store allowed charity names
     protected final Set<String> allowedCharityNames = new HashSet<>();
+
+    @Autowired
+    public DonateItemsResolver(CharityOptionRepository charityOptionRepository) {
+        this.charityOptionRepository = charityOptionRepository;
+    }
 
     @PostConstruct
     public void loadDonateItems() {
@@ -32,10 +39,12 @@ public class DonateItemsResolver extends AbstractLogger implements GraphQLQueryR
             List<Map<String, Object>> loadedList = objectMapper.readValue(
                     new ClassPathResource(DONATE_ITEMS_JSON_FILE).getInputStream(),
                     new TypeReference<>() {});
-            donateItems.clear();
             for (Map<String, Object> map : loadedList) {
                 Donate donate = objectMapper.convertValue(map, Donate.class);
-                donateItems.add(donate);
+                // Only insert if not already present (idempotent on restart)
+                if (!charityOptionRepository.existsByName(donate.getName())) {
+                    charityOptionRepository.save(toEntity(donate));
+                }
             }
         } catch (IOException e) {
             error("Failed to load Donate items JSON", e);
@@ -63,30 +72,30 @@ public class DonateItemsResolver extends AbstractLogger implements GraphQLQueryR
     }
 
     /**
-     * Returns a list of donate items from memory as Map for compatibility.
+     * Returns a list of donate items from the database as Map for compatibility.
      */
     public List<Map<String, Object>> getDonateItems() {
         ObjectMapper objectMapper = new ObjectMapper();
         List<Map<String, Object>> asMaps = new ArrayList<>();
-        for (Donate donate : donateItems) {
-            asMaps.add(objectMapper.convertValue(donate, new TypeReference<>() {}));
+        for (CharityOption entity : charityOptionRepository.findAll()) {
+            asMaps.add(objectMapper.convertValue(toDto(entity), new TypeReference<>() {}));
         }
         return asMaps;
     }
 
     public List<Map<String, Object>> getDonateItemsByOrder(DonateItemOrder donateItemOrder) {
         ObjectMapper objectMapper = new ObjectMapper();
-        List<Map<String, Object>> asMaps = new ArrayList<>();
+        List<CharityOption> allItems = charityOptionRepository.findAll();
 
-        List<Donate> sortedItems = List.of();
+        List<CharityOption> sortedItems = List.of();
         // sort by year founded
         if (donateItemOrder.getFounded() != null) {
             sortedItems = switch (donateItemOrder.getFounded()) {
-                case ASC -> donateItems.stream()
-                        .sorted(Comparator.comparingInt(Donate::getFounded))
+                case ASC -> allItems.stream()
+                        .sorted(Comparator.comparingInt(CharityOption::getFounded))
                         .toList();
-                case DESC -> donateItems.stream()
-                        .sorted(Comparator.comparingInt(Donate::getFounded))
+                case DESC -> allItems.stream()
+                        .sorted(Comparator.comparingInt(CharityOption::getFounded))
                         .toList().reversed();
             };
         }
@@ -94,25 +103,26 @@ public class DonateItemsResolver extends AbstractLogger implements GraphQLQueryR
         // sort by charity name (alphabetical order)
         if (donateItemOrder.getName() != null) {
             sortedItems = switch (donateItemOrder.getName()) {
-                case ASC -> donateItems.stream()
-                        .sorted(Comparator.comparing(Donate::getName))
+                case ASC -> allItems.stream()
+                        .sorted(Comparator.comparing(CharityOption::getName))
                         .toList();
-                case DESC -> donateItems.stream()
-                        .sorted(Comparator.comparing(Donate::getName))
+                case DESC -> allItems.stream()
+                        .sorted(Comparator.comparing(CharityOption::getName))
                         .toList().reversed();
             };
         }
 
-        for (Donate donate : sortedItems) {
-            asMaps.add(objectMapper.convertValue(donate, new TypeReference<>() {}));
+        List<Map<String, Object>> asMaps = new ArrayList<>();
+        for (CharityOption entity : sortedItems) {
+            asMaps.add(objectMapper.convertValue(toDto(entity), new TypeReference<>() {}));
         }
         return asMaps;
     }
 
     /**
-     * Add a new charity option (donate item) to the in-memory list, if all fields are valid.
+     * Add a new charity option (donate item) to the database, if all fields are valid.
      * Only allows items whose name matches an entry in charities.txt,
-     * and only if that name is not already present in the memory.
+     * and only if that name is not already present in the database.
      * @param donate the Donate item to add
      */
     public void addDonateItem(Donate donate) {
@@ -121,34 +131,59 @@ public class DonateItemsResolver extends AbstractLogger implements GraphQLQueryR
             info("Attempted to add DonateItem with name not in allowed charities list: {}", donate);
             return;
         }
-        if (isAlreadyPresent(charityName)) {
-            info("Attempted to add DonateItem with name already present in donateItems: {}", donate);
+        if (charityOptionRepository.existsByName(charityName.trim())) {
+            info("Attempted to add DonateItem with name already present in database: {}", donate);
             return;
         }
         if (isValidDonate(donate)) {
-            donateItems.add(donate);
-            info("Added new DonateItem to memory: {}", donate);
+            charityOptionRepository.save(toEntity(donate));
+            info("Added new DonateItem to database: {}", donate);
         } else {
             info("Attempted to add invalid DonateItem: {}", donate);
         }
     }
 
     /**
-     * Checks if a DonateItem with the given name already exists in the donateItems list.
+     * Converts a Donate DTO to a CharityOption JPA entity.
      */
-    private boolean isAlreadyPresent(String name) {
-        if (name == null) return false;
-        String trimmedName = name.trim();
-        for (Donate donate : donateItems) {
-            if (trimmedName.equals(donate.getName() != null ? donate.getName().trim() : null)) {
-                return true;
-            }
-        }
-        return false;
+    private CharityOption toEntity(Donate donate) {
+        return CharityOption.builder()
+                .name(donate.getName())
+                .donate(donate.getDonate())
+                .link(donate.getLink())
+                .img(donate.getImg())
+                .alt(donate.getAlt())
+                .overview(donate.getOverview())
+                .founded(donate.getFounded())
+                .phone(donate.getPhone())
+                .build();
     }
 
     /**
-     * Only allow add to memory for valid alpha numeric strings, emails, years and hyperlinks.
+     * Converts a CharityOption JPA entity to a Donate DTO.
+     */
+    private Donate toDto(CharityOption entity) {
+        return Donate.builder()
+                .name(entity.getName())
+                .donate(entity.getDonate())
+                .link(entity.getLink())
+                .img(entity.getImg())
+                .alt(entity.getAlt())
+                .overview(entity.getOverview())
+                .founded(entity.getFounded())
+                .phone(entity.getPhone())
+                .build();
+    }
+
+    /**
+     * Checks if the given name exists in the allowed charities list.
+     */
+    private boolean isInAllowedCharities(String name) {
+        return name != null && allowedCharityNames.contains(name.trim());
+    }
+
+    /**
+     * Only allow add to database for valid alpha numeric strings, emails, years and hyperlinks.
      */
     private boolean isValidDonate(Donate donate) {
         return isAlphanumericOrSpace(donate.getAlt())
@@ -161,16 +196,9 @@ public class DonateItemsResolver extends AbstractLogger implements GraphQLQueryR
                 && isValidPhoneOrEmail(donate.getPhone());
     }
 
-    /**
-     * Checks if the given name exists in the allowed charities list.
-     */
-    private boolean isInAllowedCharities(String name) {
-        return name != null && allowedCharityNames.contains(name.trim());
-    }
-
     // Accept only alphanumeric and space (and basic punctuation for overview)
     private boolean isAlphanumericOrSpace(String value) {
-        return value != null && value.matches("^[\\p{L}0-9 .,'’\\-()\\[\\]/&;:!%€$@#\\?\\r\\n]*$");
+        return value != null && value.matches("^[\\p{L}0-9 .,''\\-()\\[\\]/&;:!%€$@#\\?\\r\\n]*$");
     }
 
     // Accept HTTP/HTTPS links
@@ -191,3 +219,4 @@ public class DonateItemsResolver extends AbstractLogger implements GraphQLQueryR
         return value.matches(phonePattern) || value.matches(emailPattern) || isAlphanumericOrSpace(value);
     }
 }
+
