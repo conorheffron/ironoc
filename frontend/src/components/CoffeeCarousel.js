@@ -12,6 +12,56 @@ function isValidUrl(url) {
     }
 }
 
+const brewTitleTranslations = {
+    'Svart Te': 'Black Tea',
+    'Islatte': 'Iced Latte',
+    'Islatte Mocha': 'Iced Mocha',
+    'Frapino Mocka': 'Frapino Mocha',
+    'Apelsinjuice': 'Orange Juice',
+    'Lemonad': 'Lemonade',
+};
+
+const ingredientTranslations = {
+    'Ångad mjölk': 'Steamed milk',
+    'Karamellsirap': 'Caramel syrup',
+    'Hett vatten': 'Hot water',
+    'Choklad': 'Chocolate',
+    'Mjölk': 'Milk',
+    'Te': 'Tea',
+    'Ingefära': 'Ginger',
+    'Kardemumma': 'Cardamom',
+    'Kanel': 'Cinnamon',
+    'Matcha-pulver': 'Matcha powder',
+    'Socker*': 'Sugar*',
+    'Kaffe': 'Coffee',
+    'Is': 'Ice',
+    'Sirap': 'Syrup',
+    'Vispgrädde*': 'Whipped cream*',
+    'Karamellsås': 'Caramel sauce',
+    'Färska Apelsiner': 'Fresh oranges',
+    'Citronsaft': 'Lemon juice',
+    'Kolsyrat vatten': 'Sparkling water',
+    'Honung': 'Honey',
+};
+
+function translateValue(value, translations) {
+    const trimmedValue = typeof value === 'string' ? value.trim() : value;
+    return translations[trimmedValue] || trimmedValue;
+}
+
+function translateIngredients(ingredients) {
+    if (Array.isArray(ingredients)) {
+        return ingredients.map((ingredient) => translateValue(ingredient, ingredientTranslations));
+    }
+    if (typeof ingredients === 'string') {
+        return ingredients
+            .split(',')
+            .map((ingredient) => translateValue(ingredient, ingredientTranslations))
+            .join(', ');
+    }
+    return ingredients;
+}
+
 class CoffeeCarousel extends Component {
     render() {
         const { items } = this.props;
@@ -23,15 +73,15 @@ class CoffeeCarousel extends Component {
             <Carousel className="App-header">
                 {validItems.map((item, index) => (
                     <Carousel.Item key={index}>
-                        <img src={item.image} alt={item.title} />
+                        <img src={item.image} alt={translateValue(item.title, brewTitleTranslations)} />
                         <Carousel.Caption>
-                            <h3>{item.title}</h3>
+                            <h3>{translateValue(item.title, brewTitleTranslations)}</h3>
                             {item.ingredients && item.ingredients.length > 0 && (
                                 <h5>
                                     <b>Ingredients:</b>{' '}
                                     {Array.isArray(item.ingredients)
-                                        ? item.ingredients.join(', ')
-                                        : item.ingredients}
+                                        ? translateIngredients(item.ingredients).join(', ')
+                                        : translateIngredients(item.ingredients)}
                                 </h5>
                             )}
                         </Carousel.Caption>
