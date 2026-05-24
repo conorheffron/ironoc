@@ -61,4 +61,14 @@ describe('CoffeeCarousel', () => {
       // Ensure ingredients are NOT rendered
       expect(screen.queryByText('Ingredients:')).not.toBeInTheDocument();
   });
+
+  test('applies carousel label styling class to title and ingredients headings', () => {
+    render(<CoffeeCarousel items={coffeeItems} />);
+
+    const titleHeading = screen.getByRole('heading', { level: 3, name: 'Espresso' });
+    const ingredientHeading = screen.getAllByRole('heading', { level: 5 })[0];
+
+    expect(titleHeading).toHaveClass('coffee-carousel-label');
+    expect(ingredientHeading).toHaveClass('coffee-carousel-label');
+  });
 });

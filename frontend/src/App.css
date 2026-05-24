@@ -106,11 +106,12 @@ footer p a {
     color: blue;
 }
 
-.carousel-caption h3, h5 {
+.carousel-caption .coffee-carousel-label {
     background-color:yellow;
     width: 50%;
     height: auto;
     margin: 0 auto;
+    border-radius: 12px;
 }
 
 .carousel-item img {
