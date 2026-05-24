@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router';
-import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
+import { ApolloClient, InMemoryCache, ApolloProvider, HttpLink } from '@apollo/client';
 import './App.css';
 import Home from './components/Home';
 import CoffeeHome from './components/CoffeeHome';
@@ -12,10 +12,18 @@ import RepoIssues from './components/RepoIssues';
 import ControlledCarousel from './components/ControlledCarousel';
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+    // Create Apollo Client once for '/donate' route
+    this.donateClient = new ApolloClient({
+      link: new HttpLink({ uri: '/graphql' }),
+      cache: new InMemoryCache(),
+    });
+  }
+
   render() {
     // Default props
     const {
-      forceRefresh = true,
       routes = [
         { path: '/', exact: true, component: Home },
         { path: '/about', exact: true, component: About },
@@ -29,14 +37,8 @@ class App extends Component {
       ]
     } = this.props;
 
-    // Create Apollo Client for '/donate' route
-    const donateClient = new ApolloClient({
-      uri: '/graphql', // Replace with your GraphQL endpoint
-      cache: new InMemoryCache(),
-    });
-
     return (
-      <Router forceRefresh={forceRefresh}>
+      <Router>
         <Routes>
           {routes.map((route, index) => {
             // Wrap the Donate component with ApolloProvider
@@ -47,7 +49,7 @@ class App extends Component {
                   path={route.path}
                   {...(route.exact ? { exact: true } : {})}
                   element={
-                    <ApolloProvider client={donateClient}>
+                    <ApolloProvider client={this.donateClient}>
                       <Donate />
                     </ApolloProvider>
                   }

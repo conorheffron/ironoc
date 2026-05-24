@@ -131,36 +131,6 @@ class Donate extends Component {
             </Container>
         </div>
     );
-        return (
-            <div className="App">
-                <AppNavbar />
-                <Container>
-                    <Carousel className="App-header">
-                        {donateItems.map((item, index) => (
-                            <Carousel.Item key={index} interval={500}>
-                                <a href={item.donate} target="_blank" rel="noreferrer">
-                                    <img className="d-block w-100" src={red} alt={item.alt} />
-                                    <Carousel.Caption>
-                                        <h1>
-                                            <u>{item.name}</u>
-                                        </h1><br />
-                                        <h8>
-                                            <b>Contact & Help by Phone: </b><span dangerouslySetInnerHTML={{ __html: item.phone }} />
-                                        </h8><br />
-                                        <h7>
-                                            <b>Home page: </b><a href={item.link} target="_blank" rel="noreferrer">{item.link}</a>
-                                        </h7><br /><br />
-                                        <h11 className="overview-text">
-                                            <b>Overview:</b> Founded in {item.founded}, {item.overview}
-                                        </h11>
-                                    </Carousel.Caption>
-                                </a>
-                            </Carousel.Item>
-                        ))}
-                    </Carousel>
-                </Container>
-            </div>
-        );
     }
 }
 
