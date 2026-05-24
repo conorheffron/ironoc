@@ -2,6 +2,7 @@ package net.ironoc.portfolio.controller;
 
 import module java.base;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import net.ironoc.portfolio.dto.RepositoryDetailDto;
 import net.ironoc.portfolio.dto.RepositoryIssueDto;
@@ -167,6 +168,52 @@ public class GitProjectsControllerIntegrationTest extends BaseControllerIntegrat
 
         assertThat(response.getStatus(), is(HttpStatus.OK.value()));
         assertThat(response.getContentAsString(), is(JSON_RESPONSE));
+    }
+
+    @Test
+    public void test_getReposByUsernameReqParam_counts_only_open_issues_and_sorts_by_open_count() throws Exception {
+        // given
+        List<RepositoryDetailDto> dtos = List.of(
+                RepositoryDetailDto.builder()
+                        .name("repo-open-1")
+                        .fullName("conorheffron/repo-open-1")
+                        .htmlUrl("https://github.com/conorheffron/repo-open-1")
+                        .build(),
+                RepositoryDetailDto.builder()
+                        .name("repo-open-2")
+                        .fullName("conorheffron/repo-open-2")
+                        .htmlUrl("https://github.com/conorheffron/repo-open-2")
+                        .build()
+        );
+
+        when(gitDetailsServiceMock.getRepoDetails("conorheffron", false)).thenReturn(dtos);
+        when(gitDetailsServiceMock.mapRepositoriesToResponse(anyList()))
+                .thenReturn(new GitDetailsService(null, null, null, null, null).mapRepositoriesToResponse(dtos));
+        when(gitDetailsServiceMock.getIssues("conorheffron", "repo-open-1", false))
+                .thenReturn(List.of(
+                        RepositoryIssueDto.builder().state("open").build(),
+                        RepositoryIssueDto.builder().state("closed").build(),
+                        RepositoryIssueDto.builder().state("CLOSED").build()
+                ));
+        when(gitDetailsServiceMock.getIssues("conorheffron", "repo-open-2", false))
+                .thenReturn(List.of(
+                        RepositoryIssueDto.builder().state("OPEN").build(),
+                        RepositoryIssueDto.builder().state("open").build(),
+                        RepositoryIssueDto.builder().state("closed").build()
+                ));
+
+        // when
+        MockHttpServletResponse response = mockMvc.perform(get("/api/get-repo-detail?username=conorheffron")
+                        .accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
+                .andReturn().getResponse();
+
+        // then
+        assertThat(response.getStatus(), is(HttpStatus.OK.value()));
+        JsonNode responseJson = objectMapper.readTree(response.getContentAsString());
+        assertThat(responseJson.get(0).get("name").asText(), is("repo-open-2"));
+        assertThat(responseJson.get(0).get("issueCount").asInt(), is(2));
+        assertThat(responseJson.get(1).get("name").asText(), is("repo-open-1"));
+        assertThat(responseJson.get(1).get("issueCount").asInt(), is(1));
     }
 
     @Test
