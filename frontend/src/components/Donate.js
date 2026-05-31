@@ -89,7 +89,7 @@ class Donate extends Component {
                             <img className="d-block w-100" src={red} alt={item.alt} />
 
                             <Carousel.Caption>
-                                <h1 className="carousel-caption-title mb-3">
+                                <h1 className="mb-3">
                                     <span style={{ textDecoration: 'underline' }}>{item.name}</span>
                                 </h1>
 
