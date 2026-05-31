@@ -1,4 +1,4 @@
-package net.ironoc.portfolio.config;
+package net.ironoc.portfolio.filter;
 
 import module java.base;
 
