@@ -51,7 +51,9 @@ function translateValue(value, translations) {
 
 function translateIngredients(ingredients) {
     if (Array.isArray(ingredients)) {
-        return ingredients.map((ingredient) => translateValue(ingredient, ingredientTranslations));
+        return ingredients
+            .map((ingredient) => translateValue(ingredient, ingredientTranslations))
+            .join(', ');
     }
     if (typeof ingredients === 'string') {
         return ingredients
@@ -81,9 +83,7 @@ class CoffeeCarousel extends Component {
                             {item.ingredients && item.ingredients.length > 0 && (
                                 <h5>
                                     <b>Ingredients:</b>{' '}
-                                    {Array.isArray(item.ingredients)
-                                        ? translateIngredients(item.ingredients).join(', ')
-                                        : translateIngredients(item.ingredients)}
+                                    {translateIngredients(item.ingredients)}
                                 </h5>
                             )}
                         </Carousel.Caption>
