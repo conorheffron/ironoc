@@ -69,7 +69,7 @@ public class GitClient extends AbstractLogger implements Client {
             ResponseEntity<String> response = restTemplate.exchange(
                     validatedApiUri, HttpMethod.valueOf(httpMethod), entity, String.class);
             if (response == null) {
-                error("No response received from GitHub API");
+                error("No response received from GitHub API: method={}, uri={}", httpMethod, validatedApiUri);
                 return Collections.emptyList();
             }
             List<String> linkHeader = response.getHeaders().get("Link");
