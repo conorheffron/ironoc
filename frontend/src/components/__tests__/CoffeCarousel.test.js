@@ -67,7 +67,7 @@ describe('CoffeeCarousel', () => {
           {
               image: 'https://image1.jpg',
               title: 'Svart Te',
-              ingredients: ' Te , Okänd ingrediens , Honung ',
+              ingredients: ' Te , Unknown ingredient , Honung ',
           },
       ];
 
@@ -75,8 +75,8 @@ describe('CoffeeCarousel', () => {
 
       expect(screen.getByText('Black Tea')).toBeInTheDocument();
       expect(screen.getByAltText('Black Tea')).toBeInTheDocument();
-      expect(screen.getByText('Tea, Okänd ingrediens, Honey')).toBeInTheDocument();
+      expect(screen.getByText('Tea, Unknown ingredient, Honey')).toBeInTheDocument();
       expect(screen.queryByText('Svart Te')).not.toBeInTheDocument();
-      expect(screen.queryByText('Te , Okänd ingrediens , Honung')).not.toBeInTheDocument();
+      expect(screen.queryByText('Te , Unknown ingredient , Honung')).not.toBeInTheDocument();
   });
 });
