@@ -194,7 +194,6 @@ const RepoIssues = () => {
           <Form.Control
             placeholder="Enter GitHub User ID... Example: conorheffron"
             aria-label="Enter GitHub User ID..."
-            aria-describedby="basic-addon2"
             type="text"
             value={usernameValue}
             onChange={handleUsernameChange}
@@ -202,7 +201,6 @@ const RepoIssues = () => {
           <Form.Control
             placeholder="Enter Project Name... Example: ironoc-db"
             aria-label="Enter Project Name..."
-            aria-describedby="basic-addon2"
             type="text"
             value={repoValue}
             onChange={handleRepoChange}
