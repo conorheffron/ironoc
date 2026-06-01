@@ -43,11 +43,11 @@ public class VersionController {
         return "Version: " + this.buildProperties.getVersion();
     }
 
-    @Operation(summary = "Get iRonoc API documentation endpoint",
+    @Operation(summary = "Get ironoc API documentation endpoint",
             description = "Returns the fully qualified Swagger/OpenAPI documentation URL based on the active run profile")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
-                    description = "Successfully retrieved iRonoc API documentation endpoint.")
+                    description = "Successfully retrieved ironoc API documentation endpoint.")
     })
     @GetMapping(value = {"/application/openapi-endpoint"}, produces= MediaType.TEXT_PLAIN_VALUE)
     public String getOpenApiDocumentationEndpoint(HttpServletRequest request) {
