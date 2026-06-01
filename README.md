@@ -91,11 +91,11 @@ src
 │   │               │   ├── PortfolioController.java
 │   │               │   └── VersionController.java
 │   │               ├── domain
-│   │               │   ├── CharityOption.java
-│   │               │   ├── CoffeeDomain.java
-│   │               │   ├── IngredientsDeserializer.java
-│   │               │   ├── RepositoryDetailDomain.java
-│   │               │   └── RepositoryIssueDomain.java
+│   │               │   ├── CharityOption.java
+│   │               │   ├── CoffeeDomain.java
+│   │               │   ├── IngredientsDeserializer.java
+│   │               │   ├── RepositoryDetailDomain.java
+│   │               │   └── RepositoryIssueDomain.java
 │   │               ├── dto
 │   │               │   ├── Brew.java
 │   │               │   ├── Donate.java
