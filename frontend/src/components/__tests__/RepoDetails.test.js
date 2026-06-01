@@ -30,12 +30,26 @@ describe('RepoDetails Component', () => {
     });
 
     test('renders loading spinner initially', async () => {
+        let resolveFetch;
+        global.fetch = jest.fn(
+            () =>
+                new Promise((resolve) => {
+                    resolveFetch = resolve;
+                })
+        );
+
         render(
             <MemoryRouter>
                 <RepoDetails />
             </MemoryRouter>
         );
+
         expect(screen.getByText(/loading/i)).toBeInTheDocument();
+
+        resolveFetch({
+            json: () => Promise.resolve([]),
+        });
+
         await waitFor(() => expect(screen.queryByText(/loading/i)).not.toBeInTheDocument());
     });
 
