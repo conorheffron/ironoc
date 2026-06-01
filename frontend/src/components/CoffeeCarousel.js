@@ -71,11 +71,13 @@ class CoffeeCarousel extends Component {
         );
         return (
             <Carousel className="App-header">
-                {validItems.map((item, index) => (
+                {validItems.map((item, index) => {
+                    const translatedTitle = translateValue(item.title, brewTitleTranslations);
+                    return (
                     <Carousel.Item key={index}>
-                        <img src={item.image} alt={translateValue(item.title, brewTitleTranslations)} />
+                        <img src={item.image} alt={translatedTitle} />
                         <Carousel.Caption>
-                            <h3>{translateValue(item.title, brewTitleTranslations)}</h3>
+                            <h3>{translatedTitle}</h3>
                             {item.ingredients && item.ingredients.length > 0 && (
                                 <h5>
                                     <b>Ingredients:</b>{' '}
@@ -86,7 +88,8 @@ class CoffeeCarousel extends Component {
                             )}
                         </Carousel.Caption>
                     </Carousel.Item>
-                ))}
+                    );
+                })}
             </Carousel>
         );
     }
