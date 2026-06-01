@@ -93,7 +93,7 @@ class ControlledCarousel extends Component {
                         {portfolioItems.map((item, index) => (
                             <Carousel.Item key={index} interval={500}>
                                 <a href={item.link} target="_blank" rel="noreferrer">
-                                    <img className="d-block w-100" src={getPortfolioItemImage(item)} alt={item.alt} />
+                                    <img className="d-block w-100" src={getPortfolioItemImage(item)} alt={item.alt} referrerPolicy="no-referrer" />
                                     <Carousel.Caption>
                                         <h1><u>{item.title}</u></h1>
                                         <h2>{item.description}</h2>
