@@ -198,7 +198,7 @@ public class DonateItemsResolver extends AbstractLogger implements GraphQLQueryR
 
     // Accept only alphanumeric and space (and basic punctuation for overview)
     private boolean isAlphanumericOrSpace(String value) {
-        return value != null && value.matches("^[\\p{L}0-9 .,''\\-()\\[\\]/&;:!%€$@#\\?\\r\\n]*$");
+        return value != null && value.matches("^[\\p{L}0-9 .,''’\\-()\\[\\]/&;:!%€$@#\\?\\r\\n]*$");
     }
 
     // Accept HTTP/HTTPS links
@@ -219,4 +219,3 @@ public class DonateItemsResolver extends AbstractLogger implements GraphQLQueryR
         return value.matches(phonePattern) || value.matches(emailPattern) || isAlphanumericOrSpace(value);
     }
 }
-
