@@ -92,4 +92,30 @@ describe('Portfolio Controlled Carousel', () => {
     const fallbackImage = await screen.findByAltText('red3');
     expect(fallbackImage.getAttribute('src')).toContain('red-bg');
   });
+
+  test('uses item.img directly when it is a valid absolute URL, taking precedence over GitHub snapshot', async () => {
+    const absoluteImgUrl = 'https://example.com/my-project-image.png';
+    const itemsWithAbsoluteImg = [
+      {
+        link: 'https://github.com/conorheffron/ironoc-db',
+        img: absoluteImgUrl,
+        alt: 'absolute-img',
+        title: 'absolute-img-project',
+        description: 'Project with absolute img URL',
+        techStack: 'React'
+      }
+    ];
+    jest.spyOn(global, 'fetch').mockResolvedValue({
+      json: jest.fn().mockResolvedValue(itemsWithAbsoluteImg)
+    });
+
+    render(
+      <MemoryRouter>
+        <ControlledCarousel />
+      </MemoryRouter>
+    );
+
+    const img = await screen.findByAltText('absolute-img');
+    expect(img).toHaveAttribute('src', absoluteImgUrl);
+  });
 });
