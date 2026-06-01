@@ -105,7 +105,7 @@ describe('Portfolio Controlled Carousel', () => {
         techStack: 'React'
       }
     ];
-    jest.spyOn(global, 'fetch').mockResolvedValue({
+    jest.spyOn(global, 'fetch').mockResolvedValueOnce({
       json: jest.fn().mockResolvedValue(itemsWithAbsoluteImg)
     });
 
