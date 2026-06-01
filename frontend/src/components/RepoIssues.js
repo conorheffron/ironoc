@@ -135,6 +135,7 @@ const RepoIssues = () => {
     enableStickyHeader: true,
     initialState: {
       showColumnFilters: true,
+      columnFilters: [{ id: 'state', value: ['open'] }],
       columnVisibility: {
         state: false,
         body: false,

@@ -1,4 +1,4 @@
-package net.ironoc.portfolio.config;
+package net.ironoc.portfolio.filter;
 
 import module java.base;
 
@@ -13,7 +13,7 @@ import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class RequestRateLimitingInterceptorTest {
+class RequestRateLimitingInterceptorTest {
 
     private final Object handler = new Object();
 
