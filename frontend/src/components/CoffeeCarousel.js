@@ -61,7 +61,7 @@ function translateIngredients(ingredients) {
             .map((ingredient) => translateValue(ingredient, ingredientTranslations))
             .join(', ');
     }
-    return ingredients;
+    return '';
 }
 
 class CoffeeCarousel extends Component {
