@@ -5,7 +5,6 @@ import module java.base;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.info.BuildProperties;
 import org.springframework.core.env.Environment;
@@ -13,7 +12,6 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @RestController
 @RequestMapping("/api")
@@ -44,17 +42,14 @@ public class VersionController {
     }
 
     @Operation(summary = "Get ironoc API documentation endpoint",
-            description = "Returns the fully qualified Swagger/OpenAPI documentation URL based on the active run profile")
+            description = "Returns the Swagger/OpenAPI documentation path based on the active run profile")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200",
                     description = "Successfully retrieved ironoc API documentation endpoint.")
     })
     @GetMapping(value = {"/application/openapi-endpoint"}, produces= MediaType.TEXT_PLAIN_VALUE)
-    public String getOpenApiDocumentationEndpoint(HttpServletRequest request) {
-        String endpointPath = isProdProfileActive() ? OPEN_API_PATH : SWAGGER_UI_PATH;
-        return ServletUriComponentsBuilder.fromContextPath(request)
-                .path(endpointPath)
-                .toUriString();
+    public String getOpenApiDocumentationEndpoint() {
+        return isProdProfileActive() ? OPEN_API_PATH : SWAGGER_UI_PATH;
     }
 
     private boolean isProdProfileActive() {
