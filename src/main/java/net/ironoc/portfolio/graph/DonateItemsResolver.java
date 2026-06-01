@@ -31,6 +31,7 @@ public class DonateItemsResolver extends AbstractLogger implements GraphQLQueryR
         this.charityOptionRepository = charityOptionRepository;
     }
 
+
     @PostConstruct
     public void loadDonateItems() {
         ObjectMapper objectMapper = new ObjectMapper();
@@ -126,15 +127,16 @@ public class DonateItemsResolver extends AbstractLogger implements GraphQLQueryR
      * @param donate the Donate item to add
      */
     public void addDonateItem(Donate donate) {
-        String charityName = donate.getName();
+        String charityName = donate.getName() != null ? donate.getName().trim() : null;
         if (!isInAllowedCharities(charityName)) {
             info("Attempted to add DonateItem with name not in allowed charities list: {}", donate);
             return;
         }
-        if (charityOptionRepository.existsByName(charityName.trim())) {
+        if (charityOptionRepository.existsByName(charityName)) {
             info("Attempted to add DonateItem with name already present in database: {}", donate);
             return;
         }
+        donate.setName(charityName);
         if (isValidDonate(donate)) {
             charityOptionRepository.save(toEntity(donate));
             info("Added new DonateItem to database: {}", donate);
