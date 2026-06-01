@@ -9,7 +9,7 @@ import teal from '.././img/teal-bg.png';
 import red from '.././img/red-bg.png';
 import LoadingSpinner from '.././LoadingSpinner';
 
-const GITHUB_REPO_URL_REGEX = /^https?:\/\/github\.com\/([^/]+)\/([^/?#]+)/i;
+const GITHUB_REPO_URL_REGEX = /^https?:\/\/(?:www\.)?github\.com\/([^/]+)\/([^/?#]+)/i;
 const GITHUB_OPENGRAPH_BASE_URL = "https://opengraph.githubassets.com/1";
 
 const isValidUrl = (url) => {
