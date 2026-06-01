@@ -87,7 +87,7 @@ public class DonateItemsResolver extends AbstractLogger implements GraphQLQueryR
         ObjectMapper objectMapper = new ObjectMapper();
         List<CharityOption> allItems = charityOptionRepository.findAll();
 
-        List<CharityOption> sortedItems = List.of();
+        List<CharityOption> sortedItems = allItems;
         // sort by year founded
         if (donateItemOrder.getFounded() != null) {
             sortedItems = switch (donateItemOrder.getFounded()) {
