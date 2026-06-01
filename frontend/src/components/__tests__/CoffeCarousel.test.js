@@ -67,15 +67,16 @@ describe('CoffeeCarousel', () => {
           {
               image: 'https://image1.jpg',
               title: 'Svart Te',
-              ingredients: ['Te', 'Honung'],
+              ingredients: ' Te , Okänd ingrediens , Honung ',
           },
       ];
 
       render(<CoffeeCarousel items={localizedItems} />);
 
       expect(screen.getByText('Black Tea')).toBeInTheDocument();
-      expect(screen.getByText('Tea, Honey')).toBeInTheDocument();
+      expect(screen.getByAltText('Black Tea')).toBeInTheDocument();
+      expect(screen.getByText('Tea, Okänd ingrediens, Honey')).toBeInTheDocument();
       expect(screen.queryByText('Svart Te')).not.toBeInTheDocument();
-      expect(screen.queryByText('Te, Honung')).not.toBeInTheDocument();
+      expect(screen.queryByText('Te , Okänd ingrediens , Honung')).not.toBeInTheDocument();
   });
 });
