@@ -5,7 +5,7 @@
 
 	<groupId>conorheffron</groupId>
 	<artifactId>ironoc</artifactId>
-	<version>9.1.6</version>
+	<version>9.1.7</version>
 	<packaging>war</packaging>
 
 	<distributionManagement>
@@ -29,11 +29,11 @@
 		<spring.framework.version>7.0.7</spring.framework.version>
 		<spring.webflux.version>7.0.7</spring.webflux.version>
 		<frontend-maven-plugin.version>2.0.0</frontend-maven-plugin.version>
-		<node.version>v24.15.0</node.version>
-		<npm.version>11.12.1</npm.version>
+		<node.version>v24.16.0</node.version>
+		<npm.version>11.13.0</npm.version>
 		<kotlin.version>1.6.0</kotlin.version>
 		<graphql.vers>14.0.0</graphql.vers>
-		<selenium.vers>4.43.0</selenium.vers>
+		<selenium.vers>4.44.0</selenium.vers>
 		<log4j.vers>2.26.0</log4j.vers>
 		<slf4j.vers>${log4j.vers}</slf4j.vers>
 		<lombok.version>1.18.46</lombok.version>
@@ -143,7 +143,7 @@
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-reload4j</artifactId>
-            <version>2.0.17</version>
+            <version>2.0.18</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -190,7 +190,7 @@
 		<dependency>
 			<groupId>com.bucket4j</groupId>
 			<artifactId>bucket4j_jdk17-core</artifactId>
-			<version>8.18.0</version>
+			<version>8.19.0</version>
 		</dependency>
 		<dependency>
 			<groupId>com.graphql-java-kickstart</groupId>
@@ -218,7 +218,7 @@
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
-			<version>2.21.3</version>
+			<version>2.22.0</version>
 		</dependency>
 		<!-- Jakarta -->
 		<dependency>
@@ -287,13 +287,13 @@
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
-            <version>6.0.3</version>
+            <version>6.1.0</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.junit.platform</groupId>
             <artifactId>junit-platform-launcher</artifactId>
-            <version>6.0.3</version>
+            <version>6.1.0</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -317,7 +317,7 @@
         <dependency>
             <groupId>net.bytebuddy</groupId>
             <artifactId>byte-buddy</artifactId>
-            <version>1.18.8</version>
+            <version>1.18.9</version>
             <scope>test</scope>
         </dependency>
 		<!-- Selenium-->
@@ -378,7 +378,7 @@
 		<dependency>
             <groupId>software.amazon.awssdk</groupId>
             <artifactId>secretsmanager</artifactId>
-			<version>2.44.12</version>
+			<version>2.46.0</version>
 			<exclusions>
 				<exclusion>
 					<groupId>commons-logging</groupId>
