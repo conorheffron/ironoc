@@ -210,7 +210,7 @@ class DonateGraphqlControllerTest {
         List<Donate> result = donateGraphqlController.donateItemsSubscription()
                 .take(1)
                 .collectList()
-                .block();
+                .block(java.time.Duration.ofSeconds(1));
 
         // Assert
         assertThat(result, is(notNullValue()));
