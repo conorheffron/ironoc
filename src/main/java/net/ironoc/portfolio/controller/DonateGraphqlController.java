@@ -95,8 +95,9 @@ public class DonateGraphqlController extends AbstractLogger {
     @SubscriptionMapping
     public Flux<Donate> donateItemsSubscription() {
         List<Map<String, Object>> donateItems = donateItemsResolver.getDonateItems();
-        return Flux.fromIterable(mapDonateItemsToCharityOptions(donateItems))
-                .concatWith(donateItemsSubscriptionSink.asFlux());
+        Flux<Donate> snapshotFlux = Flux.fromIterable(mapDonateItemsToCharityOptions(donateItems));
+        Flux<Donate> liveFlux = donateItemsSubscriptionSink.asFlux();
+        return Flux.mergeSequential(snapshotFlux, liveFlux);
     }
 
     @MutationMapping
