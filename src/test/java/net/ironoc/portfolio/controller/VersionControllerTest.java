@@ -8,6 +8,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.info.BuildProperties;
+import org.springframework.core.env.Environment;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
@@ -21,6 +22,9 @@ public class VersionControllerTest {
 
     @Mock
     private BuildProperties buildPropertiesMock;
+
+    @Mock
+    private Environment environmentMock;
 
     @InjectMocks
     private VersionController versionController;
@@ -37,5 +41,31 @@ public class VersionControllerTest {
         verify(buildPropertiesMock).getVersion();
 
         assertThat(response, is("Version: " + TEST_VERSION));
+    }
+
+    @Test
+    public void test_getOpenApiDocumentationEndpoint_nonProdProfile_success() {
+        // given
+        when(environmentMock.getActiveProfiles()).thenReturn(new String[]{"dev"});
+
+        // when
+        String response = versionController.getOpenApiDocumentationEndpoint();
+
+        // then
+        verify(environmentMock).getActiveProfiles();
+        assertThat(response, is("/swagger-ui-ironoc.html"));
+    }
+
+    @Test
+    public void test_getOpenApiDocumentationEndpoint_prodProfile_success() {
+        // given
+        when(environmentMock.getActiveProfiles()).thenReturn(new String[]{"prod"});
+
+        // when
+        String response = versionController.getOpenApiDocumentationEndpoint();
+
+        // then
+        verify(environmentMock).getActiveProfiles();
+        assertThat(response, is("/api-docs"));
     }
 }
