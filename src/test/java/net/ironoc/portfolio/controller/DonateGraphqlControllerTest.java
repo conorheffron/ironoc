@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import reactor.core.Disposable;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
@@ -187,6 +188,94 @@ class DonateGraphqlControllerTest {
         assertThat(donate.getName(), is("Charity E"));
         assertThat(donate.getFounded(), is(2010));
         verify(donateItemsResolver, times(1)).getDonateItems();
+    }
+
+    @Test
+    void testDonateItemsSubscription_ReturnsExistingItems() {
+        // Arrange
+        List<Map<String, Object>> mockDonateItems = new ArrayList<>();
+        Map<String, Object> item = new HashMap<>();
+        item.put("alt", "Alt Text");
+        item.put("name", "Charity Sub");
+        item.put("link", "https://charity-sub.org");
+        item.put("donate", "https://charity-sub.org/donate");
+        item.put("img", "sub.png");
+        item.put("overview", "Subscription item");
+        item.put("founded", 2001);
+        item.put("phone", "+353111111111");
+        mockDonateItems.add(item);
+        when(donateItemsResolver.getDonateItems()).thenReturn(mockDonateItems);
+
+        // Act
+        List<Donate> result = donateGraphqlController.donateItemsSubscription()
+                .take(1)
+                .collectList()
+                .block(java.time.Duration.ofSeconds(1));
+
+        // Assert
+        assertThat(result, is(notNullValue()));
+        assertThat(result, hasSize(1));
+        assertThat(result.getFirst().getName(), is("Charity Sub"));
+        verify(donateItemsResolver, times(1)).getDonateItems();
+    }
+
+    @Test
+    void testAddCharityOption_EmitsToSubscriptionWhenAdded() {
+        // Arrange
+        when(donateItemsResolver.getDonateItems()).thenReturn(new ArrayList<>());
+        when(donateItemsResolver.addDonateItem(any(Donate.class))).thenReturn(true);
+
+        List<Donate> emittedItems = new ArrayList<>();
+        Disposable subscription = donateGraphqlController.donateItemsSubscription().subscribe(emittedItems::add);
+
+        // Act
+        Donate result = donateGraphqlController.addCharityOption(
+                "Alt",
+                "Charity New",
+                "https://charity-new.org",
+                "https://charity-new.org/donate",
+                "new.png",
+                "New charity",
+                2022,
+                "+353123456789"
+        );
+
+        // Assert
+        assertThat(result, is(notNullValue()));
+        assertThat(result.getName(), is("Charity New"));
+        assertThat(emittedItems, hasSize(1));
+        assertThat(emittedItems.getFirst().getName(), is("Charity New"));
+        verify(donateItemsResolver, times(1)).addDonateItem(any(Donate.class));
+
+        subscription.dispose();
+    }
+
+    @Test
+    void testAddCharityOption_DoesNotEmitToSubscriptionWhenNotAdded() {
+        // Arrange
+        when(donateItemsResolver.getDonateItems()).thenReturn(new ArrayList<>());
+        when(donateItemsResolver.addDonateItem(any(Donate.class))).thenReturn(false);
+
+        List<Donate> emittedItems = new ArrayList<>();
+        Disposable subscription = donateGraphqlController.donateItemsSubscription().subscribe(emittedItems::add);
+
+        // Act
+        donateGraphqlController.addCharityOption(
+                "Alt",
+                "Charity Reject",
+                "https://charity-reject.org",
+                "https://charity-reject.org/donate",
+                "reject.png",
+                "Rejected charity",
+                2024,
+                "+353987654321"
+        );
+
+        // Assert
+        assertThat(emittedItems, hasSize(0));
+        verify(donateItemsResolver, times(1)).addDonateItem(any(Donate.class));
+
+        subscription.dispose();
     }
 
     @NotNull
