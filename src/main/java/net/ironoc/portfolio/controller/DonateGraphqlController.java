@@ -123,9 +123,11 @@ public class DonateGraphqlController extends AbstractLogger {
                 .build();
 
         boolean donateAdded = donateItemsResolver.addDonateItem(newDonate);
-        if (donateAdded) {
+        if (donateAdded && donateItemsSubscriptionSink.currentSubscriberCount() > 0) {
             Sinks.EmitResult emitResult = donateItemsSubscriptionSink.tryEmitNext(newDonate);
-            if (emitResult.isFailure()) {
+            if (emitResult.isFailure()
+                    && emitResult != Sinks.EmitResult.FAIL_ZERO_SUBSCRIBER
+                    && emitResult != Sinks.EmitResult.FAIL_CANCELLED) {
                 warn("Unable to emit Donate subscription event for new item, result={}", emitResult);
             }
         }
