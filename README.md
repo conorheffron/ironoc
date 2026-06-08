@@ -91,6 +91,7 @@ src
 │   │               │   ├── PortfolioController.java
 │   │               │   └── VersionController.java
 │   │               ├── domain
+│   │               │   ├── CharityOption.java
 │   │               │   ├── CoffeeDomain.java
 │   │               │   ├── IngredientsDeserializer.java
 │   │               │   ├── RepositoryDetailDomain.java
@@ -120,7 +121,9 @@ src
 │   │               │   └── LoggerI.java
 │   │               ├── resolver
 │   │               │   └── PushStateResourceResolver.java
-│   │               ├── service
+│   │               ├── repository
+│   │               │   └── CharityOptionRepository.java
+│   │               ├── service
 │   │               │   ├── AbstractGitCache.java
 │   │               │   ├── CoffeeCacheService.java
 │   │               │   ├── Coffees.java
