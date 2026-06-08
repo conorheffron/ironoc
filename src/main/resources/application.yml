@@ -22,7 +22,7 @@ net:
           endpoint:
             repos: https://api.github.com/users/{username}/repos?per_page={per_page}&page={page}
             user-ids-cache: conorheffron
-            issues: https://api.github.com/repos/{username}/{repo}/issues?per_page={per_page}&page={page}&state=all
+            issues: https://api.github.com/repos/{username}/{repo}/issues?per_page={per_page}&page={page}&state=closed
             projects-cache: >
               bio-cell-red-edge,
               booking-sys,
