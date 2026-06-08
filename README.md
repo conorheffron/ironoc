@@ -238,9 +238,14 @@ aws sts get-session-token
 ![ui-config-screenshot](screen-grabs/local-ui-proxy.png)
 
 ## Run after project checkout (JDK 25 & Maven 4 required)
-### Build frontend & server side, along with Java Code Coverage report.
+### Build server side (backend only), along with Java Code Coverage report.
 ```shell
 ./mvnw clean package -U
+```
+
+### Optional: bundle frontend into backend artifact (legacy single-repo flow)
+```shell
+./mvnw clean package -U -DbundleFrontend=true
 ```
 
 #### View Java Code Coverage reports in Browser or Preview tab in IDE.
@@ -266,6 +271,12 @@ npm run test
 
 npm run test:coverage
 ```
+
+## Frontend/backend split (spike output)
+- Backend CI (`maven.yml`) now ignores frontend-only changes.
+- Frontend CI (`node.js.yml`) now runs only for frontend/workflow changes.
+- Backend Maven builds are backend-only by default; frontend bundling is opt-in via `-DbundleFrontend=true`.
+- Recommended deployment coordination: publish backend and frontend with the same semantic version and promote both only after compatibility checks.
 ##### See the output below to verify the frontend test suite results.
 ![react-tests](screen-grabs/react-tests.png)
 
