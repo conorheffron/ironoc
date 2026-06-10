@@ -37,6 +37,19 @@ Personal website / portfolio  [https://www.ironoc.net/](https://www.ironoc.net/)
 ## Tech Stack
  - Java 25 (LTS), Spring Boot 4, ReactJs 19, Maven 4, HTML5+CSS, Docker / Bash, AWS, minikube, & kubectl.
 
+## Spike: Kotlin / Scala options for API source
+
+| Option | Scope | Pros | Risks / Cost |
+| --- | --- | --- | --- |
+| Keep Java as primary, add Kotlin for selected API packages first | Some API source code | Lowest migration risk, full Spring + JVM interop, easier incremental rollout in existing Maven build | Mixed-language code style and team standards to maintain |
+| Move most API code to Kotlin over time | Most API source code | Strong null-safety, concise syntax, strong Spring ecosystem support | Medium migration effort and testing effort across controllers/services/tests |
+| Move API to Scala | Some or all API source code | Powerful FP model and type system | Highest migration cost for this codebase, fewer Spring-first examples in current project setup, steeper onboarding for mixed Java/Spring teams |
+
+### Recommendation
+- Prefer **Kotlin-first incremental adoption** for any new or refactored API modules.
+- Keep existing Java modules stable unless touched by feature work.
+- Reassess full migration only after proving maintainability and delivery speed with a few Kotlin slices.
+
 ##### Note: `iRonoc` is an active user of the `GitHub API` & `conorheffron` is a proud participant in the GitHub Developer Program.
 - The `iRonoc` PM tool is designed to streamline project management by automating project navigation & issue tracking. 
 - By leveraging the GitHub API, the aim is to enhance the developer experience and contribute to the vibrant GitHub ecosystem.
