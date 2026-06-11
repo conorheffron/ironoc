@@ -21,6 +21,14 @@ const mockPortfolioItems = [
     title: "booking-sys",
     description: "Sample Reservations & Viewer System",
     techStack: "Python & Django Web App, JavaScript, SQLite3 or MySQL database."
+  },
+  {
+    link: "https://example.com/custom-project",
+    img: "red",
+    alt: "red3",
+    title: "custom-project",
+    description: "Sample custom project",
+    techStack: "React, JavaScript"
   }
 ];
 
@@ -71,5 +79,47 @@ describe('Portfolio Controlled Carousel', () => {
     // Verify that the component does not show the loading spinner
     expect(container.querySelector('.LoadingSpinner')).not.toBeInTheDocument();
   });
-});
 
+  test('uses github snapshot images for github links and fallback image for non-github links', async () => {
+    render(
+      <MemoryRouter>
+        <ControlledCarousel />
+      </MemoryRouter>
+    );
+
+    const githubImage = await screen.findByAltText('navy1');
+    expect(githubImage).toHaveAttribute(
+      'src',
+      'https://opengraph.githubassets.com/1/conorheffron/ironoc-db'
+    );
+
+    const fallbackImage = await screen.findByAltText('red3');
+    expect(fallbackImage.getAttribute('src')).toContain('red-bg');
+  });
+
+  test('uses item.img directly when it is a valid absolute URL, taking precedence over GitHub snapshot', async () => {
+    const absoluteImgUrl = 'https://example.com/my-project-image.png';
+    const itemsWithAbsoluteImg = [
+      {
+        link: 'https://github.com/conorheffron/ironoc-db',
+        img: absoluteImgUrl,
+        alt: 'absolute-img',
+        title: 'absolute-img-project',
+        description: 'Project with absolute img URL',
+        techStack: 'React'
+      }
+    ];
+    jest.spyOn(global, 'fetch').mockResolvedValueOnce({
+      json: jest.fn().mockResolvedValue(itemsWithAbsoluteImg)
+    });
+
+    render(
+      <MemoryRouter>
+        <ControlledCarousel />
+      </MemoryRouter>
+    );
+
+    const img = await screen.findByAltText('absolute-img');
+    expect(img).toHaveAttribute('src', absoluteImgUrl);
+  });
+});
