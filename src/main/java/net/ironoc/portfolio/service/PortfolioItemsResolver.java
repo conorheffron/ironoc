@@ -4,6 +4,7 @@ import module java.base;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import net.ironoc.portfolio.exception.IronocJsonException;
 import net.ironoc.portfolio.logger.AbstractLogger;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
@@ -22,7 +23,7 @@ public class PortfolioItemsResolver extends AbstractLogger {
                     new TypeReference<>() {});
         } catch (IOException e) {
             error("Failed to load Portfolio items JSON", e);
+            throw new IronocJsonException("Failed to load portfolio items JSON", e);
         }
-        return Collections.emptyList();
     }
 }
