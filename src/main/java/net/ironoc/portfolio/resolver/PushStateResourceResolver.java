@@ -60,7 +60,7 @@ public class PushStateResourceResolver extends AbstractLogger implements Resourc
             if (staticResource.isPresent()) {
                 return staticResource.get();
             } else {
-                error("The request path {} does not exist.", requestPath);
+                warn("The request path {} does not exist.", requestPath);
                 return null;
             }
         }
