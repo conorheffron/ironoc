@@ -2,9 +2,9 @@ package net.ironoc.portfolio.controller;
 
 import module java.base;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import net.ironoc.portfolio.domain.CoffeeDomain;
+import net.ironoc.portfolio.exception.IronocJsonException;
 import net.ironoc.portfolio.service.GraphQLClient;
 import net.ironoc.portfolio.service.CoffeesCache;
 import net.ironoc.portfolio.service.CoffeesService;
@@ -30,6 +30,7 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(SpringExtension.class)
@@ -156,7 +157,7 @@ public class CoffeeControllerIntegrationTest extends BaseControllerIntegrationTe
     public void testGetCoffeeDetailsGraphQl_NoCachedResults() throws Exception {
         // Given
         when(coffeesCacheMock.get()).thenReturn(null);
-        Map<String, Object> response = getSampleResponse(true);
+        Map<String, Object> response = getSampleResponse(false);
         when(graphQLClientServiceMock.fetchCoffeeDetails()).thenReturn(response);
         when(graphQLClientServiceMock.getAllHotCoffees(response)).thenReturn((List<Map<String, Object>>) response.get("allHots"));
         when(graphQLClientServiceMock.getAllIcedCoffees(response)).thenReturn((List<Map<String, Object>>) response.get("allIceds"));
@@ -180,12 +181,16 @@ public class CoffeeControllerIntegrationTest extends BaseControllerIntegrationTe
     public void testGetCoffeeDetailsGraphQl_JsonProcessingException() throws Exception {
         // Given
         when(coffeesCacheMock.get()).thenReturn(null);
-        when(graphQLClientServiceMock.fetchCoffeeDetails()).thenThrow(JsonProcessingException.class);
+        when(graphQLClientServiceMock.fetchCoffeeDetails())
+                .thenThrow(new IronocJsonException("Unexpected exception occurred loading GraphQL query"));
 
         // When & Then
         mockMvc.perform(get("/api/coffees-graph-ql")
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
+                .andExpect(status().isInternalServerError())
+                .andExpect(jsonPath("$.title").value("JSON processing failed"))
+                .andExpect(jsonPath("$.detail").value("Unexpected exception occurred loading GraphQL query"))
+                .andExpect(jsonPath("$.path").value("/api/coffees-graph-ql"));
 
         verify(graphQLClientServiceMock, times(1)).fetchCoffeeDetails();
         verify(coffeesCacheMock).get();
@@ -204,10 +209,12 @@ public class CoffeeControllerIntegrationTest extends BaseControllerIntegrationTe
         // Given
         when(coffeesCacheMock.get()).thenReturn(null);
         when(graphQLClientServiceMock.fetchCoffeeDetails()).thenReturn(input);
-        when(graphQLClientServiceMock.getAllHotCoffees(input))
-                .thenReturn((List<Map<String, Object>>) input.get("allHots"));
-        when(graphQLClientServiceMock.getAllIcedCoffees(input))
-                .thenReturn((List<Map<String, Object>>) input.get("allIceds"));
+        List<Map<String, Object>> allHots = (List<Map<String, Object>>) input.get("allHots");
+        List<Map<String, Object>> allIceds = ((List<Map<String, Object>>) input.get("allIceds")).stream()
+                .filter(item -> item.get("ingredients") instanceof List<?>)
+                .toList();
+        when(graphQLClientServiceMock.getAllHotCoffees(input)).thenReturn(allHots);
+        when(graphQLClientServiceMock.getAllIcedCoffees(input)).thenReturn(allIceds);
 
         // When & Then
         mockMvc.perform(get("/api/coffees-graph-ql")
