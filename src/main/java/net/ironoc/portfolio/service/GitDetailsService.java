@@ -48,7 +48,7 @@ public class GitDetailsService extends AbstractLogger implements GitDetails {
     @Override
     public List<RepositoryDetailDto> getRepoDetails(String username, boolean isJob) {
         // check cache for home page user ID
-        if (!isJob & username.equalsIgnoreCase(IRONOC_GIT_USER)) {
+        if (!isJob && username.equalsIgnoreCase(IRONOC_GIT_USER)) {
             List<RepositoryDetailDomain> repoDetails = gitRepoCache
                     .get(IRONOC_GIT_USER);
             if (repoDetails != null && !repoDetails.isEmpty()) {
@@ -58,21 +58,26 @@ public class GitDetailsService extends AbstractLogger implements GitDetails {
         // further end-point validation (contains User ID)
         String uri = propertyConfig.getGitApiEndpointRepos();
         Integer page = 1;
-        Integer per_page = 100;
+        Integer perPage = 100;
         String apiUri = "";
         try {
             apiUri = UriComponentsBuilder.fromUriString(uri)
-                    .buildAndExpand(username, per_page, page)
+                    .buildAndExpand(username, perPage, page)
                     .toUriString();
         } catch (IllegalArgumentException e) {
             error("Illegal argument passed for uri value: {}", uri);
         }
-        if (StringUtils.isBlank(apiUri) | StringUtils.isBlank(uri)
+        if (StringUtils.isBlank(apiUri) || StringUtils.isBlank(uri)
                 | !urlUtils.isValidURL(apiUri)) {
             warn("URL is not valid: url={}", apiUri);
             return Collections.emptyList();
         }
-        return gitClient.callGitHubApi(apiUri, uri, RepositoryDetailDto.class, HttpMethod.GET.name());
+        Map<String, Object> uriVariables = new HashMap<>();
+        uriVariables.put("username", username);
+        uriVariables.put("per_page", perPage);
+        uriVariables.put("page", page);
+        return gitClient.callGitHubApi(uri, RepositoryDetailDto.class, HttpMethod.GET.name(),
+                uriVariables);
     }
 
     @Override
@@ -111,7 +116,7 @@ public class GitDetailsService extends AbstractLogger implements GitDetails {
     @Override
     public List<RepositoryIssueDto> getIssues(String userId, String repo, boolean isJob) {
         // check cache for home page user ID
-        if (!isJob & userId.equalsIgnoreCase(IRONOC_GIT_USER)) {
+        if (!isJob && userId.equalsIgnoreCase(IRONOC_GIT_USER)) {
             List<RepositoryIssueDomain> repositoryIssues = gitProjectCache.get(userId, repo);
             if (repositoryIssues != null && !repositoryIssues.isEmpty()) {
                 return this.mapResponseToIssues(repositoryIssues);
@@ -120,21 +125,27 @@ public class GitDetailsService extends AbstractLogger implements GitDetails {
         // further end-point validation (contains User ID)
         String uri = propertyConfig.getGitApiEndpointIssues();
         Integer page = 1;
-        Integer per_page = 100;
+        Integer perPage = 100;
         String apiUri = "";
         try {
             apiUri = UriComponentsBuilder.fromUriString(uri)
-                .buildAndExpand(userId, repo, per_page, page)
+                .buildAndExpand(userId, repo, perPage, page)
                 .toUriString();
-        } catch (IllegalArgumentException e) {
+        } catch (IllegalArgumentException ex) {
             error("Illegal argument passed for uri value: {}", uri);
         }
-        if (StringUtils.isBlank(apiUri) | StringUtils.isBlank(uri)
-                | !urlUtils.isValidURL(apiUri)) {
+        if (StringUtils.isBlank(apiUri) || StringUtils.isBlank(uri)
+                || !urlUtils.isValidURL(apiUri)) {
             warn("URL is not valid: url={}", apiUri);
             return Collections.emptyList();
         }
-        return gitClient.callGitHubApi(apiUri, uri, RepositoryIssueDto.class, HttpMethod.GET.name());
+        Map<String, Object> uriVariables = new HashMap<>();
+        uriVariables.put("username", userId);
+        uriVariables.put("per_page", perPage);
+        uriVariables.put("page", page);
+        uriVariables.put("repo", repo);
+        return gitClient.callGitHubApi(uri, RepositoryIssueDto.class, HttpMethod.GET.name(),
+                uriVariables);
     }
 
     @Override

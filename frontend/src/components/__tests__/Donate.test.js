@@ -1,8 +1,13 @@
 import React from 'react';
-import { render, screen, waitFor } from '@testing-library/react';
-import { MockedProvider } from '@apollo/client/testing/react';
+import { render, screen, waitFor, fireEvent } from '@testing-library/react';
+import { MockedProvider } from '@apollo/client/testing';
 import Donate, { GET_DONATE_ITEMS } from '../Donate';
 import '@testing-library/jest-dom';
+import { trackClickOut } from '../../utils/activityTracker';
+
+jest.mock('../../utils/activityTracker', () => ({
+    trackClickOut: jest.fn(),
+}));
 
 // Mock data for testing
 const mockDonateItems = [
@@ -93,5 +98,28 @@ describe('Donate Component', () => {
                 expect(screen.getByText(new RegExp(`Founded in ${item.founded}`, 'i'))).toBeInTheDocument();
             });
         });
+    });
+
+    it('tracks charity click-outs for donate and homepage links', async () => {
+        render(
+            <MockedProvider mocks={mocks}>
+                <Donate />
+            </MockedProvider>
+        );
+
+        await waitFor(() => {
+            expect(screen.getByText('Item 1')).toBeInTheDocument();
+        });
+
+        const donateLink = document.querySelector('a[href="https://example.com/donate1"]');
+        const homepageLink = document.querySelector('a[href="https://example.com/home1"]');
+        expect(donateLink).toBeInTheDocument();
+        expect(homepageLink).toBeInTheDocument();
+
+        fireEvent.click(donateLink);
+        fireEvent.click(homepageLink);
+
+        expect(trackClickOut).toHaveBeenCalledWith('charity', 'https://example.com/donate1');
+        expect(trackClickOut).toHaveBeenCalledWith('charity', 'https://example.com/home1');
     });
 });
