@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.info.License;
+import net.ironoc.portfolio.filter.RequestRateLimitingInterceptor;
 import net.ironoc.portfolio.resolver.PushStateResourceResolver;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -18,6 +19,8 @@ import org.springframework.boot.info.BuildProperties;
 import org.springframework.boot.web.server.WebServerFactoryCustomizer;
 import org.springframework.boot.web.server.servlet.ConfigurableServletWebServerFactory;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistration;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceChainRegistration;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistration;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -54,6 +57,15 @@ public class IronocConfigurationTest {
 
     @Mock
     private BuildProperties buildPropertiesMock;
+
+    @Mock
+    private RequestRateLimitingInterceptor requestRateLimitingInterceptorMock;
+
+    @Mock
+    private InterceptorRegistry interceptorRegistryMock;
+
+    @Mock
+    private InterceptorRegistration interceptorRegistrationMock;
 
     @Test
     public void test_addResourceHandlers_success() {
@@ -114,6 +126,17 @@ public class IronocConfigurationTest {
 
         // then
         assertThat(result, is(notNullValue()));
+    }
+
+    @Test
+    void test_addInterceptors_success() {
+        when(interceptorRegistryMock.addInterceptor(requestRateLimitingInterceptorMock))
+                .thenReturn(interceptorRegistrationMock);
+
+        ironocConfiguration.addInterceptors(interceptorRegistryMock);
+
+        verify(interceptorRegistryMock).addInterceptor(requestRateLimitingInterceptorMock);
+        verify(interceptorRegistrationMock).addPathPatterns("/api/**", "/graphql");
     }
 
     @Test

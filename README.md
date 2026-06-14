@@ -64,6 +64,14 @@ integration to provide value to users.
 
 ## See ironoc-frontend README [here](./frontend/README.md)
 
+## Basic request rate limiting
+
+- Backend requests to `/api/**` and `/graphql` now pass through an in-memory Bucket4j interceptor.
+- `GET` requests are limited to `60` requests per minute per client IP.
+- `POST` and `PUT` requests are limited to `10` requests per minute per client IP and return `429 Too Many Requests` with a `Retry-After` header when the bucket is empty.
+- Frontend follow-up options researched for later hardening: debounce repeat user actions, cache repeated reads before re-requesting `/api/**`, and add client-side handling for `429` responses with a short backoff/retry message.
+- Backend alternatives researched for a future production rollout: Spring Cloud Gateway/Redis for distributed limits, or edge/CDN controls such as WAF/CDN rate limiting in front of the app.
+
 ## Backend Project Structure
 ```shell
 src
@@ -112,6 +120,8 @@ src
 │   │               │   └── SortingOrder.java
 │   │               ├── exception
 │   │               │   └── IronocJsonException.java
+│   │               ├── filter
+│   │               │   └── RequestRateLimitingInterceptor.java
 │   │               ├── graph
 │   │               │   ├── BrewsResolver.java
 │   │               │   └── DonateItemsResolver.java

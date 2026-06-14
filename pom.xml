@@ -5,7 +5,7 @@
 
 	<groupId>conorheffron</groupId>
 	<artifactId>ironoc</artifactId>
-	<version>9.1.5</version>
+	<version>9.1.8</version>
 	<packaging>war</packaging>
 
 	<distributionManagement>
@@ -29,14 +29,14 @@
 		<spring.framework.version>7.0.7</spring.framework.version>
 		<spring.webflux.version>7.0.7</spring.webflux.version>
 		<frontend-maven-plugin.version>2.0.0</frontend-maven-plugin.version>
-		<node.version>v24.15.0</node.version>
-		<npm.version>11.12.1</npm.version>
+		<node.version>v24.16.0</node.version>
+		<npm.version>11.13.0</npm.version>
 		<kotlin.version>1.6.0</kotlin.version>
 		<graphql.vers>14.0.0</graphql.vers>
-		<selenium.vers>4.43.0</selenium.vers>
-		<log4j.vers>2.25.4</log4j.vers>
+		<selenium.vers>4.44.0</selenium.vers>
+		<log4j.vers>2.26.0</log4j.vers>
 		<slf4j.vers>${log4j.vers}</slf4j.vers>
-		<lombok.version>1.18.44</lombok.version>
+		<lombok.version>1.18.46</lombok.version>
         <sonar.organization>conorheffron</sonar.organization>
         <mockito.version>5.23.0</mockito.version>
 	</properties>
@@ -143,7 +143,7 @@
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-reload4j</artifactId>
-            <version>2.0.17</version>
+            <version>2.0.18</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -168,7 +168,7 @@
         <dependency>
             <groupId>org.springframework.graphql</groupId>
             <artifactId>spring-graphql</artifactId>
-            <version>2.0.2</version>
+            <version>2.0.3</version>
         </dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -186,6 +186,11 @@
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-text</artifactId>
 			<version>1.15.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.bucket4j</groupId>
+			<artifactId>bucket4j_jdk17-core</artifactId>
+			<version>8.19.0</version>
 		</dependency>
 		<dependency>
 			<groupId>com.graphql-java-kickstart</groupId>
@@ -213,7 +218,7 @@
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
-			<version>2.21.2</version>
+			<version>2.22.0</version>
 		</dependency>
 		<!-- Jakarta -->
 		<dependency>
@@ -245,17 +250,17 @@
 		<dependency>
 			<groupId>org.apache.tomcat.embed</groupId>
 			<artifactId>tomcat-embed-core</artifactId>
-			<version>11.0.21</version>
+			<version>11.0.22</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.tomcat.embed</groupId>
 			<artifactId>tomcat-embed-el</artifactId>
-			<version>11.0.21</version>
+			<version>11.0.22</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.tomcat.embed</groupId>
 			<artifactId>tomcat-embed-websocket</artifactId>
-			<version>11.0.21</version>
+			<version>11.0.22</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.tomcat.embed</groupId>
@@ -282,13 +287,13 @@
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
-            <version>6.0.3</version>
+            <version>6.1.0</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.junit.platform</groupId>
             <artifactId>junit-platform-launcher</artifactId>
-            <version>6.0.3</version>
+            <version>6.1.0</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -312,7 +317,7 @@
         <dependency>
             <groupId>net.bytebuddy</groupId>
             <artifactId>byte-buddy</artifactId>
-            <version>1.18.8</version>
+            <version>1.18.10</version>
             <scope>test</scope>
         </dependency>
 		<!-- Selenium-->
@@ -351,7 +356,7 @@
 		<dependency>
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
-			<version>2.21.0</version>
+			<version>2.22.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>
@@ -362,18 +367,18 @@
 		<dependency>
 			<groupId>org.springdoc</groupId>
 			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-			<version>3.0.2</version>
+			<version>3.0.3</version>
 		</dependency>
 		<dependency>
 			<groupId>io.swagger.core.v3</groupId>
 			<artifactId>swagger-annotations</artifactId>
-			<version>2.2.49</version>
+			<version>2.2.50</version>
 		</dependency>
 		<!-- AWS-->
 		<dependency>
             <groupId>software.amazon.awssdk</groupId>
             <artifactId>secretsmanager</artifactId>
-			<version>2.42.33</version>
+			<version>2.46.5</version>
 			<exclusions>
 				<exclusion>
 					<groupId>commons-logging</groupId>
@@ -404,7 +409,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
-				<version>3.5.5</version>
+				<version>3.5.6</version>
 				<configuration>
                     <argLine>@{argLine} -javaagent:${settings.localRepository}/org/mockito/mockito-core/${mockito.version}/mockito-core-${mockito.version}.jar -Drun.jvmArguments="-Xmx4096m"</argLine>
                 </configuration>
@@ -508,7 +513,7 @@
 			<plugin>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
-				<version>0.8.14</version>
+				<version>0.8.15</version>
 				<executions>
                     <execution>
                         <id>prepare-agent</id>
