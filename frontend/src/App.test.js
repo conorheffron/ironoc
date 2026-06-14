@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, waitFor, fireEvent } from '@testing-library/react';
+import { render, screen, waitFor, fireEvent, act } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import Home from './components/Home';
 import App from './App';
@@ -108,12 +108,15 @@ describe('Footer Component', () => {
     fetch.mockClear();
   });
 
-  test('renders without crashing', () => {
-    render(<Footer />);
+  test('renders without crashing', async () => {
+    await act(async () => {
+      render(<Footer />);
+    });
     expect(screen.getByText(/© 2025 by Conor Heffron/)).toBeInTheDocument();
   });
 
   test('initial state is set correctly', () => {
+    global.fetch = jest.fn(() => new Promise(() => {}));
     const { container } = render(<Footer />);
     const footerText = container.querySelector('.ft');
     expect(footerText).toHaveTextContent('© 2025 by Conor Heffron |');
