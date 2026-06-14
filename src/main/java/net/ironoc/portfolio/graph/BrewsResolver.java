@@ -5,6 +5,7 @@ import module java.base;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import graphql.kickstart.tools.GraphQLQueryResolver;
+import net.ironoc.portfolio.exception.IronocJsonException;
 import net.ironoc.portfolio.logger.AbstractLogger;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
@@ -19,11 +20,15 @@ public class BrewsResolver extends AbstractLogger implements GraphQLQueryResolve
         try {
             // Load the JSON file from resources
             return objectMapper.readValue(
-                    new ClassPathResource(BREWS_JSON_FILE).getInputStream(),
+                    getBrewsInputStream(),
                     new TypeReference<>() {});
         } catch (IOException e) {
             error("Failed to load Brews JSON", e);
+            throw new IronocJsonException("Failed to load brews JSON", e);
         }
-        return Collections.emptyList();
+    }
+
+    protected InputStream getBrewsInputStream() throws IOException {
+        return new ClassPathResource(BREWS_JSON_FILE).getInputStream();
     }
 }
