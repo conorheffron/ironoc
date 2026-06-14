@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router';
-import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
+import { ApolloClient, InMemoryCache, ApolloProvider, HttpLink } from '@apollo/client';
 import './App.css';
 import Home from './components/Home';
 import CoffeeHome from './components/CoffeeHome';
@@ -31,7 +31,7 @@ class App extends Component {
 
     // Create Apollo Client for '/donate' route
     const donateClient = new ApolloClient({
-      uri: '/graphql', // Replace with your GraphQL endpoint
+      link: new HttpLink({ uri: '/graphql' }),
       cache: new InMemoryCache(),
     });
 

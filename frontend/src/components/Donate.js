@@ -79,82 +79,52 @@ class Donate extends Component {
             );
         }
 
-    return (
-        <div className="App">
-            <AppNavbar />
-            <Container>
-                <Carousel className="App-header">
-                    {donateItems.map((item, index) => (
-                        <Carousel.Item key={index} interval={500}>
-                            <img className="d-block w-100" src={red} alt={item.alt} />
-
-                            <Carousel.Caption>
-                                <h1 className="mb-3">
-                                    <span style={{ textDecoration: 'underline' }}>{item.name}</span>
-                                </h1>
-
-                                <p>
-                                    <b>Contact & Help by Phone: </b>
-                                    <span dangerouslySetInnerHTML={{ __html: item.phone }} />
-                                </p>
-
-                                <p>
-                                    <b>Home page: </b>
-                                    <a
-                                        href={item.link}
-                                        target="_blank"
-                                        rel="noreferrer"
-                                        onClick={() => trackClickOut('charity', item.link)}
-                                    >
-                                        {item.link}
-                                    </a>
-                                </p>
-
-                                <p className="overview-text">
-                                    <b>Overview:</b> Founded in {item.founded}, {item.overview}
-                                </p>
-
-                                <p>
-                                    <a
-                                        href={item.donate}
-                                        target="_blank"
-                                        rel="noreferrer"
-                                        onClick={() => trackClickOut('charity', item.donate)}
-                                    >
-                                        Donate here
-                                    </a>
-                                </p>
-                            </Carousel.Caption>
-                        </Carousel.Item>
-                    ))}
-                </Carousel>
-            </Container>
-        </div>
-    );
         return (
             <div className="App">
                 <AppNavbar />
                 <Container>
                     <Carousel className="App-header">
                         {donateItems.map((item, index) => (
-                            <Carousel.Item key={index} interval={500}>
-                                <a href={item.donate} target="_blank" rel="noreferrer">
-                                    <img className="d-block w-100" src={red} alt={item.alt} />
-                                    <Carousel.Caption>
-                                        <h1>
-                                            <u>{item.name}</u>
-                                        </h1><br />
-                                        <h8>
-                                            <b>Contact & Help by Phone: </b><span dangerouslySetInnerHTML={{ __html: item.phone }} />
-                                        </h8><br />
-                                        <h7>
-                                            <b>Home page: </b><a href={item.link} target="_blank" rel="noreferrer">{item.link}</a>
-                                        </h7><br /><br />
-                                        <h11 className="overview-text">
-                                            <b>Overview:</b> Founded in {item.founded}, {item.overview}
-                                        </h11>
-                                    </Carousel.Caption>
-                                </a>
+                            <Carousel.Item key={index} interval={500} className="donate-carousel-item">
+                                <img className="d-block w-100 donate-carousel-bg" src={red} alt={item.alt} />
+
+                                <Carousel.Caption className="donate-carousel-caption">
+                                    <h1 className="donate-title mb-3">
+                                        <span style={{ textDecoration: 'underline' }}>{item.name}</span>
+                                    </h1>
+
+                                    <p className="donate-phone">
+                                        <b>Contact & Help by Phone: </b>
+                                        <span dangerouslySetInnerHTML={{ __html: item.phone }} />
+                                    </p>
+
+                                    <p className="donate-link">
+                                        <b>Home page: </b>
+                                        <a
+                                            href={item.link}
+                                            target="_blank"
+                                            rel="noreferrer"
+                                            onClick={() => trackClickOut('charity', item.link)}
+                                        >
+                                            {item.link}
+                                        </a>
+                                    </p>
+
+                                    <p className="overview-text donate-overview">
+                                        <b>Overview:</b> Founded in {item.founded}, {item.overview}
+                                    </p>
+
+                                    <p className="donate-action">
+                                        <a
+                                            href={item.donate}
+                                            target="_blank"
+                                            rel="noreferrer"
+                                            onClick={() => trackClickOut('charity', item.donate)}
+                                        >
+                                            Donate here
+                                        </a>
+                                    </p>
+                                </Carousel.Caption>
                             </Carousel.Item>
                         ))}
                     </Carousel>

@@ -2,6 +2,8 @@
 
 The ironoc UI built with react for personal portfolio website.
 
+[![Deploy to Amazon ECS](https://github.com/conorheffron/ironoc/actions/workflows/aws.yml/badge.svg)](https://github.com/conorheffron/ironoc/actions/workflows/aws.yml)
+
 [![Node.js Package](https://github.com/conorheffron/ironoc/actions/workflows/npm-publish-packages.yml/badge.svg)](https://github.com/conorheffron/ironoc/actions/workflows/npm-publish-packages.yml)
 
 [![Node.js CI](https://github.com/conorheffron/ironoc/actions/workflows/node.js.yml/badge.svg)](https://github.com/conorheffron/ironoc/actions/workflows/node.js.yml)

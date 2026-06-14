@@ -16,6 +16,8 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.nullValue;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -116,5 +118,23 @@ public class PushStateResourceResolverTest {
 
         // then
         assertThat(result, is(nullValue()));
+    }
+
+    @Test
+    public void test_resolveResource_missingHandledPath_warns_notErrors() throws IOException {
+        // given
+        PushStateResourceResolver pushStateResourceResolverSpy =
+                spy(new PushStateResourceResolver(handledExtensions, ignorePaths));
+        when(resourceMock.createRelative(anyString())).thenReturn(resourceMock);
+        when(resourceMock.exists()).thenReturn(false);
+
+        // when
+        Resource result = pushStateResourceResolverSpy.resolveResource(httpServletRequestMock,
+                "home.js", List.of(resourceMock), resourceResolverChainMock);
+
+        // then
+        assertThat(result, is(nullValue()));
+        verify(pushStateResourceResolverSpy).warn("The request path {} does not exist.", "home.js");
+        verify(pushStateResourceResolverSpy, never()).error("The request path {} does not exist.", "home.js");
     }
 }
