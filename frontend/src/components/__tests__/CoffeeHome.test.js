@@ -1,4 +1,4 @@
-import { screen, render, waitFor } from '@testing-library/react';
+import { screen, render, waitFor, act } from '@testing-library/react';
 import axios from 'axios';
 import App from '../../App';
 import CoffeeHome from '../CoffeeHome';
@@ -25,12 +25,16 @@ describe('CoffeeHome', () => {
     axios.get.mockResolvedValueOnce({ data: coffeeItems });
   });
 
-  test('renders AppNavbar component', () => {
-    render(<App />);
+  test('renders AppNavbar component', async () => {
+    await act(async () => {
+      render(<App />);
+    });
     expect(screen.getByRole('banner')).toBeInTheDocument();
   });
 
   test('displays loading state initially', () => {
+    axios.get.mockReset();
+    axios.get.mockImplementation(() => new Promise(() => {}));
     render(<CoffeeHome />);
     expect(screen.getByText('Loading...')).toBeInTheDocument();
   });

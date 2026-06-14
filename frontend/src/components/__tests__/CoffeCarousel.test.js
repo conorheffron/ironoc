@@ -61,4 +61,22 @@ describe('CoffeeCarousel', () => {
       // Ensure ingredients are NOT rendered
       expect(screen.queryByText('Ingredients:')).not.toBeInTheDocument();
   });
+
+  test('translates localized brew titles and ingredients', () => {
+      const localizedItems = [
+          {
+              image: 'https://image1.jpg',
+              title: 'Svart Te',
+              ingredients: ' Te , Unknown ingredient , Honung ',
+          },
+      ];
+
+      render(<CoffeeCarousel items={localizedItems} />);
+
+      expect(screen.getByText('Black Tea')).toBeInTheDocument();
+      expect(screen.getByAltText('Black Tea')).toBeInTheDocument();
+      expect(screen.getByText('Tea, Unknown ingredient, Honey')).toBeInTheDocument();
+      expect(screen.queryByText('Svart Te')).not.toBeInTheDocument();
+      expect(screen.queryByText('Te , Unknown ingredient , Honung')).not.toBeInTheDocument();
+  });
 });

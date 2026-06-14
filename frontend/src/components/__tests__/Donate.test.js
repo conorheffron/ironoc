@@ -1,6 +1,6 @@
 import React from 'react';
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
-import { MockedProvider } from '@apollo/client/testing/react';
+import { render, screen, waitFor, fireEvent } from '@testing-library/react';
+import { MockedProvider } from '@apollo/client/testing';
 import Donate, { GET_DONATE_ITEMS } from '../Donate';
 import '@testing-library/jest-dom';
 import { trackClickOut } from '../../utils/activityTracker';
