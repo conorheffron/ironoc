@@ -9,6 +9,7 @@ import jakarta.annotation.PostConstruct;
 import net.ironoc.portfolio.domain.CharityOption;
 import net.ironoc.portfolio.dto.Donate;
 import net.ironoc.portfolio.dto.DonateItemOrder;
+import net.ironoc.portfolio.exception.IronocJsonException;
 import net.ironoc.portfolio.logger.AbstractLogger;
 import net.ironoc.portfolio.repository.CharityOptionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,6 +50,7 @@ public class DonateItemsResolver extends AbstractLogger implements GraphQLQueryR
             }
         } catch (IOException e) {
             error("Failed to load Donate items JSON", e);
+            throw new IronocJsonException("Failed to load donate items JSON", e);
         }
     }
 
