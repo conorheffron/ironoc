@@ -2,21 +2,35 @@ package net.ironoc.portfolio.graph;
 
 import module java.base;
 
+import net.ironoc.portfolio.domain.CharityOption;
 import net.ironoc.portfolio.dto.Donate;
 import net.ironoc.portfolio.dto.DonateItemOrder;
 import net.ironoc.portfolio.enums.SortingOrder;
+import net.ironoc.portfolio.repository.CharityOptionRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.equalTo;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.when;
 
+@ExtendWith(MockitoExtension.class)
 class DonateItemsResolverTest {
 
+    @Mock
+    private CharityOptionRepository charityOptionRepository;
+
     private DonateItemsResolver donateItemsResolver;
+
+    private List<CharityOption> repositoryStore;
 
     public static List<Map<String, Object>> donateItems = List.of(
             Map.of(
@@ -25,34 +39,12 @@ class DonateItemsResolverTest {
                     "img", "red",
                     "alt", "red2",
                     "name", "Vision Ireland, the new name for NCBI",
-                    "overview", "Vision Ireland, the name for NCBI is Ireland’s national charity working " +
+                    "overview", "Vision Ireland, the name for NCBI is Ireland\u2019s national charity working " +
                             "for the rising number of people affected by sight loss. Our practical and emotional " +
                             "advice and support help 8,000 people and their families confidently face their " +
                             "futures every year.",
                     "founded", 1931,
                     "phone", "+353 (0)1 830 7033"
-            ),
-            Map.of(
-                    "donate", "https://www.childrenshealth.ie/donate/",
-                    "link", "https://www.childrenshealthireland.ie/",
-                    "img", "red",
-                    "alt", "red3",
-                    "name", "Temple Street Children’s University Hospital",
-                    "overview", "Temple Street, is an acute national paediatric hospital. " +
-                            "Seven major specialties at Temple Street today include neonatal & paediatric surgery, " +
-                            "neurology, neurosurgery, nephrology, orthopaedics, ENT & plastic surgery. " +
-                            "Temple Street cares for 145,000 children per year including 45,000 who attend the " +
-                            "Emergency Department (ED) every year. A staff of 85 Consultants& over 950 other full-time " +
-                            "& part-time HSCPs (Health & Social Care Professionals) % other staff deliver care & services.",
-                    "founded", 1872,
-                    "phone", """
-                            <br/><b>Temple Street:</b> +353 01 878 4200,
-                                                    \
-                            <b>Tallaght:</b> +353 01 693 7500,<br />
-                                                    \
-                            <b>Crumlin:</b> +353 01 409 6100,
-                                                    <b>Connolly:\
-                            </b> +353 01 640 7500"""
             ),
             Map.of(
                     "donate", "https://donors.cancer.ie/page/FUNDZAZBHHS",
@@ -120,24 +112,24 @@ class DonateItemsResolverTest {
             )
     );
 
-    private static final Set<String> allowedCharities = Set.of(
-            "Vision Ireland, the new name for NCBI",
-            "Temple Street Children’s University Hospital",
-            "Irish Cancer Society",
-            "The Society of Saint Vincent de Paul",
-            "Dublin Simon Community",
-            "Debra Ireland",
-            "The Jack and Jill Children’s Foundation"
-    );
-
     @BeforeEach
     void setUp() {
-        donateItemsResolver = new DonateItemsResolver() {{
-            // Inject allowed charity names directly for test, bypassing file
-            this.allowedCharityNames.clear();
-            this.allowedCharityNames.addAll(allowedCharities);
-        }};
+        repositoryStore = new ArrayList<>();
 
+        when(charityOptionRepository.save(any(CharityOption.class))).thenAnswer(inv -> {
+            CharityOption entity = inv.getArgument(0);
+            repositoryStore.add(entity);
+            return entity;
+        });
+
+        when(charityOptionRepository.findAll()).thenAnswer(inv -> new ArrayList<>(repositoryStore));
+
+        when(charityOptionRepository.existsByName(anyString())).thenAnswer(inv -> {
+            String name = inv.getArgument(0);
+            return repositoryStore.stream().anyMatch(e -> name.equals(e.getName()));
+        });
+
+        donateItemsResolver = new DonateItemsResolver(charityOptionRepository);
         donateItemsResolver.loadDonateItems();
     }
 
@@ -153,7 +145,7 @@ class DonateItemsResolverTest {
     void test_getDonateItemsByOrder_ValidJson_founded_DESC() {
         DonateItemOrder donateItemOrder = new DonateItemOrder(SortingOrder.DESC, null);
         List<Map<String, Object>> actualItems = donateItemsResolver.getDonateItemsByOrder(donateItemOrder);
-        assertThat(actualItems.stream().findFirst().get().get("name"), is("The Jack and Jill Children’s Foundation"));
+        assertThat(actualItems.stream().findFirst().get().get("name"), is("The Jack and Jill Children\u2019s Foundation"));
         assertThat(actualItems.stream().skip(actualItems.size()-1).findFirst().get().get("name"), is("The Society of Saint Vincent de Paul"));
         for (Map<String, Object> expected : donateItems) {
             assertThat(actualItems, hasItem(equalTo(expected)));
@@ -165,7 +157,7 @@ class DonateItemsResolverTest {
         DonateItemOrder donateItemOrder = new DonateItemOrder(SortingOrder.ASC, null);
         List<Map<String, Object>> actualItems = donateItemsResolver.getDonateItemsByOrder(donateItemOrder);
         assertThat(actualItems.stream().findFirst().get().get("name"), is("The Society of Saint Vincent de Paul"));
-        assertThat(actualItems.stream().skip(actualItems.size()-1).findFirst().get().get("name"), is("The Jack and Jill Children’s Foundation"));
+        assertThat(actualItems.stream().skip(actualItems.size()-1).findFirst().get().get("name"), is("The Jack and Jill Children\u2019s Foundation"));
         for (Map<String, Object> expected : donateItems) {
             assertThat(actualItems, hasItem(equalTo(expected)));
         }
@@ -194,105 +186,87 @@ class DonateItemsResolverTest {
     }
 
     @Test
-    void testAddDonateItem_AddsToMemoryWhenNameInAllowedListAndNotPresent() {
-        Map<String, Object> newDonateMap = Map.of(
-                "donate", "https://example.org/donate",
-                "link", "https://example.org",
-                "img", "blue",
-                "alt", "blue1",
-                "name", "The Jack and Jill Children’s Foundation", // in allowed list, not present yet
-                "overview", "An example charity overview.",
-                "founded", 2020,
-                "phone", "+353 01 000 0000"
-        );
-        Donate donateObj = Donate.builder()
-                .donate((String)newDonateMap.get("donate"))
-                .link((String)newDonateMap.get("link"))
-                .img((String)newDonateMap.get("img"))
-                .alt((String)newDonateMap.get("alt"))
-                .name((String)newDonateMap.get("name"))
-                .overview((String)newDonateMap.get("overview"))
-                .founded((Integer)newDonateMap.get("founded"))
-                .phone((String)newDonateMap.get("phone"))
+    void testAddDonateItem_DoesNotAddWhenNameAlreadyPresent() {
+        int originalSize = donateItemsResolver.getDonateItems().size();
+        // Use a name that is already present in the repositoryStore (loaded from JSON)
+        Donate duplicateDonate = Donate.builder()
+                .donate("https://another.example.org/donate")
+                .link("https://another.example.org")
+                .img("blue")
+                .alt("blue1")
+                .name("Vision Ireland, the new name for NCBI") // name already present
+                .overview("A different overview but same name.")
+                .founded(2023)
+                .phone("+353 01 999 9999")
                 .build();
 
-        int originalSize = donateItemsResolver.getDonateItems().size();
-        donateItemsResolver.addDonateItem(donateObj);
+        donateItemsResolver.addDonateItem(duplicateDonate);
 
-        List<Map<String, Object>> actualItems = donateItemsResolver.getDonateItems();
-        assertThat(actualItems.size(), is(originalSize));
-        for (Map<String, Object> expected : donateItems) {
-            assertThat(actualItems, hasItem(equalTo(expected)));
-        }
+        assertThat(donateItemsResolver.getDonateItems().size(), is(originalSize));
+        assertThat(donateItemsResolver.getDonateItems(), not(hasItem(equalTo(Map.of(
+                "donate", "https://another.example.org/donate",
+                "link", "https://another.example.org",
+                "img", "blue",
+                "alt", "blue1",
+                "name", "Vision Ireland, the new name for NCBI",
+                "overview", "A different overview but same name.",
+                "founded", 2023,
+                "phone", "+353 01 999 9999"
+        )))));
     }
 
     @Test
     void testAddDonateItem_DoesNotAddWhenNameNotAllowed() {
         int originalSize = donateItemsResolver.getDonateItems().size();
-        Map<String, Object> notAllowedDonateMap = Map.of(
-                "donate", "https://www.jackandjill.ie/professionals/ways-to-donate/",
-                "link", "https://www.jackandjill.ie",
-                "img", "red",
-                "alt", "red1",
-                "name", "Example Charity without valid name",
-                "overview", "The Jack and Jill Children’s Foundation is a nationwide charity that " +
+        Donate notAllowedDonate = Donate.builder()
+                .donate("https://www.jackandjill.ie/professionals/ways-to-donate/")
+                .link("https://www.jackandjill.ie")
+                .img("red")
+                .alt("red1")
+                .name("Example Charity without valid name")
+                .overview("The Jack and Jill Children's Foundation is a nationwide charity that " +
                         "funds and provides in-home nursing care and respite support for children with severe " +
                         "to profound neurodevelopmental delay, up to the age of 6. This may include children " +
                         "with brain injury, genetic diagnosis, cerebral palsy and undiagnosed conditions. " +
                         "Another key part of our service is end-of-life care for all children up to the age of 6, " +
-                        "irrespective of diagnosis.",
-                "founded", 1997,
-                "phone", "+353 (045) 894 538"
-        );
-        Donate notAllowedDonate = Donate.builder()
-                .donate((String)notAllowedDonateMap.get("donate"))
-                .link((String)notAllowedDonateMap.get("link"))
-                .img((String)notAllowedDonateMap.get("img"))
-                .alt((String)notAllowedDonateMap.get("alt"))
-                .name((String)notAllowedDonateMap.get("name"))
-                .overview((String)notAllowedDonateMap.get("overview"))
-                .founded((Integer)notAllowedDonateMap.get("founded"))
-                .phone((String)notAllowedDonateMap.get("phone"))
+                        "irrespective of diagnosis.")
+                .founded(1997)
+                .phone("+353 (045) 894 538")
                 .build();
 
-        // Try to add (should NOT be added)
         donateItemsResolver.addDonateItem(notAllowedDonate);
 
-        // List should be unchanged and not contain the attempted addition
         assertThat(donateItemsResolver.getDonateItems().size(), is(originalSize));
-        assertThat(donateItemsResolver.getDonateItems(), not(hasItem(equalTo(notAllowedDonateMap))));
     }
 
     @Test
-    void testAddDonateItem_DoesNotAddWhenNameAlreadyPresent() {
+    void testAddDonateItem_AddsToRepositoryWhenValidAndAllowed() {
         int originalSize = donateItemsResolver.getDonateItems().size();
-        // Use a name that is already present in the donateItems
-        Map<String, Object> duplicateDonateMap = Map.of(
-                "donate", "https://another.example.org/donate",
-                "link", "https://another.example.org",
-                "img", "blue",
-                "alt", "blue1",
-                "name", "Vision Ireland, the new name for NCBI", // name already present in donateItems
-                "overview", "A different overview but same name.",
-                "founded", 2023,
-                "phone", "+353 01 999 9999"
-        );
-        Donate duplicateDonate = Donate.builder()
-                .donate((String)duplicateDonateMap.get("donate"))
-                .link((String)duplicateDonateMap.get("link"))
-                .img((String)duplicateDonateMap.get("img"))
-                .alt((String)duplicateDonateMap.get("alt"))
-                .name((String)duplicateDonateMap.get("name"))
-                .overview((String)duplicateDonateMap.get("overview"))
-                .founded((Integer)duplicateDonateMap.get("founded"))
-                .phone((String)duplicateDonateMap.get("phone"))
+        // "Example Charity" is in charities.txt but NOT in test donate-items.json
+        Donate newDonate = Donate.builder()
+                .donate("https://example.org/donate")
+                .link("https://example.org")
+                .img("blue")
+                .alt("blue1")
+                .name("Example Charity")
+                .overview("An example charity overview.")
+                .founded(2020)
+                .phone("+353 01 000 0000")
                 .build();
 
-        // Try to add (should NOT be added)
-        donateItemsResolver.addDonateItem(duplicateDonate);
+        donateItemsResolver.addDonateItem(newDonate);
 
-        // List should be unchanged and not contain the attempted addition
-        assertThat(donateItemsResolver.getDonateItems().size(), is(originalSize));
-        assertThat(donateItemsResolver.getDonateItems(), not(hasItem(equalTo(duplicateDonateMap))));
+        assertThat(donateItemsResolver.getDonateItems().size(), is(originalSize + 1));
+        assertThat(donateItemsResolver.getDonateItems(), hasItem(equalTo(Map.of(
+                "donate", "https://example.org/donate",
+                "link", "https://example.org",
+                "img", "blue",
+                "alt", "blue1",
+                "name", "Example Charity",
+                "overview", "An example charity overview.",
+                "founded", 2020,
+                "phone", "+353 01 000 0000"
+        ))));
     }
 }
+
