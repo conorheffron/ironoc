@@ -27,6 +27,23 @@
     overflow: hidden;
 }
 
+.App-header-camera-roll {
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    transition: background-image 1.1s ease-in-out;
+    animation: subtle-camera-roll-pan 24s ease-in-out infinite alternate;
+    box-shadow: inset 0 0 0 1000px rgba(12, 31, 66, 0.15);
+}
+
+.App-header-camera-roll--home {
+    background-color: #1b3f83;
+}
+
+.App-header-camera-roll--about {
+    background-color: #16356c;
+}
+
 .App-link {
     color: #61dafb;
 }
@@ -34,6 +51,17 @@
 @keyframes App-logo-spin {
     from {
         transform: rotate(0deg);
+    }
+
+    @keyframes subtle-camera-roll-pan {
+        from {
+            background-position: 48% 50%;
+            background-size: 104%;
+        }
+        to {
+            background-position: 52% 46%;
+            background-size: 110%;
+        }
     }
     to {
         transform: rotate(360deg);
