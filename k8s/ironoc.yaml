@@ -192,7 +192,7 @@ metadata:
   name: ironoc-app-deployment-hpa-kbij
   namespace: ironoc-ns
 spec:
-  maxReplicas: 1
+  maxReplicas: 3
   metrics:
     - resource:
         name: cpu
