@@ -51,7 +51,7 @@ public class GitDetailsServiceTest {
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     private static final String TEST_URI = "https://unittest.github.com/users/{username}/repos";
-    private static final String TEST_ISSUES_URI = "https://unittest.github.com/repos/{username}/{repo}/issues?per_page={per_page}&page={page}&state=all";
+    private static final String TEST_ISSUES_URI = "https://unittest.github.com/repos/{username}/{repo}/issues?per_page={per_page}&page={page}&state=closed";
 
     @Test
     public void test_get_repos_success() throws IOException {
@@ -154,11 +154,13 @@ public class GitDetailsServiceTest {
         assertThat(result.get().getNumber(), is(expected.getNumber()));
         assertThat(result.get().getTitle(), is(expected.getTitle()));
         assertThat(result.get().getBody(), is(expected.getBody()));
+        assertThat(result.get().getState(), is("closed"));
         RepositoryIssueDto result2 = results.get(1);
         assertThat(result2.getNumber(), is("57"));
         assertThat(result2.getTitle(), is("Setup LB, Support SSL"));
         assertThat(result2.getBody(), is("- [x] 1. Setup LB\r\n- [ ] 2. " +
                 "Support SSL\r\n- [ ] 3. Setup domain, map to AWS LB"));
+        assertThat(result2.getState(), is("closed"));
     }
 
     @Test
@@ -340,11 +342,13 @@ public class GitDetailsServiceTest {
         assertThat(result.get().getTitle(), is("Re-write frontend with React <POC>"));
         assertThat(result.get().getBody(), is("Use React or Angular framework & JavaScript " +
                 "or TypeScript as implementation language? \r\n- Research & select best option."));
+        assertThat(result.get().getState(), is("closed"));
         RepositoryIssueDomain result2 = results.get(1);
         assertThat(result2.getNumber(), is("57"));
         assertThat(result2.getTitle(), is("Setup LB, Support SSL"));
         assertThat(result2.getBody(), is("- [x] 1. Setup LB\r\n- [ ] 2. " +
                 "Support SSL\r\n- [ ] 3. Setup domain, map to AWS LB"));
+        assertThat(result2.getState(), is("closed"));
         Assertions.assertNotNull(jsonInputStream);
         jsonInputStream.close();
     }
