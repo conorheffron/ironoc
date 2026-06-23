@@ -37,6 +37,13 @@ Personal website / portfolio  [https://www.ironoc.net/](https://www.ironoc.net/)
 ## Tech Stack
  - Java 25 (LTS), Spring Boot 4, ReactJs 19, Maven 4, HTML5+CSS, Docker / Bash, AWS, minikube, & kubectl.
 
+## Spike: functional language rewrite candidate
+- Candidate scope for a first rewrite: `GitDetailsService` data-mapping methods (`mapRepositoriesToResponse`, `mapResponseToRepositories`, `mapIssuesToResponse`) because they are mostly pure data transformations.
+- Scala: strongest FP ecosystem, but introduces a larger adoption curve and additional build/runtime complexity for this codebase.
+- Kotlin: best incremental JVM fit (keeps Spring + Maven flow), supports functional patterns with minimal integration overhead.
+- External languages (Rust, Go, Dart/Flutter, Python): viable only behind a service boundary; adds deployment, observability, and network overhead for this repository.
+- Recommendation: run a Kotlin proof-of-concept for the `GitDetailsService` mapping layer first, then expand only if maintainability/testability improves.
+
 ##### Note: `iRonoc` is an active user of the `GitHub API` & `conorheffron` is a proud participant in the GitHub Developer Program.
 - The `iRonoc` PM tool is designed to streamline project management by automating project navigation & issue tracking. 
 - By leveraging the GitHub API, the aim is to enhance the developer experience and contribute to the vibrant GitHub ecosystem.
