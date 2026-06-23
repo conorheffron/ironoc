@@ -12,11 +12,16 @@ import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.graphql.data.method.annotation.SchemaMapping;
+import org.springframework.graphql.data.method.annotation.SubscriptionMapping;
 import org.springframework.stereotype.Controller;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Sinks;
 
 @Controller
 @Slf4j
 public class DonateGraphqlController extends AbstractLogger {
+
+    private final Sinks.Many<Donate> donateItemsSubscriptionSink = Sinks.many().multicast().onBackpressureBuffer();
 
     @Autowired
     private final DonateItemsResolver donateItemsResolver;
@@ -87,6 +92,14 @@ public class DonateGraphqlController extends AbstractLogger {
         return donateOptional.toList();
     }
 
+    @SubscriptionMapping
+    public Flux<Donate> donateItemsSubscription() {
+        List<Map<String, Object>> donateItems = donateItemsResolver.getDonateItems();
+        Flux<Donate> snapshotFlux = Flux.fromIterable(mapDonateItemsToCharityOptions(donateItems));
+        Flux<Donate> liveFlux = donateItemsSubscriptionSink.asFlux();
+        return Flux.mergeSequential(snapshotFlux, liveFlux);
+    }
+
     @MutationMapping
     public Donate addCharityOption(
             @Argument("alt") String alt,
@@ -109,8 +122,15 @@ public class DonateGraphqlController extends AbstractLogger {
                 .phone(phone)
                 .build();
 
-        // Add to resolver or data source
-        donateItemsResolver.addDonateItem(newDonate);
+        boolean donateAdded = donateItemsResolver.addDonateItem(newDonate);
+        if (donateAdded && donateItemsSubscriptionSink.currentSubscriberCount() > 0) {
+            Sinks.EmitResult emitResult = donateItemsSubscriptionSink.tryEmitNext(newDonate);
+            if (emitResult.isFailure()
+                    && emitResult != Sinks.EmitResult.FAIL_ZERO_SUBSCRIBER
+                    && emitResult != Sinks.EmitResult.FAIL_CANCELLED) {
+                warn("Unable to emit Donate subscription event for new item, result={}", emitResult);
+            }
+        }
 
         info("Added new charity option: {}", newDonate);
         return newDonate;
