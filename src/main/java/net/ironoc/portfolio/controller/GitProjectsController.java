@@ -3,8 +3,10 @@ package net.ironoc.portfolio.controller;
 import module java.base;
 
 import net.ironoc.portfolio.domain.RepositoryDetailDomain;
+import net.ironoc.portfolio.domain.RepositoryIssueCreateDomain;
 import net.ironoc.portfolio.domain.RepositoryIssueDomain;
 import net.ironoc.portfolio.dto.RepositoryDetailDto;
+import net.ironoc.portfolio.dto.RepositoryIssueCreateDto;
 import net.ironoc.portfolio.dto.RepositoryIssueDto;
 import net.ironoc.portfolio.logger.AbstractLogger;
 import net.ironoc.portfolio.service.GitDetailsService;
@@ -18,6 +20,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -74,6 +78,22 @@ public class GitProjectsController extends AbstractLogger {
 																						  @PathVariable(value = "username") String username,
 																						  @PathVariable(value = "repository") String repository) {
 		return getIssuesByUsernameAndRepo(request, username, repository);
+	}
+
+	@Operation(summary = "Create project issue by GitHub username & repository (project name).",
+			description = "Creates a Github issue per 'username' & 'repository' path variables.")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "201",
+					description = "Successfully created GitHub issue for username & repository path variables.")
+	})
+	@PostMapping(value = {"/create-repo-issue/{username}/{repository}/"},
+			consumes = MediaType.APPLICATION_JSON_VALUE,
+			produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<RepositoryIssueDomain> createIssueByUsernameAndRepoPathVars(HttpServletRequest request,
+																					  @PathVariable(value = "username") String username,
+																					  @PathVariable(value = "repository") String repository,
+																					  @RequestBody RepositoryIssueCreateDomain issue) {
+		return createIssueByUsernameAndRepo(request, username, repository, issue);
 	}
 
 	private ResponseEntity<List<RepositoryDetailDomain>> getReposSortedAndWithIssueCount(HttpServletRequest request, String username) {
@@ -144,6 +164,47 @@ public class GitProjectsController extends AbstractLogger {
 		info("The repository issues for user={} and repo={} are: {}", userId, repo, repositoryIssueDtos);
 		return ResponseEntity.status(HttpStatus.OK)
 				.body(gitDetailsService.mapIssuesToResponse(repositoryIssueDtos));
+	}
+
+	private ResponseEntity<RepositoryIssueDomain> createIssueByUsernameAndRepo(HttpServletRequest request,
+																			   String username,
+																			   String repository,
+																			   RepositoryIssueCreateDomain issue) {
+		String userId;
+		String repo;
+		if (!StringUtils.isNoneBlank(username, repository) || issue == null
+				|| StringUtils.isBlank(issue.getTitle())) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+		} else if (!StringUtils.isAlphanumericSpace(sanitizeValue(username)
+				.replaceAll("-", " "))) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+		} else if (!StringUtils.isAlphanumericSpace(sanitizeValue(repository)
+				.replaceAll("-", " "))) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+		} else {
+			List<String> pathVars = sanitizeValues(username, repository);
+			userId = pathVars.get(0);
+			repo = pathVars.get(1);
+		}
+
+		info("Github create issue by username={} and repo={} for request, host={}, uri={}, user-agent={}",
+				userId, repo,
+				request.getHeader("host"),
+				request.getRequestURI(),
+				request.getHeader("user-agent"));
+		RepositoryIssueDto createdIssue = gitDetailsService.createIssue(userId, repo,
+				RepositoryIssueCreateDto.builder()
+						.title(issue.getTitle())
+						.body(issue.getBody())
+						.assignees(issue.getAssignees())
+						.milestone(issue.getMilestone())
+						.labels(issue.getLabels())
+						.build());
+		if (createdIssue == null) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+		}
+		List<RepositoryIssueDomain> issueDomain = gitDetailsService.mapIssuesToResponse(List.of(createdIssue));
+		return ResponseEntity.status(HttpStatus.CREATED).body(issueDomain.get(0));
 	}
 
 	private List<String> sanitizeValues(String... values) {

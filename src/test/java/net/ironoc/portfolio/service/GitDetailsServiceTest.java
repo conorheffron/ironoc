@@ -9,6 +9,7 @@ import net.ironoc.portfolio.config.PropertyConfigI;
 import net.ironoc.portfolio.domain.RepositoryDetailDomain;
 import net.ironoc.portfolio.domain.RepositoryIssueDomain;
 import net.ironoc.portfolio.dto.RepositoryDetailDto;
+import net.ironoc.portfolio.dto.RepositoryIssueCreateDto;
 import net.ironoc.portfolio.dto.RepositoryIssueDto;
 import net.ironoc.portfolio.utils.UrlUtils;
 import org.junit.jupiter.api.Assertions;
@@ -364,5 +365,58 @@ public class GitDetailsServiceTest {
 
         assertThat(results, is(notNullValue()));
         assertThat(results, is(hasSize(0)));
+    }
+
+    @Test
+    public void test_createIssue_success() {
+        // given
+        String testUserId = "conor-h";
+        String testRepo = "ironoc";
+        RepositoryIssueCreateDto requestBody = RepositoryIssueCreateDto.builder()
+                .title("Found a bug")
+                .body("I am having a problem with this.")
+                .labels(List.of("bug"))
+                .build();
+        RepositoryIssueDto expected = RepositoryIssueDto.builder()
+                .number("123")
+                .title("Found a bug")
+                .body("I am having a problem with this.")
+                .build();
+
+        when(propertyConfigMock.getGitApiEndpointIssues()).thenReturn(TEST_URI);
+        when(urlUtilsMock.isValidURL(anyString())).thenReturn(true);
+        when(gitClientMock.createGitHubIssue(anyString(), any(), anyMap())).thenReturn(expected);
+
+        // when
+        RepositoryIssueDto result = gitDetailsService.createIssue(testUserId, testRepo, requestBody);
+
+        // then
+        verify(propertyConfigMock).getGitApiEndpointIssues();
+        verify(urlUtilsMock).isValidURL(anyString());
+        verify(gitClientMock).createGitHubIssue(anyString(), any(), anyMap());
+
+        assertThat(result, is(notNullValue()));
+        assertThat(result.getNumber(), is(expected.getNumber()));
+        assertThat(result.getTitle(), is(expected.getTitle()));
+        assertThat(result.getBody(), is(expected.getBody()));
+    }
+
+    @Test
+    public void test_createIssue_url_invalid_fail() {
+        // given
+        String testUserId = "conorheffron-test-id";
+        String testProject = "ironoc-test-project";
+        RepositoryIssueCreateDto requestBody = RepositoryIssueCreateDto.builder()
+                .title("test")
+                .build();
+        when(propertyConfigMock.getGitApiEndpointIssues()).thenReturn(TEST_URI);
+
+        // when
+        RepositoryIssueDto result = gitDetailsService.createIssue(testUserId, testProject, requestBody);
+
+        // then
+        verify(propertyConfigMock).getGitApiEndpointIssues();
+
+        assertThat(result, is(nullValue()));
     }
 }

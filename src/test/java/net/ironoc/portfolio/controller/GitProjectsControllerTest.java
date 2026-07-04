@@ -3,7 +3,9 @@ package net.ironoc.portfolio.controller;
 import module java.base;
 
 import net.ironoc.portfolio.domain.RepositoryDetailDomain;
+import net.ironoc.portfolio.domain.RepositoryIssueCreateDomain;
 import net.ironoc.portfolio.domain.RepositoryIssueDomain;
+import net.ironoc.portfolio.dto.RepositoryIssueDto;
 import net.ironoc.portfolio.service.GitDetailsService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.junit.jupiter.api.Test;
@@ -19,11 +21,13 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.emptyIterable;
 import static org.mockito.ArgumentMatchers.anyBoolean;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class GitProjectsControllerTest {
@@ -182,6 +186,59 @@ public class GitProjectsControllerTest {
 
         assertThat(result, is(notNullValue()));
         assertThat(result.getBody(), is(emptyIterable()));
+        assertThat(result.getStatusCode(), is(HttpStatus.BAD_REQUEST));
+    }
+
+    @Test
+    public void test_createIssueByUsernameAndRepoPathVars_success() {
+        // given
+        RepositoryIssueCreateDomain request = RepositoryIssueCreateDomain.builder()
+                .title("Found a bug")
+                .body("I am having a problem with this.")
+                .labels(List.of("bug"))
+                .build();
+        RepositoryIssueDto createdIssue = RepositoryIssueDto.builder()
+                .number("123")
+                .title("Found a bug")
+                .body("I am having a problem with this.")
+                .build();
+        RepositoryIssueDomain expectedResponse = RepositoryIssueDomain.builder()
+                .number("123")
+                .title("Found a bug")
+                .body("I am having a problem with this.")
+                .labels(Collections.emptyList())
+                .build();
+        when(gitDetailsServiceMock.createIssue(anyString(), anyString(), any())).thenReturn(createdIssue);
+        when(gitDetailsServiceMock.mapIssuesToResponse(anyList())).thenReturn(List.of(expectedResponse));
+
+        // when
+        ResponseEntity<RepositoryIssueDomain> result = gitProjectsController
+                .createIssueByUsernameAndRepoPathVars(httpServletRequestMock, TEST_USERNAME_ALPHA, TEST_REPO, request);
+
+        // then
+        verify(httpServletRequestMock).getRequestURI();
+        verify(httpServletRequestMock, times(2)).getHeader(anyString());
+        verify(gitDetailsServiceMock).createIssue(anyString(), anyString(), any());
+        verify(gitDetailsServiceMock).mapIssuesToResponse(anyList());
+
+        assertThat(result, is(notNullValue()));
+        assertThat(result.getStatusCode(), is(HttpStatus.CREATED));
+    }
+
+    @Test
+    public void test_createIssueByUsernameAndRepoPathVars_missing_title_fail() {
+        // when
+        ResponseEntity<RepositoryIssueDomain> result = gitProjectsController
+                .createIssueByUsernameAndRepoPathVars(httpServletRequestMock, TEST_USERNAME_ALPHA, TEST_REPO,
+                        RepositoryIssueCreateDomain.builder().build());
+
+        // then
+        verify(httpServletRequestMock, never()).getRequestURI();
+        verify(httpServletRequestMock, never()).getHeader(anyString());
+        verify(gitDetailsServiceMock, never()).createIssue(anyString(), anyString(), any());
+        verify(gitDetailsServiceMock, never()).mapIssuesToResponse(anyList());
+
+        assertThat(result, is(notNullValue()));
         assertThat(result.getStatusCode(), is(HttpStatus.BAD_REQUEST));
     }
 }
