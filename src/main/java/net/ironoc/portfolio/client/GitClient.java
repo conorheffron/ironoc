@@ -126,7 +126,29 @@ public class GitClient extends AbstractLogger implements Client {
     }
 
     private URI getValidatedApiUri(String uri, Map<String, Object> uriVariables) {
-        URI targetUri = UriComponentsBuilder.fromUriString(uri)
+        String trustedUriTemplate = propertyConfig.getGitApiEndpointIssues();
+        if (StringUtils.isBlank(trustedUriTemplate) || !urlUtils.isValidURL(trustedUriTemplate)) {
+            log.error("The configured Git endpoint is invalid, url={}", trustedUriTemplate);
+            return null;
+        }
+
+        URI configuredBaseUri = UriComponentsBuilder.fromUriString(trustedUriTemplate).build().toUri();
+        if (!StringUtils.equalsIgnoreCase("https", configuredBaseUri.getScheme())
+                || StringUtils.isNotBlank(configuredBaseUri.getUserInfo())
+                || configuredBaseUri.getFragment() != null
+                || !StringUtils.equalsIgnoreCase(GITHUB_API_HOST, configuredBaseUri.getHost())) {
+            log.error("The configured Git endpoint is not allowed, url={}", configuredBaseUri);
+            return null;
+        }
+
+        Object username = uriVariables.get("username");
+        Object repo = uriVariables.get("repo");
+        if (!isValidGitPathVariable(username) || !isValidGitPathVariable(repo)) {
+            log.error("Invalid URI path variables for GitHub API request, username={}, repo={}", username, repo);
+            return null;
+        }
+
+        URI targetUri = UriComponentsBuilder.fromUriString(trustedUriTemplate)
                 .buildAndExpand(uriVariables)
                 .encode()
                 .toUri();
@@ -143,6 +165,14 @@ public class GitClient extends AbstractLogger implements Client {
             return null;
         }
         return targetUri;
+    }
+
+    private boolean isValidGitPathVariable(Object value) {
+        if (value == null) {
+            return false;
+        }
+        String text = StringUtils.trimToEmpty(String.valueOf(value));
+        return StringUtils.isNotBlank(text) && text.matches("^[A-Za-z0-9-]+$");
     }
 
     private <T> List<T> readJsonResponse(String jsonResponse, Class<T> type) throws Exception {
