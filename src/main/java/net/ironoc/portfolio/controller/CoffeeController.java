@@ -2,13 +2,13 @@ package net.ironoc.portfolio.controller;
 
 import module java.base;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import net.ironoc.portfolio.graph.BrewsResolver;
 import net.ironoc.portfolio.service.GraphQLClient;
+import net.ironoc.portfolio.exception.IronocJsonException;
 import net.ironoc.portfolio.logger.AbstractLogger;
 import net.ironoc.portfolio.domain.CoffeeDomain;
 import net.ironoc.portfolio.service.Coffees;
@@ -104,8 +104,12 @@ public class CoffeeController extends AbstractLogger {
                     try {
                         CoffeeDomain coffeeDomain = new ObjectMapper().convertValue(coffeeMap, CoffeeDomain.class);
                         coffeeDomains.add(coffeeDomain);
-                    } catch (Exception e) {
-                        error("Error occurred mapping coffee domain object", e.getMessage());
+                    } catch (IllegalArgumentException e) {
+                        error("Error occurred mapping coffee domain object", e);
+                        throw new IronocJsonException(
+                                "Failed to map GraphQL coffee payload: " + e.getMessage(),
+                                e
+                        );
                     }
                 }
 
@@ -114,10 +118,12 @@ public class CoffeeController extends AbstractLogger {
                 coffeesCache.put(coffeeDomains);
 
                 return ResponseEntity.ok(coffeeDomains);
-            } catch (JsonProcessingException e) {
+            } catch (IronocJsonException e) {
+                throw e;
+            } catch (Exception e) {
                 error("Unexpected exception occurred loading GraphQL query, msg={}", e.getMessage());
+                throw new IronocJsonException("Unexpected exception occurred loading GraphQL query", e);
             }
-            return ResponseEntity.ok(Collections.emptyList());
         } else {
             debug("Returning cached brews, cachedResults={}", cachedResults);
             return ResponseEntity.ok(cachedResults);
