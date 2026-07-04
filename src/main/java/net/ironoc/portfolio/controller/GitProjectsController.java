@@ -34,6 +34,7 @@ public class GitProjectsController extends AbstractLogger {
 	private final GitDetailsService gitDetailsService;
 
 	protected static final String IRONOC_GIT_USER = "conorheffron";
+	private static final String OPEN_ISSUE_STATE = "open";
 
 	// Cache for issue counts: key is "username/repo"
 	private final ConcurrentHashMap<String, Integer> issueCountCache = new ConcurrentHashMap<>();
@@ -124,7 +125,7 @@ public class GitProjectsController extends AbstractLogger {
 				Integer cachedCount = issueCountCache.get(cacheKey);
 				if (cachedCount == null) {
 					List<RepositoryIssueDto> issues = gitDetailsService.getIssues(userId, domain.getName(), false);
-					cachedCount = issues != null ? issues.size() : 0;
+					cachedCount = countOpenIssues(issues);
 					issueCountCache.put(cacheKey, cachedCount);
 				}
 				domain.setIssueCount(cachedCount);
@@ -211,6 +212,18 @@ public class GitProjectsController extends AbstractLogger {
 		String sanitizedValueUserId = sanitizeValue(values[0]);
 		String sanitizedValueRepo = sanitizeValue(values[1]);
 		return List.of(sanitizedValueUserId, sanitizedValueRepo);
+	}
+
+	private int countOpenIssues(List<RepositoryIssueDto> issues) {
+		if (issues == null) {
+			return 0;
+		}
+		return (int) issues.stream()
+				.filter(Objects::nonNull)
+				.map(RepositoryIssueDto::getState)
+				.filter(Objects::nonNull)
+				.filter(OPEN_ISSUE_STATE::equalsIgnoreCase)
+				.count();
 	}
 
 	private String sanitizeValue(String value) {

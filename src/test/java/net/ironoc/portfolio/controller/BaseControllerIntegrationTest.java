@@ -21,7 +21,9 @@ import org.springframework.test.context.TestPropertySource;
         "net.ironoc.portfolio.brew.job-enable=false",
         "net.ironoc.portfolio.brew.api.endpoint.ice=https://api.sampleapis.com/coffee/iced",
         "net.ironoc.portfolio.brew.api.endpoint.hot=https://api.sampleapis.com/coffee/hot",
-        "net.ironoc.portfolio.github.api.endpoint.repos=ironoc-db"
+        "net.ironoc.portfolio.github.api.endpoint.repos=ironoc-db",
+        "net.ironoc.portfolio.github.timeout.connect=5000",
+        "net.ironoc.portfolio.github.timeout.read=5000"
 })
 public class BaseControllerIntegrationTest {
 }

@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, waitFor, fireEvent } from '@testing-library/react';
+import { render, screen, waitFor, fireEvent, act } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import Home from './components/Home';
 import App from './App';
@@ -9,6 +9,11 @@ import AppNavBar from './AppNavbar';
 import About from './components/About';
 import Footer from './Footer';
 import { Router, useLocation, MemoryRouter } from 'react-router';
+import { trackClickOut } from './utils/activityTracker';
+
+jest.mock('./utils/activityTracker', () => ({
+  trackClickOut: jest.fn(),
+}));
 
 describe('AppNavBar', () => {
   test('renders AppNavBar component correctly', () => {
@@ -79,6 +84,13 @@ describe('AppNavBar', () => {
     fireEvent.click(toggler);
     await waitFor(() => expect(collapse).not.toHaveClass('show'));
   });
+
+  test('tracks click-outs for GitHub project links', () => {
+    render(<AppNavBar />);
+    const githubProjectLink = screen.getByText('iRonoc-DB');
+    fireEvent.click(githubProjectLink);
+    expect(trackClickOut).toHaveBeenCalledWith('github', 'https://github.com/conorheffron/ironoc-db');
+  });
 });
 
 describe('Footer Component', () => {
@@ -96,12 +108,15 @@ describe('Footer Component', () => {
     fetch.mockClear();
   });
 
-  test('renders without crashing', () => {
-    render(<Footer />);
+  test('renders without crashing', async () => {
+    await act(async () => {
+      render(<Footer />);
+    });
     expect(screen.getByText(/© 2025 by Conor Heffron/)).toBeInTheDocument();
   });
 
   test('initial state is set correctly', () => {
+    global.fetch = jest.fn(() => new Promise(() => {}));
     const { container } = render(<Footer />);
     const footerText = container.querySelector('.ft');
     expect(footerText).toHaveTextContent('© 2025 by Conor Heffron |');

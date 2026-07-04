@@ -6,7 +6,6 @@ import { useParams, useNavigate } from 'react-router';
 import {
   MaterialReactTable,
   useMaterialReactTable,
-  type MRT_ColumnDef,
 } from 'material-react-table';
 import { darken, lighten, useTheme } from '@mui/material';
 
@@ -36,7 +35,8 @@ const RepoIssues = () => {
 
   const [repoIssueList, setRepoIssueList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [value, setValue] = useState('');
+  const [usernameValue, setUsernameValue] = useState(id);
+  const [repoValue, setRepoValue] = useState(repo);
 
   useEffect(() => {
     const fetchIssues = async () => {
@@ -45,20 +45,27 @@ const RepoIssues = () => {
         const body = await response.json();
         setRepoIssueList(body);
       }
+      setUsernameValue(id);
+      setRepoValue(repo);
       setIsLoading(false);
     };
     fetchIssues();
   }, [id, repo]);
 
-  const handleChange = (event) => setValue(event.target.value);
+  const handleUsernameChange = (event) => setUsernameValue(event.target.value);
+
+  const handleRepoChange = (event) => setRepoValue(event.target.value);
 
   const onSubmit = (event) => {
     event.preventDefault();
-    navigate(`/issues/${id}/${value}`, {
+    const searchUsername = usernameValue.trim() || id;
+    const searchRepo = repoValue.trim() || repo;
+
+    navigate(`/issues/${searchUsername}/${searchRepo}`, {
       replace: true,
       state: {
-        id: id,
-        repo: value,
+        id: searchUsername,
+        repo: searchRepo,
       },
     });
     navigate(0);
@@ -126,7 +133,14 @@ const RepoIssues = () => {
     data: repoIssueList,
     enableFacetedValues: true,
     enableStickyHeader: true,
-    initialState: { showColumnFilters: true },
+    initialState: {
+      showColumnFilters: true,
+      columnFilters: [{ id: 'state', value: ['open'] }],
+      columnVisibility: {
+        state: false,
+        body: false,
+      },
+    },
     muiTablePaperProps: {
       elevation: 0,
       sx: {
@@ -178,12 +192,18 @@ const RepoIssues = () => {
         <br />
         <InputGroup className="mb-3">
           <Form.Control
+            placeholder="Enter GitHub User ID... Example: conorheffron"
+            aria-label="Enter GitHub User ID..."
+            type="text"
+            value={usernameValue}
+            onChange={handleUsernameChange}
+          />
+          <Form.Control
             placeholder="Enter Project Name... Example: ironoc-db"
             aria-label="Enter Project Name..."
-            aria-describedby="basic-addon2"
             type="text"
-            value={value}
-            onChange={handleChange}
+            value={repoValue}
+            onChange={handleRepoChange}
           />
           <Button
             variant="outline-secondary"
