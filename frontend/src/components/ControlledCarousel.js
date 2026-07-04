@@ -97,6 +97,7 @@ class ControlledCarousel extends Component {
                                         className="d-block w-100"
                                         src={getPortfolioItemImage(item)}
                                         alt={item.alt}
+                                        loading="lazy"
                                         referrerPolicy="no-referrer"
                                         onError={(event) => {
                                             event.currentTarget.onerror = null;
