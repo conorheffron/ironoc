@@ -51,19 +51,19 @@
     from {
         transform: rotate(0deg);
     }
-
-    @keyframes subtle-camera-roll-pan {
-        from {
-            background-position: 48% 50%;
-            background-size: 104%;
-        }
-        to {
-            background-position: 52% 46%;
-            background-size: 110%;
-        }
-    }
     to {
         transform: rotate(360deg);
+    }
+}
+
+@keyframes subtle-camera-roll-pan {
+    from {
+        background-position: 48% 50%;
+        background-size: 104%;
+    }
+    to {
+        background-position: 52% 46%;
+        background-size: 110%;
     }
 }
 
