@@ -21,7 +21,7 @@ import reactor.core.publisher.Sinks;
 @Slf4j
 public class DonateGraphqlController extends AbstractLogger {
 
-    private final Sinks.Many<Donate> donateItemsSubscriptionSink = Sinks.many().multicast().onBackpressureBuffer();
+    private final Sinks.Many<Donate> donateItemsSubscriptionSink = Sinks.many().multicast().onBackpressureBuffer(256, false);
 
     @Autowired
     private final DonateItemsResolver donateItemsResolver;
