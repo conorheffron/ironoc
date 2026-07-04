@@ -29,13 +29,36 @@ describe('RepoDetails Component', () => {
         delete global.fetch;
     });
 
+<<<<<<< HEAD
     test('renders loading spinner initially', () => {
+=======
+    test('renders loading spinner initially', async () => {
+        let resolveFetch;
+        global.fetch = jest.fn(
+            () =>
+                new Promise((resolve) => {
+                    resolveFetch = resolve;
+                })
+        );
+
+>>>>>>> origin/main
         render(
             <MemoryRouter>
                 <RepoDetails />
             </MemoryRouter>
         );
+<<<<<<< HEAD
         expect(screen.getByText(/loading/i)).toBeInTheDocument();
+=======
+
+        expect(screen.getByText(/loading/i)).toBeInTheDocument();
+
+        resolveFetch({
+            json: () => Promise.resolve([]),
+        });
+
+        await waitFor(() => expect(screen.queryByText(/loading/i)).not.toBeInTheDocument());
+>>>>>>> origin/main
     });
 
     test('fetches and displays repo details isConor=True', async () => {
@@ -60,10 +83,18 @@ describe('RepoDetails Component', () => {
                 <RepoDetails />
             </MemoryRouter>
         );
+<<<<<<< HEAD
         await waitFor(() => expect(fetch).toHaveBeenCalledTimes(1));
         expect(screen.getByText('conorheffron/ironoc')).toBeInTheDocument();
         expect(screen.getByText('Ironoc framework')).toBeInTheDocument();
         expect(screen.getByText('nodejs, serverless')).toBeInTheDocument();
+=======
+        await waitFor(() => {
+            expect(screen.getByText('conorheffron/ironoc')).toBeInTheDocument();
+            expect(screen.getByText('Ironoc framework')).toBeInTheDocument();
+            expect(screen.getByText('nodejs, serverless')).toBeInTheDocument();
+        });
+>>>>>>> origin/main
 
         expect(screen.queryByRole('columnheader', { name: /Issues Count/i })).toBeInTheDocument();
         expect(screen.getByText('37')).toBeInTheDocument();

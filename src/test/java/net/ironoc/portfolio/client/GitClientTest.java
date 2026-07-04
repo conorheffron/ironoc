@@ -123,4 +123,22 @@ class GitClientTest {
         // then
         assertThat(result, is(emptyIterable()));
     }
+<<<<<<< HEAD
+=======
+
+    @Test
+    void test_callGitHubApi_no_response_fail() {
+        // given
+        when(urlUtilsMock.isValidURL(TEST_URL)).thenReturn(true);
+        when(restTemplateMock.exchange(eq(URI.create(TEST_URL)), eq(HttpMethod.GET), any(HttpEntity.class), eq(String.class)))
+                .thenReturn(null);
+
+        // when
+        List<RepositoryDetailDto> result = gitClient
+                .callGitHubApi(TEST_URL, RepositoryDetailDto.class, HttpMethod.GET.name(), Collections.emptyMap());
+
+        // then
+        assertThat(result, is(emptyIterable()));
+    }
+>>>>>>> origin/main
 }

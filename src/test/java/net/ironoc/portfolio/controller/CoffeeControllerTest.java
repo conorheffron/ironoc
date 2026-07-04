@@ -3,6 +3,10 @@ package net.ironoc.portfolio.controller;
 import module java.base;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+<<<<<<< HEAD
+=======
+import net.ironoc.portfolio.exception.IronocJsonException;
+>>>>>>> origin/main
 import net.ironoc.portfolio.domain.CoffeeDomain;
 import net.ironoc.portfolio.graph.BrewsResolver;
 import net.ironoc.portfolio.service.Coffees;
@@ -18,11 +22,19 @@ import org.springframework.http.ResponseEntity;
 
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.iterableWithSize;
+<<<<<<< HEAD
+=======
+import static org.hamcrest.Matchers.containsString;
+>>>>>>> origin/main
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyMap;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static net.ironoc.portfolio.utils.TestRequestResponseUtils.getSampleResponse;
 import static org.mockito.Mockito.doReturn;
+<<<<<<< HEAD
+=======
+import static org.junit.jupiter.api.Assertions.assertThrows;
+>>>>>>> origin/main
 import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.never;
@@ -127,7 +139,11 @@ public class CoffeeControllerTest {
     public void test_getCoffeeDetailsGraphQl_withoutCache() throws JsonProcessingException {
         // given
         when(coffeesCache.get()).thenReturn(Collections.emptyList());
+<<<<<<< HEAD
         when(graphQLClient.fetchCoffeeDetails()).thenReturn(getSampleResponse(true));
+=======
+        when(graphQLClient.fetchCoffeeDetails()).thenReturn(getSampleResponse(false));
+>>>>>>> origin/main
         when(graphQLClient.getAllHotCoffees(any())).thenReturn(
                 (List<Map<String, Object>>) getSampleResponse(false).get("allHots"));
         when(graphQLClient.getAllIcedCoffees(any())).thenReturn(
@@ -149,6 +165,40 @@ public class CoffeeControllerTest {
     }
 
     @Test
+<<<<<<< HEAD
+=======
+    void test_getCoffeeDetailsGraphQl_rethrowsCustomException_whenCoffeePayloadIsInvalid() throws JsonProcessingException {
+        Map<String, Object> response = getSampleResponse(true);
+        when(coffeesCache.get()).thenReturn(Collections.emptyList());
+        when(graphQLClient.fetchCoffeeDetails()).thenReturn(response);
+        when(graphQLClient.getAllHotCoffees(any())).thenReturn((List<Map<String, Object>>) response.get("allHots"));
+        when(graphQLClient.getAllIcedCoffees(any())).thenReturn((List<Map<String, Object>>) response.get("allIceds"));
+
+        IronocJsonException exception = assertThrows(
+                IronocJsonException.class,
+                () -> coffeeController.getCoffeeDetailsGraphQl()
+        );
+
+        assertThat(exception.getMessage(), containsString("Failed to map GraphQL coffee payload:"));
+    }
+
+    @Test
+    void test_getCoffeeDetailsGraphQl_rethrowsCustomException_whenFetchFails() throws JsonProcessingException {
+        when(coffeesCache.get()).thenReturn(Collections.emptyList());
+        when(graphQLClient.fetchCoffeeDetails()).thenThrow(new JsonProcessingException("boom") {});
+
+        IronocJsonException exception = assertThrows(
+                IronocJsonException.class,
+                () -> coffeeController.getCoffeeDetailsGraphQl()
+        );
+
+        assertThat(exception.getMessage(), is("Unexpected exception occurred loading GraphQL query"));
+        verify(coffeesCache).get();
+        verify(graphQLClient).fetchCoffeeDetails();
+    }
+
+    @Test
+>>>>>>> origin/main
     void putCoffeesIntoMemoryStorage_returnsCachedResults_whenCacheIsPresent() {
         List<CoffeeDomain> cachedList = new ArrayList<>();
         cachedList.add(new CoffeeDomain());
@@ -209,4 +259,8 @@ public class CoffeeControllerTest {
         verify(brewsResolver).getBrews();
         verify(coffeesCache).put(mappedList);
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> origin/main

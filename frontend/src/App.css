@@ -24,6 +24,7 @@
     background-color: #1D428A;
     border-bottom-right-radius: 18%;
     border-bottom-left-radius: 18%;
+    overflow: hidden;
 }
 
 .App-link {
@@ -50,8 +51,8 @@
 }
 
 .carousel-caption {
-	top: 0;
-	bottom: auto;
+    top: 0;
+    bottom: auto;
 }
 
 .App-intro {
@@ -60,23 +61,23 @@
 }
 
 #my-intro {
-	padding-left: 15%;
-	padding-right: 15%;
+    padding-left: 15%;
+    padding-right: 15%;
 }
 
 .strava-badge {
-	display: inline-block;
-	background-color: #FC5200;
-	color: #fff;
-	padding: 5px 10px 5px 30px;
-	font-size: 11px;
-	font-family: Helvetica, Arial, sans-serif;
-	white-space: nowrap;
-	text-decoration: none;
-	background-repeat: no-repeat;
-	background-position: 10px center;
-	border-radius: 3px;
-	background-image: url('https://badges.strava.com/logo-strava-echelon.png')
+    display: inline-block;
+    background-color: #FC5200;
+    color: #fff;
+    padding: 5px 10px 5px 30px;
+    font-size: 11px;
+    font-family: Helvetica, Arial, sans-serif;
+    white-space: nowrap;
+    text-decoration: none;
+    background-repeat: no-repeat;
+    background-position: 10px center;
+    border-radius: 3px;
+    background-image: url('https://badges.strava.com/logo-strava-echelon.png')
 }
 
 .strava-badge-img {
@@ -137,7 +138,7 @@ footer p a {
 }
 
 .carousel-caption h3, .carousel-caption h5 {
-    background-color:yellow;
+    background-color: yellow;
     width: 50%;
     height: auto;
     margin: 0 auto;
@@ -162,6 +163,119 @@ footer p a {
     max-height: calc(1.5em * 3);
     overflow: hidden;
     text-overflow: ellipsis;
+}
+
+.donate-carousel-item {
+    min-height: 90vh;
+    object-fit: cover;
+    border-bottom-right-radius: 18%;
+    border-bottom-left-radius: 18%;
+}
+
+.donate-carousel-bg {
+    min-height: 90vh;
+    object-fit: cover;
+    border-bottom-right-radius: 18%;
+    border-bottom-left-radius: 18%;
+}
+
+.donate-carousel-caption {
+    top: 50%;
+    bottom: auto;
+    left: 8%;
+    right: 8%;
+    transform: translateY(-50%);
+    padding: 1.25rem;
+    color: #ffffff;
+    background: rgba(0, 0, 0, 0.45);
+    border-radius: 1rem;
+}
+
+.donate-title {
+    font-size: clamp(1.5rem, 5vw, 3rem);
+}
+
+.donate-carousel-caption p {
+    font-size: clamp(0.9rem, 2.8vw, 1.2rem);
+    line-height: 1.45;
+}
+
+.donate-carousel-caption a {
+    color: yellow;
+    overflow-wrap: anywhere;
+}
+
+.donate-overview {
+    max-height: none;
+    overflow: visible;
+    text-overflow: initial;
+}
+
+@media (max-width: 576px) {
+    .donate-carousel-item {
+        min-height: auto;
+        border-bottom-right-radius: 18%;
+        border-bottom-left-radius: 18%;
+        overflow: hidden;
+    }
+
+    .donate-carousel-bg {
+        min-height: 720px;
+        border-bottom-right-radius: 18%;
+        border-bottom-left-radius: 18%;
+    }
+
+    .donate-carousel-caption {
+        top: 1rem;
+        left: 4%;
+        right: 4%;
+        transform: none;
+        padding: 0.85rem;
+        max-height: calc(100% - 2rem);
+        overflow-y: auto;
+    }
+
+    .donate-title {
+        font-size: 1.35rem;
+        margin-bottom: 0.75rem !important;
+    }
+
+    .donate-carousel-caption p {
+        font-size: 0.9rem;
+        line-height: 1.35;
+        margin-bottom: 0.65rem;
+    }
+
+    .donate-overview {
+        font-size: 0.85rem;
+    }
+
+    .carousel-caption {
+        padding: 4px;
+    }
+
+    .carousel-caption h1 {
+        font-size: 0.875rem;
+    }
+
+    .carousel-caption h2 {
+        display: none;
+    }
+
+    .carousel-caption h4 {
+        display: none;
+    }
+
+    .carousel-caption p {
+        font-size: 0.7rem;
+    }
+
+    .overview-text {
+        line-clamp: 1;
+        -webkit-line-clamp: 1;
+        font-size: 0.7rem;
+        max-height: calc(1.5em * 1);
+    }
 }
 
 @media (max-width: 768px) {
@@ -190,34 +304,5 @@ footer p a {
         -webkit-line-clamp: 2;
         font-size: clamp(0.65rem, 1.8vw, 0.875rem);
         max-height: calc(1.5em * 2);
-    }
-}
-
-@media (max-width: 576px) {
-    .carousel-caption {
-        padding: 4px;
-    }
-
-    .carousel-caption h1 {
-        font-size: 0.875rem;
-    }
-
-    .carousel-caption h2 {
-        display: none;
-    }
-
-    .carousel-caption h4 {
-        display: none;
-    }
-
-    .carousel-caption p {
-        font-size: 0.7rem;
-    }
-
-    .overview-text {
-        line-clamp: 1;
-        -webkit-line-clamp: 1;
-        font-size: 0.7rem;
-        max-height: calc(1.5em * 1);
     }
 }

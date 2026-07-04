@@ -164,6 +164,7 @@ describe('RepoIssues', () => {
     window.fetch = global.fetch;
     render(<RepoIssues />);
     await waitFor(() => expect(screen.queryByTestId('spinner')).not.toBeInTheDocument());
+<<<<<<< HEAD
     const input = screen.getByTestId('form-control');
     const button = screen.getByText(/Search Issues/i);
     fireEvent.change(input, { target: { value: 'newrepo' } });
@@ -172,9 +173,46 @@ describe('RepoIssues', () => {
       replace: true,
       state: {
         id: 'user',
+=======
+    const usernameInput = screen.getByRole('textbox', { name: /Enter GitHub User ID/i });
+    const repoInput = screen.getByRole('textbox', { name: /Enter Project Name/i });
+    const button = screen.getByText(/Search Issues/i);
+    fireEvent.change(usernameInput, { target: { value: 'other-user' } });
+    fireEvent.change(repoInput, { target: { value: 'newrepo' } });
+    fireEvent.click(button);
+    expect(mockNavigate).toHaveBeenCalledWith('/issues/other-user/newrepo', {
+      replace: true,
+      state: {
+        id: 'other-user',
+>>>>>>> origin/main
         repo: 'newrepo',
       },
     });
     expect(mockNavigate).toHaveBeenCalledWith(0);
   });
+<<<<<<< HEAD
+=======
+
+  it('uses current route values when search fields are blank', async () => {
+    useParams.mockReturnValue({ id: 'user', repo: 'repo' });
+    global.fetch = jest.fn(() => Promise.resolve({ json: () => Promise.resolve([]) }));
+    window.fetch = global.fetch;
+    render(<RepoIssues />);
+    await waitFor(() => expect(screen.queryByTestId('spinner')).not.toBeInTheDocument());
+    const usernameInput = screen.getByRole('textbox', { name: /Enter GitHub User ID/i });
+    const repoInput = screen.getByRole('textbox', { name: /Enter Project Name/i });
+    const button = screen.getByText(/Search Issues/i);
+    fireEvent.change(usernameInput, { target: { value: '' } });
+    fireEvent.change(repoInput, { target: { value: '' } });
+    fireEvent.click(button);
+    expect(mockNavigate).toHaveBeenCalledWith('/issues/user/repo', {
+      replace: true,
+      state: {
+        id: 'user',
+        repo: 'repo',
+      },
+    });
+    expect(mockNavigate).toHaveBeenCalledWith(0);
+  });
+>>>>>>> origin/main
 });

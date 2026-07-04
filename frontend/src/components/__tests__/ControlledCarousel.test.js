@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import { render, screen, waitFor } from '@testing-library/react';
+=======
+import { render, screen, waitFor, act } from '@testing-library/react';
+>>>>>>> origin/main
 import App from '../../App';
 import { Router, MemoryRouter } from 'react-router';
 import ControlledCarousel from '../ControlledCarousel';
@@ -35,12 +39,24 @@ describe('Portfolio Controlled Carousel', () => {
     jest.restoreAllMocks();
   });
 
+<<<<<<< HEAD
   test('renders AppNavbar component', () => {
     render(<App />);
+=======
+  test('renders AppNavbar component', async () => {
+    await act(async () => {
+      render(<App />);
+    });
+>>>>>>> origin/main
     expect(screen.getByRole('banner')).toBeInTheDocument();
   });
 
   test('renders loading state initially', () => {
+<<<<<<< HEAD
+=======
+    global.fetch.mockReset();
+    global.fetch.mockImplementation(() => new Promise(() => {}));
+>>>>>>> origin/main
     render(<ControlledCarousel />);
     expect(screen.getByText('Loading...')).toBeInTheDocument();
   });
