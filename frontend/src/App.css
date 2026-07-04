@@ -151,6 +151,7 @@ footer p a {
 
 .overview-text {
     display: -webkit-box;
+    line-clamp: 3;
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     font-size: clamp(0.7rem, 1.8vw, 1rem);
@@ -158,6 +159,7 @@ footer p a {
     white-space: normal;
     word-wrap: break-word;
     overflow-wrap: break-word;
+    max-height: calc(1.5em * 3);
     overflow: hidden;
     text-overflow: ellipsis;
 }
@@ -184,8 +186,10 @@ footer p a {
     }
 
     .overview-text {
+        line-clamp: 2;
         -webkit-line-clamp: 2;
         font-size: clamp(0.65rem, 1.8vw, 0.875rem);
+        max-height: calc(1.5em * 2);
     }
 }
 
@@ -211,7 +215,9 @@ footer p a {
     }
 
     .overview-text {
+        line-clamp: 1;
         -webkit-line-clamp: 1;
         font-size: 0.7rem;
+        max-height: calc(1.5em * 1);
     }
 }
