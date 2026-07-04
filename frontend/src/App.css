@@ -31,7 +31,6 @@
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
-    transition: background-image 1.1s ease-in-out;
     animation: subtle-camera-roll-pan 24s ease-in-out infinite alternate;
     box-shadow: inset 0 0 0 1000px rgba(12, 31, 66, 0.15);
 }
