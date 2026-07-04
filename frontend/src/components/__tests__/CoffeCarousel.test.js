@@ -61,6 +61,8 @@ describe('CoffeeCarousel', () => {
       // Ensure ingredients are NOT rendered
       expect(screen.queryByText('Ingredients:')).not.toBeInTheDocument();
   });
+<<<<<<< HEAD
+=======
 
   test('translates localized brew titles and ingredients', () => {
       const localizedItems = [
@@ -79,4 +81,5 @@ describe('CoffeeCarousel', () => {
       expect(screen.queryByText('Svart Te')).not.toBeInTheDocument();
       expect(screen.queryByText('Te , Unknown ingredient , Honung')).not.toBeInTheDocument();
   });
+>>>>>>> origin/main
 });

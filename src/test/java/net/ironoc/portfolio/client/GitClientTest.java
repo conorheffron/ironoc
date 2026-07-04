@@ -123,6 +123,8 @@ class GitClientTest {
         // then
         assertThat(result, is(emptyIterable()));
     }
+<<<<<<< HEAD
+=======
 
     @Test
     void test_callGitHubApi_no_response_fail() {
@@ -138,4 +140,5 @@ class GitClientTest {
         // then
         assertThat(result, is(emptyIterable()));
     }
+>>>>>>> origin/main
 }

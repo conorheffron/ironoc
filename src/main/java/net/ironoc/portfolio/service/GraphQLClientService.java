@@ -5,7 +5,10 @@ import module java.base;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import net.ironoc.portfolio.config.PropertyConfigI;
+<<<<<<< HEAD
+=======
 import net.ironoc.portfolio.exception.IronocJsonException;
+>>>>>>> origin/main
 import net.ironoc.portfolio.logger.AbstractLogger;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,11 +56,15 @@ public class GraphQLClientService extends AbstractLogger implements GraphQLClien
             HttpEntity<String> request = new HttpEntity<>(requestPayload, headers);
             ResponseEntity<String> response = restTemplate.exchange(propertyConfig.getBrewGraphEndpoint(),
                     HttpMethod.POST, request, String.class);
+<<<<<<< HEAD
+            return objectMapper.readValue(response.getBody(), Map.class);
+=======
             try {
                 return objectMapper.readValue(response.getBody(), Map.class);
             } catch (JsonProcessingException e) {
                 throw new IronocJsonException("Failed to parse GraphQL response: " + e.getOriginalMessage(), e);
             }
+>>>>>>> origin/main
         } else {
             return new HashMap<>();
         }
@@ -89,11 +96,20 @@ public class GraphQLClientService extends AbstractLogger implements GraphQLClien
             return new String(Files.readAllBytes(Paths.get(resource.getURI())));
         } catch (IOException e) {
             error("Unexpected exception occurred loading GraphQL query, msg={}", e.getMessage());
+<<<<<<< HEAD
+        }
+        return null;
+=======
             throw new IronocJsonException("Unexpected exception occurred loading GraphQL query", e);
         }
+>>>>>>> origin/main
     }
 
     private static Map<String, Object> getDataFromResponse(Map<String, Object> response) {
         return (Map<String, Object>) response.get("data");
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> origin/main

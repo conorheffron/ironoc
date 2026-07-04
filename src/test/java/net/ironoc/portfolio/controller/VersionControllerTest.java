@@ -8,7 +8,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.info.BuildProperties;
+<<<<<<< HEAD
+=======
 import org.springframework.core.env.Environment;
+>>>>>>> origin/main
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
@@ -23,9 +26,12 @@ public class VersionControllerTest {
     @Mock
     private BuildProperties buildPropertiesMock;
 
+<<<<<<< HEAD
+=======
     @Mock
     private Environment environmentMock;
 
+>>>>>>> origin/main
     @InjectMocks
     private VersionController versionController;
 
@@ -42,6 +48,8 @@ public class VersionControllerTest {
 
         assertThat(response, is("Version: " + TEST_VERSION));
     }
+<<<<<<< HEAD
+=======
 
     @Test
     public void test_getOpenApiDocumentationEndpoint_nonProdProfile_success() {
@@ -68,4 +76,5 @@ public class VersionControllerTest {
         verify(environmentMock).getActiveProfiles();
         assertThat(response, is("/api-docs"));
     }
+>>>>>>> origin/main
 }

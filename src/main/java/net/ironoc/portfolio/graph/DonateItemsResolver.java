@@ -8,7 +8,10 @@ import graphql.kickstart.tools.GraphQLQueryResolver;
 import jakarta.annotation.PostConstruct;
 import net.ironoc.portfolio.dto.Donate;
 import net.ironoc.portfolio.dto.DonateItemOrder;
+<<<<<<< HEAD
+=======
 import net.ironoc.portfolio.exception.IronocJsonException;
+>>>>>>> origin/main
 import net.ironoc.portfolio.logger.AbstractLogger;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
@@ -40,7 +43,10 @@ public class DonateItemsResolver extends AbstractLogger implements GraphQLQueryR
             }
         } catch (IOException e) {
             error("Failed to load Donate items JSON", e);
+<<<<<<< HEAD
+=======
             throw new IronocJsonException("Failed to load donate items JSON", e);
+>>>>>>> origin/main
         }
     }
 

@@ -1,13 +1,19 @@
 package net.ironoc.portfolio.controller;
 
+<<<<<<< HEAD
+=======
 import module java.base;
 
+>>>>>>> origin/main
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.info.BuildProperties;
+<<<<<<< HEAD
+=======
 import org.springframework.core.env.Environment;
+>>>>>>> origin/main
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,6 +23,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api")
 public class VersionController {
 
+<<<<<<< HEAD
+    private final BuildProperties buildProperties;
+
+    public VersionController(@Autowired BuildProperties buildProperties) {
+        this.buildProperties = buildProperties;
+=======
     private static final String PROD_PROFILE = "prod";
     private static final String OPEN_API_PATH = "/api-docs";
     private static final String SWAGGER_UI_PATH = "/swagger-ui-ironoc.html";
@@ -28,6 +40,7 @@ public class VersionController {
                              @Autowired Environment environment) {
         this.buildProperties = buildProperties;
         this.environment = environment;
+>>>>>>> origin/main
     }
 
     @Operation(summary = "Get ironoc Application Version",
@@ -40,6 +53,8 @@ public class VersionController {
     public String getApplicationVersion() {
         return "Version: " + this.buildProperties.getVersion();
     }
+<<<<<<< HEAD
+=======
 
     @Operation(summary = "Get ironoc API documentation endpoint",
             description = "Returns the Swagger/OpenAPI documentation path based on the active run profile")
@@ -56,4 +71,5 @@ public class VersionController {
         return Arrays.stream(environment.getActiveProfiles())
                 .anyMatch(PROD_PROFILE::equalsIgnoreCase);
     }
+>>>>>>> origin/main
 }
