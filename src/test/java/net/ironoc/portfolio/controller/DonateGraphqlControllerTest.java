@@ -19,6 +19,7 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.hasEntry;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.times;
@@ -259,8 +260,8 @@ class DonateGraphqlControllerTest {
         List<Donate> emittedItems = new ArrayList<>();
         Disposable subscription = donateGraphqlController.donateItemsSubscription().subscribe(emittedItems::add);
 
-        // Act
-        donateGraphqlController.addCharityOption(
+        // Act & Assert
+        assertThrows(graphql.GraphQLException.class, () -> donateGraphqlController.addCharityOption(
                 "Alt",
                 "Charity Reject",
                 "https://charity-reject.org",
@@ -269,7 +270,7 @@ class DonateGraphqlControllerTest {
                 "Rejected charity",
                 2024,
                 "+353987654321"
-        );
+        ));
 
         // Assert
         assertThat(emittedItems, hasSize(0));

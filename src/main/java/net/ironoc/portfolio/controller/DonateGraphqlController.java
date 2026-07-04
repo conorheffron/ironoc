@@ -132,6 +132,10 @@ public class DonateGraphqlController extends AbstractLogger {
             }
         }
 
+        if (!donateAdded) {
+            warn("Charity option was not added (rejected/duplicate/invalid): {}", newDonate);
+            throw new graphql.GraphQLException("Charity option was not added: it may already exist or contain invalid data.");
+        }
         info("Added new charity option: {}", newDonate);
         return newDonate;
     }
