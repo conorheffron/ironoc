@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Container } from 'reactstrap';
 import '.././App.css';
 import AppNavbar from '.././AppNavbar';
+import { loadCameraRollImages } from '../utils/cameraRollConfig';
 
 class Home extends Component {
     constructor(props) {
@@ -17,18 +18,59 @@ class Home extends Component {
             className,
             headerClassName,
             introId,
-            welcomeMessage
+            welcomeMessage,
+            backgroundImages: [],
+            backgroundImageIndex: 0
         };
+
+        this.rotateCameraRollImage = this.rotateCameraRollImage.bind(this);
+        this.rotationIntervalId = null;
+        this.isMountedView = false;
+    }
+
+    async componentDidMount() {
+        this.isMountedView = true;
+        const backgroundImages = await loadCameraRollImages('home');
+
+        if (this.isMountedView) {
+            this.setState({ backgroundImages, backgroundImageIndex: 0 });
+
+            if (backgroundImages.length > 1) {
+                this.rotationIntervalId = setInterval(this.rotateCameraRollImage, 10000);
+            }
+        }
+    }
+
+    componentWillUnmount() {
+        this.isMountedView = false;
+
+        if (this.rotationIntervalId) {
+            clearInterval(this.rotationIntervalId);
+        }
+    }
+
+    rotateCameraRollImage() {
+        this.setState((prevState) => ({
+            backgroundImageIndex: (prevState.backgroundImageIndex + 1) % prevState.backgroundImages.length
+        }));
     }
 
     render() {
-        const { className, headerClassName, introId, welcomeMessage } = this.state;
+        const { className, headerClassName, introId, welcomeMessage, backgroundImages, backgroundImageIndex } = this.state;
+        const activeBackgroundImage = backgroundImages[backgroundImageIndex];
+        const headerStyle = activeBackgroundImage
+            ? { backgroundImage: `linear-gradient(rgba(10, 34, 80, 0.55), rgba(10, 34, 80, 0.55)), url(${activeBackgroundImage})` }
+            : undefined;
 
         return (
             <div className={className}>
                 <AppNavbar />
                 <Container>
-                    <header className={headerClassName}>
+                    <header
+                        data-testid="home-header"
+                        className={`${headerClassName} App-header-camera-roll App-header-camera-roll--home`}
+                        style={headerStyle}
+                    >
                         <br /><br />
                         <p id={introId}>
                             {welcomeMessage}<br /><br />
