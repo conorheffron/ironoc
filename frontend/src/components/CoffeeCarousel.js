@@ -79,9 +79,9 @@ class CoffeeCarousel extends Component {
                     <Carousel.Item key={index}>
                         <img src={item.image} alt={translatedTitle} />
                         <Carousel.Caption>
-                            <h3>{translatedTitle}</h3>
+                            <h3 className="coffee-carousel-label">{translatedTitle}</h3>
                             {item.ingredients && item.ingredients.length > 0 && (
-                                <h5>
+                                <h5 className="coffee-carousel-label">
                                     <b>Ingredients:</b>{' '}
                                     {translateIngredients(item.ingredients)}
                                 </h5>
