@@ -74,6 +74,23 @@ frontend
     └── setupTests.js
 ```
 
+## Camera Roll Background Config
+
+Home and About background image rotation is driven by `public/camera-roll.yml`.
+
+Example:
+
+```yml
+home:
+  - teal-bg
+  - navy-bg
+about:
+  - navy-bg
+  - red-bg
+```
+
+Supported keys are `teal-bg`, `navy-bg`, and `red-bg`.
+
 #### Quick start
 ```shell
 cd frontend
