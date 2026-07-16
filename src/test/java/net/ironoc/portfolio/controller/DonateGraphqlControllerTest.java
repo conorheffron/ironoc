@@ -279,6 +279,110 @@ class DonateGraphqlControllerTest {
         subscription.dispose();
     }
 
+    @Test
+    void testCharityOptionByFounded_NotFound() {
+        // Arrange
+        when(donateItemsResolver.getDonateItems()).thenReturn(new ArrayList<>());
+
+        // Act
+        Donate result = donateGraphqlController.charityOptionByFounded(2005);
+
+        // Assert
+        assertThat(result, is(notNullValue()));
+        assertThat(result.getName(), is(org.hamcrest.Matchers.nullValue()));
+    }
+
+    @Test
+    void testCharityOptionByDonateLink_NotFound() {
+        // Arrange
+        when(donateItemsResolver.getDonateItems()).thenReturn(new ArrayList<>());
+
+        // Act
+        Donate result = donateGraphqlController.charityOptionByDonateLink("https://donate.notfound.com");
+
+        // Assert
+        assertThat(result, is(notNullValue()));
+        assertThat(result.getName(), is(org.hamcrest.Matchers.nullValue()));
+    }
+
+    @Test
+    void testCharityOptionByName_NotFound() {
+        // Arrange
+        when(donateItemsResolver.getDonateItems()).thenReturn(new ArrayList<>());
+
+        // Act
+        Donate result = donateGraphqlController.charityOptionByName("NotFound");
+
+        // Assert
+        assertThat(result, is(notNullValue()));
+        assertThat(result.getName(), is(org.hamcrest.Matchers.nullValue()));
+    }
+
+    @Test
+    void test_mapDonateItemsToCharityOptions_withNullAndEmptyValues() {
+        // Arrange
+        List<Map<String, Object>> mockDonateItems = new ArrayList<>();
+        Map<String, Object> item = new HashMap<>();
+        item.put("alt", null);
+        item.put("name", "Charity Nulls");
+        item.put("link", "https://example.com");
+        item.put("donate", "https://donate.example.com");
+        item.put("img", "image.png");
+        item.put("overview", "An overview");
+        item.put("founded", 2000);
+        item.put("phone", null);
+        mockDonateItems.add(item);
+        when(donateItemsResolver.getDonateItems()).thenReturn(mockDonateItems);
+
+        // Act
+        Collection<Donate> result = donateGraphqlController.donateItemsSchemaMapping();
+
+        // Assert
+        assertThat(result, is(notNullValue()));
+        assertThat(result, hasSize(1));
+        Donate donate = result.iterator().next();
+        assertThat(donate.getAlt(), is(org.hamcrest.Matchers.nullValue()));
+        assertThat(donate.getPhone(), is(org.hamcrest.Matchers.nullValue()));
+    }
+
+    @Test
+    void test_mapDonateItemsToCharityOptions_withNullItemInList() {
+        // Arrange
+        List<Map<String, Object>> mockDonateItems = new ArrayList<>();
+        mockDonateItems.add(null);
+        when(donateItemsResolver.getDonateItems()).thenReturn(mockDonateItems);
+
+        // Act
+        Collection<Donate> result = donateGraphqlController.donateItemsSchemaMapping();
+
+        // Assert
+        assertThat(result, is(notNullValue()));
+        assertThat(result, hasSize(0));
+    }
+
+    @Test
+    void testAddCharityOption_NoSubscribers() {
+        // Arrange
+        when(donateItemsResolver.addDonateItem(any(Donate.class))).thenReturn(true);
+
+        // Act
+        Donate result = donateGraphqlController.addCharityOption(
+                "Alt",
+                "Charity No Sub",
+                "https://charity-nosub.org",
+                "https://charity-nosub.org/donate",
+                "nosub.png",
+                "No subscribers",
+                2023,
+                "+353123456789"
+        );
+
+        // Assert
+        assertThat(result, is(notNullValue()));
+        assertThat(result.getName(), is("Charity No Sub"));
+        verify(donateItemsResolver, times(1)).addDonateItem(any(Donate.class));
+    }
+
     @NotNull
     private static List<Map<String, Object>> getMockDonateItems() {
         List<Map<String, Object>> mockDonateItems = new ArrayList<>();

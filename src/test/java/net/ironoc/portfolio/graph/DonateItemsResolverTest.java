@@ -296,4 +296,153 @@ class DonateItemsResolverTest {
         assertThat(donateItemsResolver.getDonateItems().size(), is(originalSize));
         assertThat(donateItemsResolver.getDonateItems(), not(hasItem(equalTo(duplicateDonateMap))));
     }
+
+    @Test
+    void testAddDonateItem_DoesNotAddWhenInvalidFields() {
+        // 1. Invalid alt containing non-alphanumeric chars
+        Donate invalidAlt = Donate.builder()
+                .name("The Jack and Jill Children’s Foundation")
+                .alt("<script>")
+                .link("https://valid.org")
+                .donate("https://valid.org/donate")
+                .img("valid")
+                .overview("Valid overview")
+                .founded(2000)
+                .phone("+3531234567")
+                .build();
+        assertThat(donateItemsResolver.addDonateItem(invalidAlt), is(false));
+
+        // 2. Invalid link
+        Donate invalidLink = Donate.builder()
+                .name("The Jack and Jill Children’s Foundation")
+                .alt("Valid")
+                .link("ftp://invalid.org")
+                .donate("https://valid.org/donate")
+                .img("valid")
+                .overview("Valid overview")
+                .founded(2000)
+                .phone("+3531234567")
+                .build();
+        assertThat(donateItemsResolver.addDonateItem(invalidLink), is(false));
+
+        // 3. Invalid founded (too low)
+        Donate invalidFoundedLow = Donate.builder()
+                .name("The Jack and Jill Children’s Foundation")
+                .alt("Valid")
+                .link("https://valid.org")
+                .donate("https://valid.org/donate")
+                .img("valid")
+                .overview("Valid overview")
+                .founded(999)
+                .phone("+3531234567")
+                .build();
+        assertThat(donateItemsResolver.addDonateItem(invalidFoundedLow), is(false));
+
+        // 4. Invalid founded (too high)
+        Donate invalidFoundedHigh = Donate.builder()
+                .name("The Jack and Jill Children’s Foundation")
+                .alt("Valid")
+                .link("https://valid.org")
+                .donate("https://valid.org/donate")
+                .img("valid")
+                .overview("Valid overview")
+                .founded(2200)
+                .phone("+3531234567")
+                .build();
+        assertThat(donateItemsResolver.addDonateItem(invalidFoundedHigh), is(false));
+
+        // 5. Invalid phone (too short)
+        Donate invalidPhone = Donate.builder()
+                .name("The Jack and Jill Children’s Foundation")
+                .alt("Valid")
+                .link("https://valid.org")
+                .donate("https://valid.org/donate")
+                .img("valid")
+                .overview("Valid overview")
+                .founded(2000)
+                .phone("123")
+                .build();
+        assertThat(donateItemsResolver.addDonateItem(invalidPhone), is(false));
+    }
+
+    @Test
+    void testHelpers_NullAndCornerCases() throws Exception {
+        // Verify null check in isAlreadyPresent
+        java.lang.reflect.Method isAlreadyPresentMethod = DonateItemsResolver.class.getDeclaredMethod("isAlreadyPresent", String.class);
+        isAlreadyPresentMethod.setAccessible(true);
+        boolean resultNull = (boolean) isAlreadyPresentMethod.invoke(donateItemsResolver, (String) null);
+        assertThat(resultNull, is(false));
+
+        // Verify null name branch in memory list
+        java.lang.reflect.Field field = DonateItemsResolver.class.getDeclaredField("donateItems");
+        field.setAccessible(true);
+        @SuppressWarnings("unchecked")
+        List<Donate> internalList = (List<Donate>) field.get(donateItemsResolver);
+        internalList.add(Donate.builder().name(null).build());
+
+        boolean resultWithNullInMemory = (boolean) isAlreadyPresentMethod.invoke(donateItemsResolver, "Some Name");
+        assertThat(resultWithNullInMemory, is(false));
+    }
+
+    @Test
+    void testValidation_Directly() throws Exception {
+        java.lang.reflect.Method isValidDonateMethod = DonateItemsResolver.class.getDeclaredMethod("isValidDonate", Donate.class);
+        isValidDonateMethod.setAccessible(true);
+
+        // Test null phone/email
+        Donate nullPhone = Donate.builder()
+                .alt("Valid")
+                .name("Valid")
+                .link("https://valid.org")
+                .donate("https://valid.org/donate")
+                .img("valid")
+                .overview("Valid overview")
+                .founded(2000)
+                .phone(null)
+                .build();
+        boolean resNullPhone = (boolean) isValidDonateMethod.invoke(donateItemsResolver, nullPhone);
+        assertThat(resNullPhone, is(false));
+
+        // Test empty phone/email
+        Donate emptyPhone = Donate.builder()
+                .alt("Valid")
+                .name("Valid")
+                .link("https://valid.org")
+                .donate("https://valid.org/donate")
+                .img("valid")
+                .overview("Valid overview")
+                .founded(2000)
+                .phone("   ")
+                .build();
+        boolean resEmptyPhone = (boolean) isValidDonateMethod.invoke(donateItemsResolver, emptyPhone);
+        assertThat(resEmptyPhone, is(false));
+
+        // Test valid email
+        Donate validEmail = Donate.builder()
+                .alt("Valid")
+                .name("Valid")
+                .link("https://valid.org")
+                .donate("https://valid.org/donate")
+                .img("valid")
+                .overview("Valid overview")
+                .founded(2000)
+                .phone("test@charity.org")
+                .build();
+        boolean resValidEmail = (boolean) isValidDonateMethod.invoke(donateItemsResolver, validEmail);
+        assertThat(resValidEmail, is(true));
+
+        // Test valid phone with space
+        Donate validPhoneWithSpace = Donate.builder()
+                .alt("Valid")
+                .name("Valid")
+                .link("https://valid.org")
+                .donate("https://valid.org/donate")
+                .img("valid")
+                .overview("Valid overview")
+                .founded(2000)
+                .phone("+353 1 234 5678")
+                .build();
+        boolean resValidPhone = (boolean) isValidDonateMethod.invoke(donateItemsResolver, validPhoneWithSpace);
+        assertThat(resValidPhone, is(true));
+    }
 }

@@ -197,5 +197,5 @@ The application implements three primary data flow patterns based on the query t
 
 ## 6. Test Standards and Metrics
 To guarantee build safety and code correctness, the project enforces strict test coverage limits (**Minimum 80% coverage on all modifications**):
-- **Java Backend (JUnit 5, Mockito, Jacoco)**: Maintains an overall instruction coverage of **~88%** and line coverage of **~89%**.
+- **Java Backend (JUnit 5, Mockito, Jacoco)**: Maintains an overall instruction coverage of **~92%** and line coverage of **~92%**.
 - **React Frontend (Jest, React Testing Library)**: Maintains overall statement and line coverage above **~91%**.
