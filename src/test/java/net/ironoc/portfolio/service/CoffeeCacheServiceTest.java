@@ -1,7 +1,5 @@
 package net.ironoc.portfolio.service;
 
-import module java.base;
-
 import net.ironoc.portfolio.domain.CoffeeDomain;
 import org.junit.jupiter.api.Test;
 import java.util.List;
@@ -11,10 +9,10 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.nullValue;
 
-public class CoffeeCacheServiceTest {
+class CoffeeCacheServiceTest {
 
     @Test
-    public void test_coffeeCacheService_operations() {
+    void test_coffeeCacheService_operations() {
         // given
         CoffeeCacheService cacheService = new CoffeeCacheService();
         List<CoffeeDomain> brews = List.of(new CoffeeDomain());

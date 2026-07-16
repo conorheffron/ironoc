@@ -1,7 +1,5 @@
 package net.ironoc.portfolio.service;
 
-import module java.base;
-
 import net.ironoc.portfolio.domain.RepositoryIssueDomain;
 import org.junit.jupiter.api.Test;
 import java.util.List;
@@ -11,10 +9,10 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.nullValue;
 
-public class GitProjectCacheServiceTest {
+class GitProjectCacheServiceTest {
 
     @Test
-    public void test_gitProjectCacheService_operations() {
+    void test_gitProjectCacheService_operations() {
         // given
         GitProjectCacheService cacheService = new GitProjectCacheService();
         List<RepositoryIssueDomain> issues = List.of(new RepositoryIssueDomain("title", "url", "body", "state", List.of("label")));
