@@ -112,20 +112,20 @@ describe('Footer Component', () => {
     await act(async () => {
       render(<Footer />);
     });
-    expect(screen.getByText(/© 2025 by Conor Heffron/)).toBeInTheDocument();
+    expect(screen.getByText(/© 2026 by Conor Heffron/)).toBeInTheDocument();
   });
 
   test('initial state is set correctly', () => {
     global.fetch = jest.fn(() => new Promise(() => {}));
     const { container } = render(<Footer />);
     const footerText = container.querySelector('.ft');
-    expect(footerText).toHaveTextContent('© 2025 by Conor Heffron |');
+    expect(footerText).toHaveTextContent('© 2026 by Conor Heffron |');
   });
 
   test('fetches and displays the version', async () => {
     render(<Footer />);
     await waitFor(() => expect(fetch).toHaveBeenCalledTimes(1));
-    await waitFor(() => expect(screen.getByText('© 2025 by Conor Heffron |')).toBeInTheDocument());
+    await waitFor(() => expect(screen.getByText('© 2026 by Conor Heffron |')).toBeInTheDocument());
     await waitFor(() => expect(screen.getByText('2.2.0')).toBeInTheDocument());
   });
 
@@ -136,7 +136,7 @@ describe('Footer Component', () => {
 
     render(<Footer />);
     await waitFor(() => expect(fetch).toHaveBeenCalledTimes(1));
-    await waitFor(() => expect(screen.getByText('© 2025 by Conor Heffron |')).toBeInTheDocument());
+    await waitFor(() => expect(screen.getByText('© 2026 by Conor Heffron |')).toBeInTheDocument());
   });
 
   test('handles non-ok fetch responses', async () => {

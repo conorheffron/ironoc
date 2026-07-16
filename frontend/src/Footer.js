@@ -30,7 +30,7 @@ class Footer extends Component {
             <div className="App">
                 <Container>
                     <footer><p className="ft">
-                    © 2025 by Conor Heffron | <a href="https://github.com/conorheffron/ironoc"
+                    © 2026 by Conor Heffron | <a href="https://github.com/conorheffron/ironoc"
                     target="_blank" rel="noreferrer">{version}</a></p></footer>
                 </Container>
             </div>
