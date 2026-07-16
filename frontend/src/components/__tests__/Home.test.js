@@ -5,7 +5,7 @@ describe('Home', () => {
   beforeEach(() => {
     jest.spyOn(global, 'fetch').mockResolvedValue({
       ok: true,
-      text: async () => `home:\n  - red-bg\n  - teal-bg`,
+      text: async () => `home:\n  - navy-bg`,
     });
   });
 

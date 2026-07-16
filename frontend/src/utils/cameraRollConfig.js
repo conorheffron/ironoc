@@ -9,7 +9,7 @@ const CAMERA_ROLL_IMAGE_MAP = {
 };
 
 const DEFAULT_CAMERA_ROLL_IMAGES = {
-    home: [teal, navy, red],
+    home: [navy],
     about: [navy, red, teal]
 };
 

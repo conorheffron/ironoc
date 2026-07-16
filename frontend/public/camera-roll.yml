@@ -1,8 +1,6 @@
 # Camera roll keys for rotating Home/About backgrounds
 home:
-  - teal-bg
   - navy-bg
-  - red-bg
 about:
   - navy-bg
   - red-bg
