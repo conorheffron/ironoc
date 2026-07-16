@@ -127,18 +127,16 @@ class DonateItemsResolverTest {
             "The Society of Saint Vincent de Paul",
             "Dublin Simon Community",
             "Debra Ireland",
-            "The Jack and Jill Children’s Foundation"
+            "CHI at Crumlin"
     );
 
     @BeforeEach
     void setUp() {
-        donateItemsResolver = new DonateItemsResolver() {{
-            // Inject allowed charity names directly for test, bypassing file
-            this.allowedCharityNames.clear();
-            this.allowedCharityNames.addAll(allowedCharities);
-        }};
-
+        donateItemsResolver = new DonateItemsResolver();
         donateItemsResolver.loadDonateItems();
+        // Inject allowed charity names directly for test, bypassing file
+        donateItemsResolver.allowedCharityNames.clear();
+        donateItemsResolver.allowedCharityNames.addAll(allowedCharities);
     }
 
     @Test
@@ -200,7 +198,7 @@ class DonateItemsResolverTest {
                 "link", "https://example.org",
                 "img", "blue",
                 "alt", "blue1",
-                "name", "The Jack and Jill Children’s Foundation", // in allowed list, not present yet
+                "name", "CHI at Crumlin", // in allowed list, not present in donate-items.json
                 "overview", "An example charity overview.",
                 "founded", 2020,
                 "phone", "+353 01 000 0000"
@@ -217,10 +215,11 @@ class DonateItemsResolverTest {
                 .build();
 
         int originalSize = donateItemsResolver.getDonateItems().size();
-        donateItemsResolver.addDonateItem(donateObj);
+        boolean result = donateItemsResolver.addDonateItem(donateObj);
 
+        assertThat(result, is(true));
         List<Map<String, Object>> actualItems = donateItemsResolver.getDonateItems();
-        assertThat(actualItems.size(), is(originalSize));
+        assertThat(actualItems.size(), is(originalSize + 1));
         for (Map<String, Object> expected : donateItems) {
             assertThat(actualItems, hasItem(equalTo(expected)));
         }
@@ -256,8 +255,9 @@ class DonateItemsResolverTest {
                 .build();
 
         // Try to add (should NOT be added)
-        donateItemsResolver.addDonateItem(notAllowedDonate);
+        boolean result = donateItemsResolver.addDonateItem(notAllowedDonate);
 
+        assertThat(result, is(false));
         // List should be unchanged and not contain the attempted addition
         assertThat(donateItemsResolver.getDonateItems().size(), is(originalSize));
         assertThat(donateItemsResolver.getDonateItems(), not(hasItem(equalTo(notAllowedDonateMap))));
@@ -289,8 +289,9 @@ class DonateItemsResolverTest {
                 .build();
 
         // Try to add (should NOT be added)
-        donateItemsResolver.addDonateItem(duplicateDonate);
+        boolean result = donateItemsResolver.addDonateItem(duplicateDonate);
 
+        assertThat(result, is(false));
         // List should be unchanged and not contain the attempted addition
         assertThat(donateItemsResolver.getDonateItems().size(), is(originalSize));
         assertThat(donateItemsResolver.getDonateItems(), not(hasItem(equalTo(duplicateDonateMap))));
