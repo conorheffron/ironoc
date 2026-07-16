@@ -17,9 +17,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api")
 public class DonateRestController {
 
-    @Autowired
     private final DonateItemsResolver donateItemsResolver;
 
+    @Autowired
     public DonateRestController(DonateItemsResolver donateItemsResolver) {
         this.donateItemsResolver = donateItemsResolver;
     }

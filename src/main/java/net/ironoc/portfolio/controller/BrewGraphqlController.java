@@ -13,9 +13,9 @@ import org.springframework.stereotype.Controller;
 @Controller
 public class BrewGraphqlController extends AbstractLogger {
 
-    @Autowired
     private final BrewsResolver brewsResolver;
 
+    @Autowired
     public BrewGraphqlController(BrewsResolver brewsResolver) {
         this.brewsResolver = brewsResolver;
     }

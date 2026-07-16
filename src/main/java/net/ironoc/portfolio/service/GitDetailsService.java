@@ -68,7 +68,7 @@ public class GitDetailsService extends AbstractLogger implements GitDetails {
             error("Illegal argument passed for uri value: {}", uri);
         }
         if (StringUtils.isBlank(apiUri) || StringUtils.isBlank(uri)
-                | !urlUtils.isValidURL(apiUri)) {
+                || !urlUtils.isValidURL(apiUri)) {
             warn("URL is not valid: url={}", apiUri);
             return Collections.emptyList();
         }

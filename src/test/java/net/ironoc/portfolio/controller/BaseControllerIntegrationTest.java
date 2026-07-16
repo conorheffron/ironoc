@@ -2,10 +2,18 @@ package net.ironoc.portfolio.controller;
 
 import net.ironoc.portfolio.SeleniumConfig;
 import net.ironoc.portfolio.config.TestIronocConfiguration;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.context.web.WebAppConfiguration;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+@ExtendWith(SpringExtension.class)
+@WebAppConfiguration()
 @ContextConfiguration(classes = {TestIronocConfiguration.class, SeleniumConfig.class})
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestPropertySource(properties = {
@@ -26,4 +34,10 @@ import org.springframework.test.context.TestPropertySource;
         "net.ironoc.portfolio.github.timeout.read=5000"
 })
 public class BaseControllerIntegrationTest {
+
+    @Test
+    public void contextLoads() {
+        // Verifies that the complete integration test context with mocks and properties loads successfully
+        assertTrue(true);
+    }
 }
