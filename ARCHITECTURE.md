@@ -1,201 +1,403 @@
-# iRonoc Portfolio Application - Architecture Overview
+# iRonoc Portfolio Application - Full Stack Architecture & Data Flows
 
-This document provides a comprehensive analysis of the system architecture, component breakdowns, and data flow pathways of the iRonoc portfolio application.
+This document delivers a comprehensive, highly granular technical breakdown of the **iRonoc** architecture. It spans the system architecture, frontend structure, granular backend service layer, and showcases deep functional flow sections for **Donate Items**, **Portfolio Items**, and **Brews/Coffee** subsystems.
 
 ---
 
 ## 1. High-Level System Architecture
 
-The iRonoc application is built as a modern, decoupled full-stack application. It leverages a high-performance **Java 25 / Spring Boot** backend and a responsive **React 19** single-page frontend.
+The iRonoc portfolio platform is structured as a decoupled, multi-tier full-stack application. It integrates a high-performance **Java 25 / Spring Boot** backend (embedded Tomcat) with a responsive, client-side routed **React 19** single-page application (SPA).
 
 ```
-                       +-----------------------------------+
-                       |        Client Web Browser         |
-                       +-----------------+-----------------+
-                                         |
-                                         | HTTP / HTTPS / WSS
-                                         v
-+----------------------------------------+-----------------------------------------+
-|                                  Nginx / Gateway                                 |
-+----------------------------------------+-----------------------------------------+
-                                         |
-                       +-----------------+-----------------+
-                       |                                   | /api/* & /graphql
-                       | Static Resources                  | (Reverse Proxy)
-                       v                                   v
-+----------------------------------------+ +---------------------------------------+
-|            React Frontend              | |            Spring Boot Backend        |
-|    (SPA: React Router 7, Material UI)  | |        (Embedded Tomcat container)    |
-+----------------------------------------+ +-------------------+-------------------+
-                                                               |
-                                     +-------------------------+-------------------------+
-                                     |                                                   |
-                                     v (REST Endpoints)                                  v (GraphQL Endpoints)
-                       +-------------+-------------+                       +-------------+-------------+
-                       |    Spring Web Controllers |                       |   Spring GraphQL Controller |
-                       | (Donate, Coffee, Activity)|                       |  (Brews, Donate, Portfolio) |
-                       +-------------+-------------+                       +-------------+-------------+
-                                     |                                                   |
-                                     +-------------------------+-------------------------+
-                                                               |
-                                                               v
-                                                   +-----------+-----------+
-                                                   |      Service Layer    |
-                                                   |  (GitDetails, Cache)  |
-                                                   +-----------+-----------+
-                                                               |
-                                     +-------------------------+-------------------------+
-                                     |                                                   |
-                                     v                                                   v
-                       +-------------+-------------+                       +-------------+-------------+
-                       |    AWS Secrets Manager    |                       |      Third-Party APIs     |
-                       |    (Secures API keys)     |                       |    (GitHub Repos/Issues)  |
-                       +---------------------------+                       +---------------------------+
++---------------------------------------------------------------------------------------------------+
+|                                       Client Web Browser                                          |
+|  - Renders UI elements (React 19, Material UI 7, Bootstrap 5)                                     |
+|  - Triggers Client-Side Routes, REST Calls, and real-time GraphQL Subscription streams           |
++-------------------------------------------------+-------------------------------------------------+
+                                                  |
+                                                  | HTTP / HTTPS / WSS (WebSockets)
+                                                  v
++---------------------------------------------------------------------------------------------------+
+|                                      Gateway / Proxy Layer                                        |
+|  - Serves compiled, static frontend bundles (.js, .css, .html) from Tomcat /static mapping        |
+|  - Reverse-proxies API endpoints (/api/*) and GraphQL gateways (/graphql) to active servlet hooks  |
++-------------------------------------------------+-------------------------------------------------+
+                                                  |
+                                                  v
++---------------------------------------------------------------------------------------------------+
+|                                Spring Boot Backend (Tomcat)                                       |
+|                                                                                                   |
+|   +---------------------------------------+       +-------------------------------------------+   |
+|   |          REST Controllers             |       |            GraphQL Controllers            |   |
+|   |  - DonateRestController               |       |  - DonateGraphqlController (Sinks.Many)   |   |
+|   |  - CoffeeController                   |       |  - BrewGraphqlController                  |   |
+|   |  - ActivityTrackingController         |       |  - PortfolioItemsResolver (QueryMapping)  |   |
+|   +-------------------+-------------------+       +-------------------+-----------------------+   |
+|                       |                                               |                           |
+|                       +-----------------------+-----------------------+                           |
+|                                               |                                                   |
+|                                               v                                                   |
+|   +-------------------------------------------------------------------------------------------+   |
+|   |                         Granular Backend Service & Resolver Layer                         |   |
+|   |  - GitDetailsService (GitHub REST engine)                                                 |   |
+|   |  - CoffeesService (REST Coffee parser) / GraphQLClientService (Custom GraphQL Client)     |   |
+|   |  - In-Memory Caches: GitRepoCacheService, GitProjectCacheService, CoffeeCacheService      |   |
+|   |  - Resolvers: DonateItemsResolver, PortfolioItemsResolver                                 |   |
+|   +-------------------------------------------+-----------------------------------------------+   |
+|                                               |                                                   |
++-----------------------------------------------v---------------------------------------------------+
+                                                |
+                      +-------------------------+-------------------------+
+                      |                                                   |
+                      v                                                   v
++---------------------------------------+       +---------------------------------------+
+|          AWS Secrets Manager          |       |           Third-Party APIs            |
+| - Retrieves GitHub personal keys      |       | - GitHub API (Issues, Repositories)   |
+| - Secures backend configurations      |       | - External Coffee API REST/GraphQLs   |
++---------------------------------------+       +---------------------------------------+
 ```
 
 ---
 
-## 2. Core Technology Stack
+## 2. Technical Sequence & Workflow Diagrams
 
-### Frontend
-- **Framework**: React 19 (ES6+)
-- **Routing**: React Router 7 (Single-Page Routing)
-- **Data Querying**: Apollo Client (GraphQL Client) & Native Fetch (REST)
-- **UI Styling**: Material-UI (MUI 7) & Bootstrap 5
-- **Visualizations**: Recharts (for charts and metrics)
+These diagrams can be visualized natively inside IntelliJ IDEA (using the diagram viewer plugin), GitHub, or standard markdown readers.
 
-### Backend
-- **Core Platform**: Java 25 & Spring Boot 4.1
-- **API Frameworks**: Spring Web (REST) & Spring GraphQL
-- **Data Marshalling**: Jackson ObjectMapper
-- **Security & Integrity**: Bucket4j (Rate Limiting Interceptors) & AWS SDK (Secrets Manager)
-- **Routing Hooks**: PushStateResourceResolver (maps HTML5 history client-side routes back to React's `index.html`)
+### 1. High-Level System Components & Services Flow
+This flowchart maps the primary components and structural dependencies from client interface to datastores and remote services.
+
+```mermaid
+flowchart TD
+    subgraph Client [Client-Side Browser]
+        A[React 19 Frontend SPA] -->|GraphQL Queries / Mutations| B(Apollo Client)
+        A -->|REST API Requests| C(Axios / Fetch)
+    end
+
+    subgraph Proxy [Gateway / Proxy Layer]
+        D[Tomcat Static Mapping /static] -->|Serves Static Files| A
+        E[Spring Router /graphql & /api/*]
+    end
+
+    B -->|POST /graphql| E
+    C -->|GET & PUT /api/*| E
+
+    subgraph Backend [Spring Boot Backend Server]
+        E -->|REST API Map| F[REST Controllers]
+        E -->|GraphQL Engine Map| G[GraphQL Controllers]
+
+        F -->|Bypass Engine| H[Service Layer]
+        G -->|Resolve Mapping| H
+
+        H -->|Thread-Safe Write/Read| I[(In-Memory Cache Services)]
+        H -->|Load Classpath Assets| J[(Local JSON Datastores)]
+    end
+
+    H -->|Query Secret Keys| K[AWS Secrets Manager]
+    H -->|Scheduled Fetch API| L[GitHub API / Ext. Coffee APIs]
+```
+
+### 2. Donate Subsystem: Mutation & WebSocket Broadcast Sequence
+This sequence diagram tracks the full transactional life cycle when a user registers a new charity, from validation to real-time sync.
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor Client as Client Browser
+    participant Controller as DonateGraphqlController
+    participant Resolver as DonateItemsResolver
+    participant Sink as Sinks.Many (Multicast Buffer)
+    participant Disk as JSON Datastore
+
+    Client->>Controller: Mutation: addCharityOption(...)
+    activate Controller
+    Controller->>Resolver: addDonateItem(Item)
+    activate Resolver
+    Resolver->>Resolver: Validate URL, Founding Year, & Email
+    Resolver->>Resolver: Check charities.txt whitelist
+
+    alt Item is Malformed or Exists
+        Resolver-->>Controller: Return false (invalid transaction)
+        Controller-->>Client: Return Failure Message
+    else Item is Valid & New
+        Resolver->>Disk: Persist payload to JSON datastore
+        Resolver-->>Controller: Return true (success)
+        deactivate Resolver
+
+        Controller->>Sink: tryEmitNext(newItem)
+        activate Sink
+        Sink-->>Controller: Confirmed Emit to Multicast buffer
+        deactivate Sink
+
+        par Broadcast real-time WebSocket update
+            Controller-->>Client: WebSocket push: donateAdded (newItem)
+        and Acknowledge original client request
+            Controller-->>Client: Return Success Message / DTO
+            deactivate Controller
+        end
+    end
+```
+
+### 3. Brews/Coffee Retrieval & Caching Flow
+This sequence diagram details the fallback and deserialization pipeline when querying coffee brewing instructions.
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor Client as Client Browser
+    participant Controller as CoffeeController
+    participant Cache as CoffeeCacheService
+    participant Service as CoffeesService / GraphQLClient
+    participant Ext as External Coffee APIs (REST/GraphQL)
+
+    Client->>Controller: GET /api/coffees
+    activate Controller
+    Controller->>Cache: get()
+    activate Cache
+
+    alt Cache Hit (In-Memory Available)
+        Cache-->>Controller: Return Cached CoffeeDomain List
+        Controller-->>Client: Return JSON payload (<50ms response)
+    else Cache Miss (Empty / Evicted)
+        Cache-->>Controller: Return null
+        deactivate Cache
+
+        Controller->>Service: getCoffeeDetails() / fetchCoffeeDetails()
+        activate Service
+        Service->>Ext: Query remote REST/GraphQL resources
+        activate Ext
+        Ext-->>Service: Return raw payload (ingredients as text array)
+        deactivate Ext
+
+        Service->>Service: Custom Deserialization (IngredientsDeserializer)
+        Service->>Service: Map payload to CoffeeDomain collection
+        Service-->>Controller: Return mapped list
+        deactivate Service
+
+        Controller->>Cache: put(coffeeDomains)
+        activate Cache
+        Cache-->>Controller: Confirmed hydrate cache
+        deactivate Cache
+
+        Controller-->>Client: Return newly compiled JSON payload
+        deactivate Controller
+    end
+```
 
 ---
 
-## 3. Frontend Architecture Overview
+## 3. Charity & Donation Subsystem (Primary Feature)
 
-The frontend is implemented as a single-page React 19 application. It handles routing locally, renders structured layouts with components from MUI and React-Bootstrap, and integrates both REST APIs (via Axios/Fetch) and GraphQL endpoints (via Apollo Client).
+The Charity and Donation subsystem is a primary component of the iRonoc platform. It delivers real-time charity registration, cryptographic verification, and reactive synchronization between multiple client browsers and the datastore.
+
+```
+ [ Client: Donate.js ]        [ Spring Controllers ]       [ DonateItemsResolver ]      [ Datastore / Disk ]
+           |                            |                             |                           |
+           |---- GraphQL Query -------->|                             |                           |
+           |   (getDonateItems)         |---- getDonateItems() ------>|                           |
+           |                            |                             |---- load classpath ------>| [ donate-items.json ]
+           |                            |                             |---- validate year/URLs -->| [ charities.txt ]
+           |<--- JSON Charity List -----|<--- filtered list ----------|                           |
+           |                            |                             |                           |
+           |                            |                             |                           |
+           |---- GraphQL Mutation ----->|                             |                           |
+           |   (addCharityOption)       |---- addDonateItem(Item) --->|                           |
+           |                            |                             |--- write to class resource| [ donate-items.json ]
+           |                            |                             |                           |
+           |                            |--- Sink: tryEmitNext()      |                           |
+           |<--- Mutated Confirmation --|      (Broadcast to WS)      |                           |
+           |                            |                             |                           |
+```
+
+### 1. User Interface (`components/Donate.js`)
+The React frontend component renders a responsive Material-UI and Bootstrap grid layout of active, trusted charity options:
+- **Presentation**: Renders card tiles featuring custom logos (`img`), summary descriptions (`overview`), founding years, and validated telephone lines. Clicking a card directs the browser to the charity's official donation portal.
+- **Client Queries**: Uses Apollo Client's `useQuery` hook to fetch charity data upon mounting.
+- **Dynamic Registration Form**: Renders a dedicated modal with validation warnings matching the backend regex engines (valid year between 1000–2100, valid telephone format or email structure, and HTTP/HTTPS links).
+- **Mutations & Real-Time Sync**: Dispatches the registration via `useMutation`. Simultaneously, it initializes a WebSocket channel via the `useSubscription` hook, receiving dynamic push broadcasts whenever a new charity option is registered anywhere on the network.
+
+### 2. Backend API Architecture
+- **GraphQL Resolver Gateway (`DonateGraphqlController.java`)**:
+  - `@QueryMapping` on `donateItems`: Fetches all validated charities.
+  - `@MutationMapping` on `addCharityOption`: Initiates registration, validations, and disk-persistance.
+  - `@SubscriptionMapping` on `donateAdded`: Connects client WebSocket listeners to a Project Reactor multicast Sink (`Sinks.Many` with an backpressure buffer size of 256) to push real-time broadcasts.
+- **REST Endpoints (`DonateRestController.java`)**:
+  - Exposes `GET /api/donate-items` returning the list of active charities as a raw JSON array for legacy browser integrations.
+
+### 3. Verification & Allowed Lists (Datastore Structure)
+To preserve the security of the application and mitigate spam or malicious scripts (e.g. cross-site scripting inputs), the backend enforces strict validation criteria in `DonateItemsResolver.java`:
+1. **The Trusted Allowed List (`charities.txt`)**: Located at `src/main/resources/graphql/charities.txt`. This contains the exact, trimmed, case-insensitive names of charities permitted to be displayed on the platform. If an added name does not exist in this list, registration is blocked.
+2. **The JSON Datastore (`donate-items.json`)**: Located at `src/main/resources/json/donate-items.json`. Stores the details of the active, whitelisted charities in JSON format:
+   ```json
+   {
+     "alt": "Jack and Jill Foundation",
+     "name": "The Jack and Jill Children's Foundation",
+     "link": "https://www.jackandjill.ie",
+     "donate": "https://www.jackandjill.ie/how-you-can-help/donate/",
+     "img": "jack-and-jill-logo.png",
+     "overview": "Provides direct funding and home nursing care to children with highly complex medical conditions.",
+     "founded": 1997,
+     "phone": "+353 (0) 45 894 538"
+   }
+   ```
+3. **Structured Verification Engines**:
+   - **Founding Year**: Must be between `1000` and `2100`.
+   - **URL Integrity**: Links (`link` and `donate`) are parsed and verified using a strict `HTTP`/`HTTPS` pattern.
+   - **Contact Format**: Phone numbers and emails are run through explicit formatting regex engines (checking international prefix structures and standard email structures).
+
+### 4. How to Add Your Charity to the Platform
+To register and demonstrate your charity on this platform:
+1. Ensure your charity's name is whitelisted inside `charities.txt`.
+2. Add your charity's detailed JSON block to `json/donate-items.json` or submit it via the frontend Donation portal.
+
+> 📢 **Important Security Notice**: To protect users, only trusted charities are permitted. If your desired charity is not currently supported, **please reach out directly to conorheffron on GitHub** (username: `conorheffron` / `@conorheffron`) to submit your charity's credentials and request to have its name appended to the trusted whitelisted (`charities.txt`) file.
+
+---
+
+## 4. Comprehensive Frontend Architecture
+
+The frontend is built using **React 19 (ES6+)** as a Single-Page Application (SPA). It manages routing in the browser using **React Router 7**, performs data queries via REST (Axios/Fetch) or GraphQL (**Apollo Client**), and utilizes modern reactive UI controls.
+
+### 1. Component Hierarchy and Rendering Topology
 
 ```
                                   +-------------------+
                                   |    App.js Entry   |
-                                  | (Router, Client)  |
+                                  |  (Router Engine)  |
                                   +---------+---------+
                                             |
                                   +---------v---------+
                                   |    AppNavbar.js   |
+                                  | (Bootstrap/MUI 7) |
                                   +---------+---------+
                                             |
                   +-------------------------+-------------------------+
                   |                                                   |
-                  v                                                   v
+                  v (Static/View routes)                              v (Dynamic/Functional routes)
         +---------+---------+                               +---------+---------+
-        |   Static Components |                               |  Dynamic Components |
+        |   Static Presentation |                               |   State & API Driven  |
         +---------+---------+                               +---------+---------+
                   |                                                   |
-  +---------------+---------------+                   +---------------+---------------+
-  |               |               |                   |               |               |
-  v               v               v                   v               v               v
-About.js       Home.js       NotFound.js         Donate.js       CoffeeHome.js    RepoDetails.js
-                                              (Apollo Client)                     (Axios REST)
+    +-------------+-------------+                       +-------------+-------------+
+    |             |             |                       |             |             |
+    v             v             v                       v             v             v
+ About.js      Home.js     NotFound.js              Donate.js    CoffeeHome.js   RepoDetails.js
+ (Profile)    (Landing)     (404 Page)            (Charity Grid)  (Brews list)   (Backlog View)
+                                                        |             |             |
+                                                        v             v             v
+                                                 [Apollo Client]  [Fetch API]   [Axios REST]
 ```
 
-### 1. Component Structure and Organization
-All frontend source directories are housed within the `frontend/src` path:
-- **`App.js`**: Root component of the application. Orchestrates overall routing pathways and declares Apollo GraphQL client initializers.
-- **`components/`**: House all page-level view components:
-  - **`Home.js` & `About.js`**: Core overview templates with styled callouts.
-  - **`ControlledCarousel.js` & `CoffeeCarousel.js`**: Custom interactive image elements displaying project summaries and coffee hobbies.
-  - **`RepoDetails.js` & `RepoIssues.js`**: Connect dynamically to Spring REST backend endpoints to parse and render live repository issue lists and code language distributions.
-  - **`Donate.js`**: Component that connects directly to the backend GraphQL server to pull permitted charities, handle donations, and filter based on metadata.
-- **`utils/activityTracker.js`**: Transmits small, non-blocking telemetry event packets (`click-out` markers) back to the Spring Rate Limiting controller using high-performance sendBeacon/fetch structures.
-
-### 2. State & Data Querying Architecture
-The application splits data retrieving strategies cleanly:
-- **Scoped GraphQL (Apollo Provider)**: Rather than wrapping the entire application in a heavy GraphQL context, the Apollo Client (`donateClient`) is initialized and dynamically wrapped strictly around the `/donate` Route context. This keeps initial page payloads lightweight and limits unnecessary connection pools.
-- **REST Integrations**: Components like `RepoDetails` and `RepoIssues` use lightweight REST querying paradigms to fetch and display repository details.
+### 2. Frontend Modules & Logical Roles
+- **`App.js` (Core Orchestrator)**: Houses the central `Router` and registers the app's dynamic view routes. It also declares and initializes the **Apollo Client** instance specifically wrapped around the `Donate` route.
+- **`AppNavbar.js` & `Footer.js`**: Core layout elements. They offer fully responsive toggles and structural grids styled with MUI 7 and Bootstrap 5.
+- **`components/Home.js` (The Landing Page)**: Renders the central entry point. Integrates custom background asset loaders (`loadCameraRollImages`) to serve a consistent, stylized **Navy** theme (`darkblue-bg.png`).
+- **`components/Donate.js`**: Connecting endpoint for charitable contributions. Leverages Apollo Client's `useQuery`, `useMutation`, and real-time WebSockets `useSubscription` to synchronize charity registers instantly.
+- **`components/CoffeeHome.js` & `ControlledCarousel.js`**: Interactive hubs. Render dynamic coffee preparation cards, pulling brewing instructions and graphics either from Spring REST interfaces or mock JSON arrays.
+- **`components/RepoDetails.js` & `components/RepoIssues.js`**: Backlog management panels. Perform REST requests using Axios to pull cached, rate-limited GitHub repositories, displaying active project issue backlogs using **Recharts** graphic plots.
 
 ---
 
-## 4. Data Flow Architecture
+## 5. Granular Backend Service Layer
 
-The application implements three primary data flow patterns based on the query type (REST vs. GraphQL) and external integration requirements.
+The backend uses a service-driven, cache-optimized structure to coordinate Spring Controllers with third-party networks and filesystem records.
 
 ```
-   [ Client Browser ]          [ REST Controller ]           [ Service Layer ]         [ Cache / Filesystem ]
-           |                            |                            |                           |
-           |====== POST (Beacon) ======>|                            |                           |
-           |   /api/activity/click-out  |                            |                           |
-           |                            |--- processClickBeacon() -->|                           |
-           |                            |                            |--- updateMetrics() ------>| [ click-out stats ]
-           |                            |                            |                           |
+       +---------------------------------------------------------------------------------+
+       |                              Spring Controllers                                 |
+       +-------+-------------------------+------------------------+------------------+---+
+               |                         |                        |                  |
+               v                         v                        v                  v
++--------------+--------------+ +--------+--------+ +-------------+-------------+ +--+----------------+
+|       GitDetailsService     | |  BrewsResolver  | |     DonateItemsResolver   | |ActivityTracking |
+|  - Coordinates git calls    | | - Loads brews   | | - Loads, validates, lists | |     Service     |
+|  - Thread-safe repository   | |   local JSON    | |   permitted charities     | | - Receives click|
++--------------+--------------+ +--------+--------+ +-------------+-------------+ |   beacons       |
+               |                         |                        |               +--+----------------+
+        +------+------+                  v                        v                  |
+        |             |         +-----------------+      +-----------------+         v
+        v             v         |  Brews Datastore|      |  Charity Files  |  +------+------+
+  +-----+---+   +-----+---+     | (json/brews.json|      | (charities.txt  |  | Activity     |
+  |GitRepo  |   |GitProj  |     +-----------------+      |  donate-items)  |  | Datastore    |
+  |  Cache  |   |  Cache  |                              +-----------------+  +--------------+
+  +---------+   +---------+
 ```
 
-### Pattern A: REST API Data Flow (e.g., Activity Tracking / Coffee Detail Queries)
-1. **Initiation**: The client interacts with a UI component. For example, a user clicks an external link, triggering the `trackClickOut` utility in `activityTracker.js`.
-2. **Transportation**: If `navigator.sendBeacon` is available, the client transmits an asynchronous, non-blocking JSON payload to `/api/activity/click-out`. If unavailable, a standard HTTP POST request is triggered via `fetch` with `keepalive: true`.
-3. **Ingestion & Rate Limiting**: The request passes through `RequestRateLimitingInterceptor`. The interceptor queries `Bucket4j` rate-limiting tokens based on the caller's IP/profile to prevent Denial of Service.
-4. **Controller Routing**: `ActivityTrackingController` receives the payload, validates the input formatting, and forwards it to `ActivityTrackingService`.
-5. **Persistence/Action**: The service processes the activity event and logs the metrics accordingly.
+### 1. Repository & Project Services (`net.ironoc.portfolio.service`)
+- **`GitDetailsService`**: Coordinates queries hitting the GitHub API. Uses Java's template endpoints to resolve usernames, fetch backlogs, and convert complex GitHub REST payloads into serializable `RepositoryDetailDto` records.
+- **`GitRepoCacheService` / `GitProjectCacheService`**: High-performance caching layers. Built with thread-safe ConcurrentHashMap collections. When scheduled cron jobs (`GitDetailsJob`) sync Git data in the background, these services hold the data to avoid hitting GitHub's strict API rate limits.
+- **`CoffeeCacheService`**: Stores serialized coffee preparation listings. It supports rapid memory fetches and implements explicit cleanup via `@PreDestroy` methods during Spring application context teardowns.
+- **`ActivityTrackingService`**: Monitors user interaction telemetry. Receives asynchronous clicks/beacons dispatched by client browsers, processing them for usage reports.
+
+### 2. Resolution Services (`net.ironoc.portfolio.graph`)
+- **`DonateItemsResolver`**: Manages the charity registry. Loads `json/donate-items.json` from classpath resources, filters them against the strict `graphql/charities.txt` whitelist, and validates each entity's structure (URL format, founding year, phone/email syntax) before exposing them.
+- **`PortfolioItemsResolver`**: Parses `json/portfolio-items.json` to resolve, filter, and deliver structured portfolio records directly to GraphQL mapping queries.
+
+### 3. Client & Integration Services (`net.ironoc.portfolio.client` / `net.ironoc.portfolio.aws`)
+- **`GitClient`**: Integrates with the remote GitHub REST endpoints. It implements robust HTTP headers, authentication tokens, and custom timeouts (`connectTimeout`/`readTimeout`) to ensure reliable network requests.
+- **`AwsSecretManager`**: Integrates with **AWS Secrets Manager** via the AWS SDK. It retrieves Git API credentials dynamically at runtime, removing the need for hardcoded keys in the repository.
 
 ---
 
+## 6. Granular Functional Flows & Subsystem Pipelines
+
+This section details how the platform executes its core workflows across the React client, Spring Controllers, Service Layer, and Datastores.
+
+### 1. Portfolio Items Flow
+This module parses and delivers static portfolio metrics and highlight carousels.
+
 ```
-   [ Client Browser ]          [ GraphQL Controller ]         [ Service Layer ]         [ GitHub / AWS API ]
-           |                            |                            |                           |
-           |======= GraphQL Query =====>|                            |                           |
-           |         /graphql           |                            |                           |
-           |                            |------ queryDetails() ----->|                           |
-           |                            |                            |=== GET (Secured Query) ==>| [ GitHub API ]
-           |                            |                            |<== JSON Response =========|
-           |                            |<------ mapToDtoList() -----|                           |
-           |<==== JSON GraphQL Resp ====|                            |                           |
+ [ Client: Portfolio.js ]       [ PortfolioController ]       [ PortfolioItemsResolver ]    [ Datastore / Disk ]
+            |                              |                              |                            |
+            |---- GraphQL Query ---------->|                              |                            |
+            |   (portfolioItems)           |---- getPortfolioItems() ---->|                            |
+            |                              |                              |--- load from classpath --->| [ portfolio-items.json ]
+            |<--- JSON Portfolio list -----|<--- map to response List ----|                            |
 ```
 
-### Pattern B: GraphQL API Data Flow (e.g., Portfolio / Charities / Brews)
-1. **Initiation**: The React application initializes or requests specific state. The Apollo Client packages a structured GraphQL query and dispatches it via a single HTTP POST endpoint to `/graphql`.
-2. **API Parsing**: Spring GraphQL maps the query fields (e.g., `donateItems` or `brews`) to respective controllers:
-   - `DonateGraphqlController` maps charity items.
-   - `BrewGraphqlController` maps coffee brew items.
-3. **Data Resolving**: The controller invokes the resolver services:
-   - `DonateItemsResolver` parses internal static JSON files (such as `json/donate-items.json` and allowed lists from `graphql/charities.txt`) and returns them as mapped schema objects.
-   - `BrewsResolver` invokes the cached service.
-4. **Response Serialization**: The GraphQL engine formats and returns only the fields requested by the client in a JSON payload.
+- **Flow steps**:
+  1. The React client executes a `portfolioItems` GraphQL query.
+  2. `PortfolioController` captures the query and calls `PortfolioItemsResolver.getPortfolioItems()`.
+  3. The resolver reads `json/portfolio-items.json` from the disk resources.
+  4. The data is parsed into a list of portfolio items and mapped to a schema list (`PortfolioItem` types), which is sent back to the browser to render the highlight cards and carousels.
 
 ---
 
-### Pattern C: Third-Party Repository Integration Flow (GitHub)
-1. **Authentication**: During initialization, the `AwsSecretManager` calls the AWS Secrets Manager API to fetch the GitHub OAuth token securely.
-2. **Scheduled Querying**: A Cron job (`GitDetailsJob`) runs in the background at scheduled intervals.
-3. **Remote Fetching**: The `GitDetailsService` uses `GitClient` to query the GitHub REST API (fetching repos, languages, issues, and descriptions).
-4. **Caching**: Data retrieved from GitHub is immediately stored in thread-safe, memory-efficient repositories (`GitRepoCacheService` and `GitProjectCacheService`).
-5. **Client Request**: When users navigate to `RepoDetails.js` or `RepoIssues.js`, the UI requests repository statistics. The request fetches instantly from the internal cache without hitting GitHub rate limits.
+### 2. Brews and Coffee-Related Flows
+The coffee subsystem coordinates external APIs, in-memory caches, local configurations, and custom Jackson deserializers to serve detailed brewing instructions.
+
+```
+ [ Client: CoffeeHome.js ]      [ CoffeeController ]        [ Coffee Services ]        [ Ext. Web / GraphQL ]
+            |                             |                          |                           |
+            |---- GET /api/coffees ------>|                          |                           |
+            |                             |--- check cache --------->|                           |
+            |                             |    (CoffeeCacheService)  |                           |
+            |                             |    [Hit: return list]    |                           |
+            |                             |                          |                           |
+            |                             |    [Miss: fetch rest]--->|                           |
+            |                             |                          |=== REST: fetch hot/ice ==>| [ https://api.sampleapis.com ]
+            |                             |                          |<== Map to CoffeeDomain ===|
+            |                             |                          |                           |
+            |                             |    [Miss: fetch Graph]-->|                           |
+            |                             |                          |=== GraphQL Client =======>| [ GraphQL Coffee Server ]
+            |                             |                          |<== Map to Map<Str,Obj> ===|
+            |<--- JSON Coffee Domain -----|<--- Update Cache --------|                           |
+```
+
+- **The Data Pipeline**:
+  1. **User Action**: The user opens the Coffee brewing portal.
+  2. **Cache Check**: The frontend dispatches a `GET` request to `/api/coffees`. `CoffeeController` checks the `CoffeeCacheService` first.
+     - **Cache Hit**: If coffee details are already cached in-memory, they are returned immediately, reducing load on external APIs.
+     - **Cache Miss (REST Pathway)**: If the cache is empty, the controller calls `CoffeesService.getCoffeeDetails()`. This service performs REST requests to external endpoints (e.g. `https://api.sampleapis.com/coffee/hot` and `https://api.sampleapis.com/coffee/iced`).
+     - **Cache Miss (GraphQL Pathway)**: Alternatively, the controller can call `getCoffeeDetailsGraphQl()`, which runs `GraphQLClientService.fetchCoffeeDetails()`. This service uses `RestTemplate` to send a structured GraphQL query to a coffee API.
+  3. **Data Deserialization & Mapping**:
+     - Raw responses contain ingredients as raw text arrays. The application uses a custom **Jackson Deserializer** (`IngredientsDeserializer`) to clean and format the ingredients into standardized list models.
+     - The parsed details are mapped to Java `CoffeeDomain` objects.
+  4. **Cache Hydration**: The populated `CoffeeDomain` list is stored in `CoffeeCacheService` and returned to the client browser as a JSON array.
+  5. **UI Rendering**: The React component renders the updated data into interactive card layouts using the `CoffeeCarousel` component.
 
 ---
 
-## 5. Component Deep Dive
-
-### 1. The Controller Gateway
-- **REST Gateway (`net.ironoc.portfolio.controller.*`)**: Handlers for fast transactional posts and static data operations.
-- **GraphQL Resolver Gateway (`net.ironoc.portfolio.graph.*`)**: Connects the GraphQL schema definitions directly to backend logic models.
-
-### 2. Caching Layer
-- **`GitRepoCacheService` / `GitProjectCacheService` / `CoffeeCacheService`**: 
-  - Leverage thread-safe in-memory maps.
-  - Implement eviction/clearing via `@PreDestroy` annotations during bean destruction.
-  - Mitigate external API call bottlenecks and ensure rapid response times (<50ms).
-
-### 3. Client Layer
-- **`GitClient`**: Integrates with GitHub REST services, utilizing robust connection/read timeouts and customized header injectors.
-- **`AwsSecretManager`**: Leverages AWS Java SDK v2 to pull credentials dynamically, minimizing hardcoded secret vulnerabilities.
-
-### 4. Routing Layer
-- **`PushStateResourceResolver`**: Custom Spring Resource Resolver mapping HTML5 SPA paths back to `/index.html` to keep routing fully browser-native and clean.
-
----
-
-## 6. Test Standards and Metrics
+## 7. Test Standards and Metrics
 To guarantee build safety and code correctness, the project enforces strict test coverage limits (**Minimum 80% coverage on all modifications**):
 - **Java Backend (JUnit 5, Mockito, Jacoco)**: Maintains an overall instruction coverage of **~92%** and line coverage of **~92%**.
 - **React Frontend (Jest, React Testing Library)**: Maintains overall statement and line coverage above **~91%**.
