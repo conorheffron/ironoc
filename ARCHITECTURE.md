@@ -12,7 +12,7 @@ The iRonoc portfolio platform is structured as a decoupled, multi-tier full-stac
 +---------------------------------------------------------------------------------------------------+
 |                                       Client Web Browser                                          |
 |  - Renders UI elements (React 19, Material UI 7, Bootstrap 5)                                     |
-|  - Triggers Client-Side Routes, REST Calls, and real-time GraphQL Subscription streams           |
+|  - Triggers Client-Side Routes, REST Calls, and real-time GraphQL Subscription streams            |
 +-------------------------------------------------+-------------------------------------------------+
                                                   |
                                                   | HTTP / HTTPS / WSS (WebSockets)
@@ -20,7 +20,7 @@ The iRonoc portfolio platform is structured as a decoupled, multi-tier full-stac
 +---------------------------------------------------------------------------------------------------+
 |                                      Gateway / Proxy Layer                                        |
 |  - Serves compiled, static frontend bundles (.js, .css, .html) from Tomcat /static mapping        |
-|  - Reverse-proxies API endpoints (/api/*) and GraphQL gateways (/graphql) to active servlet hooks  |
+|  - Reverse-proxies API endpoints (/api/*) and GraphQL gateways (/graphql) to active servlet hooks |
 +-------------------------------------------------+-------------------------------------------------+
                                                   |
                                                   v
@@ -380,9 +380,9 @@ The frontend is built using **React 19 (ES6+)** as a Single-Page Application (SP
                   +-------------------------+-------------------------+
                   |                                                   |
                   v (Static/View routes)                              v (Dynamic/Functional routes)
-        +---------+---------+                               +---------+---------+
-        |   Static Presentation |                               |   State & API Driven  |
-        +---------+---------+                               +---------+---------+
+        +---------+-----------+                             +---------+---------+
+        | Static Presentation |                             | State & API Driven|
+        +---------+-----------+                             +---------+---------+
                   |                                                   |
     +-------------+-------------+                       +-------------+-------------+
     |             |             |                       |             |             |
@@ -415,17 +415,17 @@ The backend uses a service-driven, cache-optimized structure to coordinate Sprin
                |                         |                        |                  |
                v                         v                        v                  v
 +--------------+--------------+ +--------+--------+ +-------------+-------------+ +--+----------------+
-|       GitDetailsService     | |  BrewsResolver  | |     DonateItemsResolver   | |ActivityTracking |
-|  - Coordinates git calls    | | - Loads brews   | | - Loads, validates, lists | |     Service     |
-|  - Thread-safe repository   | |   local JSON    | |   permitted charities     | | - Receives click|
-+--------------+--------------+ +--------+--------+ +-------------+-------------+ |   beacons       |
+|       GitDetailsService     | |  BrewsResolver  | |     DonateItemsResolver   | |ActivityTracking   |
+|  - Coordinates git calls    | | - Loads brews   | | - Loads, validates, lists | |     Service       |
+|  - Thread-safe repository   | |   local JSON    | |   permitted charities     | | - Receives click  |
++--------------+--------------+ +--------+--------+ +-------------+-------------+ |   beacons         |
                |                         |                        |               +--+----------------+
         +------+------+                  v                        v                  |
         |             |         +-----------------+      +-----------------+         v
         v             v         |  Brews Datastore|      |  Charity Files  |  +------+------+
-  +-----+---+   +-----+---+     | (json/brews.json|      | (charities.txt  |  | Activity     |
-  |GitRepo  |   |GitProj  |     +-----------------+      |  donate-items)  |  | Datastore    |
-  |  Cache  |   |  Cache  |                              +-----------------+  +--------------+
+  +-----+---+   +-----+---+     | (json/brews.json|      | (charities.txt  |  | Activity    |
+  |GitRepo  |   |GitProj  |     +-----------------+      |  donate-items)  |  | Datastore   |
+  |  Cache  |   |  Cache  |                              +-----------------+  +-------------+
   +---------+   +---------+
 ```
 
