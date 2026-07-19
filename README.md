@@ -49,6 +49,15 @@ integration to provide value to users.
     </div>
 </a>
 
+---
+
+## 📐 Full Stack Architecture & System Design
+For a comprehensive architectural blueprint, including **C4 System Design Blueprints**, **Comprehensive UX Journey Diagrams**, granular backend service breakdowns, and data flow sequence mapping for dynamic features (such as **Subscriptions** and **Caching**), please refer to the:
+
+👉 **[Architecture Documentation & Data Flows (ARCHITECTURE.md)](./ARCHITECTURE.md)**
+
+---
+
 ## See ironoc-frontend README [here](./frontend/README.md)
 
 ## Basic request rate limiting

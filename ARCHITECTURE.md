@@ -12,7 +12,7 @@ The iRonoc portfolio platform is structured as a decoupled, multi-tier full-stac
 +---------------------------------------------------------------------------------------------------+
 |                                       Client Web Browser                                          |
 |  - Renders UI elements (React 19, Material UI 7, Bootstrap 5)                                     |
-|  - Triggers Client-Side Routes, REST Calls, and real-time GraphQL Subscription streams            |
+|  - Triggers Client-Side Routes, REST Calls, and real-time GraphQL Subscription streams           |
 +-------------------------------------------------+-------------------------------------------------+
                                                   |
                                                   | HTTP / HTTPS / WSS (WebSockets)
@@ -20,7 +20,7 @@ The iRonoc portfolio platform is structured as a decoupled, multi-tier full-stac
 +---------------------------------------------------------------------------------------------------+
 |                                      Gateway / Proxy Layer                                        |
 |  - Serves compiled, static frontend bundles (.js, .css, .html) from Tomcat /static mapping        |
-|  - Reverse-proxies API endpoints (/api/*) and GraphQL gateways (/graphql) to active servlet hooks |
+|  - Reverse-proxies API endpoints (/api/*) and GraphQL gateways (/graphql) to active servlet hooks  |
 +-------------------------------------------------+-------------------------------------------------+
                                                   |
                                                   v
@@ -59,44 +59,151 @@ The iRonoc portfolio platform is structured as a decoupled, multi-tier full-stac
 
 ---
 
-## 2. Technical Sequence & Workflow Diagrams
+## 2. Technical Sequence & System Blueprint Diagrams
 
 These diagrams can be visualized natively inside IntelliJ IDEA (using the diagram viewer plugin), GitHub, or standard markdown readers.
 
-### 1. High-Level System Components & Services Flow
-This flowchart maps the primary components and structural dependencies from client interface to datastores and remote services.
+### 1. Granular System Design Blueprint (C4 Container-level Detail)
+This container blueprint details the precise boundaries, filter intercepts, servlet mappings, and multi-thread caching layers inside the Spring Boot container.
+
+```mermaid
+flowchart TB
+    subgraph ClientContainer [Client Browser Container]
+        SPA[React 19 SPA]
+        Apollo[Apollo Client Link Splitter]
+        Axios[Axios / sendBeacon Client]
+    end
+
+    subgraph SecurityFilterLayer [Tomcat Servlet Security & Mapping Layer]
+        CORS[CorsRegistry Filter Mappings]
+        Limiter[Bucket4j Rate Limiting Interceptor]
+        Dispatcher[Spring DispatcherServlet]
+        SockHandler[GraphQlWebSocketHandler]
+    end
+
+    subgraph ControllerLayer [Controller Endpoint Mappings]
+        REST[REST API Endpoints: Coffee, Donate, Activity]
+        GraphQL[GraphQL Engine Mappings: @QueryMapping, @MutationMapping]
+    end
+
+    subgraph ServiceCore [Granular Backend Service & Cache Engines]
+        GitService[GitDetailsService]
+        CoffeeService[CoffeesService]
+        CacheManager[In-Memory ConcurrentHashMap Cache Managers]
+        GitRepoCache[GitRepoCacheService]
+        GitProjCache[GitProjectCacheService]
+        CoffeeCache[CoffeeCacheService]
+        DonResolver[DonateItemsResolver]
+        PortResolver[PortfolioItemsResolver]
+        Sink[Reactor Sinks.Many Multicast Channel]
+    end
+
+    subgraph Datastore [Classpath JSON Datastore Layer]
+        DiskDonate[(json/donate-items.json)]
+        DiskBrews[(json/brews.json)]
+        DiskPortfolio[(json/portfolio-items.json)]
+        DiskWhitelist[(graphql/charities.txt)]
+    end
+
+    subgraph External [External Network boundaries]
+        AWS[AWS Secrets Manager API]
+        GitAPI[GitHub REST API v3]
+        CoffeeAPI[Third-Party Coffee REST / GraphQL APIs]
+    end
+
+    SPA -->|GraphQL Queries| Apollo
+    SPA -->|HTTP / Telemetry Beacons| Axios
+
+    Apollo -->|POST /graphql| CORS
+    Apollo -->|WS ws://localhost:8080/graphql| CORS
+    Axios -->|PUT/GET /api/*| CORS
+
+    CORS --> Limiter
+    Limiter --> Dispatcher
+    Limiter --> SockHandler
+
+    Dispatcher --> REST
+    Dispatcher --> GraphQL
+    SockHandler --> GraphQL
+
+    REST --> GitService
+    REST --> CoffeeService
+    GraphQL --> DonResolver
+    GraphQL --> PortResolver
+    GraphQL --> Sink
+
+    GitService --> GitRepoCache
+    GitService --> GitProjCache
+    CoffeeService --> CoffeeCache
+
+    GitRepoCache --> CacheManager
+    GitProjCache --> CacheManager
+    CoffeeCache --> CacheManager
+
+    DonResolver --> DiskDonate
+    DonResolver --> DiskWhitelist
+    PortResolver --> DiskPortfolio
+
+    GitService -->|GET Request / Bearer Token| GitAPI
+    GitService -->|Query Access Tokens| AWS
+    CoffeeService -->|GET Request| CoffeeAPI
+```
+
+### 2. Comprehensive UX Journey Flow
+This flowchart maps the sequential UX transitions, modal interactions, loading states, and live interface updates available to the user.
 
 ```mermaid
 flowchart TD
-    subgraph Client [Client-Side Browser]
-        A[React 19 Frontend SPA] -->|GraphQL Queries / Mutations / Subscriptions | B(Apollo Client)
-        A -->|REST API Requests| C(Axios / Fetch)
-    end
+    Start([User Opens App]) --> Home[Renders Landing Page - Consistent Navy Theme]
+    
+    Home --> NavProjects{Navigates App}
+    
+    %% Projects UX Flow
+    NavProjects -->|Projects Link| Projects[Renders RepoDetails]
+    Projects --> LoadProjects[Check Cached Repository Data]
+    LoadProjects -->|Miss / Load| ShowSpinner1[Display LoadingSpinner]
+    ShowSpinner1 --> Hydrated1[Render Grid Cards with Repo Details]
+    LoadProjects -->|Hit| Hydrated1
+    Hydrated1 --> ClickRepo[User Clicks Specific Repo Card]
+    ClickRepo --> Issues[Open RepoIssues Backlog]
+    Issues --> Recharts[Display Interactive Recharts Bar Chart of Active Issues]
 
-    subgraph Proxy [Gateway / Proxy Layer]
-        D[Tomcat Static Mapping /static] -->|Serves Static Files| A
-        E[Spring Router /graphql & /api/*]
-    end
+    %% Brews UX Flow
+    NavProjects -->|Brews Link| CoffeeHome[Renders CoffeeHome]
+    CoffeeHome --> LoadRecipes[Check In-Memory CoffeeCacheService]
+    LoadRecipes -->|Miss| GetExtRecipes[Fetch Recipes from External Coffee API]
+    GetExtRecipes --> JacksonParser[Deserialize & Map to CoffeeDomain via Jackson]
+    JacksonParser --> Hydrated2[Render Coffee Carousel with preparation cards]
+    LoadRecipes -->|Hit| Hydrated2
 
-    B -->|POST /graphql| E
-    C -->|GET & PUT /api/*| E
-
-    subgraph Backend [Spring Boot Backend Server]
-        E -->|REST API Map| F[REST Controllers]
-        E -->|GraphQL Engine Map| G[GraphQL Controllers]
-
-        F -->|Bypass Engine| H[Service Layer]
-        G -->|Resolve Mapping| H
-
-        H -->|Thread-Safe Write/Read| I[(In-Memory Cache Services)]
-        H -->|Load Classpath Assets| J[(Local JSON Datastores)]
-    end
-
-    H -->|Query Secret Keys| K[AWS Secrets Manager]
-    H -->|Scheduled Fetch API| L[GitHub API / Ext. Coffee APIs]
+    %% Donate UX Flow
+    NavProjects -->|Donate Link| Donate[Renders Donate Carousel]
+    Donate --> HydrateDonate[Execute GET_DONATE_ITEMS Query]
+    HydrateDonate --> LoadWhitelist[Filter On-Disk Charities via charities.txt Allowed List]
+    LoadWhitelist --> RenderCarousel[Render Red Carousel Cards with Verified Charities]
+    
+    RenderCarousel --> OpenModal[User Clicks 'Add Charity' Button]
+    OpenModal --> InputDetails[Input Charity Details in Registration Form]
+    InputDetails --> ValidateForm{Form Fields Validated?}
+    
+    ValidateForm -->|Invalid format/year/protocol| FormError[Display Specific Warning message inside form]
+    FormError --> InputDetails
+    
+    ValidateForm -->|Valid details| DispatchMutation[Submit addCharityOption Mutation to GraphQL Server]
+    DispatchMutation --> CheckServerWhitelist{Name is Whitelisted in charities.txt?}
+    
+    CheckServerWhitelist -->|No / Fraud attempt| ServerError[Reject transaction & throw Validation error]
+    ServerError --> Donate
+    
+    CheckServerWhitelist -->|Yes| PersistServer[Append details to json/donate-items.json]
+    PersistServer --> SinkEmit[Emit next charity to Multicast Sink]
+    
+    SinkEmit --> PushWS[Push Event pushed instantly over ws://localhost:8080/graphql]
+    PushWS --> UpdateState[Client subscription state appends new card dynamically]
+    UpdateState --> RenderCarousel
 ```
 
-### 2. Donate Subsystem: Mutation & WebSocket Broadcast Sequence
+### 3. Donate Subsystem: Mutation & WebSocket Broadcast Sequence
 This sequence diagram tracks the full transactional life cycle when a user registers a new charity, from validation to real-time sync.
 
 ```mermaid
@@ -137,7 +244,7 @@ sequenceDiagram
     end
 ```
 
-### 3. Brews/Coffee Retrieval & Caching Flow
+### 4. Brews/Coffee Retrieval & Caching Flow
 This sequence diagram details the fallback and deserialization pipeline when querying coffee brewing instructions.
 
 ```mermaid
@@ -274,7 +381,7 @@ The frontend is built using **React 19 (ES6+)** as a Single-Page Application (SP
                   |                                                   |
                   v (Static/View routes)                              v (Dynamic/Functional routes)
         +---------+---------+                               +---------+---------+
-        |Static Presentation|                               | State & API Driven|
+        |   Static Presentation |                               |   State & API Driven  |
         +---------+---------+                               +---------+---------+
                   |                                                   |
     +-------------+-------------+                       +-------------+-------------+
@@ -308,16 +415,16 @@ The backend uses a service-driven, cache-optimized structure to coordinate Sprin
                |                         |                        |                  |
                v                         v                        v                  v
 +--------------+--------------+ +--------+--------+ +-------------+-------------+ +--+----------------+
-|       GitDetailsService     | |  BrewsResolver  | |     DonateItemsResolver   | |ActivityTracking   |
-|  - Coordinates git calls    | | - Loads brews   | | - Loads, validates, lists | |     Service       |
-|  - Thread-safe repository   | |   local JSON    | |   permitted charities     | | - Receives click  |
-+--------------+--------------+ +--------+--------+ +-------------+-------------+ |   beacons         |
+|       GitDetailsService     | |  BrewsResolver  | |     DonateItemsResolver   | |ActivityTracking |
+|  - Coordinates git calls    | | - Loads brews   | | - Loads, validates, lists | |     Service     |
+|  - Thread-safe repository   | |   local JSON    | |   permitted charities     | | - Receives click|
++--------------+--------------+ +--------+--------+ +-------------+-------------+ |   beacons       |
                |                         |                        |               +--+----------------+
         +------+------+                  v                        v                  |
         |             |         +-----------------+      +-----------------+         v
-        v             v         |  Brews Datastore|      |  Charity Files  |  +------+-------+
+        v             v         |  Brews Datastore|      |  Charity Files  |  +------+------+
   +-----+---+   +-----+---+     | (json/brews.json|      | (charities.txt  |  | Activity     |
-  |GitRepo  |   | GitProj |     +-----------------+      |  donate-items)  |  | Datastore    |
+  |GitRepo  |   |GitProj  |     +-----------------+      |  donate-items)  |  | Datastore    |
   |  Cache  |   |  Cache  |                              +-----------------+  +--------------+
   +---------+   +---------+
 ```
@@ -391,7 +498,7 @@ The coffee subsystem coordinates external APIs, in-memory caches, local configur
      - **Cache Miss (GraphQL Pathway)**: Alternatively, the controller can call `getCoffeeDetailsGraphQl()`, which runs `GraphQLClientService.fetchCoffeeDetails()`. This service uses `RestTemplate` to send a structured GraphQL query to a coffee API.
   3. **Data Deserialization & Mapping**:
      - Raw responses contain ingredients as raw text arrays. The application uses a custom **Jackson Deserializer** (`IngredientsDeserializer`) to clean and format the ingredients into standardized list models.
-     - The parsed details are mapped to Java `CoffeeDomain` objects.
+     - The parsed details are mapped to Java `CoffeeDomain` object models.
   4. **Cache Hydration**: The populated `CoffeeDomain` list is stored in `CoffeeCacheService` and returned to the client browser as a JSON array.
   5. **UI Rendering**: The React component renders the updated data into interactive card layouts using the `CoffeeCarousel` component.
 
