@@ -129,7 +129,7 @@ sequenceDiagram
         deactivate Sink
 
         par Broadcast real-time WebSocket update
-            Controller-->>Client: WebSocket push: donateAdded (newItem)
+            Controller-->>Client: WebSocket push: donateItemsSubscription (newItem)
         and Acknowledge original client request
             Controller-->>Client: Return Success Message / DTO
             deactivate Controller
@@ -211,15 +211,15 @@ The Charity and Donation subsystem is a primary component of the iRonoc platform
 ### 1. User Interface (`components/Donate.js`)
 The React frontend component renders a responsive Material-UI and Bootstrap grid layout of active, trusted charity options:
 - **Presentation**: Renders card tiles featuring custom logos (`img`), summary descriptions (`overview`), founding years, and validated telephone lines. Clicking a card directs the browser to the charity's official donation portal.
-- **Client Queries**: Uses Apollo Client's `useQuery` hook to fetch charity data upon mounting.
+- **Initial Query Hydration**: Uses Apollo Client's query executor (`client.query`) on mounting to perform initial pull-hydration of charity cards directly from `/graphql`.
+- **Active Subscription Stream**: Implements a persistent, real-time WebSocket GraphQL Subscription (`client.subscribe` listening to `DONATE_ADDED_SUBSCRIPTION` mapping to `donateItemsSubscription`). This dynamically appends new cards pushed by the backend `Sinks.Many` multicast sink to the browser carousel list instantly without requiring full page fetches, polling, or Axios requests.
 - **Dynamic Registration Form**: Renders a dedicated modal with validation warnings matching the backend regex engines (valid year between 1000–2100, valid telephone format or email structure, and HTTP/HTTPS links).
-- **Mutations & Real-Time Sync**: Dispatches the registration via `useMutation`. Simultaneously, it initializes a WebSocket channel via the `useSubscription` hook, receiving dynamic push broadcasts whenever a new charity option is registered anywhere on the network.
 
 ### 2. Backend API Architecture
 - **GraphQL Resolver Gateway (`DonateGraphqlController.java`)**:
   - `@QueryMapping` on `donateItems`: Fetches all validated charities.
   - `@MutationMapping` on `addCharityOption`: Initiates registration, validations, and disk-persistance.
-  - `@SubscriptionMapping` on `donateAdded`: Connects client WebSocket listeners to a Project Reactor multicast Sink (`Sinks.Many` with an backpressure buffer size of 256) to push real-time broadcasts.
+  - `@SubscriptionMapping` on `donateItemsSubscription`: Connects client WebSocket listeners to a Project Reactor multicast Sink (`Sinks.Many` with an backpressure buffer size of 256) to push real-time broadcasts.
 - **REST Endpoints (`DonateRestController.java`)**:
   - Exposes `GET /api/donate-items` returning the list of active charities as a raw JSON array for legacy browser integrations.
 

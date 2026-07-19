@@ -26,6 +26,22 @@ export const GET_DONATE_ITEMS = gql`
     }
 `;
 
+// Define the GraphQL subscription to listen for newly added charities in real-time
+export const DONATE_ADDED_SUBSCRIPTION = gql`
+    subscription {
+        donateItemsSubscription {
+            donate
+            link
+            img
+            alt
+            name
+            overview
+            founded
+            phone
+        }
+    }
+`;
+
 class Donate extends Component {
     constructor(props) {
         super(props);
@@ -34,17 +50,48 @@ class Donate extends Component {
             loading: true,
             error: null,
         };
+        this.subscription = null;
     }
 
     async componentDidMount() {
         const { client } = this.props; // Injected Apollo Client
         try {
+            // 1. Initial query fetch of the charity options
             const { data } = await client.query({
                 query: GET_DONATE_ITEMS,
             });
             this.setState({ donateItems: data.donateItems, loading: false });
+
+            // 2. Real-time subscription hook to listen to WebSocket pushes
+            this.subscription = client.subscribe({
+                query: DONATE_ADDED_SUBSCRIPTION,
+            }).subscribe({
+                next: ({ data: subscriptionData }) => {
+                    if (subscriptionData && subscriptionData.donateItemsSubscription) {
+                        this.setState((prevState) => {
+                            const newCharity = subscriptionData.donateItemsSubscription;
+                            // Check for duplicates to prevent duplicate cards
+                            const exists = prevState.donateItems.some(
+                                (item) => item.name === newCharity.name
+                            );
+                            if (!exists) {
+                                return { donateItems: [...prevState.donateItems, newCharity] };
+                            }
+                            return null;
+                        });
+                    }
+                },
+                error: (err) => console.error("Real-time charity sync error:", err)
+            });
         } catch (error) {
             this.setState({ donateItems: [], error: error.message, loading: false });
+        }
+    }
+
+    componentWillUnmount() {
+        // Clean up the WebSocket subscription channel on component unmount
+        if (this.subscription) {
+            this.subscription.unsubscribe();
         }
     }
 

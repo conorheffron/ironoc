@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen, waitFor, fireEvent } from '@testing-library/react';
 import { MockedProvider } from '@apollo/client/testing';
-import Donate, { GET_DONATE_ITEMS } from '../Donate';
+import Donate, { GET_DONATE_ITEMS, DONATE_ADDED_SUBSCRIPTION } from '../Donate';
 import '@testing-library/jest-dom';
 import { trackClickOut } from '../../utils/activityTracker';
 
@@ -35,7 +35,7 @@ const mockDonateItems = [
     },
 ];
 
-// Mock Apollo Client responses
+// Mock Apollo Client responses including the subscription mock
 const mocks = [
     {
         request: {
@@ -44,6 +44,26 @@ const mocks = [
         result: {
             data: {
                 donateItems: mockDonateItems,
+            },
+        },
+    },
+    {
+        request: {
+            query: DONATE_ADDED_SUBSCRIPTION,
+        },
+        result: {
+            data: {
+                donateItemsSubscription: {
+                    __typename: 'DonateItem',
+                    donate: 'https://example.com/donate3',
+                    link: 'https://example.com/home3',
+                    img: 'green',
+                    alt: 'Item 3 Alt Text',
+                    name: 'Item 3',
+                    overview: 'This is an overview of Item 3.',
+                    founded: '2020',
+                    phone: '+111111111',
+                },
             },
         },
     },
@@ -121,5 +141,24 @@ describe('Donate Component', () => {
 
         expect(trackClickOut).toHaveBeenCalledWith('charity', 'https://example.com/donate1');
         expect(trackClickOut).toHaveBeenCalledWith('charity', 'https://example.com/home1');
+    });
+
+    it('appends newly added charity to list on subscription update', async () => {
+        render(
+            <MockedProvider mocks={mocks}>
+                <Donate />
+            </MockedProvider>
+        );
+
+        // Wait for the original query items to render
+        await waitFor(() => {
+            expect(screen.getByText('Item 1')).toBeInTheDocument();
+        });
+
+        // Verify that the subscription updates state and appends the new charity to the carousel list
+        await waitFor(() => {
+            expect(screen.getByText('Item 3')).toBeInTheDocument();
+            expect(screen.getByText(/Founded in 2020/i)).toBeInTheDocument();
+        });
     });
 });

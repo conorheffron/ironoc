@@ -71,6 +71,8 @@ spring:
       enabled: true
     schema:
       fileExtensions: .graphql
+    websocket:
+      path: /graphql
 
 springdoc:
   api-docs:

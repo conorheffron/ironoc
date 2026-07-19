@@ -6,7 +6,6 @@ import net.ironoc.portfolio.dto.Donate;
 import net.ironoc.portfolio.dto.DonateItemOrder;
 import net.ironoc.portfolio.enums.SortingOrder;
 import net.ironoc.portfolio.graph.DonateItemsResolver;
-import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -383,7 +382,6 @@ class DonateGraphqlControllerTest {
         verify(donateItemsResolver, times(1)).addDonateItem(any(Donate.class));
     }
 
-    @NotNull
     private static List<Map<String, Object>> getMockDonateItems() {
         List<Map<String, Object>> mockDonateItems = new ArrayList<>();
         Map<String, Object> item = new HashMap<>();
