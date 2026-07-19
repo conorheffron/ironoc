@@ -4,7 +4,6 @@ import module java.base;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import graphql.kickstart.tools.GraphQLQueryResolver;
 import jakarta.annotation.PostConstruct;
 import net.ironoc.portfolio.dto.Donate;
 import net.ironoc.portfolio.dto.DonateItemOrder;
@@ -14,7 +13,7 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 
 @Component
-public class DonateItemsResolver extends AbstractLogger implements GraphQLQueryResolver {
+public class DonateItemsResolver extends AbstractLogger {
 
     private static final String DONATE_ITEMS_JSON_FILE = "json/donate-items.json";
     private static final String CHARITIES_LIST_FILE = "graphql/charities.txt";

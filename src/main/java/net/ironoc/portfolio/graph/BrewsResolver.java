@@ -4,14 +4,13 @@ import module java.base;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import graphql.kickstart.tools.GraphQLQueryResolver;
 import net.ironoc.portfolio.exception.IronocJsonException;
 import net.ironoc.portfolio.logger.AbstractLogger;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 
 @Component
-public class BrewsResolver extends AbstractLogger implements GraphQLQueryResolver {
+public class BrewsResolver extends AbstractLogger {
 
     protected static final String BREWS_JSON_FILE = "json/brews.json";
 
