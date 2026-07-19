@@ -69,7 +69,7 @@ This flowchart maps the primary components and structural dependencies from clie
 ```mermaid
 flowchart TD
     subgraph Client [Client-Side Browser]
-        A[React 19 Frontend SPA] -->|GraphQL Queries / Mutations| B(Apollo Client)
+        A[React 19 Frontend SPA] -->|GraphQL Queries / Mutations / Subscriptions | B(Apollo Client)
         A -->|REST API Requests| C(Axios / Fetch)
     end
 
