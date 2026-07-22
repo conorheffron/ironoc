@@ -1,181 +1,176 @@
-# ironoc-frontend
+# @conorheffron/ironoc-frontend
 
-The ironoc UI built with react for personal portfolio website.
+The React-based Single-Page Application (SPA) user interface for the **iRonoc** personal portfolio and web application ecosystem. 
 
-[![Deploy to Amazon ECS](https://github.com/conorheffron/ironoc/actions/workflows/aws.yml/badge.svg)](https://github.com/conorheffron/ironoc/actions/workflows/aws.yml)
-
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 [![Node.js Package](https://github.com/conorheffron/ironoc/actions/workflows/npm-publish-packages.yml/badge.svg)](https://github.com/conorheffron/ironoc/actions/workflows/npm-publish-packages.yml)
-
 [![Node.js CI](https://github.com/conorheffron/ironoc/actions/workflows/node.js.yml/badge.svg)](https://github.com/conorheffron/ironoc/actions/workflows/node.js.yml)
 
-- [GitHub Repository](https://github.com/conorheffron/ironoc)
-- [Frontend Source Code](https://github.com/conorheffron/ironoc/tree/main/frontend)
-- See project README.md [here](https://github.com/conorheffron/ironoc/blob/main/README.md)
-- See `npmjs package` details here [https://www.npmjs.com/package/@conorheffron/ironoc-frontend](https://www.npmjs.com/package/@conorheffron/ironoc-frontend)
-- See `GitHub package` details here [https://github.com/conorheffron/ironoc/pkgs/npm/ironoc-frontend](https://github.com/conorheffron/ironoc/pkgs/npm/ironoc-frontend)
+---
 
-## Getting Started with iRonoc React App
+### 🔗 Project Source & Packages
+- **GitHub Codebase Repository**: [conorheffron/ironoc](https://github.com/conorheffron/ironoc)
+- **Frontend Source Directory**: [conorheffron/ironoc/tree/main/frontend](https://github.com/conorheffron/ironoc/tree/main/frontend)
+- **Official NPM Registry**: [@conorheffron/ironoc-frontend](https://www.npmjs.com/package/@conorheffron/ironoc-frontend)
 
-## Prerequisites
+---
 
-- [Node.js](https://nodejs.org/) (`v24` (LTS) recommended)
-- [npm](https://www.npmjs.com/) (comes with Node.js `11`)
+## 📐 Frontend Component Architecture & UX Render Flows
 
-## Tech Stack
- - ReactJs 19, Axios, Apollo Client, GraphQL, HTML5+CSS
+The frontend is implemented as a single-page React 19 application. It handles routing locally, renders structured layouts with components from MUI and React-Bootstrap, and integrates both REST APIs (via Axios/Fetch) and GraphQL endpoints (via Apollo Client).
 
-## Frontend Project Structure
-```shell
-frontend
-├── README.md
-├── package-lock.json
-├── package.json
-├── public
-│   ├── favicon.ico
-│   ├── index.html
-│   ├── manifest.json
-│   ├── robot-logo.png
-│   └── robots.txt
-└── src
-    ├── App.css
-    ├── App.js
-    ├── App.test.js
-    ├── AppNavbar.js
-    ├── Footer.js
-    ├── LoadingSpinner.js
-    ├── components
-    │   ├── About.js
-    │   ├── CoffeeCarousel.js
-    │   ├── CoffeeHome.js
-    │   ├── ControlledCarousel.js
-    │   ├── Donate.js
-    │   ├── Home.js
-    │   ├── NotFound.js
-    │   ├── RepoDetails.js
-    │   ├── RepoIssues.js
-    │   └── __tests__
-    │       ├── About.test.js
-    │       ├── CoffeCarousel.test.js
-    │       ├── CoffeeHome.test.js
-    │       ├── ControlledCarousel.test.js
-    │       ├── Donate.test.js
-    │       ├── Home.test.js
-    │       ├── NotFound.test.js
-    │       ├── RepoDetails.test.js
-    │       └── RepoIssues.test.js
-    ├── img
-    │   ├── darkblue-bg.png
-    │   ├── red-bg.png
-    │   ├── robot-logo.png
-    │   └── teal-bg.png
-    ├── index.css
-    ├── index.js
-    ├── reportWebVitals.js
-    └── setupTests.js
+### 1. Component Rendering Topology
+
+```mermaid
+graph TD
+    App[App.js Entry] -->|Router Engine| AppNavbar[AppNavbar.js Layout]
+    
+    AppNavbar -->|Static Presentation| Static[Static Views]
+    AppNavbar -->|State & API Driven| Dynamic[Dynamic Functional Views]
+    
+    Static --> About[About.js Profile]
+    Static --> Home[Home.js Landing]
+    Static --> NotFound[NotFound.js 404]
+    
+    Dynamic --> Donate[Donate.js Charity Grid]
+    Dynamic --> CoffeeHome[CoffeeHome.js Brews List]
+    Dynamic --> RepoDetails[RepoDetails.js Backlog Manager]
+    
+    Donate -->|GraphQL WebSocket Subscriptions| Apollo[Apollo Client]
+    CoffeeHome -->|REST HTTP Fetch| Fetch[Fetch API]
+    RepoDetails -->|REST Axios Client| Axios[Axios API]
 ```
 
-## Camera Roll Background Config
+### 2. Live Data Synchronizing Pipelines
 
-Home and About background image rotation is driven by `public/camera-roll.yml`.
+To achieve reactive user experiences, the frontend splits its data retrieval strategies cleanly across protocols:
 
-Example:
+```mermaid
+sequenceDiagram
+    autonumber
+    actor Client as Client Browser
+    participant Router as App.js Splitter
+    participant REST as Axios / Fetch Engine
+    participant Apollo as Apollo Link (ws/http)
+    participant WS as WebSocket Connection (graphql-ws)
 
-```yml
+    Client->>Router: Navigates view / triggers action
+    
+    alt Standard API / Metadata Query
+        Router->>REST: Dispatch HTTP GET / PUT / POST
+        REST-->>Client: Return JSON response
+    else Real-Time Subscription Gateway
+        Router->>Apollo: Dispatch subscription MySubscription
+        Apollo->>WS: Route query over ws://localhost:8080/graphql
+        activate WS
+        WS-->>Client: Instant push update: donateItemsSubscription (newCharity)
+        deactivate WS
+    end
+```
+
+---
+
+## 🛠️ Tech Stack & Key Libraries
+
+- **Base Framework**: React 19 (ES6+ / JSX)
+- **Routing Engine**: React Router 7
+- **Data & Query Engines**: 
+  - Apollo Client 3 (Hybrid GraphQL Queries, Mutations, and subscriptions)
+  - `graphql-ws` (Secure RFC-compliant WebSocket transport)
+  - Axios (REST client for repo detail fetching)
+- **UI & Layout Framework**: Material-UI (MUI 7) & Bootstrap 5
+- **Interactive Visualizations**: Recharts (for live repository issue backlogs)
+
+---
+
+## 📁 Project Directory Structure
+
+```shell
+frontend
+├── package.json         # Package scripts & dependencies
+├── public/
+│   ├── index.html       # HTML5 entry wrapper
+│   └── camera-roll.yml  # Config file for background image rosters
+└── src/
+    ├── App.js           # Core Router and Apollo Provider Link setups
+    ├── AppNavbar.js     # Shared navigation navbar
+    ├── Footer.js        # Shared page footer
+    ├── components/      # View components
+    │   ├── Home.js      # Landing page (implements Navy theme)
+    │   ├── About.js     # Technical profile
+    │   ├── Donate.js    # Charities grid (uses GraphQL WebSocket Subscriptions)
+    │   ├── CoffeeHome.js# Brew cards & preparation details
+    │   ├── RepoDetails.js# GitHub repo manager (Axios REST fetches)
+    │   └── __tests__/   # Jest & React Testing Library suites
+    └── utils/
+        ├── activityTracker.js   # Telemetry beacon clicks dispatcher
+        └── cameraRollConfig.js  # Loader helper for camera roll images
+```
+
+---
+
+## 🚀 Getting Started (Development Quickstart)
+
+### Prerequisites
+- **Node.js**: `v24` (LTS) or higher recommended
+- **NPM**: `v11` or higher recommended
+
+### Local Installation & Setups
+1. Clone the repository and navigate into the frontend folder:
+   ```bash
+   cd frontend
+   ```
+2. Clear any stale directory locks and clean install dependencies:
+   ```bash
+   rm -rf node_modules package-lock.json
+   npm cache clean --force
+   npm install --legacy-peer-deps
+   ```
+3. Run the application locally in development mode:
+   ```bash
+   npm start
+   ```
+   *Open [http://localhost:3000](http://localhost:3000) to view it in your browser. The page will auto-reload when you modify components.*
+
+---
+
+## 🧪 Testing & Code Coverage
+
+Our frontend test coverage is thoroughly verified using **Jest** and **React Testing Library** (with virtualized JSDOM browser containers).
+
+- **Execute Full Test Suite**:
+  ```bash
+  npm run test
+  ```
+- **Generate Local Istanbul/Istanbul Coverage Reports**:
+  ```bash
+  npm run test:coverage
+  ```
+  *Current overall frontend test coverage remains above **91% statement coverage**!*
+
+---
+
+## 🎨 Camera Roll Background Configuration
+
+The rotating background image rosters for the **Home** (Landing) and **About** pages are dynamically driven by the static asset config file located at `public/camera-roll.yml`.
+
+Example config:
+```yaml
 home:
-  - teal-bg
   - navy-bg
 about:
   - navy-bg
   - red-bg
+  - teal-bg
 ```
+*Supported theme image keys are `teal-bg`, `navy-bg`, and `red-bg`.*
 
-Supported keys are `teal-bg`, `navy-bg`, and `red-bg`.
+---
 
-#### Quick start
-```shell
-cd frontend
+## 📦 Production Builds
 
-rm -rf node_modules package-lock.json
-npm cache clean --force
-
-npm install [--force or --legacy-peer-deps]
-
-npm run build 
-
-npm run start
-
-# press a/enter after the following command to run test suite
-npm run test
-
-#check test coverage
-npm run test:coverage
+To compile and bundle the application into highly optimized, minified, and hash-mapped static assets ready for deployment:
+```bash
+npm run build
 ```
-
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
-## Available Scripts
-
-In the project directory, you can run:
-
-### `npm start`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
-
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+The compiled files will be output to the `build/` directory. When building via the backend Spring Boot maven plugin, these static resources are automatically packaged into the Tomcat `/static/` classpath registry inside the WAR artifact.
