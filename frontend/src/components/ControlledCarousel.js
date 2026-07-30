@@ -9,6 +9,52 @@ import teal from '.././img/teal-bg.png';
 import red from '.././img/red-bg.png';
 import LoadingSpinner from '.././LoadingSpinner';
 
+const GITHUB_REPO_URL_REGEX = /^https?:\/\/(?:www\.)?github\.com\/([^/]+)\/([^/?#]+)/i;
+const GITHUB_OPENGRAPH_BASE_URL = "https://opengraph.githubassets.com/1";
+
+const isValidUrl = (url) => {
+    try {
+        const parsed = new URL(url);
+        return parsed.protocol === "http:" || parsed.protocol === "https:";
+    } catch (e) {
+        return false;
+    }
+};
+
+const getFallbackImage = (color) => {
+    switch (color) {
+        case "red":
+            return red;
+        case "teal":
+            return teal;
+        case "navy":
+            return navy;
+        default:
+            return red;
+    }
+};
+
+const getGithubRepositoryImage = (link) => {
+    if (!link || !isValidUrl(link)) {
+        return null;
+    }
+
+    const match = link.match(GITHUB_REPO_URL_REGEX);
+    if (!match) {
+        return null;
+    }
+
+    return `${GITHUB_OPENGRAPH_BASE_URL}/${match[1]}/${match[2]}`;
+};
+
+const getPortfolioItemImage = (item) => {
+    if (isValidUrl(item?.img)) {
+        return item.img;
+    }
+
+    return getGithubRepositoryImage(item?.link) || getFallbackImage(item?.img);
+};
+
 class ControlledCarousel extends Component {
     constructor(props) {
         super(props);
@@ -39,19 +85,6 @@ class ControlledCarousel extends Component {
             );
         }
 
-        const handleColor = (color) => {
-            switch (color) {
-                case "red":
-                    return red;
-                case "teal":
-                    return teal;
-                case "navy":
-                    return navy;
-                default:
-                    return red;
-                    }
-            };
-
         return (
             <div className="App">
                 <AppNavbar />
@@ -60,7 +93,17 @@ class ControlledCarousel extends Component {
                         {portfolioItems.map((item, index) => (
                             <Carousel.Item key={index} interval={500}>
                                 <a href={item.link} target="_blank" rel="noreferrer">
-                                    <img className="d-block w-100" src={handleColor(item.img)} alt={item.alt} />
+                                    <img
+                                        className="d-block w-100"
+                                        src={getPortfolioItemImage(item)}
+                                        alt={item.alt}
+                                        loading="lazy"
+                                        referrerPolicy="no-referrer"
+                                        onError={(event) => {
+                                            event.currentTarget.onerror = null;
+                                            event.currentTarget.src = getFallbackImage(item?.img);
+                                        }}
+                                    />
                                     <Carousel.Caption>
                                         <h1><u>{item.title}</u></h1>
                                         <h2>{item.description}</h2>
