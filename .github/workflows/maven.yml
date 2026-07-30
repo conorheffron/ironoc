@@ -14,8 +14,16 @@ permissions:
 on:
   push:
     branches: [ "main" ]
+    paths-ignore:
+      - "frontend/**"
+      - ".github/workflows/node.js.yml"
+      - ".github/workflows/npm-publish-packages.yml"
   pull_request:
     branches: [ "main" ]
+    paths-ignore:
+      - "frontend/**"
+      - ".github/workflows/node.js.yml"
+      - ".github/workflows/npm-publish-packages.yml"
 
 jobs:
   build:
