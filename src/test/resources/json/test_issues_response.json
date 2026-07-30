@@ -2,11 +2,13 @@
   {
     "number": "62",
     "title": "Re-write frontend with React \u003CPOC\u003E",
-    "body": "Use React or Angular framework & JavaScript or TypeScript as implementation language? \r\n- Research & select best option."
+    "body": "Use React or Angular framework & JavaScript or TypeScript as implementation language? \r\n- Research & select best option.",
+    "state": "closed"
   },
   {
     "number": "57",
     "title": "Setup LB, Support SSL",
-    "body": "- [x] 1. Setup LB\r\n- [ ] 2. Support SSL\r\n- [ ] 3. Setup domain, map to AWS LB"
+    "body": "- [x] 1. Setup LB\r\n- [ ] 2. Support SSL\r\n- [ ] 3. Setup domain, map to AWS LB",
+    "state": "closed"
   }
 ]
