@@ -28,7 +28,7 @@
 		<spring.version>4.1.0</spring.version>
 		<spring.framework.version>7.0.8</spring.framework.version>
 		<spring.webflux.version>7.0.8</spring.webflux.version>
-		<frontend-maven-plugin.version>2.0.1</frontend-maven-plugin.version>
+		<frontend-maven-plugin.version>2.0.2</frontend-maven-plugin.version>
 		<node.version>v24.18.0</node.version>
 		<npm.version>11.16.0</npm.version>
 		<kotlin.version>1.6.0</kotlin.version>
@@ -234,7 +234,7 @@
 		<dependency>
 			<groupId>org.apache.tomcat.embed</groupId>
 			<artifactId>tomcat-embed-el</artifactId>
-			<version>11.0.23</version>
+			<version>11.0.24</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.tomcat.embed</groupId>
@@ -346,18 +346,18 @@
 		<dependency>
 			<groupId>org.springdoc</groupId>
 			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-			<version>3.0.3</version>
+			<version>3.1.0</version>
 		</dependency>
 		<dependency>
 			<groupId>io.swagger.core.v3</groupId>
 			<artifactId>swagger-annotations</artifactId>
-			<version>2.2.51</version>
+			<version>2.2.53</version>
 		</dependency>
 		<!-- AWS-->
 		<dependency>
             <groupId>software.amazon.awssdk</groupId>
             <artifactId>secretsmanager</artifactId>
-			<version>2.49.3</version>
+			<version>2.51.2</version>
 			<exclusions>
 				<exclusion>
 					<groupId>commons-logging</groupId>
