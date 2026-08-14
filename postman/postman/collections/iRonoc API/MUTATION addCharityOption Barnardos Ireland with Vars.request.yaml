@@ -1,0 +1,51 @@
+$kind: http-request
+name: MUTATION addCharityOption Barnardos Ireland with Vars
+url: '{{base_url}}graphql'
+method: POST
+body:
+  type: graphql
+  content:
+    query: |-
+      mutation AddCharityOption(
+        $donate: String!,
+        $link: String!,
+        $img: String!,
+        $alt: String!,
+        $name: String!,
+        $overview: String!,
+        $founded: Int!,
+        $phone: String!
+      ) {
+        addCharityOption(
+          donate: $donate,
+          link: $link,
+          img: $img,
+          alt: $alt,
+          name: $name,
+          overview: $overview,
+          founded: $founded,
+          phone: $phone
+        ) {
+          alt
+          donate
+          founded
+          img
+          link
+          name
+          overview
+          phone
+        }
+      }
+    variables: |-
+      {
+          "donate": "https://www.barnardos.ie/donate/donation/index.html",
+          "link": "https://www.barnardos.ie/",
+          "img": "red",
+          "alt": "red27",
+          "name": "Barnardos Ireland",
+          "overview": "Barnardos is a leading children's charity in Ireland dedicated to supporting vulnerable children and families through various services and programs. Barnardos operates as a registered charity in the Republic of Ireland, focusing on protecting and supporting children and young people who are in need. The organization was founded by Dr. Thomas Barnardo, initially in London, but has since expanded its mission to Ireland. Today, Barnardos is committed to transforming the lives of vulnerable children affected by adverse childhood experiences.",
+          "founded": 1866,
+          "phone": "01 453 0355"
+      }
+settings: {}
+order: 24000

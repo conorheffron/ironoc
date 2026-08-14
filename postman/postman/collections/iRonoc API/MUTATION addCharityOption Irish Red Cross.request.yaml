@@ -1,0 +1,31 @@
+$kind: http-request
+name: MUTATION addCharityOption Irish Red Cross
+url: '{{base_url}}graphql'
+method: POST
+body:
+  type: graphql
+  content:
+    query: |-
+      mutation MyMutation {
+        addCharityOption(
+              donate: "https://donate.redcross.ie/b/my-donation",
+              link: "https://www.redcross.ie/",
+              img: "red",
+              alt: "red12",
+              name: "Red Cross",
+              overview: "The Irish Red Cross has been dedicated to serving people in need whether they are here in Ireland or caught up in humanitarian crises in countries and regions throughout the globe. Today the Irish Red Cross maintains an active network of over 3,000 volunteers at 73 branches based in large and small communities throughout the Republic of Ireland. We are also a committed member of the global Red Cross Red Crescent Movement is a global humanitarian network of 80 million people that helps those facing disaster, conflict, and health and social problems. The Movement consists of the International Committee of the Red Cross, the International Federation of Red Cross and Red Crescent Societies, and the 191 National Red Cross and Red Crescent Societies.",
+              founded: 1939,
+              phone: "+353 (0)1-642-4600"
+            ) {
+          alt
+          donate
+          founded
+          img
+          link
+          name
+          overview
+          phone
+        }
+      }
+settings: {}
+order: 10000

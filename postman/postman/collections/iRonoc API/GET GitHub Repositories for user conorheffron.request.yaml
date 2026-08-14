@@ -1,0 +1,7 @@
+$kind: http-request
+url: "{{base_url}}api/get-repo-detail?username=conorheffron"
+method: GET
+queryParams:
+  username: conorheffron
+settings: {}
+order: 3000

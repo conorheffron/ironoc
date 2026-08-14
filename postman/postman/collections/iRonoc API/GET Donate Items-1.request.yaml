@@ -1,0 +1,23 @@
+$kind: http-request
+name: GET Donate Items
+url: '{{base_url}}graphql'
+method: POST
+body:
+  type: graphql
+  content:
+    query: |-
+      query charityOptionsGet {
+          donateItems {
+              donate
+              link
+              img
+              alt
+              name
+              overview
+              founded
+              phone
+          }
+      }
+      
+settings: {}
+order: 8000

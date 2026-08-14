@@ -1,0 +1,31 @@
+$kind: http-request
+name: MUTATION addCharityOption Doctors without Borders
+url: '{{base_url}}graphql'
+method: POST
+body:
+  type: graphql
+  content:
+    query: |-
+      mutation MyMutation {
+        addCharityOption(
+              donate: "https://www.msf.ie/founding?form=General-Donate",
+              link: "https://www.msf.ie/",
+              img: "red",
+              alt: "red14",
+              name: "Doctors Without Borders",
+              overview: "Amid the Parisian upheavals of May 1968, a group of young doctors decided to go and help victims of wars and major disasters. This new brand of humanitarianism would reinvent the concept of emergency aid. They were to become Médecins Sans Frontières, or Doctors Without Borders MSF.",
+              founded: 1968,
+              phone: "+353 (0)1 660 3337"
+            ) {
+          alt
+          donate
+          founded
+          img
+          link
+          name
+          overview
+          phone
+        }
+      }
+settings: {}
+order: 11000

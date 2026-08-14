@@ -1,0 +1,51 @@
+$kind: http-request
+name: MUTATION addCharityOption The New Children's Hospital project wi
+url: '{{base_url}}graphql'
+method: POST
+body:
+  type: graphql
+  content:
+    query: |-
+      mutation AddCharityOption(
+        $donate: String!,
+        $link: String!,
+        $img: String!,
+        $alt: String!,
+        $name: String!,
+        $overview: String!,
+        $founded: Int!,
+        $phone: String!
+      ) {
+        addCharityOption(
+          donate: $donate,
+          link: $link,
+          img: $img,
+          alt: $alt,
+          name: $name,
+          overview: $overview,
+          founded: $founded,
+          phone: $phone
+        ) {
+          alt
+          donate
+          founded
+          img
+          link
+          name
+          overview
+          phone
+        }
+      }
+    variables: |-
+      {
+          "donate": "https://www.childrenshealth.ie/donate/",
+          "link": "https://newchildrenshospital.ie/",
+          "img": "red",
+          "alt": "red30",
+          "name": "The New Children's Hospital project",
+          "overview": "Temple Street, is an acute national paediatric hospital. Seven major specialties at Temple Street today include neonatal & paediatric surgery, neurology, neurosurgery, nephrology, orthopaedics, ENT & plastic surgery. Temple Street cares for 145,000 children per year including 45,000 who attend the Emergency Department (ED) every year. A staff of 85 Consultants& over 950 other full-time & part-time HSCPs (Health & Social Care Professionals) % other staff deliver care & services.",
+          "founded": 1872,
+          "phone": "+353 1 475 1444"
+      }
+settings: {}
+order: 26000

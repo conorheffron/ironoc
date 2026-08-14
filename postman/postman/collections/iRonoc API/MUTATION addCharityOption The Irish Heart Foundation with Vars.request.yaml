@@ -1,0 +1,51 @@
+$kind: http-request
+name: MUTATION addCharityOption The Irish Heart Foundation with Vars
+url: '{{base_url}}graphql'
+method: POST
+body:
+  type: graphql
+  content:
+    query: |-
+      mutation AddCharityOption(
+        $donate: String!,
+        $link: String!,
+        $img: String!,
+        $alt: String!,
+        $name: String!,
+        $overview: String!,
+        $founded: Int!,
+        $phone: String!
+      ) {
+        addCharityOption(
+          donate: $donate,
+          link: $link,
+          img: $img,
+          alt: $alt,
+          name: $name,
+          overview: $overview,
+          founded: $founded,
+          phone: $phone
+        ) {
+          alt
+          donate
+          founded
+          img
+          link
+          name
+          overview
+          phone
+        }
+      }
+    variables: |-
+      {
+          "donate": "https://irishheart.ie/ways-to-give/",
+          "link": "https://irishheart.ie/",
+          "img": "red",
+          "alt": "red21",
+          "name": "The Irish Heart Foundation",
+          "overview": "Every hour, someone in Ireland suffers from a stroke. Every day, hundreds of people in Ireland are diagnosed with cardiovascular disease. Lives are often cut tragically short and many are left disabled. Each year almost 9,000 people die from heart disease and stroke, one of the country’s biggest killers. It doesn’t have to be this way, and our vision is for a future where no hearts are broken by preventable heart disease and stroke. This is why the Irish Heart Foundation was formed as the national stroke and heart charity, we work every day to save lives and heal hearts. Our mission is to eliminate preventable death and disability from heart disease and stroke and to support and care for those living with these life-changing conditions.",
+          "founded": 1966,
+          "phone": "+353 1 6685001"
+      }
+settings: {}
+order: 18000

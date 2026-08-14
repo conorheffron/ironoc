@@ -1,0 +1,5 @@
+$kind: http-request
+url: "{{base_url}}api/get-repo-issue/conorheffron/ironoc/"
+method: GET
+settings: {}
+order: 2000

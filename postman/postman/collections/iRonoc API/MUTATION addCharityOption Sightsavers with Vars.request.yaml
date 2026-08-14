@@ -1,0 +1,51 @@
+$kind: http-request
+name: MUTATION addCharityOption Sightsavers with Vars
+url: '{{base_url}}graphql'
+method: POST
+body:
+  type: graphql
+  content:
+    query: |-
+      mutation AddCharityOption(
+        $donate: String!,
+        $link: String!,
+        $img: String!,
+        $alt: String!,
+        $name: String!,
+        $overview: String!,
+        $founded: Int!,
+        $phone: String!
+      ) {
+        addCharityOption(
+          donate: $donate,
+          link: $link,
+          img: $img,
+          alt: $alt,
+          name: $name,
+          overview: $overview,
+          founded: $founded,
+          phone: $phone
+        ) {
+          alt
+          donate
+          founded
+          img
+          link
+          name
+          overview
+          phone
+        }
+      }
+    variables: |-
+      {
+          "donate": "https://www.sightsavers.ie/donate",
+          "link": "https://www.sightsavers.ie/",
+          "img": "red",
+          "alt": "red25",
+          "name": "Sightsavers",
+          "overview": "Sightsavers Ireland is an international organization dedicated to eliminating avoidable blindness and promoting equality for people with disabilities. They work in over 30 countries in Africa and Asia, training health workers, providing eye operations, and improving women's health. The Irish team is based in Dublin, focusing on fundraising, communications, and public engagement. Their vision is a world where no one is blind from avoidable causes, and where everyone can participate equally in society. For more information, you can visit their official website.",
+          "founded": 1950,
+          "phone": "01 663 7666"
+      }
+settings: {}
+order: 22000

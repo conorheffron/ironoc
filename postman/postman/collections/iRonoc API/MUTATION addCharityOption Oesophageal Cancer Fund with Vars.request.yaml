@@ -1,0 +1,51 @@
+$kind: http-request
+name: MUTATION addCharityOption Oesophageal Cancer Fund with Vars
+url: '{{base_url}}graphql'
+method: POST
+body:
+  type: graphql
+  content:
+    query: |-
+      mutation AddCharityOption(
+        $donate: String!,
+        $link: String!,
+        $img: String!,
+        $alt: String!,
+        $name: String!,
+        $overview: String!,
+        $founded: Int!,
+        $phone: String!
+      ) {
+        addCharityOption(
+          donate: $donate,
+          link: $link,
+          img: $img,
+          alt: $alt,
+          name: $name,
+          overview: $overview,
+          founded: $founded,
+          phone: $phone
+        ) {
+          alt
+          donate
+          founded
+          img
+          link
+          name
+          overview
+          phone
+        }
+      }
+    variables: |-
+      {
+          "donate": "https://ocf.ie/make-a-donation/",
+          "link": "https://ocf.ie/",
+          "img": "red",
+          "alt": "red24",
+          "name": "Oesophageal Cancer Fund",
+          "overview": "The Oesophageal Cancer Fund (OCF) is the national charity for oesophageal cancer in Ireland, dedicated to providing support, raising awareness, and funding research for this disease. The OCF aims to ensure that everyone affected by oesophageal cancer receives the earliest and best support and treatment possible. The organization is composed of volunteers, medical professionals, researchers, patients, and survivors, all working together to help those impacted by this challenging condition.",
+          "founded": 2001,
+          "phone": "+353 86 069 7328"
+      }
+settings: {}
+order: 21000

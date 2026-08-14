@@ -1,0 +1,13 @@
+# Use this workspace to collaborate
+workspace:
+  id: 2455f17e-d0fb-419e-aa53-45e2083f521c
+
+localResources:
+  collections:
+    - ../collections/277886-9a656704-20fc-42da-bf5b-e6fc38843f3e.json
+
+# Each entry here maps a local resource to one or more corresponding objects in Postman Cloud
+
+cloudResources:
+  collections:
+    ../postman/collections/iRonoc API: 761ee995-b9e6-4379-a67a-834f4ce7b007
