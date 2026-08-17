@@ -1,0 +1,51 @@
+$kind: http-request
+name: MUTATION addCharityOption Fealicain with Vars
+url: '{{base_url}}graphql'
+method: POST
+body:
+  type: graphql
+  content:
+    query: |-
+      mutation AddCharityOption(
+        $donate: String!,
+        $link: String!,
+        $img: String!,
+        $alt: String!,
+        $name: String!,
+        $overview: String!,
+        $founded: Int!,
+        $phone: String!
+      ) {
+        addCharityOption(
+          donate: $donate,
+          link: $link,
+          img: $img,
+          alt: $alt,
+          name: $name,
+          overview: $overview,
+          founded: $founded,
+          phone: $phone
+        ) {
+          alt
+          donate
+          founded
+          img
+          link
+          name
+          overview
+          phone
+        }
+      }
+    variables: |-
+      {
+          "donate": "https://feileacain.ie/donate",
+          "link": "https://feileacain.ie/",
+          "img": "red",
+          "alt": "red18",
+          "name": "Féileacáin",
+          "overview": "Féileacáin, the Stillbirth and Neonatal Death Support, was registered as a charity in 2010.  Féileacáin was formed by a group of bereaved parents to offer support to anyone affected by the death of a baby around the time of birth, and the organization is now the national charity supporting families affected by perinatal loss. Féileacáin is a not-for-profit organization and receives no funding from central government, relying instead on the support of our community and the families who avail of our services.",
+          "founded": 2009,
+          "phone": "(085) 249 6464"
+      }
+settings: {}
+order: 15000

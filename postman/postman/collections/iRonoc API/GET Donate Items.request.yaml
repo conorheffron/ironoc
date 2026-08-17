@@ -1,0 +1,5 @@
+$kind: http-request
+url: "{{base_url}}api/donate-items"
+method: GET
+settings: {}
+order: 7000

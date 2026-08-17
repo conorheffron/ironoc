@@ -1,0 +1,29 @@
+$kind: http-request
+name: MUTATION addCharityOption UNICEF
+url: '{{base_url}}graphql'
+method: POST
+body:
+  type: graphql
+  content:
+    query: |-
+      mutation MyMutation {
+        addCharityOption(donate: "https://www.unicef.ie/donate",
+          link: "https://www.unicef.ie/",
+          img: "red",
+          alt: "red2",
+          name: "UNICEF",
+          overview: "For Every Child, UNICEF works in some of the world’s toughest places, to reach the world’s most disadvantaged children. To save their lives. To defend their rights. To help them fulfil their potential. In over 190 countries and territories, we work for every child, everywhere, every day, to build a better world for everyone. Before, during and after humanitarian emergencies, UNICEF is on the ground, bringing lifesaving help and hope to children and families. And we never give up.",
+          founded: 1946,
+          phone: "01 878 3000") {
+          alt
+          donate
+          founded
+          img
+          link
+          name
+          overview
+          phone
+        }
+      }
+settings: {}
+order: 9000

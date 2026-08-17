@@ -1,0 +1,29 @@
+$kind: http-request
+name: MUTATION addCharityOption Save the Children
+url: '{{base_url}}graphql'
+method: POST
+body:
+  type: graphql
+  content:
+    query: |-
+      mutation MyMutation {
+        addCharityOption(donate: "https://www.savethechildren.net/checkout/your-donation-can-save-childs-life-organic-donate-now-save-lives-sr",
+              link: "https://www.savethechildren.net/",
+              img: "red",
+              alt: "red15",
+              name: "Save the Children",
+              overview: "WE CREATE LASTING, POSITIVE CHANGE FOR AND WITH CHILDREN. Save the Children is the world’s first and leading independent children’s organisation transforming lives and the future we share. We’re proud to work with children, their communities, and our partners worldwide, discovering new solutions to help ensure that the world's most vulnerable children survive, learn and are protected. Every year, we reach tens of millions of children in more than 110 countries through our life-changing work.",
+              founded: 1919,
+              phone: "+44 (0)20 7012 6400") {
+          alt
+          donate
+          founded
+          img
+          link
+          name
+          overview
+          phone
+        }
+      }
+settings: {}
+order: 12000

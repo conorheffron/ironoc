@@ -1,0 +1,5 @@
+$kind: http-request
+url: "{{base_url}}api/coffees-graph-ql"
+method: GET
+settings: {}
+order: 5000

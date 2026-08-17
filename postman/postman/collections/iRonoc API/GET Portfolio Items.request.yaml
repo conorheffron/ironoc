@@ -1,0 +1,5 @@
+$kind: http-request
+url: "{{base_url}}api/portfolio-items"
+method: GET
+settings: {}
+order: 6000

@@ -1,0 +1,51 @@
+$kind: http-request
+name: MUTATION addCharityOption Dog's Trust with Vars
+url: '{{base_url}}graphql'
+method: POST
+body:
+  type: graphql
+  content:
+    query: |-
+      mutation AddCharityOption(
+        $donate: String!,
+        $link: String!,
+        $img: String!,
+        $alt: String!,
+        $name: String!,
+        $overview: String!,
+        $founded: Int!,
+        $phone: String!
+      ) {
+        addCharityOption(
+          donate: $donate,
+          link: $link,
+          img: $img,
+          alt: $alt,
+          name: $name,
+          overview: $overview,
+          founded: $founded,
+          phone: $phone
+        ) {
+          alt
+          donate
+          founded
+          img
+          link
+          name
+          overview
+          phone
+        }
+      }
+    variables: |-
+      {
+          "donate": "https://www.dogstrust.ie/support-us/donation",
+          "link": "https://www.dogstrust.ie/",
+          "img": "red",
+          "alt": "red19",
+          "name": "Dog's Trust Ireland",
+          "overview": "We believe all dogs deserve to live life to the full. We’ve been working for a better future for dogs and the people who love them. When a dog is in distress, we care for them. When a dog needs a home, we find them a loving family. When an owner needs a helping paw or they just can’t cope, we’re ready to step in. For every dog, for every owner, we’re by their side through thick and thin, throughout their lives. The bond they have is special to us. It changes lives, making each day happier and more complete. It’s why we believe A dog is for life. Discover who we are, what we do, and how we’ll never stop fighting to make tomorrow’s world a better place for all dogs.",
+          "founded": 2005,
+          "phone": "01 8791000"
+      }
+settings: {}
+order: 16000

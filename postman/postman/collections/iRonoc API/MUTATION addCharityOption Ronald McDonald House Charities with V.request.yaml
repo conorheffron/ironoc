@@ -1,0 +1,51 @@
+$kind: http-request
+name: MUTATION addCharityOption Ronald McDonald House Charities with V
+url: '{{base_url}}graphql'
+method: POST
+body:
+  type: graphql
+  content:
+    query: |-
+      mutation AddCharityOption(
+        $donate: String!,
+        $link: String!,
+        $img: String!,
+        $alt: String!,
+        $name: String!,
+        $overview: String!,
+        $founded: Int!,
+        $phone: String!
+      ) {
+        addCharityOption(
+          donate: $donate,
+          link: $link,
+          img: $img,
+          alt: $alt,
+          name: $name,
+          overview: $overview,
+          founded: $founded,
+          phone: $phone
+        ) {
+          alt
+          donate
+          founded
+          img
+          link
+          name
+          overview
+          phone
+        }
+      }
+    variables: |-
+      {
+          "donate": "https://www.ronaldmcdonaldhouse.ie/?form=GeneralDonations",
+          "link": "https://www.rmhc.ie/",
+          "img": "red",
+          "alt": "red22",
+          "name": "Ronald McDonald House Charities",
+          "overview": "Keeping families close, is what matters most. The mission of Ronald McDonald House Charities Ireland is to provide a Ronald McDonald House to support families whose children are seriously ill in hospital. The Ronald McDonald House provides accommodation and a caring and supportive environment for families whose children are seriously ill and are hospitalised or undergoing medical treatment at Children’s Health Ireland, Crumlin.",
+          "founded": 1974,
+          "phone": "(01) 456 0435"
+      }
+settings: {}
+order: 19000
