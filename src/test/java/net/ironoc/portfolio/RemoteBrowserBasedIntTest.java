@@ -47,7 +47,7 @@ class RemoteBrowserBasedIntTest extends BaseControllerIntegrationTest {
             webDriver.get("https://ironoc.net/");
 
             HomePage homePage = PageFactory.initElements(webDriver, HomePage.class);
-            getPageDetails(webDriver, 2);
+            getPageDetails(webDriver, 4);
             assertThat(homePage, is(notNullValue()));
 
             DonatePage donatePage = homePage.goToDonate();
