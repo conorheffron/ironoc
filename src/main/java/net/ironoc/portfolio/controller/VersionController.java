@@ -5,6 +5,7 @@ import module java.base;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.info.BuildProperties;
 import org.springframework.core.env.Environment;
@@ -20,6 +21,7 @@ public class VersionController {
     private static final String PROD_PROFILE = "prod";
     private static final String OPEN_API_PATH = "/api-docs";
     private static final String SWAGGER_UI_PATH = "/swagger-ui-ironoc.html";
+    private static final String UNKNOWN_VERSION = "unknown";
 
     private final BuildProperties buildProperties;
     private final Environment environment;
@@ -38,7 +40,7 @@ public class VersionController {
     })
     @GetMapping(value = {"/application/version"}, produces= MediaType.TEXT_PLAIN_VALUE)
     public String getApplicationVersion() {
-        return "Version: " + this.buildProperties.getVersion();
+        return "Version: " + this.getBuildVersion();
     }
 
     @Operation(summary = "Get ironoc API documentation endpoint",
@@ -50,6 +52,10 @@ public class VersionController {
     @GetMapping(value = {"/application/openapi-endpoint"}, produces= MediaType.TEXT_PLAIN_VALUE)
     public String getOpenApiDocumentationEndpoint() {
         return isProdProfileActive() ? OPEN_API_PATH : SWAGGER_UI_PATH;
+    }
+
+    private String getBuildVersion() {
+        return buildProperties != null ? buildProperties.getVersion() : UNKNOWN_VERSION;
     }
 
     private boolean isProdProfileActive() {
