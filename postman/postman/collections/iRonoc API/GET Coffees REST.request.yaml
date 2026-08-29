@@ -1,0 +1,5 @@
+$kind: http-request
+url: "{{base_url}}api/coffees"
+method: GET
+settings: {}
+order: 4000

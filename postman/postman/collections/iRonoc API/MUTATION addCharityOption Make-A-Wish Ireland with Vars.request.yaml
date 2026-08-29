@@ -1,0 +1,51 @@
+$kind: http-request
+name: MUTATION addCharityOption Make-A-Wish Ireland with Vars
+url: '{{base_url}}graphql'
+method: POST
+body:
+  type: graphql
+  content:
+    query: |-
+      mutation AddCharityOption(
+        $donate: String!,
+        $link: String!,
+        $img: String!,
+        $alt: String!,
+        $name: String!,
+        $overview: String!,
+        $founded: Int!,
+        $phone: String!
+      ) {
+        addCharityOption(
+          donate: $donate,
+          link: $link,
+          img: $img,
+          alt: $alt,
+          name: $name,
+          overview: $overview,
+          founded: $founded,
+          phone: $phone
+        ) {
+          alt
+          donate
+          founded
+          img
+          link
+          name
+          overview
+          phone
+        }
+      }
+    variables: |-
+      {
+          "donate": "https://makeawish.ie/?form=donate",
+          "link": "https://makeawish.ie/",
+          "img": "red",
+          "alt": "red16",
+          "name": "Make-A-Wish Ireland",
+          "overview": "Make-A-Wish Ireland has one simple aim to grant the wishes of children with critical medical conditions, to bring hope, strength and happiness.",
+          "founded": 1992,
+          "phone": "+353 (0)1 205 2007"
+      }
+settings: {}
+order: 14000

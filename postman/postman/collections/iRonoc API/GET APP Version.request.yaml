@@ -1,0 +1,5 @@
+$kind: http-request
+url: "{{base_url}}api/application/version"
+method: GET
+settings: {}
+order: 1000

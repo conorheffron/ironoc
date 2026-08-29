@@ -1,0 +1,51 @@
+$kind: http-request
+name: MUTATION addCharityOption ALONE with Vars
+url: '{{base_url}}graphql'
+method: POST
+body:
+  type: graphql
+  content:
+    query: |-
+      mutation AddCharityOption(
+        $donate: String!,
+        $link: String!,
+        $img: String!,
+        $alt: String!,
+        $name: String!,
+        $overview: String!,
+        $founded: Int!,
+        $phone: String!
+      ) {
+        addCharityOption(
+          donate: $donate,
+          link: $link,
+          img: $img,
+          alt: $alt,
+          name: $name,
+          overview: $overview,
+          founded: $founded,
+          phone: $phone
+        ) {
+          alt
+          donate
+          founded
+          img
+          link
+          name
+          overview
+          phone
+        }
+      }
+    variables: |-
+      {
+          "donate": "https://alone.ie/donate/",
+          "link": "https://alone.ie/",
+          "img": "red",
+          "alt": "red28",
+          "name": "ALONE",
+          "overview": "ALONE is a national charity organization in Ireland dedicated to empowering older people to age comfortably and securely in their own homes while remaining connected to their communities. They provide compassionate and confidential support for seniors dealing with issues such as anxiety, dementia, and loneliness. Their mission is to improve the physical, emotional, and mental well-being of older people, ensuring they can age happily and securely at home.",
+          "founded": 1977,
+          "phone": "0818 222 024"
+      }
+settings: {}
+order: 25000

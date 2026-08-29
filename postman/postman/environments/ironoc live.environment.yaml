@@ -1,0 +1,4 @@
+name: ironoc live
+values:
+  - key: base_url
+    value: ''

@@ -1,0 +1,51 @@
+$kind: http-request
+name: MUTATION addCharityOption Marie Keating Foundation with Vars
+url: '{{base_url}}graphql'
+method: POST
+body:
+  type: graphql
+  content:
+    query: |-
+      mutation AddCharityOption(
+        $donate: String!,
+        $link: String!,
+        $img: String!,
+        $alt: String!,
+        $name: String!,
+        $overview: String!,
+        $founded: Int!,
+        $phone: String!
+      ) {
+        addCharityOption(
+          donate: $donate,
+          link: $link,
+          img: $img,
+          alt: $alt,
+          name: $name,
+          overview: $overview,
+          founded: $founded,
+          phone: $phone
+        ) {
+          alt
+          donate
+          founded
+          img
+          link
+          name
+          overview
+          phone
+        }
+      }
+    variables: |-
+      {
+          "donate": "https://mariekeating.ie/donate/",
+          "link": "https://mariekeating.ie/home/",
+          "img": "red",
+          "alt": "red20",
+          "name": "Marie Keating Foundation",
+          "overview": "The Marie Keating Foundation is an ever-growing family of people that care. Just like our supporters, we care about compassion. We care about dignity. We care about humanity. We care about people. We care passionately about giving people the information and support they need, from raising awareness about early detection to the moment of diagnosis and beyond. We believe that a community of people who care and work together can change things for the better and build a world free from the fear of cancer.",
+          "founded": 2001,
+          "phone": "01 628 3726"
+      }
+settings: {}
+order: 17000

@@ -1,0 +1,51 @@
+$kind: http-request
+name: MUTATION addCharityOption Trócaire with Vars
+url: '{{base_url}}graphql'
+method: POST
+body:
+  type: graphql
+  content:
+    query: |-
+      mutation AddCharityOption(
+        $donate: String!,
+        $link: String!,
+        $img: String!,
+        $alt: String!,
+        $name: String!,
+        $overview: String!,
+        $founded: Int!,
+        $phone: String!
+      ) {
+        addCharityOption(
+          donate: $donate,
+          link: $link,
+          img: $img,
+          alt: $alt,
+          name: $name,
+          overview: $overview,
+          founded: $founded,
+          phone: $phone
+        ) {
+          alt
+          donate
+          founded
+          img
+          link
+          name
+          overview
+          phone
+        }
+      }
+    variables: |-
+      {
+          "donate": "https://www.trocaire.org/donations/now/",
+          "link": "https://www.trocaire.org/",
+          "img": "red",
+          "alt": "red26",
+          "name": "Trócaire",
+          "overview": "Trócaire is the official overseas development agency of the Catholic Church in Ireland, to support the world's poorest and most oppressed people. It works with parishes and communities across Ireland to promote global justice and inspire action. Trócaire is also known as Caritas Ireland, reflecting its mission of mercy and support for those in need. For more information, you can visit their official website.",
+          "founded": 1973,
+          "phone": "01 629 3333"
+      }
+settings: {}
+order: 23000

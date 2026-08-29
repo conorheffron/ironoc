@@ -1,0 +1,51 @@
+$kind: http-request
+name: MUTATION addCharityOption My Lovely Horse Animal Rescue with Vars
+url: '{{base_url}}graphql'
+method: POST
+body:
+  type: graphql
+  content:
+    query: |-
+      mutation AddCharityOption(
+        $donate: String!,
+        $link: String!,
+        $img: String!,
+        $alt: String!,
+        $name: String!,
+        $overview: String!,
+        $founded: Int!,
+        $phone: String!
+      ) {
+        addCharityOption(
+          donate: $donate,
+          link: $link,
+          img: $img,
+          alt: $alt,
+          name: $name,
+          overview: $overview,
+          founded: $founded,
+          phone: $phone
+        ) {
+          alt
+          donate
+          founded
+          img
+          link
+          name
+          overview
+          phone
+        }
+      }
+    variables: |-
+      {
+          "donate": "https://donate.mylovelyhorserescue.com/one-off/",
+          "link": "https://www.mylovelyhorserescue.com/",
+          "img": "red",
+          "alt": "red23",
+          "name": "My Lovely Horse Animal Rescue",
+          "overview": "My Lovely Horse Animal Rescue is an animal welfare organisation that rescues, rehabilitate and rehomes unwanted, neglected and abused animals with the aim of giving them a life worth living.",
+          "founded": 2011,
+          "phone": "+353 1 607 2379"
+      }
+settings: {}
+order: 20000
