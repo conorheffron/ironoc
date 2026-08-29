@@ -51,7 +51,7 @@ class GitClientTest {
     @Mock
     private RestTemplate restTemplateMock;
 
-    private static final String TEST_URL = "https://unittest.github.com/users/conorheffron/repos";
+    private static final String TEST_URL = "https://api.github.com/users/conorheffron/repos";
 
     @BeforeEach
     void setUp() {
@@ -137,5 +137,23 @@ class GitClientTest {
 
         // then
         assertThat(result, is(emptyIterable()));
+    }
+
+    @Test
+    public void test_buildAuthorizationHeader_without_prefix_success() {
+        // when
+        String result = gitClient.buildAuthorizationHeader("test_token");
+
+        // then
+        assertThat(result, is("Bearer test_token"));
+    }
+
+    @Test
+    public void test_buildAuthorizationHeader_with_prefix_success() {
+        // when
+        String result = gitClient.buildAuthorizationHeader("Bearer test_token");
+
+        // then
+        assertThat(result, is("Bearer test_token"));
     }
 }
